@@ -19,6 +19,7 @@ try {
     $loader->registerClasses(
 	array(
 		"BLTI"	=> "../app/library/ims_lti/blti.php",
+		"LTIContext" => "../app/library/LTIContext.php",
 	)
     );
 

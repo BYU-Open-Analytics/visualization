@@ -5,18 +5,6 @@ require_once '../app/library/ims_lti/blti.php';
 
 // Initialize, all secrets are 'secret', do not set session, and do not redirect
 $context = new BLTI("secret", true, false);
-?>
-<html>
-<head>
-  <title>IMS Basic Learning Tools Interoperability</title>
-</head>
-<body style="font-family:sans-serif">
-<p><b>IMS BasicLTI PHP Provider. Now in the app!!</b></p>
-<p>This is a very simple Basic LTI Tool.  If the message is a Basic LTI Launch,
-it checks the signature and if the signature is OK,  it establishes context.
-All secrets are "secret".
-</p>
-<?php
 
 if ( $context->valid ) {
     print "<pre>\n";

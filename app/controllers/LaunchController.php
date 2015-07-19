@@ -34,6 +34,14 @@ class LaunchController extends Controller
 		$this->view->disable();
 		//print_r(scandir("../app/library"));
 		// Load up the Basic LTI Support code
-		require_once '../app/library/tool.php';
+		$context = LTIContext::getContext();
+		if ( $context->valid ) {
+		    print "<pre>\n";
+		    print "Context Information:\n\n";
+		    print $context->dump();
+		    print "</pre>\n";
+		} else {
+		    print "<p style=\"color:red\">Invalid LTI context. Could not establish context: ".$context->message."<p>\n";
+		}
 	}
 }
