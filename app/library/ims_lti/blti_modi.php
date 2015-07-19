@@ -86,10 +86,10 @@ class BLTI {
                     $this->valid = true;
                     return;
                 }
-                $this->message = "Not lti request. Could not find context in session";
+                $this->message = "Could not find context in session";
                 return;
             }
-            $this->message = ". Not lti request. Session not available";
+            $this->message = "Session not available";
             return;
         }
 
@@ -110,23 +110,35 @@ class BLTI {
             $this->message = "Constructor requires a secret or database information.";
             return;
         } else {
-            $sql = 'SELECT * FROM '.$parm['table'].' WHERE '.
-                ($parm['key_column'] ? $parm['key_column'] : 'oauth_consumer_key').
-                '='.
-                "'".mysql_real_escape_string($oauth_consumer_key)."'";
-            $result = mysql_query($sql);
-            $num_rows = mysql_num_rows($result);
-            if ( $num_rows != 1 ) {
-                $this->message = "Your consumer is not authorized oauth_consumer_key=".$oauth_consumer_key;
+
+		error_reporting(E_ALL);
+		// Get database connection information
+		$config = parse_ini_file('../app/config/config.ini');
+
+		$db = new mysqli($config["database_host"], $config["database_username"], $config["database_password"], $config["database_name"]);
+		if ($db->connect_errno > 0) {
+			die("Unable to connect to database: ".$db->connect_error);
+		}
+	    // Get authorized consumer keys
+            $sql = 'SELECT * FROM '.$parm['table'].' WHERE oauth_consumer_key='.
+                "'".mysqli_real_escape_string($db,$oauth_consumer_key)."'";
+            if (!$result = $db->query($sql)) {
+		    die("Error fetching authorized consumer keys");
+	    }
+	    $num_rows = $result->num_rows;
+            if ( $num_rows < 1 ) {
+                $this->message = "Your consumer key is not authorized. oauth_consumer_key=".$oauth_consumer_key;
                 return;
             } else {
-                while ($row = mysql_fetch_assoc($result)) {
-                    $secret = $row[$parms['secret_column']?$parms['secret_column']:'secret'];
-                    $context_id = $row[$parms['context_column']?$parms['context_column']:'context_id'];
+                while ($row = $result->fetch_assoc()) {
+		    $secret = $row['secret'];
+		    $context_id = $row['context_id'];
                     if ( $context_id ) $this->context_id = $context_id;
                     $this->row = $row;
                     break;
                 }
+		$result->free();
+		$db->close();
                 if ( ! is_string($secret) ) {
                     $this->message = "Could not retrieve secret oauth_consumer_key=".$oauth_consumer_key;
                     return;
@@ -322,3 +334,4 @@ class BLTI {
 }
 
 ?>
+

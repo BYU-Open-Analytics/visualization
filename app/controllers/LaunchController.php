@@ -15,17 +15,25 @@ class LaunchController extends Controller
 		}
 		//Defer to view
 		*/
-		error_reporting(E_ALL);
-		ini_set('session.use_cookies', '0');
 		session_start();
 
 		$context = new BLTI(array('table' => 'blti_keys'));
-		if ( $context->complete ) exit();
-		if ( ! $context->valid ) {
-			$this->view->message = "Could not establish context: ".$context->message."<p>\n";
-			//exit();
+		if ( $context->valid ) {
+		    print "<pre>\n";
+		    print "Context Information:\n\n";
+		    print $context->dump();
+		    print "</pre>\n";
+		} else {
+		    print "<p style=\"color:red\">Could not establish context: ".$context->message."<p>\n";
 		}
 		print "line 26";
 		$this->view->disable();
+	}
+
+	public function toolAction() {
+		$this->view->disable();
+		//print_r(scandir("../app/library"));
+		// Load up the Basic LTI Support code
+		require_once '../app/library/tool.php';
 	}
 }
