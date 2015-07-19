@@ -3,10 +3,9 @@ session_start();
 // Load up the Basic LTI Support code
 require_once '../app/library/ims_lti/blti.php';
 
-// Initialize, all secrets are 'secret', do not set session, and do not redirect
-$secret = parse_ini_file('../app/config/config.ini')['lti_secret'];
-echo "Parsed secret: ".$secret;
-$context = new BLTI($secret, true, true);
+//Get lti key and secret from app's config file
+$config = parse_ini_file('../app/config/config.ini');
+$context = new BLTI($config, true, true);
 if ( $context->valid ) {
 	//Header("Location: /lti_php/launch");
 }
