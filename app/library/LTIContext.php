@@ -8,10 +8,10 @@ class LTIContext extends Module {
 
 	//Returns existing LTI context stored in session. Must be called before output sent.
 	//New LTI launches must be routed through public/launch.php before this will successfully fetch contexts.
-	static function getContext() {
+	static function getContext($config) {
 		session_start();
-		//TODO Get secret key from global config
-		$secret = "secret";
+		//Get secret key from global config. This config object is passed in from controller.
+		$secret = $config['lti_secret'];
 		$context = new BLTI($secret, true, false);
 		return $context;
 	}

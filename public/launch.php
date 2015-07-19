@@ -4,9 +4,11 @@ session_start();
 require_once '../app/library/ims_lti/blti.php';
 
 // Initialize, all secrets are 'secret', do not set session, and do not redirect
-$context = new BLTI("secret", true, true);
+$secret = parse_ini_file('../app/config/config.ini')['lti_secret'];
+echo "Parsed secret: ".$secret;
+$context = new BLTI($secret, true, true);
 if ( $context->valid ) {
-	Header("Location: /lti_php/launch");
+	//Header("Location: /lti_php/launch");
 }
 ?>
 <html>
@@ -22,6 +24,8 @@ All secrets are "secret".
 <?php
 
 if ( $context->valid ) {
+    //Dumps all info (post params are stored in here for later use)
+    //print_r($context->info);
     print "<pre>\n";
     print "Context Information:\n\n";
     print $context->dump();

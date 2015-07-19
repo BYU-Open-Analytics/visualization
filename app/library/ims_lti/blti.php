@@ -5,10 +5,10 @@ require_once 'OAuth.php';
 // Returns true if this is a Basic LTI message
 // with minimum values to meet the protocol
 function is_basic_lti_request() {
-   $good_message_type = $_REQUEST["lti_message_type"] == "basic-lti-launch-request";
-   $good_lti_version = $_REQUEST["lti_version"] == "LTI-1p0";
-   $resource_link_id = $_REQUEST["resource_link_id"];
-   if ($good_message_type and $good_lti_version and isset($resource_link_id) ) return(true);
+   $good_message_type = isset($_REQUEST["lti_message_type"]) && $_REQUEST["lti_message_type"] == "basic-lti-launch-request";
+   $good_lti_version = isset($_REQUEST["lti_version"]) && $_REQUEST["lti_version"] == "LTI-1p0";
+   //$resource_link_id = $_REQUEST["resource_link_id"];
+   if ($good_message_type and $good_lti_version and isset($_REQUEST['resource_link_id']) ) return(true);
    return false;
 }
 
@@ -76,12 +76,13 @@ class BLTI {
         if ( ! is_basic_lti_request() ) {
             if ( $usesession === false ) return;  
             if ( strlen(session_id()) > 0 ) {
-                $row = $_SESSION['_basiclti_lti_row'];
-                if ( isset($row) ) $this->row = $row;
-                $context_id = $_SESSION['_basiclti_lti_context_id'];
-                if ( isset($context_id) ) $this->context_id = $context_id;
-                $info = $_SESSION['_basic_lti_context'];
-                if ( isset($info) ) {
+                //$row = $_SESSION['_basiclti_lti_row'];
+                if ( isset($_SESSION['_basiclti_lti_row']) ) $this->row = $row;
+                //$context_id = $_SESSION['_basiclti_lti_context_id'];
+                if ( isset($_SESSION['_basiclti_lti_context_id']) ) $this->context_id = $context_id;
+                //$info = $_SESSION['_basic_lti_context'];
+                if ( isset($_SESSION['_basic_lti_context']) ) {
+		    $info = $_SESSION['_basic_lti_context'];
                     $this->info = $info;
                     $this->valid = true;
                     return;
