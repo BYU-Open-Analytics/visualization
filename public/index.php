@@ -5,7 +5,7 @@ use Phalcon\Mvc\View;
 use Phalcon\Mvc\Application;
 use Phalcon\DI\FactoryDefault;
 use Phalcon\Mvc\Url as UrlProvider;
-use Phalcon\Db\Adapter\Pdo\Postgresql as DbAdapter;
+use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
 
 try {
 
@@ -15,6 +15,12 @@ try {
         '../app/controllers/',
         '../app/models/'
     ))->register();
+
+    $loader->registerClasses(
+	array(
+		"BLTI"	=> "../app/library/ims_lti/blti.php",
+	)
+    );
 
     // Create a DI
     $di = new FactoryDefault();
@@ -28,6 +34,12 @@ try {
 		"dbname"	=> "lti_development"
 	    ));
     });
+
+    // Load configuration file
+    $configFile = "../app/config/config.ini";
+    $config = new \Phalcon\Config\Adapter\Ini($configFile);
+    // Store it in the Di container
+    $di->setShared("config", $config);
 
     // Setup the view component
     $di->set('view', function(){
