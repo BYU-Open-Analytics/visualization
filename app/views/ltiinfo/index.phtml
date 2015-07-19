@@ -1,10 +1,12 @@
+<h2>LTI Session Information</h2>
 <?php
 if ( $context->valid ) {
     print "<pre>\n";
     print "Context Information:\n\n";
     print $context->dump();
+    echo $context->message;
+    print_r($context->info);
     print "</pre>\n";
 } else {
     print "<p style=\"color:red\">Invalid LTI context. Could not establish context: ".$context->message."<p>\n";
 }
-print_r($this->config);

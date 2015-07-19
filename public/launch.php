@@ -7,7 +7,7 @@ require_once '../app/library/ims_lti/blti.php';
 $config = parse_ini_file('../app/config/config.ini');
 $context = new BLTI($config, true, true);
 if ( $context->valid ) {
-	//Header("Location: /lti_php/launch");
+	Header("Location: ./");
 }
 ?>
 <html>

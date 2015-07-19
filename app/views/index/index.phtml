@@ -1,3 +1,12 @@
 <?php
 
-echo $this->tag->linkTo("signup", "Sign Up Here!");
+if ($ltiContext->valid) {
+	echo "Logged in via LTI successfully!";
+} else {
+	echo "Not logged in, or there was an LTI error.";
+	die();
+}
+echo "<br />";
+echo $this->tag->linkTo("signup", "Link to do something!");
+echo "<br />";
+echo $this->tag->linkTo("ltiinfo", "View LTI session info");

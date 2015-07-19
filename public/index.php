@@ -52,7 +52,7 @@ try {
     // Setup a base URI so that all generated URIs include the "tutorial" folder
     $di->set('url', function(){
         $url = new UrlProvider();
-        $url->setBaseUri('/');
+        $url->setBaseUri('/lti_php/');
         return $url;
     });
 
