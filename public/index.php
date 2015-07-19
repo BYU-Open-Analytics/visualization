@@ -26,21 +26,22 @@ try {
     // Create a DI
     $di = new FactoryDefault();
     
-    // Setup the database service
-    $di->set('db', function(){
-	    return new DbAdapter(array(
-	    	"host"		=> "localhost",
-		"username"	=> "lti",
-		"password"	=> "ltitest",
-		"dbname"	=> "lti_development"
-	    ));
-    });
-
     // Load configuration file
     $configFile = "../app/config/config.ini";
     $config = new \Phalcon\Config\Adapter\Ini($configFile);
     // Store it in the Di container
     $di->setShared("config", $config);
+
+    // Setup the database service
+    $di->set('db', function() use ($config) {
+	    return new DbAdapter(array(
+	    	"host"		=> $config["database_host"],
+		"username"	=> $config["database_username"],
+		"password"	=> $config["database_password"],
+		"dbname"	=> $config["database_name"]
+	    ));
+    });
+
 
     // Setup the view component
     $di->set('view', function(){
@@ -50,9 +51,9 @@ try {
     });
 
     // Setup a base URI so that all generated URIs include the "tutorial" folder
-    $di->set('url', function(){
+    $di->set('url', function() use ($config) {
         $url = new UrlProvider();
-        $url->setBaseUri('/lti_php/');
+        $url->setBaseUri($config['base_uri']);
         return $url;
     });
 
