@@ -1,5 +1,5 @@
 # Basic LTI PHP app
-Uses BLTI library from [IMS Global](http://developers.imsglobal.org/phpcode.html)
+Uses BLTI PHP library from [IMS Global](http://developers.imsglobal.org/phpcode.html), and [Phalcon framework](https://phalconphp.com/en/).
 
 ## Requirements
 - Apache
@@ -14,5 +14,5 @@ Uses BLTI library from [IMS Global](http://developers.imsglobal.org/phpcode.html
 	- Site base URI
 
 ## LTI integration
-- Basic LTI POST requests should be sent to {base URI}/launch.php
-- When logged in, LTI session information can be viewed at {base URI}/ltiinfo
+- Basic LTI POST requests should be sent to `{base URI}/launch.php`
+- When logged in, LTI session information can be viewed at `{base URI}/ltiinfo`
