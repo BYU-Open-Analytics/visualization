@@ -4,6 +4,9 @@ use Phalcon\Mvc\Controller;
 
 class StatementsController extends Controller
 {
+	public function initialize() {
+		$this->tag->setTitle('Statements');
+	}
 	public function indexAction() {
 		// Get our context (this takes care of starting the session, too)
 		$context = LTIContext::getContext($this->getDI()->getShared('config'));
