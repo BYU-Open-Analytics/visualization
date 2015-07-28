@@ -32,6 +32,11 @@ try {
     // Store it in the Di container
     $di->setShared("config", $config);
 
+    // Setup the LTI context (this takes care of starting the session, too)
+    $context = LTIContext::getContext($config);
+    $di->setShared("ltiContext",$context);
+    // Now in views and controllers, all we have to do is check if this context is valid
+
     // Setup the database service
     $di->set('db', function() use ($config) {
 	    return new DbAdapter(array(

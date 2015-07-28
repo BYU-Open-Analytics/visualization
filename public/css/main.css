@@ -1,22 +1,15 @@
 
-
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/* Statements */
+.statementTable {
+	border-collapse: collapse;
+}
+.statementTable td {
+	border: solid gray 1px;
+	padding: 4px;
+}
+.statementTable th {
+	border: solid gray 1px;
+	padding: 4px;
+	text-align: center;
+	background-color: #ddd;
+}

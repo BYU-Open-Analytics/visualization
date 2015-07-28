@@ -9,7 +9,7 @@ class StatementsController extends Controller
 	}
 	public function indexAction() {
 		// Get our context (this takes care of starting the session, too)
-		$context = LTIContext::getContext($this->getDI()->getShared('config'));
+		$context = $this->getDI()->getShared('ltiContext');
 		$this->view->ltiContext = $context;
 		$this->view->userAuthorized = $context->valid;
 
