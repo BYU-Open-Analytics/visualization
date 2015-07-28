@@ -1,0 +1,23 @@
+<?php
+
+if ($ltiContext->valid) {
+	echo "Logged in via LTI successfully!";
+} else {
+	echo "Not logged in, or there was an LTI error.";
+	die();
+}
+?>
+<table border="1">
+<tr><th>Actor Name</th><th>Verb</th><th>Object</th><th>timestamp</th></tr>
+<?php
+foreach ($statements as $statement) {
+	echo "<tr><td>{$statement->actor->name}</td><td>{$statement->verb->display->{'en-US'}}</td><td>{$statement->object->definition->name->{'en-US'}}</td><td>{$statement->timestamp}</td></tr>";
+}
+echo "</table>";
+echo "<br /><hr />";
+echo $this->tag->linkTo("signup", "Link to do something!");
+echo "<br />";
+echo $this->tag->linkTo("ltiinfo", "View LTI session info");
+echo "<br />";
+echo $this->tag->linkTo("logout", "Log out");
+
