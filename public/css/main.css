@@ -28,3 +28,12 @@
 	fill: white;
 	font: 10px Helvetica, sans-serif;
 }
+#barGraph .axis text {
+	fill: black!important;
+	font: 10px Helvetica, sans-serif;
+}
+#barGraph .axis path, #barGraph .axis line {
+	fill: none;
+	stroke: black;
+	shape-rendering: crispEdges;
+}
