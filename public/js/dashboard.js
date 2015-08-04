@@ -40,33 +40,65 @@ var barGraphData = [
   {name: "Ford",     value: 15},
   {name: "Jarrah",   value: 16},
   {name: "Shephard", value: 23},
-  {name: "Kwon",     value: 42}
+  {name: "Kwon",     value: 32}
 ];
 
-var width = $("#barGraph svg").width(),
-    barHeight = $("#barGraph svg").height() / barGraphData.length;
+var margin = {top: 20, right: 30, bottom: 30, left: 40};
+    height = $("#barGraph svg").height() - margin.left - margin.right,
+    width = $("#barGraph svg").width() - margin.top - margin.bottom;
 
 function updateBarGraph() {
-	var bars = d3.select("#barGraph svg").selectAll("g").data(barGraphData);
+	var chart = d3.select("#barGraph svg").append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	
+	var bars = chart.selectAll(".bar").data(barGraphData);
 
-	var x = d3.scale.linear()
+	var y = d3.scale.linear()
 		.domain([0, d3.max(barGraphData, function(d) { return d.value; })])
-		.range([0, width]);
+		.range([height, 0]);
+	
+	var x = d3.scale.ordinal()
+		.domain(barGraphData.map(function(d) { return d.name; }))
+		.rangeBands([0, width]);
+	
+	var colorScale = d3.scale.linear()
+		.domain([0, d3.max(barGraphData, function(d) { return d.value; })])
+		.range([0,360]);
+	
+	var xAxis = d3.svg.axis()
+		.scale(x)
+		.orient("bottom");
+	
+	var yAxis = d3.svg.axis()
+		.scale(y)
+		.orient("left");
+	
+	chart.append("g")
+		.attr("class", "axis")
+		.attr("transform", "translate(0," + height + ")")
+		.call(xAxis);
+
+	chart.append("g")
+		.attr("class", "axis")
+		.attr("transform", "translate(0, 0)")
+		.call(yAxis);
 
 	bars.enter()
 		.append("g")
-		.attr("transform", function(d, i) { return "translate(0," + i * barHeight + ")"; });
+		.attr("class","bar")
+		.attr("transform", function(d, i) { return "translate(" + x(d.name) + ",0)"; });
 	
 	bars.append("rect")
-		.style("fill", function() {
-			return "hsl(" + Math.random() * 360 + ",100%, 50%)";
+		.style("fill", function(d) {
+			return "hsl(" + colorScale(d.value) + ",100%, 50%)";
 		})
-		.attr("height", barHeight - 1 + "px")
-		.attr("width", function(d) { return x(d.value) + "px"; })
+		.attr("y", function(d) { return y(d.value); })
+		.attr("width", x.rangeBand())
+		.attr("height", function(d) { return height - y(d.value) + "px"; })
 
 	bars.append("text")
-		.attr("x", function(d) { return x(d.value) - 24; })
-		.attr("y", barHeight / 2)
+		.attr("y", function(d) { return y(d.value) + 3; })
+		.attr("x", x.rangeBand() / 2)
+		.attr("dy", ".75em")
 		.text(function(d) { return d.value; });
 }
 
