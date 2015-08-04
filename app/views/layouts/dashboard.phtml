@@ -1,0 +1,7 @@
+<div id="dashboard">
+<?php echo $this->getContent() ?>
+</div>
+<?php
+echo Phalcon\Tag::javascriptInclude("//cdnjs.cloudflare.com/ajax/libs/d3/3.5.6/d3.min.js");
+echo Phalcon\Tag::javascriptInclude("js/dashboard.js");
+?>

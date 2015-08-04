@@ -19,7 +19,11 @@
             }
         </style>
 
-        <?php echo Phalcon\Tag::javascriptInclude("js/vendor/modernizr-2.8.3-respond-1.4.2.min.js"); ?>
+        <?php echo Phalcon\Tag::javascriptInclude("js/vendor/modernizr-2.8.3-respond-1.4.2.min.js");
+        echo Phalcon\Tag::javascriptInclude("//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js");
+        echo Phalcon\Tag::javascriptInclude("js/vendor/bootstrap.min.js");
+        echo Phalcon\Tag::javascriptInclude("js/main.js");
+	?>
     </head>
     <body>
         <!--[if lt IE 8]>
@@ -38,7 +42,8 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
 	  <ul class="nav navbar-nav">
-	    <li><?php echo Phalcon\Tag::linkTo("statements","Statements"); ?></li>
+	    <li><?php echo Phalcon\Tag::linkTo("dashboard","Dashboard"); ?></li>
+	    <li><?php echo Phalcon\Tag::linkTo("statements","All Statements"); ?></li>
 	    <li><?php echo Phalcon\Tag::linkTo("ltiinfo","LTI Session Info"); ?></li>
 	  </ul>
           <div class="navbar-form navbar-right" role="form">
@@ -82,10 +87,6 @@
         <p>&copy; footer content</p>
       </footer>
     </div> <!-- /container -->
-        <?php echo Phalcon\Tag::javascriptInclude("//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js");
-        echo Phalcon\Tag::javascriptInclude("js/vendor/bootstrap.min.js");
-        echo Phalcon\Tag::javascriptInclude("js/main.js");
-	?>
     </body>
 </html>
 

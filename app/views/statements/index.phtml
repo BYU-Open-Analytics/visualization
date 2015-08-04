@@ -1,18 +1,24 @@
 <?php
 
 if ($ltiContext->valid) {
-	?>
-	<h4 class="info">Showing <?php echo count($statements); ?> statements</h4>
-	<table class="table table-striped">
-	<tr><th>Actor Name</th><th>Verb</th><th>Object</th><th>Timestamp</th></tr>
-	<?php
-	foreach ($statements as $statement) {
-		echo "<tr><td>{$statement->actor->name}</td><td>{$statement->verb->display->{'en-US'}}</td><td>{$statement->object->definition->name->{'en-US'}}</td><td>{$statement->timestamp}</td></tr>";
+	if (count($statements) > 0) {
+		?>
+		<h4 class="info">Showing <?php echo count($statements); ?> statements</h4>
+		<table class="table table-striped">
+		<tr><th>Actor Name</th><th>Verb</th><th>Object</th><th>Timestamp</th></tr>
+		<?php
+		$name = $ltiContext->getUserName();
+		foreach ($statements as $statement) {
+			//echo "<tr><td>{$name}</td><td>{$statement->verb->display->{'en-US'}}</td><td>{$statement->object->definition->name->{'en-US'}}</td><td>{$statement->timestamp}</td></tr>";
+			echo "<tr><td>{$name}</td><td>{$statement->verb->display->{'en-US'}}</td><td>{$statement->object->definition->name->{'en-US'}}</td><td>{$statement->timestamp}</td></tr>";
+		}
+		echo "</table>";
+		echo $this->tag->linkTo("ltiinfo", "View LTI session info");
+		echo "<br />";
+		echo $this->tag->linkTo("logout", "Log out");
+	} else {
+		echo "Error: $error";
 	}
-	echo "</table>";
-	echo $this->tag->linkTo("ltiinfo", "View LTI session info");
-	echo "<br />";
-	echo $this->tag->linkTo("logout", "Log out");
 
 } else {
 	echo "Not logged in, or there was an LTI error.";

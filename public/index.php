@@ -13,7 +13,8 @@ try {
     $loader = new Loader();
     $loader->registerDirs(array(
         '../app/controllers/',
-        '../app/models/'
+        '../app/models/',
+	'../app/helpers/'
     ))->register();
 
     $loader->registerClasses(
