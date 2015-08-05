@@ -22,9 +22,9 @@ class StatementsController extends Controller
 
 		//$request = $config->lrs_endpoint.'api/v1/statements/aggregate?pipeline=[{"$match":{"voided":false, "statement.actor.mbox": "mailto:'.$context->getUserEmail().'"}}]';
 		// Can't just include entire statement ("statement":1 in $project block), or learning locker php script will run out of memory)
-		$request = $config->lrs_endpoint.'api/v1/reports/55b80ccd727c3de8098b4659/run';
+		$request = $config->lrs->openassessments->endpoint.'api/v1/reports/55b80ccd727c3de8098b4659/run';
 		$session = curl_init($request);
-		curl_setopt($session, CURLOPT_USERPWD, $config->lrs_username . ":" . $config->lrs_password);
+		curl_setopt($session, CURLOPT_USERPWD, $config->lrs->openassessments->username . ":" . $config->lrs->openassessments->password);
 		curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
 
 		$response = curl_exec($session);

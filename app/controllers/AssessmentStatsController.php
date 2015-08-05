@@ -20,7 +20,7 @@ class AssessmentStatsController extends Controller
 			$statementHelper = new StatementHelper();
 
 			//Get number of question attempts
-			$attempts = $statementHelper->getStatements("",'[{"$match":{"voided":false, "statement.actor.mbox": "mailto:'.$context->getUserEmail().'", "statement.verb.id":"http://adlnet.gov/expapi/verbs/attempted"}},{"$project":{"_id":1 }}]');
+			$attempts = $statementHelper->getStatements("openassessments",'[{"$match":{"voided":false, "statement.actor.mbox": "mailto:'.$context->getUserEmail().'", "statement.verb.id":"http://adlnet.gov/expapi/verbs/attempted"}},{"$project":{"_id":1 }}]');
 			if ($attempts["error"]) {
 				$result []= ["error" => $attempts["error"]];
 			} else {
@@ -28,7 +28,7 @@ class AssessmentStatsController extends Controller
 			}
 
 			//Get number of correct attempts
-			$correctAttempts = $statementHelper->getStatements("",'[{"$match":{"voided":false, "statement.actor.mbox": "mailto:'.$context->getUserEmail().'", "statement.verb.id":"http://adlnet.gov/expapi/verbs/answered", "statement.result.success":true}},{"$project":{"_id":1 }}]');
+			$correctAttempts = $statementHelper->getStatements("openassessments",'[{"$match":{"voided":false, "statement.actor.mbox": "mailto:'.$context->getUserEmail().'", "statement.verb.id":"http://adlnet.gov/expapi/verbs/answered", "statement.result.success":true}},{"$project":{"_id":1 }}]');
 			if ($correctAttempts["error"]) {
 				$result []= ["error" => $correctAttempts["error"]];
 			} else {
@@ -36,7 +36,7 @@ class AssessmentStatsController extends Controller
 			}
 
 			//Get number of incorrect attempts
-			$incorrectAttempts = $statementHelper->getStatements("",'[{"$match":{"voided":false, "statement.actor.mbox": "mailto:'.$context->getUserEmail().'", "statement.verb.id":"http://adlnet.gov/expapi/verbs/answered", "statement.result.success":false}},{"$project":{"_id":1 }}]');
+			$incorrectAttempts = $statementHelper->getStatements("openassessments",'[{"$match":{"voided":false, "statement.actor.mbox": "mailto:'.$context->getUserEmail().'", "statement.verb.id":"http://adlnet.gov/expapi/verbs/answered", "statement.result.success":false}},{"$project":{"_id":1 }}]');
 			if ($incorrectAttempts["error"]) {
 				$result []= ["error" => $incorrectAttempts["error"]];
 			} else {
