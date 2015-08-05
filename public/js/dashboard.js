@@ -108,8 +108,8 @@ updateBarGraph();
 // Open Assessments User Statistics Bar Graph
 function updateOpenAssessmentStats() {
 	var margin = {top: 10, right: 10, bottom: 30, left: 40};
-	    height = $("#openAssessmentStats svg").height() - margin.left - margin.right,
-	    width = $("#openAssessmentStats svg").width() - margin.top - margin.bottom;
+	    height = 300 - margin.left - margin.right,
+	    width = 500 - margin.top - margin.bottom;
 	
 	var x = d3.scale.ordinal()
 		.rangeRoundBands([0, width], .1);
@@ -133,6 +133,8 @@ function updateOpenAssessmentStats() {
 	d3.json("/lti_php/assessment_stats", function(error, data) {
 		//Hide the loading spinner
 		$("#openAssessmentStats .spinner").hide();
+		//Resize the svg container
+		$("#openAssessmentStats svg").height(height+margin.top+margin.bottom).width(width+margin.left+margin.right);
 		console.log(error, data);
 		x.domain(data.map(function(d) { return d.name; }));
 		y.domain([0, d3.max(data, function(d) { return d.value; })]);
@@ -155,7 +157,9 @@ function updateOpenAssessmentStats() {
 			//.attr("x", function(d) { return x(d.name); })
 			.attr("y", function(d) { return y(d.value); })
 			.attr("height", function(d) { return height - y(d.value); })
-			.attr("width", x.rangeBand());
+			.attr("width", x.rangeBand())
+			.attr("fill", function(d) { return fillColor(d.name); });
+
 		bars.append("text")
 			.attr("x", function(d) { return x.rangeBand() / 2; })
 			.attr("y", function(d) { return y(d.value) + 5; })
@@ -166,9 +170,15 @@ function updateOpenAssessmentStats() {
 
 
 }
-updateOpenAssessmentStats();
+
+function fillColor(barName) {
+	var colors = {"Question Attempts":"#5bc0de","Correct Attempts":"#5cb85c","Incorrect Attempts":"#d9534f"};
+	return colors[barName];
+}
 
 function type(d) {
 	d.value = +d.value;
 	return d;
 }
+
+updateOpenAssessmentStats();

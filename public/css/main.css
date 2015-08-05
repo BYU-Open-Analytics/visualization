@@ -20,6 +20,12 @@
 	border-radius: 4px;
 	padding: 10px;
 }
+.visualization .spinner {
+	margin: 0 auto;
+}
+.visualization .spinner::after {
+	content: "Loading...";
+}
 
 #barGraph text {
 	fill: white;
@@ -36,12 +42,9 @@
 }
 
 
-#openAssessmentStats .bar {
-	fill: #9B59B6;
-}
 #openAssessmentStats text {
 	fill: white;
-	font: 10px Helvetica, sans-serif;
+	font: 11px Helvetica, sans-serif;
 	text-transform: capitalize;
 }
 #openAssessmentStats .axis text {

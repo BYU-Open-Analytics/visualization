@@ -3,7 +3,15 @@
 if ( $context->valid ) {
 ?>
 
+<div class="visualization" id="openAssessmentStats">
+	<h3>Open Assessments User Statistics</h3>
+	<?php echo Phalcon\Tag::image(array("img/spinner.svg", "class" => "spinner", "alt" => "Loading...")); ?><br />
+	<svg width="0" height="0">
+	</svg>
+</div>
+
 <div class="visualization" id="circleFun">
+	<h3>Circle transitions</h3>
 	<input id="circleDataSize" type="range" min="0" max="20" value="5" />
 	<label id="cirlceDataSizeLabel"></label>
 	<svg width="100%" height="100">
@@ -16,12 +24,6 @@ if ( $context->valid ) {
 	</svg>
 </div>
 
-<div class="visualization" id="openAssessmentStats">
-	<h3>Open Assessments User Statistics</h3>
-	<?php echo Phalcon\Tag::image(array("img/spinner.svg", "class" => "spinner")); ?>
-	<svg width="500" height="300">
-	</svg>
-</div>
 <?php
 } else {
 	echo "Not logged in, or there was an LTI error. Try launching this app again.";
