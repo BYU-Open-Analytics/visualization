@@ -2,8 +2,9 @@
 <?php
 if ( $context->valid ) {
 ?>
+<div id="visualizationContainer">
 
-<div class="visualization" id="openAssessmentStats">
+<div class="visualization" id="openAssessmentStats" style="width: 550px; height: 390px;">
 	<h3>Open Assessments User Statistics</h3>
 	<?php echo Phalcon\Tag::image(array("img/spinner.svg", "class" => "spinner", "alt" => "Loading...")); ?><br />
 	<svg width="0" height="0">
@@ -22,6 +23,8 @@ if ( $context->valid ) {
 	<h3>Basic Static Bar Graph</h3>
 	<svg width="500" height="300">
 	</svg>
+</div>
+
 </div>
 
 <?php

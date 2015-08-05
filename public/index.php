@@ -28,8 +28,7 @@ try {
     $di = new FactoryDefault();
     
     // Load configuration file
-    $configFile = "../app/config/config.ini";
-    $config = new \Phalcon\Config\Adapter\Ini($configFile);
+    $config = new \Phalcon\Config\Adapter\Php("../app/config/config.php");
     // Store it in the Di container
     $di->setShared("config", $config);
 

@@ -19,9 +19,12 @@
 	border: solid gray 1px;
 	border-radius: 4px;
 	padding: 10px;
+	margin: 0px;
 }
 .visualization .spinner {
 	margin: 0 auto;
+	text-align: center;
+	display: block;
 }
 .visualization .spinner::after {
 	content: "Loading...";

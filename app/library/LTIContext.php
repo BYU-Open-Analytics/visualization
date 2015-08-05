@@ -12,7 +12,7 @@ class LTIContext extends Module {
 		session_start();
 		//Get consumer key and secret key from global config. This config object is passed in from controller.
 		//Relevant array keys in config are lti_key and lti_secret
-		$context = new BLTI($config, true, false);
+		$context = new BLTI($config["lti"]["launch"], true, false);
 		return $context;
 	}
 

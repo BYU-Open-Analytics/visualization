@@ -4,8 +4,9 @@ session_start();
 require_once '../app/library/ims_lti/blti.php';
 
 //Get lti key and secret from app's config file
-$config = parse_ini_file('../app/config/config.ini');
-$context = new BLTI($config, true, true);
+$config = require('../app/config/config.php');
+print_r($config);
+$context = new BLTI($config["lti"]["launch"], true, true);
 if ( $context->valid ) {
 	Header("Location: ./");
 }
