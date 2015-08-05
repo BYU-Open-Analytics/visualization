@@ -42,4 +42,27 @@ class StatementsController extends Controller
 		$this->view->error = $error;
 		$this->view->statements = $parsed;
 	}
+	
+	// Returns number of question attempts
+	public function questionAttemptsAction() {
+		error_reporting(E_ALL);
+		// Get our context (this takes care of starting the session, too)
+		$context = $this->getDI()->getShared('ltiContext');
+		$this->view->ltiContext = $context;
+		$this->view->userAuthorized = $context->valid;
+
+		if ($context->valid) {
+			$statementHelper = new StatementHelper();
+			$result = $statementHelper->getStatements("put lrs id here",'[{"$match":{"voided":false, "statement.actor.mbox": "mailto:'.$context->getUserEmail().'", "statement.verb.id":"http://adlnet.gov/expapi/verbs/attempted"}},{"$project":{"_id":0, "statement.result.sucess":1, "statement.timestamp":1 }}]');
+			if ($result["error"]) {
+				echo '{"error":'.$result["error"].'}';
+			} else {
+				echo '[{"name":"Question Attempts", "value":'.count($result["statements"]).'}]';
+			}
+		} else {
+			echo '{"error":"Invalid lti context"}';
+		}
+		
+		$this->view->disable();
+	}
 }

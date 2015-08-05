@@ -21,9 +21,6 @@
 	padding: 10px;
 }
 
-#barGraph rect {
-	fill: steelblue;
-}
 #barGraph text {
 	fill: white;
 	font: 10px Helvetica, sans-serif;
@@ -36,4 +33,26 @@
 	fill: none;
 	stroke: black;
 	shape-rendering: crispEdges;
+}
+
+
+#openAssessmentStats .bar {
+	fill: #9B59B6;
+}
+#openAssessmentStats text {
+	fill: white;
+	font: 10px Helvetica, sans-serif;
+	text-transform: capitalize;
+}
+#openAssessmentStats .axis text {
+	fill: black!important;
+	font: 10px Helvetica, sans-serif;
+}
+#openAssessmentStats .axis path, #barGraph .axis line {
+	fill: none;
+	stroke: black;
+	shape-rendering: crispEdges;
+}
+#openAssessmentStats .x.axis path {
+	display: none;
 }

@@ -16,6 +16,12 @@ if ( $context->valid ) {
 	</svg>
 </div>
 
+<div class="visualization" id="openAssessmentStats">
+	<h3>Open Assessments User Statistics</h3>
+	<?php echo Phalcon\Tag::image(array("img/spinner.svg", "class" => "spinner")); ?>
+	<svg width="500" height="300">
+	</svg>
+</div>
 <?php
 } else {
 	echo "Not logged in, or there was an LTI error. Try launching this app again.";

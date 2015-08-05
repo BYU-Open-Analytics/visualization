@@ -103,4 +103,72 @@ function updateBarGraph() {
 }
 
 updateBarGraph();
+
+
+// Open Assessments User Statistics Bar Graph
+function updateOpenAssessmentStats() {
+	var margin = {top: 10, right: 10, bottom: 30, left: 40};
+	    height = $("#openAssessmentStats svg").height() - margin.left - margin.right,
+	    width = $("#openAssessmentStats svg").width() - margin.top - margin.bottom;
 	
+	var x = d3.scale.ordinal()
+		.rangeRoundBands([0, width], .1);
+	var y = d3.scale.linear()
+		.range([height, 0]);
+	
+	var xAxis = d3.svg.axis()
+		.scale(x)
+		.orient("bottom");
+	var yAxis = d3.svg.axis()
+		.scale(y)
+		.orient("left");
+	
+	// This adds a padded container that the bars will go 
+	var chart = d3.select("#openAssessmentStats svg")
+		.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	
+	// Load stats data
+	// TODO don't use absolute url ref here
+	d3.json("/lti_php/assessment_stats", function(error, data) {
+		//Hide the loading spinner
+		$("#openAssessmentStats .spinner").hide();
+		console.log(error, data);
+		x.domain(data.map(function(d) { return d.name; }));
+		y.domain([0, d3.max(data, function(d) { return d.value; })]);
+
+		chart.append("g")
+			.attr("class", "axis x")
+			.attr("transform", "translate(0," + height + ")")
+			.call(xAxis);
+		chart.append("g")
+			.attr("class", "axis y")
+			.call(yAxis);
+
+		var bars = chart.selectAll(".bar")
+			.data(data)
+			.enter().append("g")
+			.attr("transform", function(d) { return "translate(" + x(d.name) + ", 0)"; })
+			.attr("class", "bar");
+
+		bars.append("rect")
+			//.attr("x", function(d) { return x(d.name); })
+			.attr("y", function(d) { return y(d.value); })
+			.attr("height", function(d) { return height - y(d.value); })
+			.attr("width", x.rangeBand());
+		bars.append("text")
+			.attr("x", function(d) { return x.rangeBand() / 2; })
+			.attr("y", function(d) { return y(d.value) + 5; })
+			.attr("dy", ".75em")
+			.text(function(d) { return d.value; });
+			
+	});
+
+
+}
+updateOpenAssessmentStats();
+
+function type(d) {
+	d.value = +d.value;
+	return d;
+}
