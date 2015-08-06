@@ -45,6 +45,7 @@
 	    <li><?php echo Phalcon\Tag::linkTo("dashboard","Dashboard"); ?></li>
 	    <li><?php echo Phalcon\Tag::linkTo("statements","All Statements"); ?></li>
 	    <li><?php echo Phalcon\Tag::linkTo("ltiinfo","LTI Session Info"); ?></li>
+	    <li><?php echo Phalcon\Tag::linkTo(array("consumer.php?assessment_id=26","LTI Tool Consumer","target"=>"_blank")); ?></li>
 	  </ul>
           <div class="navbar-form navbar-right" role="form">
 	    <?php if ($this->ltiContext->valid) {

@@ -7,32 +7,32 @@ require_once '../app/library/ims_lti/blti_util.php';
 //Get lti key and secret from app's config file
 $config = require('../app/config/config.php');
 $context = new BLTI($config["lti"]["launch"], true, false);
+
 // Make sure we've got a valid session from the Visualization launch first
 if (!$context->valid) {
 	die("Invalid LTI context. This must be launched from another tool consumer before it can be a tool consumer. Confused? Me too.");
 }
 
     $lmsdata = array(
-      "resource_link_id" => "120988f929-274612",
-      "resource_link_title" => "Weekly Blog",
-      "resource_link_description" => "A weekly blog.",
-      "user_id" => "292832126",
-      "roles" => "Learner",  // or Learner
-      "lis_person_name_full" => 'Jane Q. Public',
-      "lis_person_contact_email_primary" => "user@school.edu",
-      "lis_person_sourcedid" => "school.edu:user",
-      "context_id" => "456434513",
-      "context_title" => "Design of Personal Environments",
-      "context_label" => "SI182",
-      "tool_consumer_instance_guid" => "lmsng.school.edu",
-      "tool_consumer_instance_description" => "University of School (LMSng)",
+      "resource_link_id" => "",
+      "resource_link_title" => "",
+      "resource_link_description" => "",
+      "user_id" => "",
+      "roles" => "Learner",  // Learner or Instructor 
+      "lis_person_name_full" => "",
+      "lis_person_contact_email_primary" => "",
+      "lis_person_sourcedid" => "",
+      "context_id" => "",
+      "context_title" => "",
+      "context_label" => "",
+      "tool_consumer_instance_guid" => "",
+      "tool_consumer_instance_description" => "",
       );
 
+  // Get launch information from our parent launch context
   foreach ($lmsdata as $k => $val ) {
       if ($context->info[$k] && strlen($context->info[$k]) > 0 ) {
           $lmsdata[$k] = $context->info[$k];
-      } else {
-	  $lmsdata[$k] = "";
       }
   }
 
@@ -45,24 +45,27 @@ if (!$context->valid) {
       return $pageURL;
    }
 
-
+  // Load tool provider LTI details from config
+  if (isset($_REQUEST["app"])) {
+	  $provider = $config["lti"][$_REQUEST["app"]];
+  } else {
+	  $provider = $config["lti"]["openassessments"];
+  }
 
   $cur_url = curPageURL();
-  $key = $_REQUEST["key"];
-  if ( ! $key ) $key = "12345";
-  $secret = $_REQUEST["secret"];
-  if ( ! $secret ) $secret = "secret";
-  $endpoint = $_REQUEST["endpoint"];
+  $key = $provider["lti_key"];
+  $secret = $provider["lti_secret"];
+  // TODO we're not actually launching open assessments in production, so just make this ayamel-specific
+  $params = "?custom_assessment_id={$_REQUEST["assessment_id"]}";
+  $endpoint = $provider["launch_url"].$params;
 
-  if ( ! $endpoint ) $endpoint = str_replace("lms.php","tool.php",$cur_url);
-  $urlformat = true;
   $tool_consumer_instance_guid = $lmsdata['tool_consumer_instance_guid'];
   $tool_consumer_instance_description = $lmsdata['tool_consumer_instance_description'];
 
 ?>
 <html>
 <head>
-  <title>IMS Basic Learning Tools Interoperability</title>
+  <title>Ayamel Launch</title>
 </head>
 <body style="font-family:sans-serif">
 <script language="javascript"> 
@@ -80,7 +83,7 @@ function lmsdataToggle() {
 </script>
 <a id="displayText" href="javascript:lmsdataToggle();">Toggle Resource and Launch Data</a>
 <?php
-  echo("<form method=\"post\" id=\"lmsDataForm\" style=\"display:block\">\n");
+  echo("<form method=\"post\" id=\"lmsDataForm\" style=\"display:none\">\n");
   echo("<input type=\"submit\" value=\"Recompute Launch Data\">\n");
   echo("(To set a value to 'empty' - set it to a blank)");
   echo("<fieldset><legend>BasicLTI Resource</legend>\n");
@@ -119,3 +122,6 @@ function lmsdataToggle() {
   print($content);
 
 ?>
+<script>
+document.getElementsByName("ext_submit")[0].click();
+</script>

@@ -121,7 +121,7 @@ function postLaunchHTML($newparms, $endpoint, $debug=false, $iframeattr=false) {
     if ( $iframeattr ) {
         $r = "<form action=\"".$endpoint."\" name=\"ltiLaunchForm\" id=\"ltiLaunchForm\" method=\"post\" target=\"basicltiLaunchFrame\" encType=\"application/x-www-form-urlencoded\">\n" ;
     } else {
-        $r = "<form action=\"".$endpoint."\" name=\"ltiLaunchForm\" id=\"ltiLaunchForm\" method=\"post\" target=\"_blank\" encType=\"application/x-www-form-urlencoded\">\n" ;
+        $r = "<form action=\"".$endpoint."\" name=\"ltiLaunchForm\" id=\"ltiLaunchForm\" method=\"post\" encType=\"application/x-www-form-urlencoded\">\n" ;
     }
     $submit_text = $newparms['ext_submit'];
     foreach($newparms as $key => $value ) {
