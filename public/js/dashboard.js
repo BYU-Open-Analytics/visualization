@@ -109,7 +109,7 @@ updateBarGraph();
 function updateOpenAssessmentStats() {
 	var margin = {top: 10, right: 10, bottom: 30, left: 40};
 	    height = 300 - margin.left - margin.right,
-	    width = 500 - margin.top - margin.bottom;
+	    width = 400 - margin.top - margin.bottom;
 	
 	var x = d3.scale.ordinal()
 		.rangeRoundBands([0, width], .1);
@@ -170,10 +170,79 @@ function updateOpenAssessmentStats() {
 
 
 }
+updateOpenAssessmentStats();
+
+
+// Ayamel Global Statistics Bar Graph
+function updateAyamelStats() {
+	var margin = {top: 0, right: 10, bottom: 30, left: 40};
+	    height = 300 - margin.left - margin.right,
+	    width = 600 - margin.top - margin.bottom;
+	
+	var x = d3.scale.ordinal()
+		.rangeRoundBands([0, width], .1);
+	var y = d3.scale.linear()
+		.range([height, 0]);
+	
+	var xAxis = d3.svg.axis()
+		.scale(x)
+		.orient("bottom");
+	var yAxis = d3.svg.axis()
+		.scale(y)
+		.orient("left");
+	
+	// This adds a padded container that the bars will go 
+	var chart = d3.select("#ayamelStats svg")
+		.append("g")
+		.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	
+	// Load stats data
+	// TODO don't use absolute url ref here
+	d3.json("/lti_php/ayamel_stats", function(error, data) {
+		//Hide the loading spinner
+		$("#ayamelStats .spinner").hide();
+		//Resize the svg container
+		$("#ayamelStats svg").height(height+margin.top+margin.bottom).width(width+margin.left+margin.right);
+		console.log(error, data);
+		x.domain(data.map(function(d) { return d.name; }));
+		y.domain([0, d3.max(data, function(d) { return d.value; })]);
+
+		chart.append("g")
+			.attr("class", "axis x")
+			.attr("transform", "translate(0," + height + ")")
+			.call(xAxis);
+		chart.append("g")
+			.attr("class", "axis y")
+			.call(yAxis);
+
+		var bars = chart.selectAll(".bar")
+			.data(data)
+			.enter().append("g")
+			.attr("transform", function(d) { return "translate(" + x(d.name) + ", 0)"; })
+			.attr("class", "bar");
+
+		bars.append("rect")
+			//.attr("x", function(d) { return x(d.name); })
+			.attr("y", function(d) { return y(d.value); })
+			.attr("height", function(d) { return height - y(d.value); })
+			.attr("width", x.rangeBand())
+			.attr("fill", function(d) { return fillColor(d.name); });
+
+		bars.append("text")
+			.attr("x", function(d) { return x.rangeBand() / 2; })
+			.attr("y", function(d) { return y(d.value) + 5; })
+			.attr("dy", ".75em")
+			.text(function(d) { return d.value; });
+			
+	});
+
+
+}
+updateAyamelStats();
 
 function fillColor(barName) {
 	var colors = {"Question Attempts":"#5bc0de","Correct Attempts":"#5cb85c","Incorrect Attempts":"#d9534f"};
-	return colors[barName];
+	return colors[barName] || "hsl(" + Math.random() * 360 + ",100%,50%)";
 }
 
 function type(d) {
@@ -181,4 +250,3 @@ function type(d) {
 	return d;
 }
 
-updateOpenAssessmentStats();

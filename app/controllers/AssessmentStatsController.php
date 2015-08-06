@@ -5,7 +5,7 @@ use Phalcon\Mvc\Controller;
 class AssessmentStatsController extends Controller
 {
 	public function initialize() {
-		$this->tag->setTitle('Statements');
+		$this->tag->setTitle('Assessment Stats');
 	}
 	public function indexAction() {
 		error_reporting(E_ALL);

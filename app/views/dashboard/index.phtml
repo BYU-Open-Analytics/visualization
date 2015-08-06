@@ -4,8 +4,15 @@ if ( $context->valid ) {
 ?>
 <div id="visualizationContainer">
 
-<div class="visualization" id="openAssessmentStats" style="width: 550px; height: 390px;">
+<div class="visualization" id="openAssessmentStats" style="width: 450px; height: 390px;">
 	<h3>Open Assessments User Statistics</h3>
+	<?php echo Phalcon\Tag::image(array("img/spinner.svg", "class" => "spinner", "alt" => "Loading...")); ?><br />
+	<svg width="0" height="0">
+	</svg>
+</div>
+
+<div class="visualization" id="ayamelStats" style="width: 650px; height: 405px;">
+	<h3>Ayamel Global Verb Counts<br /><small>Only verbs with >5% of statements included</small></h3>
 	<?php echo Phalcon\Tag::image(array("img/spinner.svg", "class" => "spinner", "alt" => "Loading...")); ?><br />
 	<svg width="0" height="0">
 	</svg>

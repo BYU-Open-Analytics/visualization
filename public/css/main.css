@@ -45,20 +45,20 @@
 }
 
 
-#openAssessmentStats text {
+.visualization text {
 	fill: white;
 	font: 11px Helvetica, sans-serif;
 	text-transform: capitalize;
 }
-#openAssessmentStats .axis text {
+.visualization .axis text {
 	fill: black!important;
 	font: 10px Helvetica, sans-serif;
 }
-#openAssessmentStats .axis path, #barGraph .axis line {
+.visualization .axis path, .visualization .axis line {
 	fill: none;
 	stroke: black;
 	shape-rendering: crispEdges;
 }
-#openAssessmentStats .x.axis path {
+.visualization .x.axis path {
 	display: none;
 }
