@@ -19,9 +19,16 @@ if ( $context->valid ) {
 </div>
 
 <div class="visualization" id="confidencePie" style="width: 620px; height: 550px;">
-	<h3>User Answer Confidence</h3>
+	<h3>User Answer Confidence Count</h3>
 	<span class="spinner"><?php echo Phalcon\Tag::image(array("img/spinner.svg", "alt" => "Loading...")); ?><br /></span>
 	<div id="confidencePieContainer"></div>
+</div>
+
+<div class="visualization" id="confidenceAverage" style="width: 450px; height: 200px;">
+	<h3>User Answer Confidence Averages</h3>
+	<span class="spinner"><?php echo Phalcon\Tag::image(array("img/spinner.svg", "alt" => "Loading...")); ?><br /></span>
+	<svg width="0" height="0">
+	</svg>
 </div>
 
 <div class="visualization" id="circleFun">
