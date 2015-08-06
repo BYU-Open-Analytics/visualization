@@ -1,4 +1,4 @@
-# Basic LTI PHP app
+# Visualization App
 
 ## Requirements
 - Apache
@@ -21,3 +21,4 @@
 - BLTI PHP library from [IMS Global](http://developers.imsglobal.org/phpcode.html)
 - [Phalcon framework](https://phalconphp.com/en/)
 - [D3.js](http://d3js.org)
+- [Bootstrap](http://getbootstrap.com/)
