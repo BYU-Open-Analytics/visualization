@@ -1,5 +1,4 @@
 # Basic LTI PHP app
-Uses BLTI PHP library from [IMS Global](http://developers.imsglobal.org/phpcode.html), and [Phalcon framework](https://phalconphp.com/en/).
 
 ## Requirements
 - Apache
@@ -8,11 +7,17 @@ Uses BLTI PHP library from [IMS Global](http://developers.imsglobal.org/phpcode.
 - Database connection (currently configured with MySQL)
 
 ## Configuration
-- Copy `app/config/config.example.ini` to `app/config.ini` and change
+- Copy `app/config/config.example.php` to `app/config.php` and change
 	- Database credentials
-	- LTI consumer key/shared secret pair
+	- LTI configurations: for launching this app, and for launching others
+	- Learning Record Store details: for fetching statements and sending statements to multiple LRSs
 	- Site base URI
 
 ## LTI integration
 - Basic LTI POST requests should be sent to `{base URI}/launch.php`
 - When logged in, LTI session information can be viewed at `{base URI}/ltiinfo`
+
+### This app uses
+- BLTI PHP library from [IMS Global](http://developers.imsglobal.org/phpcode.html)
+- [Phalcon framework](https://phalconphp.com/en/)
+- [D3.js](http://d3js.org)
