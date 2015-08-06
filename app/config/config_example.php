@@ -11,7 +11,7 @@ return array(
 	//LTI configurations. 'launch' is required. (for launching this app from tool consumer, and for any tool providers this app will consume)
 	'lti' => array(
 		'launch' => array('lti_key' => 'examplekey', 'lti_secret' => 'examplesecret'),
-		'ayamel' => array('lti_key' => 'examplekey', 'lti_secret' => 'examplesecret')
+		'ayamel' => array('launch_url' => 'http://ayamel.byu.edu/lti', 'lti_key' => 'examplekey', 'lti_secret' => 'examplesecret')
 		),
 	//LRS configurations (key for details array, such as ayamel, will be used in getting/sending statements
 	'lrs' => array(
