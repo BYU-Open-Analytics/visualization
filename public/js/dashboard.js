@@ -130,7 +130,7 @@ function updateOpenAssessmentStats() {
 	
 	// Load stats data
 	// TODO don't use absolute url ref here
-	d3.json("/lti_php/assessment_stats", function(error, data) {
+	d3.json("/lti_php/assessment_stats/attempt_counts", function(error, data) {
 		//Hide the loading spinner
 		$("#openAssessmentStats .spinner").hide();
 		//Resize the svg container
@@ -197,7 +197,7 @@ function updateAyamelStats() {
 	
 	// Load stats data
 	// TODO don't use absolute url ref here
-	d3.json("/lti_php/ayamel_stats", function(error, data) {
+	d3.json("/lti_php/ayamel_stats/verb_counts", function(error, data) {
 		//Hide the loading spinner
 		$("#ayamelStats .spinner").hide();
 		//Resize the svg container
@@ -251,214 +251,78 @@ function type(d) {
 
 // Confidence Level pie chart
 function updateConfidencePie() {
+    // Load stats data
+    // TODO don't use absolute url ref here
+    d3.json("/lti_php/assessment_stats/confidence_counts", function(error, data) {
 	$("#confidencePie .spinner").hide();
-var confidencePie = new d3pie("confidencePie", {
-	"header": {
-		"title": {
-			"fontSize": 1
+	var confidencePie = new d3pie("confidencePie", {
+		"size": {
+			"canvasWidth": 590,
+			"canvasHeight": 500,
+			"pieOuterRadius": "90%"
 		},
-		"subtitle": {
-			"fontSize": 1
+		"data": {
+			"sortOrder": "value-desc",
+			"smallSegmentGrouping": {
+				"enabled": true
+			},
+			"content": [
+				{
+					"label": "Just A Guess",
+					"value": data["low"],
+					"color": "#CF0000"
+				},
+				{
+					"label": "Pretty Sure",
+					"value": data["medium"],
+					"color": "#71B889"
+				},
+				{
+					"label": "Very Sure",
+					"value": data["high"],
+					"color": "#3299BB"
+				}
+			]
 		},
-		"titleSubtitlePadding": 0
-	},
-	"footer": {
-		"color": "#999999",
-		"fontSize": 10,
-		"font": "open sans",
-		"location": "bottom-left"
-	},
-	"size": {
-		"canvasWidth": 590,
-		"canvasHeight": 500,
-		"pieOuterRadius": "90%"
-	},
-	"data": {
-		"sortOrder": "value-desc",
-		"smallSegmentGrouping": {
-			"enabled": true
-		},
-		"content": [
-			{
-				"label": "Java",
-				"value": 157618,
-				"color": "#aeec41"
+		"labels": {
+			"outer": {
+				"pieDistance": 32
 			},
-			{
-				"label": "PHP",
-				"value": 114384,
-				"color": "#a4a0c9"
+			"inner": {
+				"hideWhenLessThanPercentage": 3
 			},
-			{
-				"label": "Python",
-				"value": 95002,
-				"color": "#312749"
+			"mainLabel": {
+				"fontSize": 11
 			},
-			{
-				"label": "Ruby",
-				"value": 218812,
-				"color": "#608d1b"
+			"percentage": {
+				"color": "#ffffff",
+				"decimalPlaces": 0
 			},
-			{
-				"label": "C+",
-				"value": 78327,
-				"color": "#0a6097"
+			"value": {
+				"color": "#adadad",
+				"fontSize": 11
 			},
-			{
-				"label": "C",
-				"value": 67706,
-				"color": "#1ee678"
+			"lines": {
+				"enabled": true
 			},
-			{
-				"label": "JavaScript",
-				"value": 264139,
-				"color": "#bf273e"
-			},
-			{
-				"label": "Objective-C",
-				"value": 36344,
-				"color": "#7c9058"
-			},
-			{
-				"label": "Shell",
-				"value": 28561,
-				"color": "#bca349"
-			},
-			{
-				"label": "Cobol",
-				"value": 24131,
-				"color": "#913e99"
-			},
-			{
-				"label": "C#",
-				"value": 100,
-				"color": "#d1c77e"
-			},
-			{
-				"label": "Coldfusion",
-				"value": 68,
-				"color": "#7b37c0"
-			},
-			{
-				"label": "Fortran",
-				"value": 218812,
-				"color": "#8fc467"
-			},
-			{
-				"label": "Coffeescript",
-				"value": 157618,
-				"color": "#ac83d5"
-			},
-			{
-				"label": "Node",
-				"value": 114384,
-				"color": "#8b6834"
-			},
-			{
-				"label": "Basic",
-				"value": 95002,
-				"color": "#cd29eb"
-			},
-			{
-				"label": "Cola",
-				"value": 36344,
-				"color": "#44b9ae"
-			},
-			{
-				"label": "Perl",
-				"value": 32170,
-				"color": "#e98125"
-			},
-			{
-				"label": "Dart",
-				"value": 28561,
-				"color": "#830909"
-			},
-			{
-				"label": "Go",
-				"value": 264131,
-				"color": "#2181c1"
-			},
-			{
-				"label": "Groovy",
-				"value": 218812,
-				"color": "#dac861"
-			},
-			{
-				"label": "Processing",
-				"value": 157618,
-				"color": "#85f71a"
-			},
-			{
-				"label": "Smalltalk",
-				"value": 114384,
-				"color": "#cb2121"
-			},
-			{
-				"label": "Scala",
-				"value": 95002,
-				"color": "#e4a049"
-			},
-			{
-				"label": "Visual Basic",
-				"value": 78327,
-				"color": "#228835"
-			},
-			{
-				"label": "Scheme",
-				"value": 67706,
-				"color": "#e65314"
-			},
-			{
-				"label": "Rust",
-				"value": 36344,
-				"color": "#4baa49"
-			},
-			{
-				"label": "FoxPro",
-				"value": 32170,
-				"color": "#cc9fb0"
+			"truncation": {
+				"enabled": true
 			}
-		]
-	},
-	"labels": {
-		"outer": {
-			"pieDistance": 32
 		},
-		"inner": {
-			"hideWhenLessThanPercentage": 3
+		"tooltips": {
+			"enabled": true,
+			"type": "placeholder",
+			"string": "{label}: {value}, {percentage}%"
 		},
-		"mainLabel": {
-			"fontSize": 11
-		},
-		"percentage": {
-			"color": "#ffffff",
-			"decimalPlaces": 0
-		},
-		"value": {
-			"color": "#adadad",
-			"fontSize": 11
-		},
-		"lines": {
-			"enabled": true
-		},
-		"truncation": {
-			"enabled": true
+		"effects": {
+			"pullOutSegmentOnClick": {
+				"effect": "linear",
+				"speed": 400,
+				"size": 8
+			}
 		}
-	},
-	"tooltips": {
-		"enabled": true,
-		"type": "placeholder",
-		"string": "{label}: {value}, {percentage}%"
-	},
-	"effects": {
-		"pullOutSegmentOnClick": {
-			"effect": "linear",
-			"speed": 400,
-			"size": 8
-		}
-	}
-});
+	});
+    });
 }
 
 // When page is done loading, show our visualizations
