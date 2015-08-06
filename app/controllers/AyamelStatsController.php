@@ -36,12 +36,12 @@ class AyamelStatsController extends Controller
 					}
 					//echo($statement->statement->verb->display->{"en-US"}."<br>");
 				}
-				//Only include if it has at least 5% of total statements
-				$inclusionThreshold = count($statements["statements"]) * 0.05;
+				//Only include if it has at least 3% of total statements
+				$inclusionThreshold = count($statements["statements"]) * 0.03;
 				//Put the verb counts into the format we want in d3
 				foreach ($verbs as $verb => $count) {
 					if ($count > $inclusionThreshold) {
-						$result []= ["name" => $verb, "value" => $count];
+						$result []= ["name" => str_replace("_"," ",$verb), "value" => $count];
 					}
 				}
 			}
