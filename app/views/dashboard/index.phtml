@@ -6,27 +6,34 @@ if ( $context->valid ) {
 
 <div class="visualization" id="openAssessmentStats" style="width: 450px; height: 390px;">
 	<h3>Open Assessments User Statistics</h3>
-	<span class="spinner"><?php echo Phalcon\Tag::image(array("img/spinner.svg", "alt" => "Loading...")); ?><br /></span>
+	<span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
 	<svg width="0" height="0">
 	</svg>
 </div>
 
 <div class="visualization" id="ayamelStats" style="width: 650px; height: 405px;">
 	<h3>Ayamel Global Verb Counts<br /><small>Only verbs with >3% of statements included</small></h3>
-	<span class="spinner"><?php echo Phalcon\Tag::image(array("img/spinner.svg", "alt" => "Loading...")); ?><br /></span>
+	<span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
 	<svg width="0" height="0">
 	</svg>
 </div>
 
 <div class="visualization" id="confidencePie" style="width: 620px; height: 550px;">
 	<h3>User Answer Confidence Count</h3>
-	<span class="spinner"><?php echo Phalcon\Tag::image(array("img/spinner.svg", "alt" => "Loading...")); ?><br /></span>
+	<span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
 	<div id="confidencePieContainer"></div>
 </div>
 
 <div class="visualization" id="confidenceAverage" style="width: 450px; height: 200px;">
-	<h3>User Answer Confidence Averages</h3>
-	<span class="spinner"><?php echo Phalcon\Tag::image(array("img/spinner.svg", "alt" => "Loading...")); ?><br /></span>
+	<h3>User Answer Confidence Average</h3>
+	<form>
+		<div class="btn-group" data-toggle="buttons">
+			<label class="btn btn-default active"><input type="radio" name="confidenceAverageOption" value="overall" checked />Overall</label>
+			<label class="btn btn-default"><input type="radio" name="confidenceAverageOption" value="correct" />Correct</label>
+			<label class="btn btn-default"><input type="radio" name="confidenceAverageOption" value="incorrect" />Incorrect</label>
+		</div>
+	</form>
+	<span class="spinner"><br /><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
 	<svg width="0" height="0">
 	</svg>
 </div>
