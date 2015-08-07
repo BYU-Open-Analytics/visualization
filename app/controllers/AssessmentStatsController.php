@@ -125,14 +125,23 @@ class AssessmentStatsController extends Controller
 		$confidences = ["overall" => array(), "correct" => array(), "incorrect" => array()];
 
 		//Get all user answer attempts
-		$attempts = $statementHelper->getStatements("openassessments",'[{"$match":{"voided":false, "statement.actor.mbox": "mailto:'.$context->getUserEmail().'", "statement.verb.id":"http://adlnet.gov/expapi/verbs/answered"}},{"$project":{"_id":0, "statement.context.extensions":1, "statement.result.success":1 }}]');
+		$attempts = $statementHelper->getStatements("openassessments",[
+			'statement.actor.mbox' => 'mailto:'.$context->getUserEmail(),
+			'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/answered',
+			], [
+			'_id' => false,
+			'statement.context.extensions' => true,
+			'statement.result.success' => true,
+			]);
 		if ($attempts["error"]) {
 			$result []= ["error" => $attempts["error"]];
 		} else {
-			foreach ($attempts["statements"] as $statement) {
-				if (isset($statement->statement->context->extensions->{"http://byuopenanalytics.byu.edu/expapi/extensions/confidence_level"}) && isset($statement->statement->result->success)) {
-					$level = $statement->statement->context->extensions->{"http://byuopenanalytics.byu.edu/expapi/extensions/confidence_level"};
-					$correct = $statement->statement->result->success;
+			foreach ($attempts["cursor"] as $statement) {
+				// Since we're now doing more than just counting, we need to do processing that Learning Locker normally would first:
+				$statement = StatementHelper::replaceHtmlEntity($statement, true);
+				if (isset($statement['statement']['context']['extensions']['http://byuopenanalytics.byu.edu/expapi/extensions/confidence_level']) && isset($statement['statement']['result']['success'])) {
+					$level = $statement['statement']['context']['extensions']['http://byuopenanalytics.byu.edu/expapi/extensions/confidence_level'];
+					$correct = $statement['statement']['result']['success'];
 					$confidences["overall"] []= $levelValue[$level];
 					if ($correct == true) {
 						$confidences["correct"] []= $levelValue[$level];
