@@ -4,7 +4,8 @@
 - Apache
 - PHP v5.4 or newer
 - Phalcon PHP extension ([installation instructions](https://phalconphp.com/en/download))
-- Database connection (currently configured with MySQL)
+- MongoDB PHP extension ([installation instructions](http://us3.php.net/manual/en/mongo.installation.php))
+- Direct mongo connection to Learning Locker's database
 
 ## Configuration
 - Copy `app/config/config.example.php` to `app/config.php` and change
