@@ -32,6 +32,6 @@ return array(
 			)
 		),
 	//Phalcon configuration
-	'base_uri' => '/lti_php/'
+	'base_uri' => '/visualization/'
 	);
 ?>
