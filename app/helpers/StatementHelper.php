@@ -32,4 +32,16 @@ class StatementHelper extends Module {
 		return ["error"=>$error, "cursor"=>$cursor];
 	}
 
+	// Lifted directly from Learning Locker source: https://github.com/LearningLocker/learninglocker/blob/develop/app/locker/helpers/Helpers.php
+	/*
+	|----------------------------------------------------------------------------
+	| scan array and replace &46; with . (This is a result of . being
+	| reserved in Mongo) convert array to json as this is faster for
+	| multi-dimensional arrays (?) @todo check this out.
+	|----------------------------------------------------------------------------
+	*/
+	static function replaceHtmlEntity( $array, $toArray = false ){
+		return json_decode(str_replace('&46;','.', json_encode($array)), $toArray);
+	}
+
 }
