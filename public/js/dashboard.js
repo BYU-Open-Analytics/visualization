@@ -136,7 +136,7 @@ function updateOpenAssessmentStats() {
 	
 	// Load stats data
 	// TODO don't use absolute url ref here
-	d3.json("/lti_php/assessment_stats/attempt_counts", function(error, data) {
+	d3.json("assessment_stats/attempt_counts", function(error, data) {
 		//Hide the loading spinner
 		$("#openAssessmentStats .spinner").hide();
 		//Resize the svg container
@@ -208,7 +208,7 @@ function updateAyamelStats() {
 	
 	// Load stats data
 	// TODO don't use absolute url ref here
-	d3.json("/lti_php/ayamel_stats/verb_counts", function(error, data) {
+	d3.json("ayamel_stats/verb_counts", function(error, data) {
 		//Hide the loading spinner
 		$("#ayamelStats .spinner").hide();
 		//Resize the svg container
@@ -263,7 +263,7 @@ function fillColor(barName) {
 function updateConfidencePie() {
     // Load stats data
     // TODO don't use absolute url ref here
-    d3.json("/lti_php/assessment_stats/confidence_counts", function(error, data) {
+    d3.json("assessment_stats/confidence_counts", function(error, data) {
 	$("#confidencePie .spinner").hide();
 	var confidencePie = new d3pie("confidencePie", {
 		"size": {
@@ -362,7 +362,7 @@ function updateConfidenceAverage() {
 		.attr("x", x(-1.0))
 		.text("Just A Guess");
 
-	d3.json("/lti_php/assessment_stats/confidence_average", function(error, data) {
+	d3.json("assessment_stats/confidence_average", function(error, data) {
 		//Hide the loading spinner
 		$("#confidenceAverage .spinner").hide();
 		//Resize the svg container
