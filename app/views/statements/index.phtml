@@ -1,6 +1,5 @@
 <?php
 
-if ($ltiContext->valid) {
 	if (count($statements) > 0) {
 		?>
 		<h4 class="info">Showing <?php echo count($statements); ?> statements from Open Assessments LRS</h4>
@@ -10,6 +9,7 @@ if ($ltiContext->valid) {
 		$name = $ltiContext->getUserName();
 		foreach ($statements as $statement) {
 			//echo "<tr><td>{$name}</td><td>{$statement->verb->display->{'en-US'}}</td><td>{$statement->object->definition->name->{'en-US'}}</td><td>{$statement->timestamp}</td></tr>";
+			$name = isset($statement->actor->name) ? $statement->actor->name : "";
 			echo "<tr><td>{$name}</td><td>{$statement->verb->display->{'en-US'}}</td><td>{$statement->object->definition->name->{'en-US'}}</td><td>{$statement->timestamp}</td></tr>";
 		}
 		echo "</table>";
@@ -19,7 +19,3 @@ if ($ltiContext->valid) {
 	} else {
 		echo "Error: $error";
 	}
-
-} else {
-	echo "Not logged in, or there was an LTI error.";
-}
