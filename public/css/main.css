@@ -47,3 +47,13 @@
 .visualization .x.axis path {
 	display: none;
 }
+
+/* Specific visualizations */
+#confidenceAverage text {
+	fill: black;
+}
+#confidenceAverage .axis path {
+	display: inherit;
+	stroke: none;
+	fill: url(#confidenceGradient);
+}

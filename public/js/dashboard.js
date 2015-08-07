@@ -340,59 +340,85 @@ function updateConfidencePie() {
 
 
 // Line graph that shows average user confidence
-function updateConfidenceAverage() {
-	var margin = {top: 0, right: 40, bottom: 30, left: 20},
-	    height = 100 - margin.top - margin.bottom,
-	    width = 450 - margin.left- margin.right;
-	
-	var x = d3.scale.linear()
-		.domain([-1, 1])
-		.range([0, width]);
-
-	var axis = d3.svg.axis()
-		.scale(x)
-		.tickFormat("")
-		.orient("bottom");
-
-	var chart = d3.select("#confidenceAverage svg")
-		.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-	
-	chart.append("text")
-		.attr("fill","black")
-		.attr("x", x(-1.0))
-		.text("Just A Guess");
+var confidenceAverageOption = "overall";
+var confidenceAverageData = {};
+function setupConfidenceAverage() {
+	$("input:radio[name=confidenceAverageOption]").on("change", function() {
+		confidenceAverageOption = $(this).val();
+		updateConfidenceAverage();
+	});
 
 	d3.json("assessment_stats/confidence_average", function(error, data) {
+		var margin = {top: 0, right: 55, bottom: 30, left: 35},
+		    height = 100 - margin.top - margin.bottom,
+		    width = 450 - margin.left - margin.right;
 		//Hide the loading spinner
 		$("#confidenceAverage .spinner").hide();
 		//Resize the svg container
 		$("#confidenceAverage svg").height(height+margin.top+margin.bottom).width(width+margin.left+margin.right);
-		console.log(data, error);
+
+		var x = d3.scale.linear()
+			.domain([-1, 1])
+			.range([0, width]);
+
+		var axis = d3.svg.axis()
+			.scale(x)
+			.tickFormat("")
+			.innerTickSize(12)
+			.orient("bottom");
+
+		var chart = d3.select("#confidenceAverage svg")
+			.append("g")
+			.attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+			.attr("class", "container");
+		
+		chart.append("text")
+			.attr("x", x(-1.0) + "px")
+			.text("Just A Guess");
+		chart.append("text")
+			.attr("x", x(0) + "px")
+			.text("Pretty Sure");
+		chart.append("text")
+			.attr("x", x(1.0) + "px")
+			.text("Very Sure");
+
+		chart.selectAll("text")
+			.attr("text-anchor", "middle")
+			.attr("y", "80px");
 
 		chart.append("g")
 			.attr("transform", "translate(0, " + (height / 2 +  10) + ")")
 			.attr("class", "axis x")
 			.call(axis);
 
-		var points = chart.selectAll(".point")
-			.data(data);
-
-		points.enter()
-			.append("circle")
+		//Single point that we'll be moving around
+		chart.append("circle")
+			.attr("fill","rgb(255, 230, 0)")
+			.attr("cy", "47px")
 			.attr("class","point")
-			.attr("fill","orange")
-			.attr("cx", function(d) { return x(d.value); })
-			.attr("cy", function(d, i) { return (i * 25) + 25; })
 			.attr("r", "10px");
 
-		points.exit().remove();
+		// TODO error checking
+		confidenceAverageData["overall"] = x(data["overall"]);
+		confidenceAverageData["correct"] = x(data["correct"]);
+		confidenceAverageData["incorrect"] = x(data["incorrect"]);
+		updateConfidenceAverage();
 	});
+}
+function updateConfidenceAverage() {
+	//We only want one data point: whichever average (overall, correct, or incorrect) is currently selected
+	var data = [confidenceAverageData[confidenceAverageOption]];
+	d3.select("#confidenceAverage svg .point")
+		.transition()
+		.duration(750)
+		.attr("cx", data + "px");
+
 }
 
 // When page is done loading, show our visualizations
 $(function() {
-	updateOpenAssessmentStats();
-	updateAyamelStats();
-	updateConfidencePie();
-	updateConfidenceAverage();
+	//updateOpenAssessmentStats();
+	//updateAyamelStats();
+	//updateConfidencePie();
+	setupConfidenceAverage();
 });

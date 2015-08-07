@@ -152,7 +152,8 @@ class AssessmentStatsController extends Controller
 			}
 			foreach ($confidences as $name => $list) {
 				$average = array_sum($list) / count($list);
-				$result []= ["name" => $name, "value" => $average];
+				$result[$name] = $average;
+				//$result []= ["name" => $name, "value" => $average];
 			}
 			echo json_encode($result);
 		}
