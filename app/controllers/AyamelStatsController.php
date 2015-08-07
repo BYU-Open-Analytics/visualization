@@ -29,7 +29,8 @@ class AyamelStatsController extends Controller
 		$verbs = Array();
 
 		//Get verbs of all statements
-		$statements = $statementHelper->getStatements("ayamel",'[{"$match":{"voided":false}},{"$project":{"statement.verb.display.en-US":1}}]');
+		//$statements = $statementHelper->getStatements("ayamel",'[{"$match":{"voided":false}},{"$project":{"statement.verb.display.en-US":1}}]');
+		$statements = $statementHelper->getStatements("ayamel",['voided'=>false], ['_id'=>false, 'statement.verb.display.en-US'=>true]);
 		if ($statements["error"]) {
 			$result []= ["error" => $attempts["error"]];
 		} else {

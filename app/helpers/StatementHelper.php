@@ -4,13 +4,27 @@ use Phalcon\Mvc\User\Module;
 
 class StatementHelper extends Module {
 	
-	public function getStatements($lrs, $pipeline) {
+	public function getStatements($lrs, $query = array(), $fields = array()) {
 		//echo "getting statements!";
 		$error = "";
 		$statements = Array();
 
 		// Pull the user's statements from the LRS (identification info from the LTI context)
 		$config = $this->getDI()->getShared('config');
+
+		// Connect to database
+		$m = new MongoClient("mongodb://{$config->database->username}:{$config->database->password}@{$config->database->host}/{$config->database->dbname}");
+		$db = $m->{$config->database->dbname};
+
+		// Query statements
+		$collection = $db->statements;
+		//From PHP mongo docs: Please make sure that for all special query operators (starting with $) you use single quotes so that PHP doesn't try to replace "$exists" with the value of the variable $exists.
+		if (!empty($lrs)) {
+			$query["lrs._id"] = $config->lrs->{$lrs}->id;
+		}
+
+		$cursor = $collection->find($query, $fields);
+
 
 		// Can't just include entire statement ("statement":1 in $project block), or learning locker php script will run out of memory
 
