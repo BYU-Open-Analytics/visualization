@@ -14,19 +14,23 @@ return array(
 		'ayamel' => array('launch_url' => 'http://ayamel.byu.edu/lti', 'lti_key' => 'examplekey', 'lti_secret' => 'examplesecret')
 		),
 	//LRS configurations (key for details array, such as ayamel, will be used in getting/sending statements
+	//LRS ID will be at end of a Learning Locker Dashboard URL: https://ec2-52-26-250-81.us-west-2.compute.amazonaws.com/lrs/lrs/<LRS ID is this long thing here>
 	'lrs' => array(
 		'openassessments' => array(
 			'endpoint' => 'http://ec2-52-26-250-81.us-west-2.compute.amazonaws.com/lrs/',
+			'id'       => 'id',
 			'username' => 'username',
 			'password' => 'password'
 			),
 		'ayamel' => array(
 			'endpoint' => 'http://ec2-52-26-250-81.us-west-2.compute.amazonaws.com/lrs/',
+			'id'       => 'id',
 			'username' => 'username',
 			'password' => 'password'
 			),
 		'visualization' => array(
 			'endpoint' => 'http://ec2-52-26-250-81.us-west-2.compute.amazonaws.com/lrs/',
+			'id'       => 'id',
 			'username' => 'username',
 			'password' => 'password'
 			)
