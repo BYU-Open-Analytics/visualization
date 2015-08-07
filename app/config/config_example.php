@@ -1,12 +1,12 @@
 <?php
 
 return array(
-	//MySQL Database details
+	//MongoDB Database details
 	'database' => array(
 		'host' => 'localhost',
 		'username' => 'lti',
 		'password' => 'ltitest',
-		'name' => 'lti_development'
+		'dbname' => 'lti_development'
 		),
 	//LTI configurations. 'launch' is required. (for launching this app from tool consumer, and for any tool providers this app will consume)
 	'lti' => array(
