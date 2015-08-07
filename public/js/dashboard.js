@@ -412,13 +412,12 @@ function updateConfidenceAverage() {
 		.transition()
 		.duration(750)
 		.attr("cx", data + "px");
-
 }
 
 // When page is done loading, show our visualizations
 $(function() {
-	//updateOpenAssessmentStats();
-	//updateAyamelStats();
-	//updateConfidencePie();
+	updateOpenAssessmentStats();
+	updateAyamelStats();
+	updateConfidencePie();
 	setupConfidenceAverage();
 });
