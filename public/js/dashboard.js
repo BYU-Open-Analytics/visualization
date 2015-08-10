@@ -170,7 +170,11 @@ function updateOpenAssessmentStats() {
 			.attr("y", height + "px")
 			.attr("height", 0 + "px")
 			.attr("width", x.rangeBand())
-			.attr("fill", function(d) { return fillColor(d.name); });
+			.attr("fill", function(d) { return fillColor(d.name); })
+			.attr("cursor", "pointer")
+			.attr("data-toggle", "modal")
+			.attr("data-target", "#openAssessmentStatsModal")
+			.attr("data-name", function(d) { return d.name; });
 
 		bars.append("text")
 			.attr("x", function(d) { return x.rangeBand() / 2; })
@@ -188,6 +192,10 @@ function updateOpenAssessmentStats() {
 
 
 }
+$("#openAssessmentStatsModal").on("show.bs.modal", function(e) {
+	console.log(e);
+	$(this).find(".modal-body").html("Loading stuff about "+$(e.relatedTarget).attr("data-name"));
+});
 
 
 // Ayamel Global Statistics Bar Graph
@@ -349,7 +357,7 @@ function updateConfidencePie() {
 
 // Line graph that shows average user confidence
 var confidenceAverageOption = "overall";
-var confidenceAverageData = {};
+var confidenceAverageData = {"user":{}, "class":{}};
 function setupConfidenceAverage() {
 	$("input:radio[name=confidenceAverageOption]").on("change", function() {
 		confidenceAverageOption = $(this).val();
@@ -360,6 +368,7 @@ function setupConfidenceAverage() {
 		var margin = {top: 0, right: 55, bottom: 30, left: 35},
 		    height = 100 - margin.top - margin.bottom,
 		    width = 450 - margin.left - margin.right;
+		    console.log(data);
 		//Hide the loading spinner
 		$("#confidenceAverage .spinner").hide();
 		//Resize the svg container
@@ -399,27 +408,58 @@ function setupConfidenceAverage() {
 			.attr("class", "axis x")
 			.call(axis);
 
-		//Single point that we'll be moving around
+		//Single points that we'll be moving around
 		chart.append("circle")
-			.attr("fill","rgb(255, 230, 0)")
-			.attr("cy", "47px")
-			.attr("class","point")
+			.attr("fill", "rgb(255, 230, 0)")
+			.attr("cy", "37px")
+			.attr("class", "userPoint")
 			.attr("r", "10px");
+		chart.append("text")
+			.attr("y", "42px")
+			.attr("class", "userLabel")
+			.text("User");
+
+		chart.append("circle")
+			.attr("fill", "rgb(255, 230, 0)")
+			.attr("cy", "20px")
+			.attr("class", "classPoint")
+			.attr("r", "10px");
+		chart.append("text")
+			.attr("y", "25px")
+			.attr("class", "classLabel")
+			.text("Class");
+
 
 		// TODO error checking
-		confidenceAverageData["overall"] = x(data["overall"]);
-		confidenceAverageData["correct"] = x(data["correct"]);
-		confidenceAverageData["incorrect"] = x(data["incorrect"]);
+		confidenceAverageData["user"]["overall"] = x(data["user"]["overall"]);
+		confidenceAverageData["user"]["correct"] = x(data["user"]["correct"]);
+		confidenceAverageData["user"]["incorrect"] = x(data["user"]["incorrect"]);
+		confidenceAverageData["class"]["overall"] = x(data["class"]["overall"]);
+		confidenceAverageData["class"]["correct"] = x(data["class"]["correct"]);
+		confidenceAverageData["class"]["incorrect"] = x(data["class"]["incorrect"]);
 		updateConfidenceAverage();
 	});
 }
 function updateConfidenceAverage() {
 	//We only want one data point: whichever average (overall, correct, or incorrect) is currently selected
-	var data = [confidenceAverageData[confidenceAverageOption]];
-	d3.select("#confidenceAverage svg .point")
+	var userData = [confidenceAverageData["user"][confidenceAverageOption]];
+	d3.select("#confidenceAverage svg .userPoint")
 		.transition()
 		.duration(750)
-		.attr("cx", data + "px");
+		.attr("cx", userData + "px");
+	d3.select("#confidenceAverage svg .userLabel")
+		.transition()
+		.duration(750)
+		.attr("x", (parseFloat(userData) + 15) + "px");
+	var classData = [confidenceAverageData["class"][confidenceAverageOption]];
+	d3.select("#confidenceAverage svg .classPoint")
+		.transition()
+		.duration(750)
+		.attr("cx", classData + "px");
+	d3.select("#confidenceAverage svg .classLabel")
+		.transition()
+		.duration(750)
+		.attr("x", (parseFloat(classData) + 15) + "px");
 }
 
 // When page is done loading, show our visualizations

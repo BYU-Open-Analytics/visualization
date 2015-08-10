@@ -122,14 +122,15 @@ class AssessmentStatsController extends Controller
 		// Numerical confidence values
 		$levelValue = ["low" => -1, "medium" => 0, "high" => 1];
 
-		$confidences = ["overall" => array(), "correct" => array(), "incorrect" => array()];
+		$userConfidences = ["overall" => array(), "correct" => array(), "incorrect" => array()];
+		$classConfidences = ["overall" => array(), "correct" => array(), "incorrect" => array()];
 
 		//Get all user answer attempts
 		$attempts = $statementHelper->getStatements("openassessments",[
-			'statement.actor.mbox' => 'mailto:'.$context->getUserEmail(),
 			'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/answered',
 			], [
 			'_id' => false,
+			'statement.actor.mbox' => true,
 			'statement.context.extensions' => true,
 			'statement.result.success' => true,
 			]);
@@ -142,17 +143,36 @@ class AssessmentStatsController extends Controller
 				if (isset($statement['statement']['context']['extensions']['http://byuopenanalytics.byu.edu/expapi/extensions/confidence_level']) && isset($statement['statement']['result']['success'])) {
 					$level = $statement['statement']['context']['extensions']['http://byuopenanalytics.byu.edu/expapi/extensions/confidence_level'];
 					$correct = $statement['statement']['result']['success'];
-					$confidences["overall"] []= $levelValue[$level];
+					//Put this in user confidences if necessary
+					if (isset($statement['statement']['actor']['mbox']) && $statement['statement']['actor']['mbox'] == 'mailto:'.$context->getUserEmail()) {
+						$userConfidences["overall"] []= $levelValue[$level];
+						if ($correct == true) {
+							$userConfidences["correct"] []= $levelValue[$level];
+						} else {
+							$userConfidences["incorrect"] []= $levelValue[$level];
+						}
+					}
+					// Then always in class confidences
+					$classConfidences["overall"] []= $levelValue[$level];
 					if ($correct == true) {
-						$confidences["correct"] []= $levelValue[$level];
+						$classConfidences["correct"] []= $levelValue[$level];
 					} else {
-						$confidences["incorrect"] []= $levelValue[$level];
+						$classConfidences["incorrect"] []= $levelValue[$level];
 					}
 				}
 			}
-			foreach ($confidences as $name => $list) {
-				$average = array_sum($list) / count($list);
-				$result[$name] = $average;
+			// User stats
+			foreach ($userConfidences as $name => $list) {
+				//Avoid division by 0
+				$average = (count($list) > 0) ? (array_sum($list) / count($list)) : 0;
+				$result['user'][$name] = $average;
+				//$result []= ["name" => $name, "value" => $average];
+			}
+			// Class stats
+			foreach ($classConfidences as $name => $list) {
+				//Avoid division by 0
+				$average = (count($list) > 0) ? (array_sum($list) / count($list)) : 0;
+				$result['class'][$name] = $average;
 				//$result []= ["name" => $name, "value" => $average];
 			}
 			echo json_encode($result);
