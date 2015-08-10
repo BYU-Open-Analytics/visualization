@@ -99,6 +99,7 @@ function updateBarGraph() {
 		.attr("y", function(d) { return y(d.value) + 3; })
 		.attr("x", x.rangeBand() / 2)
 		.attr("dy", ".75em")
+		.attr("text-anchor", "middle")
 		.text(function(d) { return d.value; });
 
 	rects.transition()
@@ -170,6 +171,7 @@ function updateOpenAssessmentStats() {
 			.attr("x", function(d) { return x.rangeBand() / 2; })
 			.attr("y", function(d) { return y(d.value) + 5; })
 			.attr("dy", ".75em")
+			.attr("text-anchor", "middle")
 			.text(function(d) { return d.value; });
 		
 		rects.transition()
@@ -242,6 +244,7 @@ function updateAyamelStats() {
 			.attr("x", function(d) { return x.rangeBand() / 2; })
 			.attr("y", function(d) { return y(d.value) + 5; })
 			.attr("dy", ".75em")
+			.attr("text-anchor", "middle")
 			.text(function(d) { return d.value; });
 			
 		rects.transition()
