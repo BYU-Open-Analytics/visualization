@@ -71,6 +71,9 @@ function updateBarGraph() {
 	var yAxis = d3.svg.axis()
 		.scale(y)
 		.orient("left");
+
+	var tip = d3.tip().attr('class', 'd3-tip').html(function(d) { return "<svg width='"+width+"' height='"+height+"'>"+$("#ayamelStats svg").html()+"</svg>"; });
+	chart.call(tip);
 	
 	chart.append("g")
 		.attr("class", "axis")
@@ -85,6 +88,8 @@ function updateBarGraph() {
 	bars.enter()
 		.append("g")
 		.attr("class","bar")
+		.on('mouseover', tip.show)
+		.on('mouseout', tip.hide)
 		.attr("transform", function(d, i) { return "translate(" + x(d.name) + ",0)"; });
 	
 	var rects = bars.append("rect")
