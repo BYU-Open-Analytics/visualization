@@ -72,7 +72,7 @@ function updateBarGraph() {
 		.scale(y)
 		.orient("left");
 
-	var tip = d3.tip().attr('class', 'd3-tip').html(function(d) { return "<svg width='"+width+"' height='"+height+"'>"+$("#ayamelStats svg").html()+"</svg>"; });
+	var tip = d3.tip().attr('class', 'd3-tip').html(function(d) { return "<svg width='650' height='300'>"+$("#ayamelStats svg").html()+"</svg>"; });
 	chart.call(tip);
 	
 	chart.append("g")

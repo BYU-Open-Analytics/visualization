@@ -42,8 +42,8 @@ class AyamelStatsController extends Controller
 					$verbs[$verb] = 1;
 				}
 			}
-			//Only include if it has at least 3% of total statements
-			$inclusionThreshold = $statements["cursor"]->count() * 0.03;
+			//Only include if it has at least 4% of total statements
+			$inclusionThreshold = $statements["cursor"]->count() * 0.04;
 			//Put the verb counts into the format we want in d3
 			foreach ($verbs as $verb => $count) {
 				if ($count > $inclusionThreshold) {
