@@ -9,7 +9,6 @@ class StatementHelper extends Module {
 		$error = "";
 		$statements = Array();
 
-		// Pull the user's statements from the LRS (identification info from the LTI context)
 		$config = $this->getDI()->getShared('config');
 
 		// Connect to database

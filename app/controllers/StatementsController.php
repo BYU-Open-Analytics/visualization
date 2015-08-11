@@ -42,4 +42,33 @@ class StatementsController extends Controller
 		$this->view->error = $error;
 		$this->view->statements = $parsed;
 	}
+	public function listAction() {
+		// TODO take out error reporting for production
+		error_reporting(E_ALL);
+		$this->view->disable();
+		// Get our context (this takes care of starting the session, too)
+		$context = $this->getDI()->getShared('ltiContext');
+		if (!$context->valid) {
+			echo '[{"error":"Invalid lti context"}]';
+			return;
+		}
+
+		// This contains our different data elements
+		$result = Array();
+		$statementHelper = new StatementHelper();
+
+		// Numerical confidence values
+		$levelValue = ["low" => -1, "medium" => 0, "high" => 1];
+
+		$userConfidences = ["overall" => array(), "correct" => array(), "incorrect" => array()];
+		$classConfidences = ["overall" => array(), "correct" => array(), "incorrect" => array()];
+
+		//Get all user answer attempts
+		$attempts = $statementHelper->getStatements("",[],[]);
+		foreach ($attempts["cursor"] as $statement) {
+			print_r($statement);
+		}
+		$this->view->disable();
+		//$this->view->statements = $attempts["cursor"];
+	}
 }

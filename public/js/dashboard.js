@@ -408,17 +408,8 @@ function setupConfidenceAverage() {
 			.attr("class", "axis x")
 			.call(axis);
 
-		//Single points that we'll be moving around
-		chart.append("circle")
-			.attr("fill", "rgb(255, 230, 0)")
-			.attr("cy", "37px")
-			.attr("class", "userPoint")
-			.attr("r", "10px");
-		chart.append("text")
-			.attr("y", "42px")
-			.attr("class", "userLabel")
-			.text("User");
-
+		//Single points and labels that we'll be moving around
+		// Class average
 		chart.append("circle")
 			.attr("fill", "rgb(255, 230, 0)")
 			.attr("cy", "20px")
@@ -429,6 +420,16 @@ function setupConfidenceAverage() {
 			.attr("class", "classLabel")
 			.text("Class");
 
+		// User average
+		chart.append("circle")
+			.attr("fill", "rgb(0, 187, 255)")
+			.attr("cy", "37px")
+			.attr("class", "userPoint")
+			.attr("r", "10px");
+		chart.append("text")
+			.attr("y", "42px")
+			.attr("class", "userLabel")
+			.text("User");
 
 		// TODO error checking
 		confidenceAverageData["user"]["overall"] = x(data["user"]["overall"]);

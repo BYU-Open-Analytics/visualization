@@ -1,0 +1,16 @@
+		<h4 class="info">Showing <?php echo $statements->count(); ?> statements from Open Assessments LRS</h4>
+		<pre>
+		<?php
+		foreach ($statements as $statement) {
+			print_r($statement);
+			//echo "<tr><td>{$name}</td><td>{$statement->verb->display->{'en-US'}}</td><td>{$statement->object->definition->name->{'en-US'}}</td><td>{$statement->timestamp}</td></tr>";
+			//$name = isset($statement->actor->name) ? $statement->actor->name : "";
+			//echo "<tr><td>{$name}</td><td>{$statement->verb->display->{'en-US'}}</td><td>{$statement->object->definition->name->{'en-US'}}</td><td>{$statement->timestamp}</td></tr>";
+		}
+		//echo "</table>";
+		//echo $this->tag->linkTo("ltiinfo", "View LTI session info");
+		//echo "<br />";
+		//echo $this->tag->linkTo("logout", "Log out");
+	} else {
+		echo "Error: $error";
+	}
