@@ -114,7 +114,7 @@ function updateBarGraph() {
 		.attr("height", function(d) { return height - y(d.value) + "px"; })
 }
 
-updateBarGraph();
+//updateBarGraph();
 
 
 // Open Assessments User Statistics Bar Graph
@@ -463,10 +463,24 @@ function updateConfidenceAverage() {
 		.attr("x", (parseFloat(classData) + 15) + "px");
 }
 
+function updateQuestionsTable() {
+	// Load stats data
+	// TODO don't use absolute url ref here
+	d3.json("/content_recommender_stats/questions_table", function(error, data) {
+		//Hide the loading spinner
+		$("#questionsTable .spinner").hide();
+		//Resize the svg container
+		//$("#ayamelStats svg").height(height+margin.top+margin.bottom).width(width+margin.left+margin.right);
+		console.log(error, data);
+	});
+}
+
+
 // When page is done loading, show our visualizations
 $(function() {
-	updateOpenAssessmentStats();
-	updateAyamelStats();
-	updateConfidencePie();
-	setupConfidenceAverage();
+	//updateOpenAssessmentStats();
+	//updateAyamelStats();
+	//updateConfidencePie();
+	//setupConfidenceAverage();
+	updateQuestionsTable();
 });
