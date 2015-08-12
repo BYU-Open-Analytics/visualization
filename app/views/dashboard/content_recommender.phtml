@@ -5,10 +5,35 @@ if ( $context->valid ) {
 <div id="visualizationContainer" class="container">
   <div class="row">
     <div id="questionsTable" class="col-md-6">
-      <h3>Quiz Questions</h3>
+      <div class="center-block"><h3>Quiz Questions</h3></div>
+      <table class="table table-striped table-hover">
+        <thead><tr><th>Question</th><th>Attempts</th><th>Correct</th></tr></thead>
+	<tr><td>Sample</td><td>10</td><td>No</td></tr>
+	<tr><td>Sample</td><td>5</td><td>Yes</td></tr>
+	<tr><td>Sample</td><td>12</td><td>No</td></tr>
+	<tr><td>Sample</td><td>1</td><td>No</td></tr>
+	<tr><td>Sample</td><td>7</td><td>Yes</td></tr>
+      </table>
     </div>
     <div id="videosTable" class="col-md-6">
-      <h3>Videos</h3>
+      <h3 class="center-block">Videos</h3>
+      <table class="table table-striped table-hover">
+        <thead><tr><th>Video Name</th><th>% Watched</th></tr></thead>
+	<tr><td>Video 1</td><td>
+                <div class="c100 p43 small">
+                    <span>43%</span>
+                    <div class="slice">
+                        <div class="bar"></div>
+                        <div class="fill"></div>
+                    </div>
+                </div>
+	</td></tr>
+	<tr><td>Video 2</td><td>50%</td></tr>
+	<tr><td>Video 3</td><td>20%</td></tr>
+	<tr><td>Video 4</td><td>87%</td></tr>
+	<tr><td>Video 5</td><td>12%</td></tr>
+	<tr><td>Video 6</td><td>47%</td></tr>
+      </table>
     </div>
   </div>
 </div>
@@ -39,8 +64,9 @@ if ( $context->valid ) {
 <?php
 echo Phalcon\Tag::javascriptInclude("js/content_recommender.js");
 echo Phalcon\Tag::stylesheetLink("css/content_recommender.css");
+echo Phalcon\Tag::stylesheetLink("css/circle_indicator.css");
 
 } else {
-	echo "Not logged in, or there was an LTI error. Try launching this app again.";
+	echo "<p class='bg-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";
 }
 

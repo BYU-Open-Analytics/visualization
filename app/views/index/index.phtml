@@ -1,9 +1,9 @@
 <?php
 
 if ($ltiContext->valid) {
-	echo "Logged in via LTI successfully!";
+	echo "<p class='bg-success'>Logged in via LTI successfully!</p>";
 } else {
-	echo "Not logged in, or there was an LTI error.";
+	echo "<p class='bg-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";
 }
 //echo "<br />";
 //echo $this->tag->linkTo("signup", "Link to do something!");

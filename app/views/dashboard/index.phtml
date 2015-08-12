@@ -75,5 +75,5 @@ if ( $context->valid ) {
 <?php
 echo Phalcon\Tag::javascriptInclude("js/dashboard.js");
 } else {
-	echo "Not logged in, or there was an LTI error. Try launching this app again.";
+	echo "<p class='bg-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";
 }
