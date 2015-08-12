@@ -11,7 +11,6 @@
 	echo Phalcon\Tag::stylesheetLink("css/bootstrap.min.css");
 	echo Phalcon\Tag::stylesheetLink("css/bootstrap-theme.min.css");
 	echo Phalcon\Tag::stylesheetLink("css/main.css");
-	echo Phalcon\Tag::stylesheetLink("css/dashboard.css");
 	?>
         <style>
             body {
@@ -43,7 +42,13 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
 	  <ul class="nav navbar-nav">
-	    <li><?php echo Phalcon\Tag::linkTo("dashboard","Dashboard"); ?></li>
+	    <li class="dropdown">
+	    	<?php echo Phalcon\Tag::linkTo(array("dashboard","Dashboard &#x25BE;", "data-target"=>"#", "data-toggle"=>"dropdown", "id"=>"dashboardDrop")); ?>
+		<ul class="dropdown-menu" aria-labelledby="dashboardDrop">
+	          <li><?php echo Phalcon\Tag::linkTo("dashboard","Main Dashboard"); ?></li>
+	          <li><?php echo Phalcon\Tag::linkTo("dashboard/content_recommender","Content Recommender"); ?></li>
+	        </ul>
+	    </li>
 	    <li><?php echo Phalcon\Tag::linkTo("statements","All Statements"); ?></li>
 	    <li><?php echo Phalcon\Tag::linkTo("ltiinfo","LTI Session Info"); ?></li>
 	    <li><?php echo Phalcon\Tag::linkTo(array("consumer.php?assessment_id=26","LTI Tool Consumer","target"=>"_blank")); ?></li>

@@ -1,1 +1,91 @@
 
+/* Statements */
+.statementTable {
+	border-collapse: collapse;
+}
+.statementTable td {
+	border: solid gray 1px;
+	padding: 4px;
+}
+.statementTable th {
+	border: solid gray 1px;
+	padding: 4px;
+	text-align: center;
+	background-color: #ddd;
+}
+
+/* Dashboard */
+.visualization {
+	border: solid gray 1px;
+	border-radius: 4px;
+	padding: 10px;
+	margin: 0px;
+}
+.visualization .spinner {
+	margin: 0 auto;
+	text-align: center;
+	display: block;
+}
+.visualization .spinner::after {
+	content: "Loading...";
+}
+
+.visualization text {
+	fill: white;
+	font: 10px Helvetica, sans-serif;
+	text-transform: capitalize;
+}
+.visualization .axis text {
+	fill: black!important;
+	font: 10px Helvetica, sans-serif;
+}
+.visualization .axis path, .visualization .axis line {
+	fill: none;
+	stroke: black;
+	shape-rendering: crispEdges;
+}
+.visualization .x.axis path {
+	display: none;
+}
+
+/* Specific visualizations */
+#confidenceAverage text {
+	fill: black;
+}
+#confidenceAverage .axis path {
+	display: inherit;
+	stroke: none;
+	fill: url(#confidenceGradient);
+}
+
+/* Tooltips */
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+  margin: 0px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+

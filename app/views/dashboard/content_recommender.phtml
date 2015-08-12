@@ -1,0 +1,46 @@
+<h2>Content Recommender Dashboard</h2>
+<?php
+if ( $context->valid ) {
+?>
+<div id="visualizationContainer" class="container">
+  <div class="row">
+    <div id="questionsTable" class="col-md-6">
+      <h3>Quiz Questions</h3>
+    </div>
+    <div id="videosTable" class="col-md-6">
+      <h3>Videos</h3>
+    </div>
+  </div>
+</div>
+
+<!-- <div class="visualization" id="openAssessmentStats" style="width: 450px; height: 390px;">
+	<h3>Open Assessments User Statistics</h3>
+	<span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
+	<svg width="0" height="0">
+	</svg>
+</div>
+<div class="modal fade" tabindex="-1" id="openAssessmentStatsModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Dialog Title</h4>
+			</div>
+			<div class="modal-body">
+				Load more related content here
+			</div>
+		</div>
+	</div>
+</div>
+
+</div>
+-->
+
+<?php
+echo Phalcon\Tag::javascriptInclude("js/content_recommender.js");
+echo Phalcon\Tag::stylesheetLink("css/content_recommender.css");
+
+} else {
+	echo "Not logged in, or there was an LTI error. Try launching this app again.";
+}
+

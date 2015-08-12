@@ -12,4 +12,10 @@ class DashboardController extends Controller
 		$context = $this->getDI()->getShared('ltiContext');
 		$this->view->context = $context;
 	}
+	public function content_recommenderAction() {
+		$this->tag->setTitle('Content Recommender Dashboard');
+		// Get our context (this takes care of starting the session, too)
+		$context = $this->getDI()->getShared('ltiContext');
+		$this->view->context = $context;
+	}
 }
