@@ -481,6 +481,7 @@ function updateVideosTable() {
 		$("#videosTable .spinner").hide();
 		console.log("csv", error, data);
 		// Filter the data to only show required
+		data = data.filter(function(d) { return d.optional != 1; });
 		var tbody = d3.select("#videosTable table tbody");
 		var tr = tbody.selectAll("tr")
 			.data(data)
