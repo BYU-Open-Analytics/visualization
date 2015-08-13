@@ -10,3 +10,8 @@ td {
 	/* Have to override bootstrap */
 	vertical-align: middle!important;
 }
+
+.progressCircle {
+	border: none;
+	background: transparent;
+}

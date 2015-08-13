@@ -473,9 +473,13 @@ function updateQuestionsTable() {
 		//$("#ayamelStats svg").height(height+margin.top+margin.bottom).width(width+margin.left+margin.right);
 		console.log("json", error, data);
 	});
-	d3.csv("/csv/ChemPathVideos.csv", function(error, data) {
-		console.log("csv", error, data);
+}
 
+function updateVideosTable() {
+	d3.csv("/csv/ChemPathVideos.csv", function(error, data) {
+		//Hide the loading spinner
+		$("#videosTable .spinner").hide();
+		console.log("csv", error, data);
 		// Filter the data to only show required
 		var tbody = d3.select("#videosTable table tbody");
 		var tr = tbody.selectAll("tr")
@@ -494,9 +498,11 @@ function updateQuestionsTable() {
 			.append("input")
 			.attr("type", "text")
 			.attr("class", "progressCircle")
+			.attr("disabled", "disabled")
 			.attr("value", function() { return Math.ceil(Math.random() * 100); });
 			
-		updateVideoProgressCircles();
+		// Don't stall the UI waiting for all these to finish drawing
+		setTimeout(updateVideoProgressCircles, 1);
 	});
 }
 
@@ -519,4 +525,5 @@ $(function() {
 	//updateConfidencePie();
 	//setupConfidenceAverage();
 	updateQuestionsTable();
+	updateVideosTable();
 });
