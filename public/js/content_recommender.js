@@ -483,4 +483,12 @@ $(function() {
 	//updateConfidencePie();
 	//setupConfidenceAverage();
 	updateQuestionsTable();
+	$(".progressCircle").knob({
+		'readOnly': true,
+		'width': '45',
+		'height': '45',
+		'thickness': '.25',
+		'fgColor': '#444',
+		'format': function(v) { return v+"%"; }
+	});
 });

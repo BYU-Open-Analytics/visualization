@@ -1,1 +1,12 @@
 /* Styles specific to content recommender dashboard */
+.colWatched {
+	width: 120px;
+}
+th:nth-child(2), td:nth-child(2) {
+	text-align: center;
+}
+
+td {
+	/* Have to override bootstrap */
+	vertical-align: middle!important;
+}
