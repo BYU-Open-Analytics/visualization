@@ -471,7 +471,43 @@ function updateQuestionsTable() {
 		$("#questionsTable .spinner").hide();
 		//Resize the svg container
 		//$("#ayamelStats svg").height(height+margin.top+margin.bottom).width(width+margin.left+margin.right);
-		console.log(error, data);
+		console.log("json", error, data);
+	});
+	d3.csv("/csv/ChemPathVideos.csv", function(error, data) {
+		console.log("csv", error, data);
+
+		// Filter the data to only show required
+		var tbody = d3.select("#videosTable table tbody");
+		var tr = tbody.selectAll("tr")
+			.data(data)
+			.enter()
+			.append("tr")
+			.attr("id", function(d) { return "videoRow"+d.ID; });
+
+		tr.append("td")
+			.html(function(d) { return d.chapter + "." + d.section + "." + d.group + "." + d.video; })
+			.attr("class","videoRefCell");
+		tr.append("td")
+			.html(function(d) { return d.title; })
+			.attr("class","videoTitleCell");
+		tr.append("td")
+			.append("input")
+			.attr("type", "text")
+			.attr("class", "progressCircle")
+			.attr("value", function() { return Math.ceil(Math.random() * 100); });
+			
+		updateVideoProgressCircles();
+	});
+}
+
+function updateVideoProgressCircles() {
+	$(".progressCircle").knob({
+		'readOnly': true,
+		'width': '45',
+		'height': '45',
+		'thickness': '.25',
+		'fgColor': '#444',
+		'format': function(v) { return v+"%"; }
 	});
 }
 
@@ -483,12 +519,4 @@ $(function() {
 	//updateConfidencePie();
 	//setupConfidenceAverage();
 	updateQuestionsTable();
-	$(".progressCircle").knob({
-		'readOnly': true,
-		'width': '45',
-		'height': '45',
-		'thickness': '.25',
-		'fgColor': '#444',
-		'format': function(v) { return v+"%"; }
-	});
 });

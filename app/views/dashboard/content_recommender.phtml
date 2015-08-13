@@ -19,14 +19,9 @@ if ( $context->valid ) {
       <h3 class="center-block">Videos</h3>
       <table class="table table-striped table-hover">
         <colgroup><col><col class="colWatched"></colgroup>
-        <thead><tr><th>Video Name</th><th>% Watched</th></tr></thead>
+        <thead><tr><th>&nbsp;</th><th>Video Name</th><th>% Watched</th></tr></thead>
 	<tbody>
-	  <tr><td>Video 1</td><td><input type="text" class="progressCircle" value="43"/></td></tr>
-	  <tr><td>Video 2</td><td>50%</td></tr>
-	  <tr><td>Video 3</td><td>20%</td></tr>
-	  <tr><td>Video 4</td><td>87%</td></tr>
-	  <tr><td>Video 5</td><td>12%</td></tr>
-	  <tr><td>Video 6</td><td>47%</td></tr>
+	  <tr><td>0.0.1</td><td>Video 1</td><td><input type="text" class="progressCircle" value="43"/></td></tr>
 	</tbody>
       </table>
     </div>
@@ -60,7 +55,6 @@ if ( $context->valid ) {
 echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.knob.min.js");
 echo Phalcon\Tag::javascriptInclude("js/content_recommender.js");
 echo Phalcon\Tag::stylesheetLink("css/content_recommender.css");
-echo Phalcon\Tag::stylesheetLink("css/circle_indicator.css");
 
 } else {
 	echo "<p class='bg-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";
