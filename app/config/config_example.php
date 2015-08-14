@@ -35,6 +35,8 @@ return array(
 			'password' => 'password'
 			)
 		),
+	//Open Assessments Base URL (for API calls)
+	'openassessments_endpoint' => 'http://ec2-52-26-250-81.us-west-2.compute.amazonaws.com/',
 	//Phalcon configuration
 	'base_uri' => '/visualization/'
 	);
