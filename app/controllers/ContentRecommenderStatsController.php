@@ -18,12 +18,15 @@ class ContentRecommenderStatsController extends Controller
 			echo '[{"error":"Invalid lti context"}]';
 			return;
 		}
+		// Get the Open Assessments API endpoint from config
+		$assessments_endpoint = $this->getDI()->getShared('config')->openassessments_endpoint;
 
 		// This contains our different data elements
 		$result = Array();
 		$statementHelper = new StatementHelper();
 
 		$questions = array();
+		$assessment_list = array();
 
 		//Get all attempts for the user
 		$attempts = $statementHelper->getStatements("openassessments",[
@@ -53,13 +56,39 @@ class ContentRecommenderStatsController extends Controller
 					if ($statement['statement']['result']['success'] == true) {
 						$questions[$id]['correct'] = true;
 					}
+					// Add this question's assessment id to the list of assessments we need to get question text for
+					preg_match('/assessments\/(.*)\.xml/', $id, $matches);
+					$assessment_list []= end($matches);
 				}
 			}
 			// Fetch question texts for all questions in the assessments
+			$assessment_ids = ["assessment_ids" => array_keys(array_flip($assessment_list))];
+			$request = $assessments_endpoint."api/question_text";
+			$session = curl_init($request);
+			curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($session, CURLOPT_POST, 1);
+			curl_setopt($session, CURLOPT_POSTFIELDS, json_encode($assessment_ids));
 
-			// get question id: end(explode("#",$url));
+			$response = curl_exec($session);
+
+			// Catch curl errors
+			if (curl_errno($session)) {
+				$error = "Curl error: " . curl_error($session);
+			}
+			curl_close($session);
+
+			$question_texts = json_decode($response, true);
+
 			foreach ($questions as $id => $q) {
-				$result []= ['id' => $id, 'attempts' => $q['attempts'], 'correct' => $q['correct']];
+				// Get assessment id
+				preg_match('/assessments\/(.*)\.xml/', $id, $matches);
+				$a_id= end($matches);
+				// Avoid off-by-one error. The question id from statement object id will be 1 to n+1
+				$q_id = end(explode("#",$id)) - 0;
+				// Make sure the question text exists before setting it
+				//echo $question_texts[$a_id][$q_id]." \n";
+				$question_text = isset($question_texts[$a_id][$q_id]) ? $question_texts[$a_id][$q_id] : "Error getting question text for $id";
+				$result []= ['id' => $id, 'attempts' => $q['attempts'], 'correct' => $q['correct'], 'text' => $question_text];
 			}
 			// Sort the results with highest number of attempts first
 			usort($result, function($a, $b) {
