@@ -472,6 +472,37 @@ function updateQuestionsTable() {
 		//Resize the svg container
 		//$("#ayamelStats svg").height(height+margin.top+margin.bottom).width(width+margin.left+margin.right);
 		console.log("json", error, data);
+		var columns = [
+			{ head: 'Question', cl: '', html: function(d) { return d.id; } },
+			{ head: 'Attempts', cl: '', html: function(d) { return d.attempts; } },
+			{ head: 'Correct', cl: function(d) { return d.correct ? 'bg-success' : 'bg-danger'; }, html: function(d) { return d.correct ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove"></span>'; } }
+		];
+		var table = d3.select("#questionsTable table");
+		table.append('thead').append('tr')
+			.selectAll('th')
+			.data(columns)
+			.enter()
+			.append('th')
+			.html(function(d) { return d.head; });
+
+		table.append('tbody')
+			.selectAll('tr')
+			.data(data).enter()
+			.append('tr')
+			.selectAll('td')
+			.data(function(row, i) {
+				return columns.map(function(c) {
+					var cell = {};
+					d3.keys(c).forEach(function(k) {
+						cell[k] = typeof c[k] == 'function' ? c[k](row,i) : c[k];
+					});
+					return cell;
+				});
+			}).enter()
+			.append('td')
+			.html(function(d) { return d.html; })
+			.attr('class', function(d) { return d.cl; });
+
 	});
 }
 
@@ -480,7 +511,7 @@ function updateVideosTable() {
 		//Hide the loading spinner
 		$("#videosTable .spinner").hide();
 		console.log("csv", error, data);
-		// Filter the data to only show required
+		// Filter the data to only show required videos
 		data = data.filter(function(d) { return d.optional != 1; });
 		var tbody = d3.select("#videosTable table tbody");
 		var tr = tbody.selectAll("tr")
