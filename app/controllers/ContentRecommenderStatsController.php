@@ -36,6 +36,7 @@ class ContentRecommenderStatsController extends Controller
 		if ($attempts["error"]) {
 			$result []= ["error" => $attempts["error"]];
 		} else {
+			// Calculate number of attempts and correct for each question
 			foreach ($attempts["cursor"] as $statement) {
 				// Since we're now doing more than just counting, we need to do processing that Learning Locker normally would first:
 				$statement = StatementHelper::replaceHtmlEntity($statement, true);
@@ -54,6 +55,9 @@ class ContentRecommenderStatsController extends Controller
 					}
 				}
 			}
+			// Fetch question texts for all questions in the assessments
+
+			// get question id: end(explode("#",$url));
 			foreach ($questions as $id => $q) {
 				$result []= ['id' => $id, 'attempts' => $q['attempts'], 'correct' => $q['correct']];
 			}
