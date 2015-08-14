@@ -31,7 +31,7 @@ function tableHelper(table, columns, data) {
 function updateQuestionsTable() {
 	// Load stats data
 	// TODO don't use absolute url ref here
-	d3.json("/content_recommender_stats/questions_table", function(error, data) {
+	d3.json("../content_recommender_stats/questions_table", function(error, data) {
 		//Hide the loading spinner
 		$("#questionsTable .spinner").hide();
 		// TODO error checking
@@ -47,7 +47,7 @@ function updateQuestionsTable() {
 
 // Videos table
 function updateVideosTable() {
-	d3.csv("/csv/ChemPathVideos.csv", function(error, data) {
+	d3.csv("../csv/ChemPathVideos.csv", function(error, data) {
 		//Hide the loading spinner
 		$("#videosTable .spinner").hide();
 		console.log("csv", error, data);
