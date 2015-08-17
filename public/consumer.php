@@ -48,16 +48,32 @@ if (!$context->valid) {
   // Load tool provider LTI details from config
   if (isset($_REQUEST["app"])) {
 	  $provider = $config["lti"][$_REQUEST["app"]];
+	  $app = $_REQUEST["app"];
   } else {
-	  $provider = $config["lti"]["openassessments"];
+	  die("No app to launch specified");
+  }
+
+  // Configure launch URL and params based on which app we're launching
+  switch ($app) {
+	case "ayamel":
+		// TODO maybe check here to make sure the video ID attempting to be launched is allowed?
+		// Put the video ID into the Ayamel launch URL
+		$endpoint = str_replace("{ID}",$_REQUEST["video_id"],$provider["launch_url"]);
+	  	break;
+	
+	case "openassessments":
+		// TODO maybe check here to make sure the assessment ID attempting to be launched is allowed?
+		$params = "?custom_assessment_id={$_REQUEST["assessment_id"]}";
+		$endpoint = $provider["launch_url"].$params;
+		break;
+	
+	default:
+		die("Invalid app!");
   }
 
   $cur_url = curPageURL();
   $key = $provider["lti_key"];
   $secret = $provider["lti_secret"];
-  // TODO we're not actually launching open assessments in production, so just make this ayamel-specific
-  $params = "?custom_assessment_id={$_REQUEST["assessment_id"]}";
-  $endpoint = $provider["launch_url"].$params;
 
   $tool_consumer_instance_guid = $lmsdata['tool_consumer_instance_guid'];
   $tool_consumer_instance_description = $lmsdata['tool_consumer_instance_description'];
@@ -65,7 +81,7 @@ if (!$context->valid) {
 ?>
 <html>
 <head>
-  <title>Ayamel Launch</title>
+  <title>Tool Launch</title>
 </head>
 <body style="font-family:sans-serif">
 <script language="javascript"> 
