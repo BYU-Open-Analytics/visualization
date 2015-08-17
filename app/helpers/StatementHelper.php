@@ -3,7 +3,95 @@
 use Phalcon\Mvc\User\Module;
 
 class StatementHelper extends Module {
+
+	// Build statements specific to the visualization app
+	public function buildStatement($params, $ltiContext) {
+		// $params will be an array if info needed for the statement type, sent from the frontend
+		$verbAuthority = "http://adlnet.gov/expapi/verbs/";
+		// TODO dashboard ids passed in might not have preceding slash, but they currently do
+		$objectAuthority = "http://byuopenanalytics.byu.edu";
+
+
+		if (!isset($params["statementName"])) {
+			return false;
+		}
+
+		// Set up the componenents of our statement
+		$actor = [];
+		$verb = [];
+		$verbName = "";
+		$object = [];
+		$context = [];
+		$result = [];
+
+		switch ($params['statementName']) {
+			case "dashboardLaunched":
+				$verbName = "launched";
+				$dashboardNames = [
+					"dashboardcontent_recommender" => "Content Recommender Dashboard",
+				];
+				$object = [
+					"id"		=> $objectAuthority.$params["dashboard"],
+					"definition"	=> ["name" => ["en-US" => $dashboardNames[str_replace('/','',$params["dashboard"])]]],
+				];
+				break;
+		}
+
+		// The actor will be the same for all our statement types
+		$actor["name"] = $ltiContext->getUserName();
+		$actor["mbox"] = "mailto:" . $ltiContext->getUserEmail();
+		$actor["objectType"] = "Agent";
+
+		$verb["id"] = $verbAuthority . $verbName;
+		$verb["display"] = ["en-US"=>ucfirst($verbName)];
+
+		// Include timestamp in all statements
+		$timestamp = isset($params["timestamp"]) ? $params["timestamp"] : date('c');
+
+		$statement = [
+			"actor"		=> $actor,
+			"verb"		=> $verb,
+			"object"	=> $object,
+			"context"	=> $context,
+			"result"	=> $result,
+			"timestamp" 	=> $timestamp
+		];
+
+		print_r($statement);
+
+		return $statement;
+	}
+
+	// Sends statements to the given LRS. $lrs should be one of the detail arrays in config.php
+	public function sendStatements($lrs, $statements) {
+		// Get the LRS details
+		$config = $this->getDI()->getShared('config');
+		$lrsConfig = $config->lrs->{$lrs};
+
+		$request = $lrsConfig->endpoint.'data/xAPI/statements';
+		$session = curl_init($request);
+		// TODO check for https
+		curl_setopt($session, CURLOPT_USERPWD, $lrsConfig->username . ":" . $lrsConfig->password);
+		curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+		curl_setopt($session, CURLOPT_POST, 1);
+		curl_setopt($session, CURLOPT_POSTFIELDS, json_encode($statements));
+		curl_setopt($session, CURLOPT_HTTPHEADER, array('X-Experience-API-Version: 1.0.0', 'Content-Type: application/json'));
+
+		echo json_encode($statements);
+		$response = curl_exec($session);
+
+		// Catch curl errors
+		if (curl_errno($session)) {
+			$error = "Curl error: " . curl_error($session);
+		}
+
+		curl_close($session);
+
+		$parsed = json_decode($response);
+		return $response;
+	}
 	
+	// Retrieves statements from the given LRS (or all LRSs if no $lrs specified). $lrs should be one of the detail arrays in config.php. $query should be a mongo aggregate pipeline. $fields is an array of fields to return.
 	public function getStatements($lrs, $query = array(), $fields = array()) {
 		//echo "getting statements!";
 		$error = "";

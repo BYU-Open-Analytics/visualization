@@ -65,6 +65,9 @@ try {
     // Handle the request
     $application = new Application($di);
 
+    // TODO take out error reporting for production
+    error_reporting(E_ALL);
+    ini_set('display_errors', 1);
     echo $application->handle()->getContent();
 
 } catch (\Exception $e) {

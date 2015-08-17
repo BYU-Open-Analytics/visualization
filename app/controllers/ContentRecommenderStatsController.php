@@ -53,7 +53,7 @@ class ContentRecommenderStatsController extends Controller
 						$questions[$id] = ['attempts'=>1, 'correct'=>false];
 					}
 					// We only need to know if they ever got this question right, so if any attempt is correct, mark it
-					if ($statement['statement']['result']['success'] == true) {
+					if (isset($statement['statement']['result']['success']) && $statement['statement']['result']['success'] == true) {
 						$questions[$id]['correct'] = true;
 					}
 					// Add this question's assessment id to the list of assessments we need to get question text for
@@ -83,7 +83,8 @@ class ContentRecommenderStatsController extends Controller
 				// Get assessment id
 				preg_match('/assessments\/(.*)\.xml/', $id, $matches);
 				$a_id= end($matches);
-				$q_id = end(explode("#",$id));
+				$id_explosion = explode("#",$id);
+				$q_id = end($id_explosion);
 				// Make sure the question text exists before setting it
 				// Avoid off-by-one error. The question id from statement object id will be 1 to n+1
 				$question_text = isset($question_texts[$a_id][$q_id-1]) ? $question_texts[$a_id][$q_id-1] : "Error getting question text for $a_id#$q_id";

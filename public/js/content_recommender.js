@@ -119,6 +119,13 @@ function updateVideoProgressCircles() {
 
 // When page is done loading, show our visualizations
 $(function() {
+
+	// Send dashboard launched statement
+	$.post("../xapi", {
+		statementName: 'dashboardLaunched',
+		dashboard: location.pathname,
+		timestamp: new Date().toISOString()
+	});
 	//updateOpenAssessmentStats();
 	//updateAyamelStats();
 	//updateConfidencePie();
