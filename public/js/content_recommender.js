@@ -123,7 +123,8 @@ $(function() {
 	// Send dashboard launched statement
 	sendStatement({
 		statementName: 'dashboardLaunched',
-		dashboard: location.pathname
+		dashboardID: 'content_recommender_dashboard',
+		dashboardName: 'Content Recommender Dashboard'
 	});
 	//updateOpenAssessmentStats();
 	//updateAyamelStats();

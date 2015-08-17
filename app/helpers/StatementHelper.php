@@ -8,8 +8,7 @@ class StatementHelper extends Module {
 	public function buildStatement($params, $ltiContext) {
 		// $params will be an array if info needed for the statement type, sent from the frontend
 		$verbAuthority = "http://adlnet.gov/expapi/verbs/";
-		// TODO dashboard ids passed in might not have preceding slash, but they currently do
-		$objectAuthority = "http://byuopenanalytics.byu.edu";
+		$objectAuthority = "http://byuopenanalytics.byu.edu/";
 
 
 		if (!isset($params["statementName"])) {
@@ -28,12 +27,9 @@ class StatementHelper extends Module {
 		switch ($params['statementName']) {
 			case "dashboardLaunched":
 				$verbName = "launched";
-				$dashboardNames = [
-					"dashboardcontent_recommender" => "Content Recommender Dashboard",
-				];
 				$object = [
-					"id"		=> $objectAuthority.$params["dashboard"],
-					"definition"	=> ["name" => ["en-US" => $dashboardNames[str_replace('/','',$params["dashboard"])]]],
+					"id"		=> $objectAuthority.$params["dashboardID"],
+					"definition"	=> ["name" => ["en-US" => $params["dashboardName"]]]
 				];
 				break;
 		}
