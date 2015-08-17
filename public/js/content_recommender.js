@@ -121,10 +121,9 @@ function updateVideoProgressCircles() {
 $(function() {
 
 	// Send dashboard launched statement
-	$.post("../xapi", {
+	sendStatement({
 		statementName: 'dashboardLaunched',
-		dashboard: location.pathname,
-		timestamp: new Date().toISOString()
+		dashboard: location.pathname
 	});
 	//updateOpenAssessmentStats();
 	//updateAyamelStats();
