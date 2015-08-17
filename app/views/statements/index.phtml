@@ -1,16 +1,18 @@
 <?php
 
-	if (count($statements) > 0) {
+if ( $context->valid ) {
+	if ($statements->count() > 0) {
 		?>
-		<h4 class="info">Showing <?php echo count($statements); ?> statements from Open Assessments LRS</h4>
+		<h4 class="info">Showing 100 most recent statements from current user</h4>
 		<table class="table table-striped">
 		<tr><th>Actor Name</th><th>Verb</th><th>Object</th><th>Timestamp</th></tr>
 		<?php
-		$name = $ltiContext->getUserName();
+		$name = $context->getUserName();
 		foreach ($statements as $statement) {
+			$statement = $statement['statement'];
 			//echo "<tr><td>{$name}</td><td>{$statement->verb->display->{'en-US'}}</td><td>{$statement->object->definition->name->{'en-US'}}</td><td>{$statement->timestamp}</td></tr>";
-			$name = isset($statement->actor->name) ? $statement->actor->name : "";
-			echo "<tr><td>{$name}</td><td>{$statement->verb->display->{'en-US'}}</td><td>{$statement->object->definition->name->{'en-US'}}</td><td>{$statement->timestamp}</td></tr>";
+			$name = isset($statement['actor']['name']) ? $statement['actor']['name'] : "";
+			echo "<tr><td>{$name}</td><td>{$statement['verb']['display']['en-US']}</td><td>{$statement['object']['definition']['name']['en-US']}</td><td>{$statement['timestamp']}</td></tr>";
 		}
 		echo "</table>";
 		echo $this->tag->linkTo("ltiinfo", "View LTI session info");
@@ -19,3 +21,6 @@
 	} else {
 		echo "Error: $error";
 	}
+} else {
+    echo "<p class='alert alert-danger'>Not logged in, or there was an LTI error. Try launching this app again. Could not establish context: ".$context->message."</p>";
+}

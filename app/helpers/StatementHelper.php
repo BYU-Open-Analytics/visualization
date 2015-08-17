@@ -17,12 +17,13 @@ class StatementHelper extends Module {
 		}
 
 		// Set up the componenents of our statement
-		$actor = [];
-		$verb = [];
+		// Can't use use $context = [], because if we don't add anything and it gets encoded as empty, Learning Locker doesn't like that the empty context is empty array [] instead of empty object {}.
+		$actor = new ArrayObject();
+		$verb = new ArrayObject();
 		$verbName = "";
-		$object = [];
-		$context = [];
-		$result = [];
+		$object = new ArrayObject();
+		$context = new ArrayObject();
+		$result = new ArrayObject();
 
 		switch ($params['statementName']) {
 			case "dashboardLaunched":
@@ -57,8 +58,6 @@ class StatementHelper extends Module {
 			"timestamp" 	=> $timestamp
 		];
 
-		print_r($statement);
-
 		return $statement;
 	}
 
@@ -77,7 +76,6 @@ class StatementHelper extends Module {
 		curl_setopt($session, CURLOPT_POSTFIELDS, json_encode($statements));
 		curl_setopt($session, CURLOPT_HTTPHEADER, array('X-Experience-API-Version: 1.0.0', 'Content-Type: application/json'));
 
-		echo json_encode($statements);
 		$response = curl_exec($session);
 
 		// Catch curl errors
