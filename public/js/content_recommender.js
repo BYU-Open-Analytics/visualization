@@ -47,6 +47,7 @@ function updateQuestionsTable() {
 
 // Videos table
 function updateVideosTable() {
+	// TODO absolute URL ref fix
 	d3.csv("../csv/ChemPathVideos.csv", function(error, data) {
 		//Hide the loading spinner
 		$("#videosTable .spinner").hide();
@@ -69,7 +70,8 @@ function updateVideosTable() {
 			.html(function(d) { return d.chapter + "." + d.section + "." + d.group + "." + d.video; })
 			.attr("class","videoRefCell");
 		tr.append("td")
-			.html(function(d) { return d.title; })
+			// TODO absolute URL ref fix
+			.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d.ID + '">' + d.title + '</a>'; })
 			.attr("class","videoTitleCell");
 		tr.append("td")
 			.append("input")
