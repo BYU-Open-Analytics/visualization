@@ -6,12 +6,29 @@ th:last-child, td:last-child {
 	text-align: center;
 }
 
+table {
+}
+
 td {
+	word-wrap: break-word;
 	/* Have to override bootstrap */
 	vertical-align: middle!important;
+}
+
+.videoProgressCell, .questionCorrectCell, .questionAttemptsCell {
+	text-align: center;
+}
+
+.questionNumberCell, .videoRefCell {
+	text-align: right;
+}
+
+.questionLaunchCell {
+	font-size: 150%;
 }
 
 .progressCircle {
 	border: none;
 	background: transparent;
 }
+

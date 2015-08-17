@@ -1,5 +1,12 @@
 // Table helper function that uses d3 to create a table based on column information and data passed
 function tableHelper(table, columns, data) {
+	table.append('colgroup')
+		.select('col')
+		.data(columns)
+		.enter()
+		.append('col')
+		.attr('class', function(d) { return d.cl; });
+
 	table.append('thead').append('tr')
 		.selectAll('th')
 		.data(columns)
@@ -36,14 +43,26 @@ function updateQuestionsTable() {
 		$("#questionsTable .spinner").hide();
 		// TODO error checking
 		var columns = [
-			{ head: 'Question', cl: '', html: function(d) { return d.text; } },
-			{ head: 'Attempts', cl: '', html: function(d) { return d.attempts; } },
-			{ head: 'Correct', cl: function(d) { return d.correct ? 'bg-success' : 'bg-danger'; }, html: function(d) { return d.correct ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove"></span>'; } }
+			{ head: '', cl: 'questionNumberCell', html: function(d) { return d.question_id + "."; } },
+			{ head: 'Question', cl: 'questionTextCell', html: function(d) { return d.text; } },
+			{ head: 'Attempts', cl: 'questionAttemptsCell', html: function(d) { return d.attempts; } },
+			{ head: 'Correct', cl: function(d) { return 'questionCorrectCell ' + (d.correct ? 'bg-success' : 'bg-danger'); }, html: function(d) { return d.correct ? '<span class="glyphicon glyphicon-ok"></span>' : '<span class="glyphicon glyphicon-remove"></span>'; } },
+			// TODO absolute URL ref fix
+			{ head: 'Launch Quiz', cl: 'questionLaunchCell', html: function(d) { return '<a data-toggle="modal" data-target="#questionLaunchModal" data-assessment="' + d.assessment_id + '" data-question="' + d.question_id + '" href="#"><span class="glyphicon glyphicon-log-in"></span></a>'; } }
 		];
 		var table = d3.select("#questionsTable table");
 		tableHelper(table, columns, data);
 	});
 }
+
+// Question Launch Modal
+$("#questionLaunchModal").on("show.bs.modal", function(e) {
+	console.log(e);
+	$(this).find(".btn-primary").attr('href','../consumer.php?app=openassessments&assessment_id=' + $(e.relatedTarget).attr('data-assessment') + '&question_id=' + $(e.relatedTarget).attr('data-question'));
+});
+$("#questionLaunchContinueButton").click(function(e) {
+	$("#questionLaunchModal").modal("hide");
+});
 
 // Videos table
 function updateVideosTable() {
@@ -74,6 +93,7 @@ function updateVideosTable() {
 			.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d.ID + '">' + d.title + '</a>'; })
 			.attr("class","videoTitleCell");
 		tr.append("td")
+			.attr("class", "videoProgressCell")
 			.append("input")
 			.attr("type", "text")
 			.attr("class", "progressCircle")

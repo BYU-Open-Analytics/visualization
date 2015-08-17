@@ -87,8 +87,8 @@ class ContentRecommenderStatsController extends Controller
 				$q_id = end(explode("#",$id)) - 0;
 				// Make sure the question text exists before setting it
 				//echo $question_texts[$a_id][$q_id]." \n";
-				$question_text = isset($question_texts[$a_id][$q_id]) ? $question_texts[$a_id][$q_id] : "Error getting question text for $id";
-				$result []= ['id' => $id, 'attempts' => $q['attempts'], 'correct' => $q['correct'], 'text' => $question_text];
+				$question_text = isset($question_texts[$a_id][$q_id]) ? $question_texts[$a_id][$q_id] : "Error getting question text for $a_id#$q_id";
+				$result []= ['assessment_id' => $a_id, 'question_id' => $q_id, 'attempts' => $q['attempts'], 'correct' => $q['correct'], 'text' => $question_text];
 			}
 			// Sort the results with highest number of attempts first
 			usort($result, function($a, $b) {

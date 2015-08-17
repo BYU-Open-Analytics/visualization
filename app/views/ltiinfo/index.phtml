@@ -1,6 +1,7 @@
 <h2>LTI Session Information</h2>
 <?php
 if ( $context->valid ) {
+    echo "<p class='alert alert-success'>Logged in via LTI successfully!</p>";
     print "<pre>\n";
     print "Context Information:\n\n";
     print $context->dump();
@@ -8,5 +9,5 @@ if ( $context->valid ) {
     print_r($context->info);
     print "</pre>\n";
 } else {
-    echo "<p class='bg-danger'>Not logged in, or there was an LTI error. Try launching this app again. Could not establish context: ".$context->message."</p>";
+    echo "<p class='alert alert-danger'>Not logged in, or there was an LTI error. Try launching this app again. Could not establish context: ".$context->message."</p>";
 }
