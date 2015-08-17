@@ -65,7 +65,7 @@ if (!$context->valid) {
 		// TODO maybe check here to make sure the assessment ID attempting to be launched is allowed?
 		$params = "?custom_assessment_id={$_REQUEST["assessment_id"]}";
 		if (isset($_REQUEST["question_id"])) {
-			$params .= "&question_focus=$question_id";
+			$params .= "&question_focus=".$_REQUEST["question_id"];
 		}
 		$endpoint = $provider["launch_url"].$params;
 		break;

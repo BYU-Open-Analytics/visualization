@@ -23,6 +23,11 @@ td {
 	text-align: right;
 }
 
+.questionTextCell img {
+	/* Don't let images in questions break the table layout */
+	max-width: 150px;
+}
+
 .questionLaunchCell {
 	font-size: 150%;
 }

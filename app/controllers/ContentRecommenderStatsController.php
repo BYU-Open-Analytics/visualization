@@ -83,11 +83,11 @@ class ContentRecommenderStatsController extends Controller
 				// Get assessment id
 				preg_match('/assessments\/(.*)\.xml/', $id, $matches);
 				$a_id= end($matches);
-				// Avoid off-by-one error. The question id from statement object id will be 1 to n+1
-				$q_id = end(explode("#",$id)) - 0;
+				$q_id = end(explode("#",$id));
 				// Make sure the question text exists before setting it
-				//echo $question_texts[$a_id][$q_id]." \n";
-				$question_text = isset($question_texts[$a_id][$q_id]) ? $question_texts[$a_id][$q_id] : "Error getting question text for $a_id#$q_id";
+				// Avoid off-by-one error. The question id from statement object id will be 1 to n+1
+				$question_text = isset($question_texts[$a_id][$q_id-1]) ? $question_texts[$a_id][$q_id-1] : "Error getting question text for $a_id#$q_id";
+
 				$result []= ['assessment_id' => $a_id, 'question_id' => $q_id, 'attempts' => $q['attempts'], 'correct' => $q['correct'], 'text' => $question_text];
 			}
 			// Sort the results with highest number of attempts first
