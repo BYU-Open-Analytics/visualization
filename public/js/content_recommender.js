@@ -90,7 +90,7 @@ function updateVideosTable() {
 			.attr("class","videoRefCell");
 		tr.append("td")
 			// TODO absolute URL ref fix
-			.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d.ID + '">' + d.title + '</a>'; })
+			.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d.ID + '" target="_blank">' + d.title + '</a>'; })
 			.attr("class","videoTitleCell");
 		tr.append("td")
 			.attr("class", "videoProgressCell")
