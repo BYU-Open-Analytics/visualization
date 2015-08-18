@@ -32,6 +32,13 @@ class StatementHelper extends Module {
 					"definition"	=> ["name" => ["en-US" => $params["dashboardName"]]]
 				];
 				break;
+			case "dashboardExited":
+				$verbName = "exited";
+				$object = [
+					"id"		=> $objectAuthority.$params["dashboardID"],
+					"definition"	=> ["name" => ["en-US" => $params["dashboardName"]]]
+				];
+				break;
 		}
 
 		// The actor will be the same for all our statement types

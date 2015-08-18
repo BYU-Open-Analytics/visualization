@@ -3,3 +3,13 @@ function sendStatement(params) {
 	// TODO absolute url ref fix
 	$.post("../xapi", params);
 }
+function sendExitStatement()
+{
+	sendStatement({
+		statementName: "dashboardExited"
+	});
+}
+
+$(function() {
+	window.onbeforeunload = sendExitStatement;
+});
