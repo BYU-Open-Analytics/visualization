@@ -17,12 +17,22 @@ class StudentSkillsStatsController extends Controller
 			return;
 		}
 		$stats = [
-			'timeManagement' => rand(1,10),
-			'onlineActivity' => rand(1,10),
-			'selfRegulation' => rand(1,10),
-			'selfEfficacy' => rand(1,10),
-			'consistency' => rand(1,10),
-			'earlyBird' => rand(1,10)
+		    'student' => [
+			['axis' => 'timeManagement', 'value' => rand(1,10)],
+			['axis' => 'onlineActivity', 'value' => rand(1,10)],
+			['axis' => 'selfRegulation', 'value' => rand(1,10)],
+			['axis' => 'selfEfficacy', 'value' => rand(1,10)],
+			['axis' => 'consistency', 'value' => rand(1,10)],
+			['axis' => 'earlyBird', 'value' => rand(1,10)]
+		    ],
+		    'class' => [
+			['axis' => 'timeManagement', 'value' => 5],
+			['axis' => 'onlineActivity', 'value' => 5],
+			['axis' => 'selfRegulation', 'value' => 5],
+			['axis' => 'selfEfficacy', 'value' => 5],
+			['axis' => 'consistency', 'value' => 5],
+			['axis' => 'earlyBird', 'value' => 5]
+		    ]
 		];
 		echo json_encode($stats);
 	}

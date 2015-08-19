@@ -1,12 +1,12 @@
-<h2>Content Recommender Dashboard</h2>
+<h2>Student Skills<small>— currently random numbers</small></h2>
 <?php
 if ( $context->valid ) {
 ?>
 <div id="visualizationContainer" class="container">
   <div class="row">
-    <div id="radarTable" class="col-md-6">
-      <div class=""><h3>Student Skills<small>— currently random numbers</small></h3></div>
+    <div id="radarContainer" class="col-md-6">
       <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
+	<div id="radarChart"></div>
     </div>
   </div>
 </div>
