@@ -1,26 +1,27 @@
 <?php
 // Load up the Basic LTI Support code
-require_once 'ims-blti/blti.php';
+require_once '../app/library/ims_lti/blti.php';
 
-$context = new BLTI('moocs_are_great', false, false);
+//Get lti key and secret from app's config file
+$config = require('../app/config/config.php');
+$context = new BLTI($config["lti"]["launch"], false, false);
 if ( ! $context->valid ) {
     print "<p style=\"color:red\">Could not establish context: ".$context->message."<p>\n";
     die();
 }
 
-
 $qualtrix_survey_id = $_GET['SID'];
 $user_token = $_POST['user_id']; // note: this is an "anonymized" 320bit hash
-$link_label = $_GET['l'];
+$survey_version = $_GET['version'];
+$link_label = "Launch Survey";
 
 $get_array = array(
     'SID' => $qualtrix_survey_id,
     'a' => $user_token,
+    'version' => $survey_version,
 );
 
-$redirect_url = 'https://stanforduniversity.qualtrics.com/SE/';
-//header("Location: $redirect_url");
-//die();
+$redirect_url = 'https://qtrial2015az1.az1.qualtrics.com/SE/';
 ?>
 <html>
 <head>
@@ -30,16 +31,16 @@ $redirect_url = 'https://stanforduniversity.qualtrics.com/SE/';
     </style>
 </head>
 <body>
-    <form method="GET" action="<?php echo $redirect_url; ?>" target="_blank">
+    <form method="GET" action="<?php echo $redirect_url; ?>">
         <?php
             foreach ($get_array as $key => $val) {
                 echo "<input type=\"hidden\" name=\"$key\" value=\"$val\">";
             }
         ?>
-        <input id="submit_button" type="submit" value="<?php echo $link_label; ?>">
+        <input id="submit_button" name="ext_submit" type="submit" value="<?php echo $link_label; ?>">
     </form>
     <script>
-        window.parent.document.getElementById("basicltiLaunchFrame").height = "130px";
+	document.getElementsByName("ext_submit")[0].click();
     </script>
 </body>
 </html>
