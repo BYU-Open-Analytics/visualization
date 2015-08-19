@@ -1,0 +1,40 @@
+<h2>Student Skills<small>— currently random numbers</small></h2>
+<?php
+if ( $context->valid ) {
+?>
+<div id="visualizationContainer" class="container">
+  <div class="row">
+    <div id="radarContainer" class="col-md-6">
+      <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
+	<div id="radarChart"></div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" tabindex="-1" id="questionLaunchModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">This quiz is for practice only.</h4>
+			</div>
+			<div class="modal-body">
+				To have this quiz count for your grade, launch this quiz through Learning Suite.
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Do not launch</button>
+				<a href="#" target="_blank" id="questionLaunchContinueButton" type="button" class="btn btn-primary">Continue to practice</a>
+		</div>
+	</div>
+</div>
+
+
+<?php
+echo Phalcon\Tag::javascriptInclude("js/vendor/d3-radar.js");
+echo Phalcon\Tag::javascriptInclude("js/student_skills.js");
+echo Phalcon\Tag::stylesheetLink("css/student_skills.css");
+
+} else {
+	echo "<p class='alert alert-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";
+}
+

@@ -10,9 +10,9 @@ if ( $context->valid ) {
 		$name = $context->getUserName();
 		foreach ($statements as $statement) {
 			$statement = $statement['statement'];
-			//echo "<tr><td>{$name}</td><td>{$statement->verb->display->{'en-US'}}</td><td>{$statement->object->definition->name->{'en-US'}}</td><td>{$statement->timestamp}</td></tr>";
 			$name = isset($statement['actor']['name']) ? $statement['actor']['name'] : "";
-			echo "<tr><td>{$name}</td><td>{$statement['verb']['display']['en-US']}</td><td>{$statement['object']['definition']['name']['en-US']}</td><td>{$statement['timestamp']}</td></tr>";
+			$object = isset($statement['object']['definition']['name']['en-US']) ? $statement['object']['definition']['name']['en-US'] : "";
+			echo "<tr><td>{$name}</td><td>{$statement['verb']['display']['en-US']}</td><td>{$object}</td><td>{$statement['timestamp']}</td></tr>";
 		}
 		echo "</table>";
 		echo $this->tag->linkTo("ltiinfo", "View LTI session info");

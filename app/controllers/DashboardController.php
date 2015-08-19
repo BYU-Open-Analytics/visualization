@@ -18,4 +18,10 @@ class DashboardController extends Controller
 		$context = $this->getDI()->getShared('ltiContext');
 		$this->view->context = $context;
 	}
+	public function student_skillsAction() {
+		$this->tag->setTitle('Student Skills Dashboard');
+		// Get our context (this takes care of starting the session, too)
+		$context = $this->getDI()->getShared('ltiContext');
+		$this->view->context = $context;
+	}
 }
