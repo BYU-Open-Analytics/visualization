@@ -11,7 +11,7 @@ function updateRadarChart() {
 	var radarConfig = {
 		w: 500,
 		h: 500,
-		maxValue: 1,
+		maxValue: 10,
 		levels: 10,
 		ExtraWidthX: 300
 	};
@@ -24,8 +24,8 @@ function updateRadarChart() {
 		console.log(data, error);
 		// TODO error checking
 		// Format data
-		var studentData = data.student.map(function(d) { return {axis:d.axis, value:(d.value / 10)}; });
-		var classData = data.class.map(function(d) { return {axis:d.axis, value:(d.value / 10)}; });
+		var studentData = data.student.map(function(d) { return {axis:d.axis, value:(d.value)}; });
+		var classData = data.class.map(function(d) { return {axis:d.axis, value:(d.value)}; });
 		// Draw the radar chart
 		RadarChart.draw("#radarChart", [classData, studentData], radarConfig);
 
