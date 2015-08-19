@@ -38,6 +38,9 @@ class StatementHelper extends Module {
 					"id"		=> $objectAuthority.$params["dashboardID"],
 					"definition"	=> ["name" => ["en-US" => $params["dashboardName"]]]
 				];
+				$result = [
+					"duration"	=> $params["duration"]
+				];
 				break;
 		}
 
