@@ -17,7 +17,7 @@ $link_label = "Launch Survey";
 
 $get_array = array(
     'SID' => $qualtrix_survey_id,
-    'a' => $user_token,
+    'userid' => $user_token,
     'version' => $survey_version,
 );
 
