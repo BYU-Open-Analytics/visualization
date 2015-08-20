@@ -5,7 +5,7 @@ use Phalcon\Mvc\View;
 use Phalcon\Mvc\Application;
 use Phalcon\DI\FactoryDefault;
 use Phalcon\Mvc\Url as UrlProvider;
-use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
+use Phalcon\Db\Adapter\Pdo\Sqlite as DbAdapter;
 
 try {
 
@@ -40,10 +40,7 @@ try {
     // Setup the database service
     $di->set('db', function() use ($config) {
 	    return new DbAdapter(array(
-	    	"host"		=> $config["database_host"],
-		"username"	=> $config["database_username"],
-		"password"	=> $config["database_password"],
-		"dbname"	=> $config["database_name"]
+		"dbname"	=> $config->visualization_database->dbname
 	    ));
     });
 

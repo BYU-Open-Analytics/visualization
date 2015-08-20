@@ -104,8 +104,8 @@ class StatementHelper extends Module {
 		$config = $this->getDI()->getShared('config');
 
 		// Connect to database
-		$m = new MongoClient("mongodb://{$config->database->username}:{$config->database->password}@{$config->database->host}/{$config->database->dbname}");
-		$db = $m->{$config->database->dbname};
+		$m = new MongoClient("mongodb://{$config->lrs_database->username}:{$config->lrs_database->password}@{$config->lrs_database->host}/{$config->lrs_database->dbname}");
+		$db = $m->{$config->lrs_database->dbname};
 
 		// Query statements
 		$collection = $db->statements;

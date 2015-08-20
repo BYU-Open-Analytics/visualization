@@ -6,11 +6,25 @@ class DashboardController extends Controller
 {
 	public function initialize() {
 		$this->tag->setTitle('Visualization Dashboard');
-	}
-	public function indexAction() {
+
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
 		$this->view->context = $context;
+		// Fetch user settings
+		$currentSettings = UserSettings::query()
+				->where("userId = :userId:")
+				->bind(["userId" => $context->getUserKey()])
+				->execute();
+		$this->view->currentSettings = $currentSettings;
+	}
+	public function indexAction() {
+		$context = $this->getDI()->getShared('ltiContext');
+
+		$setting = new UserSettings();
+		$setting->userId = $context->getUserKey();
+		$setting->name = "test";
+		$setting->value = "randomvalue";
+		$setting->save();
 	}
 	public function content_recommenderAction() {
 		$this->tag->setTitle('Content Recommender Dashboard');

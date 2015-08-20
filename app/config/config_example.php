@@ -1,8 +1,12 @@
 <?php
 
 return array(
-	//MongoDB Database details
-	'database' => array(
+	//SQLite Database details: stores cached calculations, and user settings
+	'visualization_database' => array(
+		'dbname' => '/opt/db/vis.sqlite'
+		),
+	//MongoDB Learning Locker Database details
+	'lrs_database' => array(
 		'host' => 'localhost',
 		'username' => 'lti',
 		'password' => 'ltitest',
