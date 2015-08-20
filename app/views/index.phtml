@@ -43,16 +43,16 @@
         <div id="navbar" class="navbar-collapse collapse">
 	  <ul class="nav navbar-nav">
 	    <li class="dropdown">
-	    	<?php echo Phalcon\Tag::linkTo(array("dashboard","Dashboard &#x25BE;", "data-target"=>"#", "data-toggle"=>"dropdown", "id"=>"dashboardDrop")); ?>
+	    	<?php echo Phalcon\Tag::linkTo(array("dashboard","Dashboards &#x25BE;", "data-target"=>"#", "data-toggle"=>"dropdown", "id"=>"dashboardDrop")); ?>
 		<ul class="dropdown-menu" aria-labelledby="dashboardDrop">
 	          <li><?php echo Phalcon\Tag::linkTo("dashboard","Main Dashboard"); ?></li>
 	          <li><?php echo Phalcon\Tag::linkTo("dashboard/content_recommender","Content Recommender"); ?></li>
 	          <li><?php echo Phalcon\Tag::linkTo("dashboard/student_skills","Student Skills"); ?></li>
 	        </ul>
 	    </li>
-	    <li><?php echo Phalcon\Tag::linkTo("statements","All Statements"); ?></li>
+	    <li><?php echo Phalcon\Tag::linkTo("statements","Recent Statements"); ?></li>
 	    <li><?php echo Phalcon\Tag::linkTo("ltiinfo","LTI Session Info"); ?></li>
-	    <li><?php echo Phalcon\Tag::linkTo(array("consumer.php?assessment_id=26","LTI Tool Consumer","target"=>"_blank")); ?></li>
+	    <li><?php echo Phalcon\Tag::linkTo(array("consumer.php?app=openassessments&assessment_id=26","LTI Tool Consumer","target"=>"_blank")); ?></li>
 	  </ul>
           <div class="navbar-form navbar-right" role="form">
 	    <?php if ($this->ltiContext->valid) {
