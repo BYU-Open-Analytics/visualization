@@ -57,7 +57,6 @@ function updateQuestionsTable() {
 
 // Question Launch Modal
 $("#questionLaunchModal").on("show.bs.modal", function(e) {
-	console.log(e);
 	$(this).find(".btn-primary").attr('href','../consumer.php?app=openassessments&assessment_id=' + $(e.relatedTarget).attr('data-assessment') + '&question_id=' + $(e.relatedTarget).attr('data-question'));
 });
 $("#questionLaunchContinueButton").click(function(e) {
@@ -70,7 +69,7 @@ function updateVideosTable() {
 	d3.csv("../csv/ChemPathVideos.csv", function(error, data) {
 		//Hide the loading spinner
 		$("#videosTable .spinner").hide();
-		console.log("csv", error, data);
+		//console.log("csv", error, data);
 		// Filter the data to only show required videos
 		data = data.filter(function(d) { return d.optional != 1; });
 		//var columns = [
@@ -116,20 +115,66 @@ function updateVideoProgressCircles() {
 	});
 }
 
+// Toggles on right of page to change what we're showing
+function changeView(optionName, optionValue) {
+	console.log(optionName, optionValue);
+	switch (optionName) {
+		case "simple":
+			console.log("Changing to simple view");
+			break;
+		case "more":
+			console.log("Changing to more view");
+			break;
+		case "scatterplot":
+			console.log("Changing to scatterplot view");
+			break;
+		case "masteryGraph":
+			console.log("Changing to mastery graph view");
+			break;
+		case "all":
+			console.log("Changing to all view");
+			break;
+		case "moreClass":
+			console.log("Changing to more + class compare view");
+			break;
+		case "scatterplotClass":
+			console.log("Changing to scatterplot + class compare view");
+			break;
+	}
+			//simple,more,scatterplot,masteryGraph,all, moreClass, scatterplotClass
+}
 
 // When page is done loading, show our visualizations
 $(function() {
-
 	// Send dashboard launched statement
 	sendStatement({
 		statementName: 'dashboardLaunched',
 		dashboardID: 'content_recommender_dashboard',
 		dashboardName: 'Content Recommender Dashboard'
 	});
-	//updateOpenAssessmentStats();
-	//updateAyamelStats();
-	//updateConfidencePie();
-	//setupConfidenceAverage();
+
+	// Set up event listeneres
+	$("#jumbotronDismiss").click(function() {
+		$("#"+$(this).attr("data-dismiss")).hide();
+		$("#mainContainer").removeClass("hidden").addClass("show");
+	});
+	$(".advancedToggle").click(function() {
+		// Deselect other options
+		$(".advancedToggleLi").removeClass("active");
+		// Select this option
+		$(this).parent(".advancedToggleLi").addClass("active");
+		changeView($(this).attr("data-option"));
+		return false;
+	});
+	$(".advancedToggleOptional").change(function(event) {
+		changeView($(this).attr("data-option"), this.checked);
+		event.stopPropagation();
+		event.preventDefault();
+	});
+	
+	// Load data
 	updateQuestionsTable();
 	updateVideosTable();
+	// Go to simple view first
+	changeAdvancedSettings("simple");
 });

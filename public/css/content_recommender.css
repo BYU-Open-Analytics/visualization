@@ -37,3 +37,17 @@ td {
 	background: transparent;
 }
 
+/* Concepts */
+
+/* Recommendations */
+
+/* Advanced */
+.advancedToggleOptional {
+	display: none;
+}
+.advancedToggleLi.active .advancedToggleOptional {
+	display: block!important;
+}
+.advancedToggleOptional input {
+	margin-left: 20px;
+}

@@ -1,8 +1,115 @@
-<h2>Content Recommender Dashboard</h2>
 <?php
 if ( $context->valid ) {
 ?>
-<div id="visualizationContainer" class="container">
+
+<!-- Welcome jumbotron message -->
+<div class="jumbotron" id="welcomeJumbotron">
+  <h1>Welcome!</h1>
+  <p>This dashboard will display recommendations to you about which videos and quizzes should be reviewed, based on your online activity.</p>
+  <p><button class="btn btn-primary btn-large" data-dismiss="welcomeJumbotron" id="jumbotronDismiss">Continue to Dashboard</button></p>
+</div>
+
+<div id="mainContainer" class="container">
+  <div class="row">
+    <!-- Concepts -->
+    <div id="conceptsSection" class="col-md-4">
+      <h3>Strongest Concepts</h3>
+        <ul id="strongestConceptsList">
+          <li>Chapter 1 - Concept A</li>
+          <li>Chapter 1 - Concept B</li>
+          <li>Chapter 1 - Concept C</li>
+        </ul>
+      <h3>Weakest Concepts</h3>
+        <ul id="weakestConceptsList">
+          <li>Chapter 1 - Concept D</li>
+          <li>Chapter 1 - Concept E</li>
+          <li>Chapter 2 - Concept A</li>
+        </ul>
+    </div>
+
+    <!-- Recommendations -->
+    <div id="recommendationsSection" class="col-md-5">
+      <h3>Recommendations</h3>
+        <div class="panel-group" id="recommendationsAccordion" role="tablist">
+          <!-- Group 1 -->
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend1">Try these quiz questions (Group 1)</a></h4>
+            </div>
+            <div id="recommend1" class="panel-collapse collapse in">
+              <div class="panel-body">
+                <ul>
+                  <li>Chapter 1 - Concept D - Quiz Question 1</li>
+                  <li>Chapter 1 - Concept D - Quiz Question 3</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- Group 2 -->
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend2">Watch these videos before attempting these quiz questions (Group 2)</a></h4>
+            </div>
+            <div id="recommend2" class="panel-collapse collapse">
+              <div class="panel-body">
+                <ul>
+                  <li>Chapter 1 - Concept D - Quiz Question 1</li>
+                  <li>Chapter 1 - Concept D - Quiz Question 3</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- Group 3 -->
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend3">Find additional help (Group 3)</a></h4>
+            </div>
+            <div id="recommend3" class="panel-collapse collapse">
+              <div class="panel-body">
+                <ul>
+                  <li>Chapter 1 - Concept D - Quiz Question 1</li>
+                  <li>Chapter 1 - Concept D - Quiz Question 3</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <!-- Group 4 -->
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend4">Practice these questions again (Group 4)</a></h4>
+            </div>
+            <div id="recommend4" class="panel-collapse collapse">
+              <div class="panel-body">
+                <ul>
+                  <li>Chapter 1 - Concept D - Quiz Question 1</li>
+                  <li>Chapter 1 - Concept D - Quiz Question 3</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+       </div>
+    </div>
+
+    <!-- Advanced -->
+    <div id="advancedSection" class="col-sm-3">
+      <h3>Advanced</h3>
+      <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" class="advancedToggleLi active"><a id="advancedToggleSimple" class="advancedToggle" data-option="simple" href="#">See simple view</a></li>
+        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleMore" class="advancedToggle" data-option="more" href="#">See more details</a><div class="advancedToggleOptional"><input id="advancedToggleMoreClass" class="advancedToggleOptional" data-option="moreClass" type="checkbox" />&nbsp;<label for="advancedToggleMoreClass">Compare to class</label></div></li>
+        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleScatterplot" class="advancedToggle" data-option="scatterplot" href="#">See scatterplot for these concepts</a><div class="advancedToggleOptional"><input id="advancedToggleScatterplotClass" class="advancedToggleOptional" data-option="scatterplotClass" type="checkbox" />&nbsp;<label for="advancedToggleMoreClass">Compare to class</label></div></li>
+        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleMasteryGraph" class="advancedToggle" data-option="masteryGraph" href="#">See my concept mastery graph</a></li>
+        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleAll" class="advancedToggle" data-option="all" href="#">See all recommendations for all concepts</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- This is the existing content recommender stuff -->
+<!-- Content tables -->
+<div id="mainContainer" class="container hidden">
   <div class="row">
     <div id="questionsTable" class="col-md-6">
       <div class=""><h3>Quiz Questions <small>— Sorted by attempts</small></h3></div>
@@ -22,6 +129,7 @@ if ( $context->valid ) {
   </div>
 </div>
 
+<!-- Quiz launch modal dialog -->
 <div class="modal fade" tabindex="-1" id="questionLaunchModal">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -38,29 +146,6 @@ if ( $context->valid ) {
 		</div>
 	</div>
 </div>
-
-<!-- <div class="visualization" id="openAssessmentStats" style="width: 450px; height: 390px;">
-	<h3>Open Assessments User Statistics</h3>
-	<span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
-	<svg width="0" height="0">
-	</svg>
-</div>
-<div class="modal fade" tabindex="-1" id="openAssessmentStatsModal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">Dialog Title</h4>
-			</div>
-			<div class="modal-body">
-				Load more related content here
-			</div>
-		</div>
-	</div>
-</div>
-
-</div>
--->
 
 <?php
 echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.knob.min.js");

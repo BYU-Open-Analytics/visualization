@@ -38,21 +38,21 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-	  <?php echo Phalcon\Tag::linkTo(array("","BYU Open Analytics Visualization","class"=>"navbar-brand","style"=>"color:white;")); ?></li>
+	  <?php echo Phalcon\Tag::linkTo(array("",isset($pageTitle) ? $pageTitle : "BYU Open Analytics","class"=>"navbar-brand","style"=>"color:white;")); ?></li>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
 	  <ul class="nav navbar-nav">
+	    <li><?php echo Phalcon\Tag::linkTo("dashboard","Main Dashboard"); ?></li>
+	    <li><?php echo Phalcon\Tag::linkTo("dashboard/content_recommender","Content Recommender"); ?></li>
+	    <li><?php echo Phalcon\Tag::linkTo("dashboard/student_skills","Student Skills"); ?></li>
 	    <li class="dropdown">
-	    	<?php echo Phalcon\Tag::linkTo(array("dashboard","Dashboards &#x25BE;", "data-target"=>"#", "data-toggle"=>"dropdown", "id"=>"dashboardDrop")); ?>
-		<ul class="dropdown-menu" aria-labelledby="dashboardDrop">
-	          <li><?php echo Phalcon\Tag::linkTo("dashboard","Main Dashboard"); ?></li>
-	          <li><?php echo Phalcon\Tag::linkTo("dashboard/content_recommender","Content Recommender"); ?></li>
-	          <li><?php echo Phalcon\Tag::linkTo("dashboard/student_skills","Student Skills"); ?></li>
+	    	<?php echo Phalcon\Tag::linkTo(array("statements","Dev &#x25BE;", "data-target"=>"#", "data-toggle"=>"dropdown", "id"=>"devDrop")); ?>
+		<ul class="dropdown-menu" aria-labelledby="devDrop">
+	          <li><?php echo Phalcon\Tag::linkTo("statements","Recent Statements"); ?></li>
+	          <li><?php echo Phalcon\Tag::linkTo("ltiinfo","LTI Session Info"); ?></li>
+	          <li><?php echo Phalcon\Tag::linkTo(array("consumer.php?app=openassessments&assessment_id=26","LTI Tool Consumer","target"=>"_blank")); ?></li>
 	        </ul>
 	    </li>
-	    <li><?php echo Phalcon\Tag::linkTo("statements","Recent Statements"); ?></li>
-	    <li><?php echo Phalcon\Tag::linkTo("ltiinfo","LTI Session Info"); ?></li>
-	    <li><?php echo Phalcon\Tag::linkTo(array("consumer.php?app=openassessments&assessment_id=26","LTI Tool Consumer","target"=>"_blank")); ?></li>
 	  </ul>
           <div class="navbar-form navbar-right" role="form">
 	    <?php if ($this->ltiContext->valid) {

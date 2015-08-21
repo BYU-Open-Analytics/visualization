@@ -6,6 +6,7 @@ class DashboardController extends Controller
 {
 	public function initialize() {
 		$this->tag->setTitle('Visualization Dashboard');
+		$this->view->pageTitle = 'Visualization Dashboard';
 
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
@@ -19,6 +20,7 @@ class DashboardController extends Controller
 	}
 	public function indexAction() {
 		$context = $this->getDI()->getShared('ltiContext');
+		// TODO this is where need to redirect users to appropriate dashboard based on their current group, or provide options
 
 		$setting = new UserSettings();
 		$setting->userId = $context->getUserKey();
@@ -28,12 +30,14 @@ class DashboardController extends Controller
 	}
 	public function content_recommenderAction() {
 		$this->tag->setTitle('Content Recommender Dashboard');
+		$this->view->pageTitle = 'Content Recommender Dashboard';
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
 		$this->view->context = $context;
 	}
 	public function student_skillsAction() {
 		$this->tag->setTitle('Student Skills Dashboard');
+		$this->view->pageTitle ='Student Skills Dashboard';
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
 		$this->view->context = $context;
