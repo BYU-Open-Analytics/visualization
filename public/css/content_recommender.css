@@ -40,6 +40,19 @@ td {
 /* Concepts */
 
 /* Recommendations */
+.recommendInfo {
+	display: inline-block;
+	float: right;
+	height: 100%;
+	width: 30px;
+	text-align: right;
+	line-height: 100%;
+	cursor: pointer;
+}
+
+.recommendQuestionDisplay button {
+	margin: 5px;
+}
 
 /* Advanced */
 .advancedToggleOptional {

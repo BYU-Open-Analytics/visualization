@@ -55,13 +55,6 @@ function updateQuestionsTable() {
 	});
 }
 
-// Question Launch Modal
-$("#questionLaunchModal").on("show.bs.modal", function(e) {
-	$(this).find(".btn-primary").attr('href','../consumer.php?app=openassessments&assessment_id=' + $(e.relatedTarget).attr('data-assessment') + '&question_id=' + $(e.relatedTarget).attr('data-question'));
-});
-$("#questionLaunchContinueButton").click(function(e) {
-	$("#questionLaunchModal").modal("hide");
-});
 
 // Videos table
 function updateVideosTable() {
@@ -115,6 +108,26 @@ function updateVideoProgressCircles() {
 	});
 }
 
+// Question Launch Modal
+$("#questionLaunchModal").on("show.bs.modal", function(e) {
+	$(this).find(".btn-primary").attr('href','../consumer.php?app=openassessments&assessment_id=' + $(e.relatedTarget).attr('data-assessment') + '&question_id=' + $(e.relatedTarget).attr('data-question'));
+});
+$("#questionLaunchContinueButton").click(function(e) {
+	$("#questionLaunchModal").modal("hide");
+});
+
+// Related videos modal
+$("#relatedVideosModal").on("show.bs.modal", function(e) {
+	$(this).find(".modal-body").html("This will show a table of videos related to question #" + $(e.relatedTarget).attr("data-question") + " of quiz id " + $(e.relatedTarget).attr("data-assessment"));
+});
+
+// Load data mappings for quiz questions/videos/concepts/dates
+function loadMappings() {
+	d3.csv("../csv/mappings.csv", function(error, data) {
+		console.log(error,data);
+		mappings = data;
+	});
+}
 
 // Loads strongest and weakest concepts
 function loadConcepts() {
@@ -122,7 +135,28 @@ function loadConcepts() {
 		$("#conceptsSection .spinner").hide();
 		console.log(error, data);
 		d3.select("#strongestConceptsList")
+			.selectAll("li")
+			.data(data.strongest)
+			.enter()
+			.append("li")
+			.html(function(d) { return d.display; });
+		d3.select("#weakestConceptsList")
+			.selectAll("li")
+			.data(data.weakest)
+			.enter()
+			.append("li")
+			.html(function(d) { return d.display; });
 	});
+}
+
+// Helper function for recommendation question elements. Contains question/concept display, launch quiz button, and see associated videos button
+function questionElement(d) {
+	var element = "";
+	element += '<span class="recommendQuestionDisplay">'+d.display+'<br />';
+	element += '<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#questionLaunchModal" data-assessment="' + d.assessment_id + '" data-question="' + d.question_id + '"><span class="glyphicon glyphicon-log-in"></span> Launch Quiz</button>';
+	element += '<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#relatedVideosModal" data-assessment="' + d.assessment_id + '" data-question="' + d.question_id + '"><span class="glyphicon glyphicon-film"></span> See Related Videos</button>';
+	element += '</span>';
+	return element;
 }
 
 // Loads recommendations
@@ -130,6 +164,15 @@ function loadRecommendations() {
 	d3.json("../content_recommender_stats/recommendations", function(error, data) {
 		$("#recommendationsSection .spinner").hide();
 		console.log(error, data);
+		for (var i=1; i<5; i++) {
+			console.log(i, data["group"+i]);
+			d3.select("#recommend"+i+"List")
+				.selectAll("li")
+				.data(data["group"+i])
+				.enter()
+				.append("li")
+				.html(function(d) { return questionElement(d); });
+		}
 	});
 }
 
@@ -196,11 +239,16 @@ $(function() {
 		event.stopPropagation();
 		event.preventDefault();
 	});
+	// Set up bootstrap tooltips
+	$('[data-toggle="tooltip"]').tooltip({
+		container: 'body'
+	});
 	
 	// Load data
 	updateQuestionsTable();
 	updateVideosTable();
 
+	loadMappings();
 	loadConcepts();
 	loadRecommendations();
 	// Go to simple view first

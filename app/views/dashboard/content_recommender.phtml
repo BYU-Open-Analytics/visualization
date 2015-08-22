@@ -9,24 +9,17 @@ if ( $context->valid ) {
   <p><button class="btn btn-primary btn-large" data-dismiss="welcomeJumbotron" id="jumbotronDismiss">Continue to Dashboard</button></p>
 </div>
 
+<!-- Container for concepts, recommendations, and advanced -->
 <div id="mainContainer" class="container">
   <div class="row">
     <!-- Concepts -->
     <div id="conceptsSection" class="col-md-4">
       <h3>Strongest Concepts</h3>
       <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
-        <ul id="strongestConceptsList">
-          <li>Chapter 1 - Concept A</li>
-          <li>Chapter 1 - Concept B</li>
-          <li>Chapter 1 - Concept C</li>
-        </ul>
+        <ul id="strongestConceptsList"> </ul>
       <h3>Weakest Concepts</h3>
       <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
-        <ul id="weakestConceptsList">
-          <li>Chapter 1 - Concept D</li>
-          <li>Chapter 1 - Concept E</li>
-          <li>Chapter 2 - Concept A</li>
-        </ul>
+        <ul id="weakestConceptsList"> </ul>
     </div>
 
     <!-- Recommendations -->
@@ -36,57 +29,57 @@ if ( $context->valid ) {
           <!-- Group 1 -->
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend1">Try these quiz questions</a></h4>
+	      <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend1">Try these quiz questions</a>
+	        <span class="recommendInfo" id="recommend1Info" data-toggle="tooltip" title="These questions were selected because you have not attempted them yet. This material will likely be on an upcoming exam, so to improve your score, it is recommended that you practice these questions."><span class="glyphicon glyphicon-info-sign"></span></span>
+              </h4>
             </div>
             <div id="recommend1" class="panel-collapse collapse in">
               <div class="panel-body">
                 <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
-                <ul>
-                  <li>Chapter 1 - Concept D - Quiz Question 1</li>
-                  <li>Chapter 1 - Concept D - Quiz Question 3</li>
-                </ul>
+                <ul id="recommend1List"> </ul>
               </div>
             </div>
           </div>
           <!-- Group 2 -->
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend2">Watch these videos before attempting these quiz questions</a></h4>
+	      <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend2">Watch videos before attempting these quiz questions</a>
+	        <span class="recommendInfo" id="recommend2Info" data-toggle="tooltip" title="These questions were selected because, based on your online activity, it seems you did not watch the videos before you attempted the quiz. To better learn the material, it is recommended that you watch the videos associated with these quiz questions."><span class="glyphicon glyphicon-info-sign"></span></span>
+              </h4>
             </div>
             <div id="recommend2" class="panel-collapse collapse">
               <div class="panel-body">
-                <ul>
-                  <li>Chapter 1 - Concept D - Quiz Question 1</li>
-                  <li>Chapter 1 - Concept D - Quiz Question 3</li>
-                </ul>
+                <ul id="recommend2List"> </ul>
               </div>
             </div>
           </div>
           <!-- Group 3 -->
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend3">Find additional help</a></h4>
+	      <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend3">Find additional help</a>
+	        <span class="recommendInfo" id="recommend3Info" data-toggle="tooltip" title="These questions were selected because you have spent time watching the videos, but for some reason, the quiz was still difficult for you. To learn this material, you may want to email the instructor, go into the TA lab, or ask a friend to help you out."><span class="glyphicon glyphicon-info-sign"></span></span>
+              </h4>
             </div>
             <div id="recommend3" class="panel-collapse collapse">
               <div class="panel-body">
-                <ul>
-                  <li>Chapter 1 - Concept D - Quiz Question 1</li>
-                  <li>Chapter 1 - Concept D - Quiz Question 3</li>
-                </ul>
+                <ul id="recommend3List"> </ul>
               </div>
             </div>
           </div>
           <!-- Group 4 -->
           <div class="panel panel-default">
             <div class="panel-heading">
-              <h4 class="panel-title"><a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend4">Practice these questions again</a></h4>
+	      <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend4">Practice these questions again</a>
+	        <span class="recommendInfo" id="recommend4Info" data-toggle="tooltip" title="These questions were selected because even though you eventually answered it correctly, you missed them multiple times at first. These questions are recommended you to re-do to help you solidify your understanding."><span class="glyphicon glyphicon-info-sign"></span></span>
+              </h4>
             </div>
             <div id="recommend4" class="panel-collapse collapse">
               <div class="panel-body">
-                <ul>
-                  <li>Chapter 1 - Concept D - Quiz Question 1</li>
-                  <li>Chapter 1 - Concept D - Quiz Question 3</li>
-                </ul>
+                <ul id="recommend4List"> </ul>
               </div>
             </div>
           </div>
@@ -109,6 +102,39 @@ if ( $context->valid ) {
   </div>
 </div>
 
+<!-- Quiz launch modal dialog -->
+<div class="modal fade" tabindex="-1" id="questionLaunchModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">This quiz is for practice only.</h4>
+			</div>
+			<div class="modal-body">
+				To have this quiz count for your grade, launch this quiz through Learning Suite.
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Do not launch</button>
+				<a href="#" target="_blank" id="questionLaunchContinueButton" type="button" class="btn btn-primary">Continue to practice</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Related videos modal dialog -->
+<div class="modal fade" tabindex="-1" id="relatedVideosModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Videos related to this question</h4>
+			</div>
+			<div class="modal-body">
+				
+			</div>
+		</div>
+	</div>
+</div>
 
 <!-- This is the existing content recommender stuff -->
 <!-- Content tables -->
@@ -132,23 +158,6 @@ if ( $context->valid ) {
   </div>
 </div>
 
-<!-- Quiz launch modal dialog -->
-<div class="modal fade" tabindex="-1" id="questionLaunchModal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">This quiz is for practice only.</h4>
-			</div>
-			<div class="modal-body">
-				To have this quiz count for your grade, launch this quiz through Learning Suite.
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Do not launch</button>
-				<a href="#" target="_blank" id="questionLaunchContinueButton" type="button" class="btn btn-primary">Continue to practice</a>
-		</div>
-	</div>
-</div>
 
 <?php
 echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.knob.min.js");

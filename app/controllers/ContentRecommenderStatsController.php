@@ -179,14 +179,14 @@ class ContentRecommenderStatsController extends Controller
 		}
 
 		$strongest = [
-			"Chapter 1 - Concept A",
-			"Chapter 1 - Concept B",
-			"Chapter 1 - Concept C",
+			["id" => 1, "display" => "Chapter 1 - Concept A"],
+			["id" => 2, "display" => "Chapter 1 - Concept B"],
+			["id" => 3, "display" => "Chapter 1 - Concept C"],
 		];
 		$weakest = [
-			"Chapter 1 - Concept D",
-			"Chapter 1 - Concept E",
-			"Chapter 2 - concept A",
+			["id" => 4, "display" => "Chapter 1 - Concept D"],
+			["id" => 5, "display" => "Chapter 1 - Concept E"],
+			["id" => 6, "display" => "Chapter 2 - concept A"],
 		];
 		$result = ["strongest" => $strongest, "weakest" => $weakest];
 		echo json_encode($result);
@@ -207,24 +207,24 @@ class ContentRecommenderStatsController extends Controller
 		}
 
 		$group1 = [
-			"Chapter 1 - Concept D - Quiz Question 1",
-			"Chapter 1 - Concept D - Quiz Question 3",
-			"Chapter 1 - Concept E - Quiz Question 2",
+			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1"],
+			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 3"],
+			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept E - Quiz Question 2"],
 		];
 		$group2 = [
-			"Chapter 1 - Concept D - Quiz Question 1",
-			"Chapter 1 - Concept D - Quiz Question 3",
-			"Chapter 1 - Concept E - Quiz Question 2",
+			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1"],
+			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 3"],
+			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept E - Quiz Question 2"],
 		];
 		$group3 = [
-			"Chapter 1 - Concept D - Quiz Question 1",
-			"Chapter 1 - Concept D - Quiz Question 3",
-			"Chapter 1 - Concept E - Quiz Question 2",
+			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1"],
+			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 3"],
+			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept E - Quiz Question 2"],
 		];
 		$group4 = [
-			"Chapter 1 - Concept D - Quiz Question 1",
-			"Chapter 1 - Concept D - Quiz Question 3",
-			"Chapter 1 - Concept E - Quiz Question 2",
+			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1"],
+			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 3"],
+			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept E - Quiz Question 2"],
 		];
 		$result = [
 			"group1" => $group1,
