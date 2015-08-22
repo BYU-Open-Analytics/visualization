@@ -118,15 +118,48 @@ $("#questionLaunchContinueButton").click(function(e) {
 
 // Related videos modal
 $("#relatedVideosModal").on("show.bs.modal", function(e) {
-	$(this).find(".modal-body").html("This will show a table of videos related to question #" + $(e.relatedTarget).attr("data-question") + " of quiz id " + $(e.relatedTarget).attr("data-assessment"));
+	//$(this).find(".modal-body").html('<table class="table" id="relatedVideosModalTable"><tbody></tbody></table>');
+	var data = getRelatedVideos($(e.relatedTarget).attr("data-assessment"), $(e.relatedTarget).attr("data-question"));
+	$("#relatedVideosModalTable tbody").empty();
+	var tbody = d3.select("#relatedVideosModalTable tbody");
+	var tr = tbody.selectAll("tr")
+		.data(data)
+		.enter()
+		.append("tr")
+		.attr("id", function(d) { return "videoRow"+d.ID; });
+
+	tr.append("td")
+		.html(function(d) { return d.chapter + "." + d.section + "." + d.group + "." + d.video; })
+		.attr("class","videoRefCell");
+	tr.append("td")
+		// TODO absolute URL ref fix
+		.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d.ID + '" target="_blank">' + d.title + '</a>'; })
+		.attr("class","videoTitleCell");
+	tr.append("td")
+		.attr("class", "videoProgressCell advancedMore")
+		.append("input")
+		.attr("type", "text")
+		.attr("class", "progressCircle")
+		.attr("disabled", "disabled")
+		.attr("value", function() { return Math.ceil(Math.random() * 100); }); // TODO put actual percentage here
+		
+	// Don't stall the UI waiting for all these to finish drawing
+	setTimeout(updateVideoProgressCircles, 1);
+	refreshView();
 });
 
-// Load data mappings for quiz questions/videos/concepts/dates
-function loadMappings() {
-	d3.csv("../csv/mappings.csv", function(error, data) {
-		console.log(error,data);
-		mappings = data;
-	});
+
+// Returns videos for a given question
+function getRelatedVideos(assessmentId, questionId) {
+	var relatedVideos = [];
+	// TODO Get associated chapter from assessmentid. For now, assuming 1->1 correlation between the two.
+	for (var i=0; i<mappings.length; i++) {
+		// See if this question is associated with this video
+		if ($.inArray(assessmentId+"."+questionId, mappings[i]["Quiz Questions"].split(",")) > -1) {
+			relatedVideos.push(mappings[i]);
+		}
+	}
+	return relatedVideos;
 }
 
 // Loads strongest and weakest concepts
@@ -153,6 +186,10 @@ function loadConcepts() {
 function questionElement(d) {
 	var element = "";
 	element += '<span class="recommendQuestionDisplay">'+d.display+'<br />';
+	element += '<span class="advancedMore">';
+	element += (d.correct) ? '<span class="label label-success">Correct</span>' : '<span class="label label-danger">Incorrect</span>';
+	element += '<span class="label label-default">' + d.attempts + ' attempts</span>';
+	element += '<br /></span>'
 	element += '<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#questionLaunchModal" data-assessment="' + d.assessment_id + '" data-question="' + d.question_id + '"><span class="glyphicon glyphicon-log-in"></span> Launch Quiz</button>';
 	element += '<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#relatedVideosModal" data-assessment="' + d.assessment_id + '" data-question="' + d.question_id + '"><span class="glyphicon glyphicon-film"></span> See Related Videos</button>';
 	element += '</span>';
@@ -176,36 +213,54 @@ function loadRecommendations() {
 	});
 }
 
+// Sometimes we're just refreshing the current view, if we added advanced elements and need those to show/hide accordingly.
+function refreshView() {
+	changeView(currentView[0], currentView[1]);
+}
+
 // Toggles on right of page to change what we're showing
 function changeView(optionName, optionValue) {
+	currentView = [optionName, optionValue];
+
+	// Hide all advanced things first
+	$(".advancedMore, .advancedMoreClass, .advancedScatterplot, .advancedScatterplotClass, .advancedMasteryGraph, .advancedAll").removeClass("show").addClass("hidden");
 	switch (optionName) {
 		case "simple":
 			console.log("Changing to simple view");
+			// Don't need to do anything
 			break;
 		case "more":
 			console.log("Changing to more view");
+			$(".advancedMore").removeClass("hidden").addClass("show");
 			break;
 		case "scatterplot":
 			console.log("Changing to scatterplot view");
+			$(".advancedScatterplot").removeClass("hidden").addClass("show");
 			break;
 		case "masteryGraph":
 			console.log("Changing to mastery graph view");
+			$(".advancedMasteryGraph").removeClass("hidden").addClass("show");
 			break;
 		case "all":
 			console.log("Changing to all view");
+			$(".advancedAll").removeClass("hidden").addClass("show");
 			break;
 		case "moreClass":
 			if (optionValue == true) {
 				console.log("Changing to more + class compare view");
+				$(".advancedMore, .advancedMoreClass").removeClass("hidden").addClass("show");
 			} else {
 				console.log("Changing to more view");
+				$(".advancedMore").removeClass("hidden").addClass("show");
 			}
 			break;
 		case "scatterplotClass":
 			if (optionValue == true) {
 				console.log("Changing to scatterplot + class compare view");
+				$(".advancedScatterplot, .advancedScatterplotClass").removeClass("hidden").addClass("show");
 			} else {
 				console.log("Changing to scatterplot view");
+				$(".advancedScatterplot").removeClass("hidden").addClass("show");
 			}
 			break;
 	}
@@ -248,9 +303,13 @@ $(function() {
 	updateQuestionsTable();
 	updateVideosTable();
 
-	loadMappings();
-	loadConcepts();
-	loadRecommendations();
+	// First, we have to load data mappings for quiz questions/videos/concepts/dates
+	d3.csv("../csv/mappings.csv", function(error, data) {
+		mappings = data;
+		// Then we can load other things
+		loadConcepts();
+		loadRecommendations();
+	});
 	// Go to simple view first
 	changeView("simple");
 });

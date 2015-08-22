@@ -7,6 +7,7 @@ th:last-child, td:last-child {
 }
 
 table {
+	width: 100%;
 }
 
 td {
@@ -53,6 +54,9 @@ td {
 .recommendQuestionDisplay button {
 	margin: 5px;
 }
+.recommendQuestionDisplay .label {
+	margin-left: 5px;
+}
 
 /* Advanced */
 .advancedToggleOptional {
@@ -61,4 +65,9 @@ td {
 .advancedToggleLi.active .advancedToggleOptional {
 	display: inline!important;
 	margin: 10px 0px 0px 20px;
+}
+
+/* Classes to hide certain elements until the corresponding option is toggled on */
+.advancedMore, .advancedMoreClass, .advancedScatterplot, .advancedScatterplotClass, .advancedMasteryGraph, .advancedAll {
+	display: none;
 }

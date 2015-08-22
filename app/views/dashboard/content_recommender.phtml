@@ -13,7 +13,7 @@ if ( $context->valid ) {
 <div id="mainContainer" class="container">
   <div class="row">
     <!-- Concepts -->
-    <div id="conceptsSection" class="col-md-4">
+    <div id="conceptsSection" class="col-md-3">
       <h3>Strongest Concepts</h3>
       <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
         <ul id="strongestConceptsList"> </ul>
@@ -23,15 +23,15 @@ if ( $context->valid ) {
     </div>
 
     <!-- Recommendations -->
-    <div id="recommendationsSection" class="col-md-5">
+    <div id="recommendationsSection" class="col-md-6">
       <h3>Recommendations</h3>
         <div class="panel-group" id="recommendationsAccordion" role="tablist">
           <!-- Group 1 -->
           <div class="panel panel-default">
             <div class="panel-heading">
 	      <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend1">Try these quiz questions</a>
-	        <span class="recommendInfo" id="recommend1Info" data-toggle="tooltip" title="These questions were selected because you have not attempted them yet. This material will likely be on an upcoming exam, so to improve your score, it is recommended that you practice these questions."><span class="glyphicon glyphicon-info-sign"></span></span>
+                <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend1">Try these quiz questions
+	        <span class="recommendInfo" id="recommend1Info" data-toggle="tooltip" title="These questions were selected because you have not attempted them yet. This material will likely be on an upcoming exam, so to improve your score, it is recommended that you practice these questions."><span class="glyphicon glyphicon-info-sign"></span></span></a>
               </h4>
             </div>
             <div id="recommend1" class="panel-collapse collapse in">
@@ -45,8 +45,8 @@ if ( $context->valid ) {
           <div class="panel panel-default">
             <div class="panel-heading">
 	      <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend2">Watch videos before attempting these quiz questions</a>
-	        <span class="recommendInfo" id="recommend2Info" data-toggle="tooltip" title="These questions were selected because, based on your online activity, it seems you did not watch the videos before you attempted the quiz. To better learn the material, it is recommended that you watch the videos associated with these quiz questions."><span class="glyphicon glyphicon-info-sign"></span></span>
+                <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend2">Watch videos before attempting these quiz questions
+	        <span class="recommendInfo" id="recommend2Info" data-toggle="tooltip" title="These questions were selected because, based on your online activity, it seems you did not watch the videos before you attempted the quiz. To better learn the material, it is recommended that you watch the videos associated with these quiz questions."><span class="glyphicon glyphicon-info-sign"></span></span></a>
               </h4>
             </div>
             <div id="recommend2" class="panel-collapse collapse">
@@ -59,8 +59,8 @@ if ( $context->valid ) {
           <div class="panel panel-default">
             <div class="panel-heading">
 	      <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend3">Find additional help</a>
-	        <span class="recommendInfo" id="recommend3Info" data-toggle="tooltip" title="These questions were selected because you have spent time watching the videos, but for some reason, the quiz was still difficult for you. To learn this material, you may want to email the instructor, go into the TA lab, or ask a friend to help you out."><span class="glyphicon glyphicon-info-sign"></span></span>
+                <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend3">Find additional help
+	        <span class="recommendInfo" id="recommend3Info" data-toggle="tooltip" title="These questions were selected because you have spent time watching the videos, but for some reason, the quiz was still difficult for you. To learn this material, you may want to email the instructor, go into the TA lab, or ask a friend to help you out."><span class="glyphicon glyphicon-info-sign"></span></span></a>
               </h4>
             </div>
             <div id="recommend3" class="panel-collapse collapse">
@@ -73,8 +73,8 @@ if ( $context->valid ) {
           <div class="panel panel-default">
             <div class="panel-heading">
 	      <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend4">Practice these questions again</a>
-	        <span class="recommendInfo" id="recommend4Info" data-toggle="tooltip" title="These questions were selected because even though you eventually answered it correctly, you missed them multiple times at first. These questions are recommended you to re-do to help you solidify your understanding."><span class="glyphicon glyphicon-info-sign"></span></span>
+                <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend4">Practice these questions again
+	        <span class="recommendInfo" id="recommend4Info" data-toggle="tooltip" title="These questions were selected because even though you eventually answered it correctly, you missed them multiple times at first. These questions are recommended you to re-do to help you solidify your understanding."><span class="glyphicon glyphicon-info-sign"></span></span></a>
               </h4>
             </div>
             <div id="recommend4" class="panel-collapse collapse">
@@ -130,7 +130,10 @@ if ( $context->valid ) {
 				<h4 class="modal-title">Videos related to this question</h4>
 			</div>
 			<div class="modal-body">
-				
+				<table class="table" id="relatedVideosModalTable">
+					<thead><tr><th>&nbsp;</th><th>Video Name</th><th class="advancedMore">% Watched</th></tr></thead>
+					<tbody></tbody>
+				</table>
 			</div>
 		</div>
 	</div>
@@ -138,7 +141,7 @@ if ( $context->valid ) {
 
 <!-- This is the existing content recommender stuff -->
 <!-- Content tables -->
-<div id="mainContainer" class="container hidden">
+<div id="mainContainer" class="container">
   <div class="row">
     <div id="questionsTable" class="col-md-6">
       <div class=""><h3>Quiz Questions <small>— Sorted by attempts</small></h3></div>
