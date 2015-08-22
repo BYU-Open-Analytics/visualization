@@ -168,5 +168,72 @@ class ContentRecommenderStatsController extends Controller
 		}
 	}
 
+	// Returns list of strongest and weakest concepts
+	public function conceptsAction() {
+		$this->view->disable();
+		// Get our context (this takes care of starting the session, too)
+		$context = $this->getDI()->getShared('ltiContext');
+		if (!$context->valid) {
+			echo '[{"error":"Invalid lti context"}]';
+			return;
+		}
+
+		$strongest = [
+			"Chapter 1 - Concept A",
+			"Chapter 1 - Concept B",
+			"Chapter 1 - Concept C",
+		];
+		$weakest = [
+			"Chapter 1 - Concept D",
+			"Chapter 1 - Concept E",
+			"Chapter 2 - concept A",
+		];
+		$result = ["strongest" => $strongest, "weakest" => $weakest];
+		echo json_encode($result);
+	}
+
+	// Returns content recommendations in 4 groups:
+		// Try these quiz questions (Group 1)
+		// Watch these videos before attempting these quiz questions (Group 2)
+		// Find additional help (Group 3)
+		// Practice these questions again (Group 4)
+	public function recommendationsAction() {
+		$this->view->disable();
+		// Get our context (this takes care of starting the session, too)
+		$context = $this->getDI()->getShared('ltiContext');
+		if (!$context->valid) {
+			echo '[{"error":"Invalid lti context"}]';
+			return;
+		}
+
+		$group1 = [
+			"Chapter 1 - Concept D - Quiz Question 1",
+			"Chapter 1 - Concept D - Quiz Question 3",
+			"Chapter 1 - Concept E - Quiz Question 2",
+		];
+		$group2 = [
+			"Chapter 1 - Concept D - Quiz Question 1",
+			"Chapter 1 - Concept D - Quiz Question 3",
+			"Chapter 1 - Concept E - Quiz Question 2",
+		];
+		$group3 = [
+			"Chapter 1 - Concept D - Quiz Question 1",
+			"Chapter 1 - Concept D - Quiz Question 3",
+			"Chapter 1 - Concept E - Quiz Question 2",
+		];
+		$group4 = [
+			"Chapter 1 - Concept D - Quiz Question 1",
+			"Chapter 1 - Concept D - Quiz Question 3",
+			"Chapter 1 - Concept E - Quiz Question 2",
+		];
+		$result = [
+			"group1" => $group1,
+			"group2" => $group2,
+			"group3" => $group3,
+			"group4" => $group4,
+		];
+		echo json_encode($result);
+	}
+
 }
 

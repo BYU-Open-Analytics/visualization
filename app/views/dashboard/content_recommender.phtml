@@ -14,12 +14,14 @@ if ( $context->valid ) {
     <!-- Concepts -->
     <div id="conceptsSection" class="col-md-4">
       <h3>Strongest Concepts</h3>
+      <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
         <ul id="strongestConceptsList">
           <li>Chapter 1 - Concept A</li>
           <li>Chapter 1 - Concept B</li>
           <li>Chapter 1 - Concept C</li>
         </ul>
       <h3>Weakest Concepts</h3>
+      <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
         <ul id="weakestConceptsList">
           <li>Chapter 1 - Concept D</li>
           <li>Chapter 1 - Concept E</li>
@@ -38,6 +40,7 @@ if ( $context->valid ) {
             </div>
             <div id="recommend1" class="panel-collapse collapse in">
               <div class="panel-body">
+                <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
                 <ul>
                   <li>Chapter 1 - Concept D - Quiz Question 1</li>
                   <li>Chapter 1 - Concept D - Quiz Question 3</li>

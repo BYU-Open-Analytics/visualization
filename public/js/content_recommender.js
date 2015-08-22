@@ -115,6 +115,24 @@ function updateVideoProgressCircles() {
 	});
 }
 
+
+// Loads strongest and weakest concepts
+function loadConcepts() {
+	d3.json("../content_recommender_stats/concepts", function(error, data) {
+		$("#conceptsSection .spinner").hide();
+		console.log(error, data);
+		d3.select("#strongestConceptsList")
+	});
+}
+
+// Loads recommendations
+function loadRecommendations() {
+	d3.json("../content_recommender_stats/recommendations", function(error, data) {
+		$("#recommendationsSection .spinner").hide();
+		console.log(error, data);
+	});
+}
+
 // Toggles on right of page to change what we're showing
 function changeView(optionName, optionValue) {
 	switch (optionName) {
@@ -182,6 +200,9 @@ $(function() {
 	// Load data
 	updateQuestionsTable();
 	updateVideosTable();
+
+	loadConcepts();
+	loadRecommendations();
 	// Go to simple view first
 	changeView("simple");
 });
