@@ -46,8 +46,6 @@ td {
 	display: none;
 }
 .advancedToggleLi.active .advancedToggleOptional {
-	display: block!important;
-}
-.advancedToggleOptional input {
-	margin-left: 20px;
+	display: inline!important;
+	margin: 10px 0px 0px 20px;
 }

@@ -117,7 +117,6 @@ function updateVideoProgressCircles() {
 
 // Toggles on right of page to change what we're showing
 function changeView(optionName, optionValue) {
-	console.log(optionName, optionValue);
 	switch (optionName) {
 		case "simple":
 			console.log("Changing to simple view");
@@ -135,13 +134,20 @@ function changeView(optionName, optionValue) {
 			console.log("Changing to all view");
 			break;
 		case "moreClass":
-			console.log("Changing to more + class compare view");
+			if (optionValue == true) {
+				console.log("Changing to more + class compare view");
+			} else {
+				console.log("Changing to more view");
+			}
 			break;
 		case "scatterplotClass":
-			console.log("Changing to scatterplot + class compare view");
+			if (optionValue == true) {
+				console.log("Changing to scatterplot + class compare view");
+			} else {
+				console.log("Changing to scatterplot view");
+			}
 			break;
 	}
-			//simple,more,scatterplot,masteryGraph,all, moreClass, scatterplotClass
 }
 
 // When page is done loading, show our visualizations
@@ -161,6 +167,7 @@ $(function() {
 	$(".advancedToggle").click(function() {
 		// Deselect other options
 		$(".advancedToggleLi").removeClass("active");
+		$(".advancedToggleOptional").prop("checked", false);
 		// Select this option
 		$(this).parent(".advancedToggleLi").addClass("active");
 		changeView($(this).attr("data-option"));
@@ -176,5 +183,5 @@ $(function() {
 	updateQuestionsTable();
 	updateVideosTable();
 	// Go to simple view first
-	changeAdvancedSettings("simple");
+	changeView("simple");
 });
