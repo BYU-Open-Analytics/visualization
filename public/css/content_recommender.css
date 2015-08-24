@@ -40,12 +40,12 @@ td {
 
 /* Concepts */
 
+
 /* Recommendations */
 .recommendInfo {
 	display: inline-block;
 	float: right;
 	height: 100%;
-	width: 30px;
 	text-align: right;
 	line-height: 100%;
 	cursor: pointer;
@@ -56,6 +56,12 @@ td {
 }
 .recommendQuestionDisplay .label {
 	margin-left: 5px;
+}
+
+.recommendQuestionInfoTable span span:first-child {
+	text-align: right;
+	width: 100px;
+	padding-right: 5px;
 }
 
 /* Advanced */
@@ -71,3 +77,20 @@ td {
 .advancedMore, .advancedMoreClass, .advancedScatterplot, .advancedScatterplotClass, .advancedMasteryGraph, .advancedAll {
 	display: none;
 }
+/* Showing and hiding certain ones based on toggles */
+.advancedHide {
+	display: none;
+}
+.advancedShow {
+	display: block;
+}
+table.advancedShow {
+	display: table;
+}
+table.advancedShow tr, tr.advancedShow {
+	display: table-row;
+}
+table.advancedShow tr td, tr.advancedShow td, td.advancedShow {
+	display: table-cell;
+}
+

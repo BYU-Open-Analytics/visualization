@@ -24,7 +24,7 @@ if ( $context->valid ) {
 
     <!-- Recommendations -->
     <div id="recommendationsSection" class="col-md-6">
-      <h3>Recommendations</h3>
+        <h3>Recommendations</h3>
         <div class="panel-group" id="recommendationsAccordion" role="tablist">
           <!-- Group 1 -->
           <div class="panel panel-default">
@@ -85,6 +85,37 @@ if ( $context->valid ) {
           </div>
 
        </div>
+    </div>
+
+    <!-- Template for recommendation item -->
+    <div id="templates" class="hidden">
+      <span class="recommendQuestionDisplay">
+	{display}<br>
+	<div class="recommendQuestionInfoTable">
+	  <span class="advancedMore">
+            <span class="advancedMoreClass pull-left">You: &nbsp;</span>
+	    <span class="label label-success">Correct</span>
+	    <span class="label label-default">{attempts} attempts</span><br>
+	  </span>
+          <span class="advancedMoreClass">
+            <span class="advancedMoreClass pull-left">Class Average: </span>
+	    <span class="label label-success">{classPercentCorrect}% Correct</span>
+            <span class="label label-default">{classAverageAttempts} attempts</span><br>
+          </span>
+        </div>
+	<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#questionLaunchModal" data-assessment="{assessment_id}" data-question="{question_id}">
+	  <span class="glyphicon glyphicon-log-in"></span> Launch Quiz
+	</button>
+	<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#relatedVideosModal" data-assessment="{assessment_id}" data-question="{question_id}">
+	  <span class="glyphicon glyphicon-film"></span> See Related Videos
+	</button>
+      </span>
+    </div>
+
+
+    <!-- Scatterplot -->
+    <div id="scatterplotSection" class="col-md-6">
+      <h3>Scatterplot</h3>
     </div>
 
     <!-- Advanced -->

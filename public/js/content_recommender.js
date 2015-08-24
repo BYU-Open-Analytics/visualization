@@ -184,16 +184,25 @@ function loadConcepts() {
 
 // Helper function for recommendation question elements. Contains question/concept display, launch quiz button, and see associated videos button
 function questionElement(d) {
-	var element = "";
-	element += '<span class="recommendQuestionDisplay">'+d.display+'<br />';
-	element += '<span class="advancedMore">';
-	element += (d.correct) ? '<span class="label label-success">Correct</span>' : '<span class="label label-danger">Incorrect</span>';
-	element += '<span class="label label-default">' + d.attempts + ' attempts</span>';
-	element += '<br /></span>'
-	element += '<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#questionLaunchModal" data-assessment="' + d.assessment_id + '" data-question="' + d.question_id + '"><span class="glyphicon glyphicon-log-in"></span> Launch Quiz</button>';
-	element += '<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#relatedVideosModal" data-assessment="' + d.assessment_id + '" data-question="' + d.question_id + '"><span class="glyphicon glyphicon-film"></span> See Related Videos</button>';
-	element += '</span>';
+	// Get the template
+	var element = $("#templates .recommendQuestionDisplay")[0].outerHTML;
+	// Put our data values into it (this is a basic template idea from http://stackoverflow.com/a/14062431 )
+	$.each(d, function(k, v) {
+		var regex = new RegExp("{" + k + "}", "g");
+		element = element.replace(regex, v);
+	});
 	return element;
+
+	//var element = "";
+	//element += '<span class="recommendQuestionDisplay">'+d.display+'<br />';
+	//element += '<span class="advancedMore">';
+	//element += (d.correct) ? '<span class="label label-success">Correct</span>' : '<span class="label label-danger">Incorrect</span>';
+	//element += '<span class="label label-default">' + d.attempts + ' attempts</span>';
+	//element += '<br /></span>'
+	//element += '<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#questionLaunchModal" data-assessment="' + d.assessment_id + '" data-question="' + d.question_id + '"><span class="glyphicon glyphicon-log-in"></span> Launch Quiz</button>';
+	//element += '<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#relatedVideosModal" data-assessment="' + d.assessment_id + '" data-question="' + d.question_id + '"><span class="glyphicon glyphicon-film"></span> See Related Videos</button>';
+	//element += '</span>';
+	//return element;
 }
 
 // Loads recommendations
@@ -222,8 +231,10 @@ function refreshView() {
 function changeView(optionName, optionValue) {
 	currentView = [optionName, optionValue];
 
+	var h = "advancedHide";
+	var s = "advancedShow";
 	// Hide all advanced things first
-	$(".advancedMore, .advancedMoreClass, .advancedScatterplot, .advancedScatterplotClass, .advancedMasteryGraph, .advancedAll").removeClass("show").addClass("hidden");
+	$(".advancedMore, .advancedMoreClass, .advancedScatterplot, .advancedScatterplotClass, .advancedMasteryGraph, .advancedAll").removeClass(s).addClass(h);
 	switch (optionName) {
 		case "simple":
 			console.log("Changing to simple view");
@@ -231,36 +242,36 @@ function changeView(optionName, optionValue) {
 			break;
 		case "more":
 			console.log("Changing to more view");
-			$(".advancedMore").removeClass("hidden").addClass("show");
+			$(".advancedMore").removeClass(h).addClass(s);
 			break;
 		case "scatterplot":
 			console.log("Changing to scatterplot view");
-			$(".advancedScatterplot").removeClass("hidden").addClass("show");
+			$(".advancedScatterplot").removeClass(h).addClass(s);
 			break;
 		case "masteryGraph":
 			console.log("Changing to mastery graph view");
-			$(".advancedMasteryGraph").removeClass("hidden").addClass("show");
+			$(".advancedMasteryGraph").removeClass(h).addClass(s);
 			break;
 		case "all":
 			console.log("Changing to all view");
-			$(".advancedAll").removeClass("hidden").addClass("show");
+			$(".advancedAll").removeClass(h).addClass(s);
 			break;
 		case "moreClass":
 			if (optionValue == true) {
 				console.log("Changing to more + class compare view");
-				$(".advancedMore, .advancedMoreClass").removeClass("hidden").addClass("show");
+				$(".advancedMore, .advancedMoreClass").removeClass(h).addClass(s);
 			} else {
 				console.log("Changing to more view");
-				$(".advancedMore").removeClass("hidden").addClass("show");
+				$(".advancedMore").removeClass(h).addClass(s);
 			}
 			break;
 		case "scatterplotClass":
 			if (optionValue == true) {
 				console.log("Changing to scatterplot + class compare view");
-				$(".advancedScatterplot, .advancedScatterplotClass").removeClass("hidden").addClass("show");
+				$(".advancedScatterplot, .advancedScatterplotClass").removeClass(h).addClass(s);
 			} else {
 				console.log("Changing to scatterplot view");
-				$(".advancedScatterplot").removeClass("hidden").addClass("show");
+				$(".advancedScatterplot").removeClass(h).addClass(s);
 			}
 			break;
 	}
