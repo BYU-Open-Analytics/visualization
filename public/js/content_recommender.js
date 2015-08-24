@@ -192,26 +192,14 @@ function questionElement(d) {
 		element = element.replace(regex, v);
 	});
 	return element;
-
-	//var element = "";
-	//element += '<span class="recommendQuestionDisplay">'+d.display+'<br />';
-	//element += '<span class="advancedMore">';
-	//element += (d.correct) ? '<span class="label label-success">Correct</span>' : '<span class="label label-danger">Incorrect</span>';
-	//element += '<span class="label label-default">' + d.attempts + ' attempts</span>';
-	//element += '<br /></span>'
-	//element += '<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#questionLaunchModal" data-assessment="' + d.assessment_id + '" data-question="' + d.question_id + '"><span class="glyphicon glyphicon-log-in"></span> Launch Quiz</button>';
-	//element += '<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#relatedVideosModal" data-assessment="' + d.assessment_id + '" data-question="' + d.question_id + '"><span class="glyphicon glyphicon-film"></span> See Related Videos</button>';
-	//element += '</span>';
-	//return element;
 }
 
 // Loads recommendations
 function loadRecommendations() {
 	d3.json("../content_recommender_stats/recommendations", function(error, data) {
 		$("#recommendationsSection .spinner").hide();
-		console.log(error, data);
+		//console.log(error, data);
 		for (var i=1; i<5; i++) {
-			console.log(i, data["group"+i]);
 			d3.select("#recommend"+i+"List")
 				.selectAll("li")
 				.data(data["group"+i])
@@ -219,6 +207,111 @@ function loadRecommendations() {
 				.append("li")
 				.html(function(d) { return questionElement(d); });
 		}
+	});
+}
+
+// Loads the scatterplot
+function loadScatterplot() {
+	d3.json("../content_recommender_stats/scatterplot", function(error, data) {
+		$("#scatterplotSection .spinner").hide();
+		console.log("scatterplot", error, data);
+
+		//Width and height
+		var margin = {top: 10, right: 10, bottom: 50, left: 55},
+		    height = 450 - margin.top - margin.bottom,
+		    width = 500 - margin.left - margin.right;
+
+		//Create scale functions
+		var xScale = d3.scale.linear()
+			 .domain([-10, 10])
+			 .range([0, width]);
+		var yScale = d3.scale.linear()
+			 .domain([-10, 10])
+			 .range([height, 0]);
+
+		//Define X axis
+		var xAxis = d3.svg.axis()
+			  .scale(xScale)
+			  .orient("bottom")
+			  .tickFormat("")
+			  .ticks(5);
+		//Define Y axis
+		var yAxis = d3.svg.axis()
+			  .scale(yScale)
+			  .orient("left")
+			  .tickFormat("")
+			  .ticks(5);
+
+		//Create SVG element
+		$("#scatterplot").height(height+margin.top+margin.bottom).width(width+margin.left+margin.right);
+		var svg = d3.select("#scatterplot")
+			.append("g")
+			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+		//Create tooltips
+		var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return d[0]; });
+		svg.call(tip);
+
+		//Create circles
+		var dots = svg.selectAll("circle")
+		   .data(data);
+
+		dots.enter()
+		   .append("circle")
+		   .attr("cx", function(d) {
+				return xScale(d[1]);
+		   })
+		   .attr("cy", function(d) {
+				return yScale(d[2]);
+		   })
+		   .attr("r", "5px")
+		   .on('mouseover', tip.show)
+		   .on('mouseout', tip.hide);
+
+		dots.exit()
+		    .remove();
+		
+		//Create X axis
+		svg.append("g")
+			.attr("class", "axis")
+			.attr("transform", "translate(0," + (height) + ")")
+			.call(xAxis);
+		
+		//Create Y axis
+		svg.append("g")
+			.attr("class", "axis")
+			.attr("transform", "translate(0,0)")
+			.call(yAxis);
+		
+		//Create custom x axis labels
+		svg.append("text")
+			.attr("x", xScale(-9) + "px")
+			.attr("y", (height + 20) + "px")
+			.attr("text-anchor", "start")
+			.text("Low");
+		svg.append("text")
+			.attr("x", xScale(0) + "px")
+			.attr("y", (height + 40) + "px")
+			.attr("text-anchor", "middle")
+			.text("Video Time");
+		svg.append("text")
+			.attr("x", xScale(9) + "px")
+			.attr("y", (height + 20) + "px")
+			.attr("text-anchor", "end")
+			.text("High");
+		//Create custom y axis labels
+		svg.append("text")
+			.attr("text-anchor", "start")
+			.attr("transform", "translate(-20, " + yScale(-9) + ")rotate(270)")
+			.text("Low");
+		svg.append("text")
+			.attr("text-anchor", "middle")
+			.attr("transform", "translate(-40, " + yScale(0) + ")rotate(270)")
+			.text("Quiz Question Attempts");
+		svg.append("text")
+			.attr("text-anchor", "end")
+			.attr("transform", "translate(-20, " + yScale(9) + ")rotate(270)")
+			.text("High");
 	});
 }
 
@@ -234,43 +327,43 @@ function changeView(optionName, optionValue) {
 	var h = "advancedHide";
 	var s = "advancedShow";
 	// Hide all advanced things first
-	$(".advancedMore, .advancedMoreClass, .advancedScatterplot, .advancedScatterplotClass, .advancedMasteryGraph, .advancedAll").removeClass(s).addClass(h);
+	$(".advancedSimple, .advancedMore, .advancedMoreClass, .advancedScatterplot, .advancedScatterplotClass, .advancedMasteryGraph, .advancedAll").removeClass(s).addClass(h);
 	switch (optionName) {
 		case "simple":
-			console.log("Changing to simple view");
-			// Don't need to do anything
+			//console.log("Changing to simple view");
+			$(".advancedSimple").removeClass(h).addClass(s);
 			break;
 		case "more":
-			console.log("Changing to more view");
-			$(".advancedMore").removeClass(h).addClass(s);
+			//console.log("Changing to more view");
+			$(".advancedSimple, .advancedMore").removeClass(h).addClass(s);
 			break;
 		case "scatterplot":
-			console.log("Changing to scatterplot view");
+			//console.log("Changing to scatterplot view");
 			$(".advancedScatterplot").removeClass(h).addClass(s);
 			break;
 		case "masteryGraph":
-			console.log("Changing to mastery graph view");
+			//console.log("Changing to mastery graph view");
 			$(".advancedMasteryGraph").removeClass(h).addClass(s);
 			break;
 		case "all":
-			console.log("Changing to all view");
-			$(".advancedAll").removeClass(h).addClass(s);
+			//console.log("Changing to all view");
+			$(".advancedSimple, .advancedAll").removeClass(h).addClass(s);
 			break;
 		case "moreClass":
 			if (optionValue == true) {
-				console.log("Changing to more + class compare view");
-				$(".advancedMore, .advancedMoreClass").removeClass(h).addClass(s);
+				//console.log("Changing to more + class compare view");
+				$(".advancedSimple, .advancedMore, .advancedMoreClass").removeClass(h).addClass(s);
 			} else {
-				console.log("Changing to more view");
-				$(".advancedMore").removeClass(h).addClass(s);
+				//console.log("Changing to more view");
+				$(".advancedSimple, .advancedMore").removeClass(h).addClass(s);
 			}
 			break;
 		case "scatterplotClass":
 			if (optionValue == true) {
-				console.log("Changing to scatterplot + class compare view");
+				//console.log("Changing to scatterplot + class compare view");
 				$(".advancedScatterplot, .advancedScatterplotClass").removeClass(h).addClass(s);
 			} else {
-				console.log("Changing to scatterplot view");
+				//console.log("Changing to scatterplot view");
 				$(".advancedScatterplot").removeClass(h).addClass(s);
 			}
 			break;
@@ -320,6 +413,7 @@ $(function() {
 		// Then we can load other things
 		loadConcepts();
 		loadRecommendations();
+		loadScatterplot();
 	});
 	// Go to simple view first
 	changeView("simple");

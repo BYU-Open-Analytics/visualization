@@ -235,5 +235,26 @@ class ContentRecommenderStatsController extends Controller
 		echo json_encode($result);
 	}
 
+
+	// Returns an array of points for the concept mastery scatterplot
+	public function scatterplotAction() {
+		$this->view->disable();
+		// Get our context (this takes care of starting the session, too)
+		$context = $this->getDI()->getShared('ltiContext');
+		if (!$context->valid) {
+			echo '[{"error":"Invalid lti context"}]';
+			return;
+		}
+
+		function randomPoint() {
+			return ["conceptId", rand(-10, 10), rand(-10, 10)];
+		}
+		$result = [];
+		for ($i=0; $i<40; $i++) {
+			$result []= randomPoint();
+		}
+		echo json_encode($result);
+	}
+
 }
 

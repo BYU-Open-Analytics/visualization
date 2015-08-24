@@ -13,7 +13,7 @@ if ( $context->valid ) {
 <div id="mainContainer" class="container">
   <div class="row">
     <!-- Concepts -->
-    <div id="conceptsSection" class="col-md-3">
+    <div id="conceptsSection" class="advancedSimple col-md-3">
       <h3>Strongest Concepts</h3>
       <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
         <ul id="strongestConceptsList"> </ul>
@@ -23,7 +23,7 @@ if ( $context->valid ) {
     </div>
 
     <!-- Recommendations -->
-    <div id="recommendationsSection" class="col-md-6">
+    <div id="recommendationsSection" class="advancedSimple col-md-6">
         <h3>Recommendations</h3>
         <div class="panel-group" id="recommendationsAccordion" role="tablist">
           <!-- Group 1 -->
@@ -114,8 +114,9 @@ if ( $context->valid ) {
 
 
     <!-- Scatterplot -->
-    <div id="scatterplotSection" class="col-md-6">
+    <div id="scatterplotSection" class="advancedScatterplot col-md-9">
       <h3>Scatterplot</h3>
+        <svg id="scatterplot"></svg>
     </div>
 
     <!-- Advanced -->
