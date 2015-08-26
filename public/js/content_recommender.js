@@ -197,7 +197,7 @@ function questionElement(d) {
 // Loads recommendations
 function loadRecommendations() {
 	d3.json("../content_recommender_stats/recommendations", function(error, data) {
-		$("#recommendationsSection .spinner").hide();
+		$("#recommendSection .spinner").hide();
 		//console.log(error, data);
 		for (var i=1; i<5; i++) {
 			d3.select("#recommend"+i+"List")
@@ -205,8 +205,27 @@ function loadRecommendations() {
 				.data(data["group"+i])
 				.enter()
 				.append("li")
+				.attr("class", "advancedSimple")
 				.html(function(d) { return questionElement(d); });
 		}
+	});
+}
+
+// Loads recommendations
+function loadAllRecommendations() {
+	d3.json("../content_recommender_stats/recommendations/all", function(error, data) {
+		$("#recommendSection .spinner").hide();
+		//console.log(error, data);
+		for (var i=1; i<5; i++) {
+			d3.select("#recommend"+i+"List")
+				.selectAll("li")
+				.data(data["group"+i])
+				.enter()
+				.append("li")
+				.attr("class", "advancedAll")
+				.html(function(d) { return questionElement(d); });
+		}
+		refreshView();
 	});
 }
 
@@ -366,11 +385,11 @@ function loadScatterplot(scopeOption) {
 
 // Sometimes we're just refreshing the current view, if we added advanced elements and need those to show/hide accordingly.
 function refreshView() {
-	changeView(currentView[0], currentView[1]);
+	changeView(currentView[0], currentView[1], true);
 }
 
 // Toggles on right of page to change what we're showing
-function changeView(optionName, optionValue) {
+function changeView(optionName, optionValue, refreshOnly) {
 	currentView = [optionName, optionValue];
 
 	var h = "advancedHide";
@@ -396,7 +415,10 @@ function changeView(optionName, optionValue) {
 			break;
 		case "all":
 			//console.log("Changing to all view");
-			$(".advancedSimple, .advancedAll").removeClass(h).addClass(s);
+			$(".advancedAll").removeClass(h).addClass(s);
+			if (!refreshOnly) {
+				loadAllRecommendations();
+			}
 			break;
 		case "moreClass":
 			if (optionValue == true) {

@@ -64,6 +64,11 @@ td {
 	padding-right: 5px;
 }
 
+.recommendPanelBody {
+	max-height: 360px;
+	overflow: scroll;
+}
+
 /* Scatterplot */
 .axis path, .axis line {
 	fill: none;

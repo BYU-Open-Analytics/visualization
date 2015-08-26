@@ -10,10 +10,10 @@ if ( $context->valid ) {
 </div>
 
 <!-- Container for concepts, recommendations, and advanced -->
-<div id="mainContainer" class="container">
+<div id="mainContainer" class="container hidden">
   <div class="row">
     <!-- Concepts -->
-    <div id="conceptsSection" class="advancedSimple col-md-3">
+    <div id="conceptsSection" class="advancedSimple advancedAll col-md-3">
       <h3>Strongest Concepts</h3>
       <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
         <ul id="strongestConceptsList"> </ul>
@@ -23,8 +23,9 @@ if ( $context->valid ) {
     </div>
 
     <!-- Recommendations -->
-    <div id="recommendationsSection" class="advancedSimple col-md-6">
-        <h3>Recommendations</h3>
+    <div id="recommendSection" class="advancedSimple advancedAll col-md-6">
+        <h3 class="advancedSimple">Recommendations</h3>
+        <h3 class="advancedAll">Recommendations for all concepts</h3>
         <div class="panel-group" id="recommendationsAccordion" role="tablist">
           <!-- Group 1 -->
           <div class="panel panel-default">
@@ -35,7 +36,7 @@ if ( $context->valid ) {
               </h4>
             </div>
             <div id="recommend1" class="panel-collapse collapse in">
-              <div class="panel-body">
+              <div class="panel-body recommendPanelBody">
                 <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
                 <ul id="recommend1List"> </ul>
               </div>
@@ -50,7 +51,7 @@ if ( $context->valid ) {
               </h4>
             </div>
             <div id="recommend2" class="panel-collapse collapse">
-              <div class="panel-body">
+              <div class="panel-body recommendPanelBody">
                 <ul id="recommend2List"> </ul>
               </div>
             </div>
@@ -64,7 +65,7 @@ if ( $context->valid ) {
               </h4>
             </div>
             <div id="recommend3" class="panel-collapse collapse">
-              <div class="panel-body">
+              <div class="panel-body recommendPanelBody">
                 <ul id="recommend3List"> </ul>
               </div>
             </div>
@@ -78,7 +79,7 @@ if ( $context->valid ) {
               </h4>
             </div>
             <div id="recommend4" class="panel-collapse collapse">
-              <div class="panel-body">
+              <div class="panel-body recommendPanelBody">
                 <ul id="recommend4List"> </ul>
               </div>
             </div>
@@ -181,7 +182,7 @@ if ( $context->valid ) {
 
 <!-- This is the existing content recommender stuff -->
 <!-- Content tables -->
-<div id="mainContainer" class="container">
+<div id="mainContainer" class="container hidden">
   <div class="row">
     <div id="questionsTable" class="col-md-6">
       <div class=""><h3>Quiz Questions <small>— Sorted by attempts</small></h3></div>

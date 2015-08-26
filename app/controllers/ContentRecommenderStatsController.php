@@ -197,7 +197,7 @@ class ContentRecommenderStatsController extends Controller
 		// Watch these videos before attempting these quiz questions (Group 2)
 		// Find additional help (Group 3)
 		// Practice these questions again (Group 4)
-	public function recommendationsAction() {
+	public function recommendationsAction($scope = "weakest") {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
@@ -205,27 +205,21 @@ class ContentRecommenderStatsController extends Controller
 			echo '[{"error":"Invalid lti context"}]';
 			return;
 		}
-
-		$group1 = [
-			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1", "correct" => false, "attempts" => 0, "classPercentCorrect" => 60, "classAverageAttempts" => 5],
-			["conceptId" => 4, "assessment_id" => 1, "question_id" => 3, "display" => "Chapter 1 - Concept D - Quiz Question 3", "correct" => false, "attempts" => 0, "classPercentCorrect" => 60, "classAverageAttempts" => 5],
-			["conceptId" => 4, "assessment_id" => 1, "question_id" => 2, "display" => "Chapter 1 - Concept E - Quiz Question 2", "correct" => false, "attempts" => 0, "classPercentCorrect" => 60, "classAverageAttempts" => 5],
-		];
-		$group2 = [
-			["conceptId" => 4, "assessment_id" => 3, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1", "correct" => true, "attempts" => 10, "classPercentCorrect" => 60, "classAverageAttempts" => 5],
-			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 3", "correct" => true, "attempts" => 10, "classPercentCorrect" => 60, "classAverageAttempts" => 5],
-			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept E - Quiz Question 2", "correct" => true, "attempts" => 10, "classPercentCorrect" => 60, "classAverageAttempts" => 5],
-		];
-		$group3 = [
-			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1", "correct" => true, "attempts" => 10, "classPercentCorrect" => 60, "classAverageAttempts" => 5],
-			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 3", "correct" => true, "attempts" => 10, "classPercentCorrect" => 60, "classAverageAttempts" => 5],
-			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept E - Quiz Question 2", "correct" => true, "attempts" => 10, "classPercentCorrect" => 60, "classAverageAttempts" => 5],
-		];
-		$group4 = [
-			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1", "correct" => true, "attempts" => 10, "classPercentCorrect" => 60, "classAverageAttempts" => 5],
-			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 3", "correct" => true, "attempts" => 10, "classPercentCorrect" => 60, "classAverageAttempts" => 5],
-			["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept E - Quiz Question 2", "correct" => true, "attempts" => 10, "classPercentCorrect" => 60, "classAverageAttempts" => 5],
-		];
+		$group1 = [];
+		$group2 = [];
+		$group3 = [];
+		$group4 = [];
+		// By default, only show recommendations for weakest concepts. If parameter is for all, then show recommendations for all concepts.
+		$count = 6;
+		if ($scope == "all") {
+			$count = 30;
+		}
+		for ($i=0; $i<$count; $i++) {
+			$group1 [] = ["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1", "correct" => false, "attempts" => 0, "classPercentCorrect" => 60, "classAverageAttempts" => 5];
+			$group2 [] = ["conceptId" => 4, "assessment_id" => 3, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1", "correct" => true, "attempts" => 10, "classPercentCorrect" => 60, "classAverageAttempts" => 5];
+			$group3 [] = ["conceptId" => 4, "assessment_id" => 3, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1", "correct" => true, "attempts" => 10, "classPercentCorrect" => 60, "classAverageAttempts" => 5];
+			$group4 [] = ["conceptId" => 4, "assessment_id" => 3, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1", "correct" => true, "attempts" => 10, "classPercentCorrect" => 60, "classAverageAttempts" => 5];
+		}
 		$result = [
 			"group1" => $group1,
 			"group2" => $group2,
