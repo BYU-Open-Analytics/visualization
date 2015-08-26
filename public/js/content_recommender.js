@@ -211,8 +211,12 @@ function loadRecommendations() {
 }
 
 // Loads the scatterplot
-function loadScatterplot() {
-	d3.json("../content_recommender_stats/scatterplot", function(error, data) {
+function loadScatterplot(scopeOption) {
+	// Show the spinner while loading
+	$("#scatterplotSection .spinner").show();
+	// Default scope is concept
+	scopeOption = scopeOption != null ? scopeOption : "concept";
+	d3.csv("../content_recommender_stats/scatterplot/" + scopeOption, coerceTypes, function(error, data) {
 		$("#scatterplotSection .spinner").hide();
 		console.log("scatterplot", error, data);
 
@@ -221,12 +225,18 @@ function loadScatterplot() {
 		    height = 450 - margin.top - margin.bottom,
 		    width = 500 - margin.left - margin.right;
 
+		var xMax = d3.max(data, function(d) { return d.x; });
+		var yMax = d3.max(data, function(d) { return d.y; });
+		var xMin = d3.min(data, function(d) { return d.x; });
+		var yMin = d3.min(data, function(d) { return d.y; });
+
 		//Create scale functions
+		// Don't want dots overlapping axis, so add in buffer to data domain
 		var xScale = d3.scale.linear()
-			 .domain([-10, 10])
+			 .domain([xMin, xMax])
 			 .range([0, width]);
 		var yScale = d3.scale.linear()
-			 .domain([-10, 10])
+			 .domain([yMin, yMax])
 			 .range([height, 0]);
 
 		//Define X axis
@@ -234,22 +244,29 @@ function loadScatterplot() {
 			  .scale(xScale)
 			  .orient("bottom")
 			  .tickFormat("")
-			  .ticks(5);
+			  .ticks(0);
 		//Define Y axis
 		var yAxis = d3.svg.axis()
 			  .scale(yScale)
 			  .orient("left")
 			  .tickFormat("")
-			  .ticks(5);
+			  .ticks(0);
 
+		//Remove old chart
+		$("#scatterplotSection svg").remove();
 		//Create SVG element
-		$("#scatterplot").height(height+margin.top+margin.bottom).width(width+margin.left+margin.right);
-		var svg = d3.select("#scatterplot")
+		var svg = d3.select("#scatterplotSection")
+			.append("svg")
+			.attr("height", height+margin.top+margin.bottom)
+			.attr("width", width+margin.left+margin.right)
 			.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
+		//Data elements are as follows ["student/class", "conceptId", x, y]
+
 		//Create tooltips
-		var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return d[0]; });
+		//var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return d.assessment_id + "." + d.question_id; });
+		var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return d.x + "." + d.y; });
 		svg.call(tip);
 
 		//Create circles
@@ -259,18 +276,26 @@ function loadScatterplot() {
 		dots.enter()
 		   .append("circle")
 		   .attr("cx", function(d) {
-				return xScale(d[1]);
+				return xScale(d.x);
 		   })
 		   .attr("cy", function(d) {
-				return yScale(d[2]);
+				return yScale(d.y);
 		   })
-		   .attr("r", "5px")
+		   .attr("r", function(d) {
+			   	return d.group == "student" ? "6px" : "2px";
+		   })
+		   .attr("fill", function(d) {
+			   	return d.group == "student" ? "#337ab7" : "gray";
+		   })
+		   .attr("class", function(d) {
+			   	return d.group + "Point";
+		   })
 		   .on('mouseover', tip.show)
 		   .on('mouseout', tip.hide);
 
 		dots.exit()
 		    .remove();
-		
+
 		//Create X axis
 		svg.append("g")
 			.attr("class", "axis")
@@ -283,36 +308,60 @@ function loadScatterplot() {
 			.attr("transform", "translate(0,0)")
 			.call(yAxis);
 		
+		//Create quadrant lines
+		svg.append("line")
+			.attr("x1", xScale(xMin))
+			.attr("x2", xScale(xMax))
+			.attr("y1", yScale((yMin + yMax) / 2))
+			.attr("y2", yScale((yMin + yMax) / 2))
+			.attr("class", "quadrantLine");
+		svg.append("line")
+			.attr("y1", yScale(yMin))
+			.attr("y2", yScale(yMax))
+			.attr("x1", xScale((xMin + xMax) / 2))
+			.attr("x2", xScale((xMin + xMax) / 2))
+			.attr("class", "quadrantLine");
+
+		// Make sure that student points show over class points and quadrant lines
+		svg.selectAll(".studentPoint").moveToFront();
+
 		//Create custom x axis labels
 		svg.append("text")
-			.attr("x", xScale(-9) + "px")
+			.attr("x", xScale(xMin) + "px")
 			.attr("y", (height + 20) + "px")
 			.attr("text-anchor", "start")
 			.text("Low");
 		svg.append("text")
-			.attr("x", xScale(0) + "px")
+			.attr("x", xScale((xMin + xMax) / 2) + "px")
 			.attr("y", (height + 40) + "px")
 			.attr("text-anchor", "middle")
 			.text("Video Time");
 		svg.append("text")
-			.attr("x", xScale(9) + "px")
+			.attr("x", xScale(xMax) + "px")
 			.attr("y", (height + 20) + "px")
 			.attr("text-anchor", "end")
 			.text("High");
 		//Create custom y axis labels
 		svg.append("text")
 			.attr("text-anchor", "start")
-			.attr("transform", "translate(-20, " + yScale(-9) + ")rotate(270)")
+			.attr("transform", "translate(-20, " + yScale(yMin) + ")rotate(270)")
 			.text("Low");
 		svg.append("text")
 			.attr("text-anchor", "middle")
-			.attr("transform", "translate(-40, " + yScale(0) + ")rotate(270)")
+			.attr("transform", "translate(-40, " + yScale((yMin + yMax) / 2) + ")rotate(270)")
 			.text("Quiz Question Attempts");
 		svg.append("text")
 			.attr("text-anchor", "end")
-			.attr("transform", "translate(-20, " + yScale(9) + ")rotate(270)")
+			.attr("transform", "translate(-20, " + yScale(yMax) + ")rotate(270)")
 			.text("High");
+		refreshView();
 	});
+
+	function coerceTypes(d) {
+		d.x = +d.x;
+		d.y = +d.y;
+		return d;
+	}
 }
 
 // Sometimes we're just refreshing the current view, if we added advanced elements and need those to show/hide accordingly.
@@ -383,6 +432,10 @@ $(function() {
 	$("#jumbotronDismiss").click(function() {
 		$("#"+$(this).attr("data-dismiss")).hide();
 		$("#mainContainer").removeClass("hidden").addClass("show");
+	});
+	// Reload the scatterplot when scope changes
+	$("input:radio[name=scatterplotScopeOption]").on("change", function() {
+		loadScatterplot($(this).val());
 	});
 	$(".advancedToggle").click(function() {
 		// Deselect other options

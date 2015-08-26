@@ -76,7 +76,24 @@ td {
 	font-size: 11px;
 }
 
+.quadrantLine {
+	fill: none;
+	stroke:gray;
+	shape-rendering: crispEdges;
+}
+
+.studentPoint:hover {
+	r: 10px;
+}
+
+.classPoint:hover {
+	r: 6px;
+}
+
 /* Advanced */
+.advancedToggle {
+	transition: background-color 100ms ease-out;
+}
 .advancedToggleOptional {
 	display: none;
 }
@@ -94,7 +111,7 @@ td {
 	display: none;
 }
 .advancedShow {
-	display: block;
+	display: block!important;
 }
 table.advancedShow {
 	display: table;

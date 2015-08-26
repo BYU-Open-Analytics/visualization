@@ -237,7 +237,7 @@ class ContentRecommenderStatsController extends Controller
 
 
 	// Returns an array of points for the concept mastery scatterplot
-	public function scatterplotAction() {
+	public function scatterplotAction($scope = 'concept', $group = 'student') {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
@@ -246,14 +246,71 @@ class ContentRecommenderStatsController extends Controller
 			return;
 		}
 
-		function randomPoint() {
-			return ["conceptId", rand(-10, 10), rand(-10, 10)];
+		function randomPoint($group) {
+			// Randomly return outliers
+			if (rand(0,30) == 5) {
+				return [$group, "qid", "aid", rand(-10000, 1000), rand(-10000, 1000)];
+			}
+			return [$group, "qid", "aid", rand(-100, 100) / 10, rand(-100, 100) / 10];
 		}
 		$result = [];
-		for ($i=0; $i<40; $i++) {
-			$result []= randomPoint();
+		// For now, return arbitrarily larger number of points depending on scope
+		$pointCounts = ['concept' => 20, 'chapter' => 40, 'unit' => 80, 'all' => '160'];
+		for ($i=0; $i<$pointCounts[$scope]; $i++) {
+			$result []= randomPoint("student");
 		}
-		echo json_encode($result);
+		for ($i=0; $i<($pointCounts[$scope]*10); $i++) {
+			$result []= randomPoint("class");
+		}
+
+		$xValues = array_map(function($point) { return $point[3]; }, $result);
+		$yValues = array_map(function($point) { return $point[4]; }, $result);
+		// Perform some statistics grossness
+			// Remove any outliers for both axes, based on 1.5*IQR
+			// Cap and floor x outliers
+			$xStats = StatsHelper::boxPlotValues($xValues);
+			$result = array_map(function($point) use ($xStats) {
+				$x = $point[3];
+				// Floor upper outliers
+				if ($x > $xStats['q3'] + (1.5 * $xStats['iqr'])) {
+					$x = $xStats['q3'] + (.5 * $xStats['iqr']);
+				}
+				// Cap lower outliers
+				if ($x < $xStats['q1'] - (1.5 * $xStats['iqr'])) {
+					$x = $xStats['q1'] - (.5 * $xStats['iqr']);
+				}
+				$point[3] = $x;
+				return $point;
+			}, $result);
+			// Scale all the scores from 0 to 10
+			// TODO
+
+			// Cap and floor y outliers
+			$yStats = StatsHelper::boxPlotValues($yValues);
+			$result = array_map(function($point) use ($yStats) {
+				$y = $point[4];
+				// Floor upper outliers
+				if ($y > $yStats['q3'] + (1.5 * $yStats['iqr'])) {
+					$y = $yStats['q3'] + (.5 * $yStats['iqr']);
+				}
+				// Cap lower outliers
+				if ($y < $yStats['q1'] - (1.5 * $yStats['iqr'])) {
+					$y = $yStats['q1'] - (.5 * $yStats['iqr']);
+				}
+				$point[4] = $y;
+				return $point;
+			}, $result);
+			//print_r($result);
+			//print_r($yStats);
+		//die();
+		// Output data as csv so that we only have to send header information once
+		header("Content-Type: text/csv");
+		$output = fopen("php://output", "w");
+		fputcsv($output, ["group", "question_id", "assessment_id", "x", "y"]);
+		foreach ($result as $row) {
+			fputcsv($output, $row); // here you can change delimiter/enclosure
+		}
+		fclose($output);
 	}
 
 }

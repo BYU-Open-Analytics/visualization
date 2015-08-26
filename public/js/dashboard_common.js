@@ -4,6 +4,21 @@ function sendStatement(params) {
 	$.post("../xapi", params);
 }
 
+// From http://stackoverflow.com/a/14426477
+d3.selection.prototype.moveToFront = function() {
+  return this.each(function(){
+    this.parentNode.appendChild(this);
+  });
+};
+d3.selection.prototype.moveToBack = function() { 
+    return this.each(function() { 
+        var firstChild = this.parentNode.firstChild; 
+        if (firstChild) { 
+            this.parentNode.insertBefore(this, firstChild); 
+        } 
+    }); 
+};
+
 // This function from http://www.ostyn.com/standards/scorm/samples/ISOTimeForSCORM.htm
 /* This reusable script is copyrighted.
    Copyright (c) 2004,2005,2006 Claude Ostyn
