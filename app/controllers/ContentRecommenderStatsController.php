@@ -318,10 +318,10 @@ class ContentRecommenderStatsController extends Controller
 
 		$result = [];
 		// For now, return arbitrarily larger number of concepts depending on scope
-		$pointCounts = ['chapter' => 4, 'unit' => 10, 'all' => 20];
+		$pointCounts = ['chapter' => 4, 'unit' => 18, 'all' => 65];
 
 		for ($i=1; $i<=$pointCounts[$scope]; $i++) {
-			$result []= ["id" => $i, "display" => "Concept $i", "score" => (rand(0,100) / 10)];
+			$result []= ["id" => $i, "display" => "Effusion and the Kinetic Molecular Theory of Gases $i", "score" => (rand(0,100) / 10)];
 		}
 		echo json_encode($result);
 	}

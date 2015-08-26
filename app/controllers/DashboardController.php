@@ -34,6 +34,13 @@ class DashboardController extends Controller
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
 		$this->view->context = $context;
+
+		// Concept, Chapter, and Unit lists
+		$units = [];
+		for ($i=1; $i<=4; $i++) {
+			$units []= ["id" => $i, "name" => "Unit $i"];
+		}
+		$this->view->units = $units;
 	}
 	public function student_skillsAction() {
 		$this->tag->setTitle('Student Skills Dashboard');

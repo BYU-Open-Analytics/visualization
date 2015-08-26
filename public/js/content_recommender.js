@@ -395,9 +395,9 @@ function loadMasteryGraph(scopeOption) {
 		console.log("masterygraph", error, data);
 
 		//Width and height
-		var margin = {top: 10, right: 10, bottom: 130, left: 40},
-		    height = 450 - margin.top - margin.bottom,
-		    width = 500 - margin.left - margin.right;
+		var margin = {top: 10, right: 10, bottom: 180, left: 40},
+		    height = 550 - margin.top - margin.bottom,
+		    width = (35 * data.length + 100) - margin.left - margin.right;
 		
 		var x = d3.scale.ordinal()
 			.rangeRoundBands([0, width], .1);
@@ -419,7 +419,7 @@ function loadMasteryGraph(scopeOption) {
 		//Remove old chart
 		$("#masteryGraphSection svg").remove();
 		//Create SVG element with padded container for chart
-		var chart = d3.select("#masteryGraphSection")
+		var chart = d3.select("#masteryGraphSection .svgContainer")
 			.append("svg")
 			.attr("height", height+margin.top+margin.bottom)
 			.attr("width", width+margin.left+margin.right)
@@ -457,25 +457,21 @@ function loadMasteryGraph(scopeOption) {
 		chart.append("g")
 			.attr("class", "axis y")
 			.call(yAxis);
-		// X axis with rotated labels
+		// X axis with rotated and wrapped labels
 		chart.append("g")
 			.attr("class", "x axis")
 			.attr("transform", "translate(0," + height + ")")
 			.call(xAxis)
-			.selectAll("text")  
+			.selectAll(".tick text")  
+			.call(wrap, 200, -.6, -.55);
+		chart.selectAll(".axis.x .tick text")
 			.style("text-anchor", "end")
-			.attr("dx", "-.8em")
-			.attr("dy", ".15em")
+			//.attr("dx", "-.6em")
+			//.attr("dy", "-.55em")
 			.attr("transform", function(d) {
-				return "rotate(-65)" 
+				return "rotate(-90)" 
 			});
 
-		//bars.append("text")
-			//.attr("x", function(d) { return x.rangeBand() / 2; })
-			//.attr("y", function(d) { return y(d.score) + 5; })
-			//.attr("dy", ".75em")
-			//.attr("text-anchor", "middle")
-			//.text(function(d) { return d.score; });
 		rects.transition()
 			.duration(500)
 			.delay(function(d, i) { return i * 10; })
@@ -507,6 +503,33 @@ function animateMasteryGraph() {
 		.attr("height", function(d) { return 310 - y(d.score); });
 }
 
+// Helper function from http://bl.ocks.org/mbostock/7555321
+function wrap(text, width, dx, dy) {
+  text.each(function() {
+    var text = d3.select(this),
+        words = text.text().split(/\s+/).reverse(),
+        word,
+        line = [],
+        lineNumber = 0,
+        lineHeight = 1.1, // ems
+        y = text.attr("y"),
+        dy = parseFloat(text.attr("dy")) + dy,
+        tspan = text.text("").append("tspan").attr("x", 0).attr("y", y).attr("dx", dx).attr("dy", dy + "em");
+    console.log(words, width);
+    while (word = words.pop()) {
+      line.push(word);
+      tspan.text(line.join(" "));
+      console.log(tspan.node().getComputedTextLength());
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(" "));
+        line = [word];
+        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dx", dx).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+      }
+    }
+  });
+}
+
 // Sometimes we're just refreshing the current view, if we added advanced elements and need those to show/hide accordingly.
 function refreshView() {
 	changeView(currentView[0], currentView[1], true);
@@ -536,6 +559,9 @@ function changeView(optionName, optionValue, refreshOnly) {
 		case "masteryGraph":
 			//console.log("Changing to mastery graph view");
 			$(".advancedMasteryGraph").removeClass(h).addClass(s);
+			if (!refreshOnly) {
+				loadMasteryGraph();
+			}
 			animateMasteryGraph();
 			break;
 		case "all":
@@ -618,7 +644,6 @@ $(function() {
 		loadConcepts();
 		loadRecommendations();
 		loadScatterplot();
-		loadMasteryGraph();
 	});
 	// Go to simple view first
 	changeView("simple");

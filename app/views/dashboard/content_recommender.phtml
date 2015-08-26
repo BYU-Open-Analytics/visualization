@@ -10,7 +10,7 @@ if ( $context->valid ) {
 </div>
 
 <!-- Container for concepts, recommendations, and advanced -->
-<div id="mainContainer" class="container hidden">
+<div id="mainContainer" class="container">
   <div class="row">
     <!-- Concepts -->
     <div id="conceptsSection" class="advancedSimple advancedAll col-md-3">
@@ -120,10 +120,18 @@ if ( $context->valid ) {
         <span class="spinner pull-right"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
         <form>
           <div class="btn-group" data-toggle="buttons">
-            <label class="btn btn-default active"><input type="radio" name="scatterplotScopeOption" value="concept" checked />Concept</label>
-            <label class="btn btn-default"><input type="radio" name="scatterplotScopeOption" value="chapter" />Chapter</label>
-            <label class="btn btn-default"><input type="radio" name="scatterplotScopeOption" value="unit" />Unit</label>
-            <label class="btn btn-default"><input type="radio" name="scatterplotScopeOption" value="all" />All</label>
+	    <label class="btn btn-default active scopeOptionLabel"><input type="radio" name="scatterplotScopeOption" value="concept" checked />Concept: 
+
+            </label>
+	    <label class="btn btn-default scopeOptionLabel"><input type="radio" name="scatterplotScopeOption" value="chapter" />Chapter: 
+	
+            </label>
+	    <label class="btn btn-default scopeOptionLabel"><input type="radio" name="scatterplotScopeOption" value="unit" />Unit: 
+              <select class="unitSelector" name="scatterplotUnitSelector">
+                <?php print_r($units); foreach ($units as $unit) { echo '<option value="'.$unit['id'].'">'.$unit['name'].'</option>'; } ?>
+              </select>
+            </label>
+            <label class="btn btn-default scopeOptionLabel"><input type="radio" name="scatterplotScopeOption" value="all" />All</label>
           </div>
         </form>
     </div>
@@ -139,6 +147,7 @@ if ( $context->valid ) {
             <label class="btn btn-default"><input type="radio" name="masteryGraphScopeOption" value="all" />All</label>
           </div>
         </form><br><br>
+	<div class="svgContainer"></div>
     </div>
 
     <!-- Advanced -->
