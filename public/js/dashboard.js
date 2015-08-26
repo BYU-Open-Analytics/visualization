@@ -266,8 +266,6 @@ function updateAyamelStats() {
 			.attr("y", function(d) { return y(d.value); })
 			.attr("height", function(d) { return height - y(d.value); })
 	});
-
-
 }
 
 function fillColor(barName) {

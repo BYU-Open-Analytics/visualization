@@ -307,5 +307,24 @@ class ContentRecommenderStatsController extends Controller
 		fclose($output);
 	}
 
+	public function masteryGraphAction($scope = 'chapter') {
+		$this->view->disable();
+		// Get our context (this takes care of starting the session, too)
+		$context = $this->getDI()->getShared('ltiContext');
+		if (!$context->valid) {
+			echo '[{"error":"Invalid lti context"}]';
+			return;
+		}
+
+		$result = [];
+		// For now, return arbitrarily larger number of concepts depending on scope
+		$pointCounts = ['chapter' => 4, 'unit' => 10, 'all' => 20];
+
+		for ($i=1; $i<=$pointCounts[$scope]; $i++) {
+			$result []= ["id" => $i, "display" => "Concept $i", "score" => (rand(0,100) / 10)];
+		}
+		echo json_encode($result);
+	}
+
 }
 

@@ -128,6 +128,19 @@ if ( $context->valid ) {
         </form>
     </div>
 
+    <!-- Concept Mastery Graph -->
+    <div id="masteryGraphSection" class="advancedMasteryGraph col-md-9">
+      <h3>Concept Mastery Graph <small>—Scores still need to be scaled by class once we have actual data</small></h3>
+        <span class="spinner pull-right"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
+        <form>
+          <div class="btn-group" data-toggle="buttons">
+            <label class="btn btn-default active"><input type="radio" name="masteryGraphScopeOption" value="chapter" checked />Chapter</label>
+            <label class="btn btn-default"><input type="radio" name="masteryGraphScopeOption" value="unit" />Unit</label>
+            <label class="btn btn-default"><input type="radio" name="masteryGraphScopeOption" value="all" />All</label>
+          </div>
+        </form><br><br>
+    </div>
+
     <!-- Advanced -->
     <div id="advancedSection" class="col-sm-3">
       <h3>Advanced</h3>

@@ -383,6 +383,130 @@ function loadScatterplot(scopeOption) {
 	}
 }
 
+// Loads the scatterplot
+function loadMasteryGraph(scopeOption) {
+	// Show the spinner while loading
+	$("#masteryGraphSection .spinner").show();
+	// Default scope is chapter
+	scopeOption = scopeOption != null ? scopeOption : "chapter";
+	// TODO don't use absolute url ref here
+	d3.json("../content_recommender_stats/masteryGraph/" + scopeOption, function(error, data) {
+		$("#masteryGraphSection .spinner").hide();
+		console.log("masterygraph", error, data);
+
+		//Width and height
+		var margin = {top: 10, right: 10, bottom: 130, left: 40},
+		    height = 450 - margin.top - margin.bottom,
+		    width = 500 - margin.left - margin.right;
+		
+		var x = d3.scale.ordinal()
+			.rangeRoundBands([0, width], .1);
+		var y = d3.scale.linear()
+			.range([height, 0]);
+		
+		var xAxis = d3.svg.axis()
+			.scale(x)
+			.orient("bottom");
+		var yAxis = d3.svg.axis()
+			.scale(y)
+			.orient("left");
+		
+		//Color scale
+		var colorScale = d3.scale.linear()
+				.domain([0, 3.3, 6.6, 10])
+				.range(["red", "orange", "yellow", "green"]);
+
+		//Remove old chart
+		$("#masteryGraphSection svg").remove();
+		//Create SVG element with padded container for chart
+		var chart = d3.select("#masteryGraphSection")
+			.append("svg")
+			.attr("height", height+margin.top+margin.bottom)
+			.attr("width", width+margin.left+margin.right)
+			.append("g")
+			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+		x.domain(data.map(function(d) { return d.display; }));
+		y.domain([0, 10]);
+
+		//Create tooltips
+		var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return d.score; });
+		chart.call(tip);
+
+		var bars = chart.selectAll(".bar")
+			.data(data)
+			.enter().append("g")
+			.attr("transform", function(d) { return "translate(" + x(d.display) + ", 0)"; })
+			.attr("class", "bar");
+
+		var rects = bars.append("rect")
+			//.attr("x", function(d) { return x(d.name); })
+			//y and height are temporary, but must have initial values for transition to work
+			.attr("y", height + "px")
+			.attr("height", 0 + "px")
+			.attr("width", x.rangeBand())
+			.attr("fill", function(d) { return colorScale(d.score); })
+			.attr("cursor", "pointer")
+			.attr("data-toggle", "modal")
+			.attr("data-target", "#openAssessmentStatsModal")
+			.attr("data-name", function(d) { return d.id; })
+			.on('mouseover', tip.show)
+			.on('mouseout', tip.hide);
+
+		// Y axis
+		chart.append("g")
+			.attr("class", "axis y")
+			.call(yAxis);
+		// X axis with rotated labels
+		chart.append("g")
+			.attr("class", "x axis")
+			.attr("transform", "translate(0," + height + ")")
+			.call(xAxis)
+			.selectAll("text")  
+			.style("text-anchor", "end")
+			.attr("dx", "-.8em")
+			.attr("dy", ".15em")
+			.attr("transform", function(d) {
+				return "rotate(-65)" 
+			});
+
+		//bars.append("text")
+			//.attr("x", function(d) { return x.rangeBand() / 2; })
+			//.attr("y", function(d) { return y(d.score) + 5; })
+			//.attr("dy", ".75em")
+			//.attr("text-anchor", "middle")
+			//.text(function(d) { return d.score; });
+		rects.transition()
+			.duration(500)
+			.delay(function(d, i) { return i * 10; })
+			.attr("y", function(d) { return y(d.score); })
+			.attr("height", function(d) { return height - y(d.score); });
+		//refreshView();
+	});
+
+	function coerceTypes(d) {
+		d.x = +d.x;
+		d.y = +d.y;
+		return d;
+	}
+}
+
+// Function to make the mastery graph bar chart animate
+function animateMasteryGraph() {
+	// TODO 310 is a magic number
+	var y = d3.scale.linear()
+		.range([310, 0])
+		.domain([0, 10]);
+	d3.selectAll("#masteryGraphSection svg .bar rect")
+		.attr("y", 310)
+		.attr("height", 0)
+		.transition()
+		.duration(500)
+		.delay(function(d, i) { return i * 10; })
+		.attr("y", function(d) { return y(d.score); })
+		.attr("height", function(d) { return 310 - y(d.score); });
+}
+
 // Sometimes we're just refreshing the current view, if we added advanced elements and need those to show/hide accordingly.
 function refreshView() {
 	changeView(currentView[0], currentView[1], true);
@@ -412,6 +536,7 @@ function changeView(optionName, optionValue, refreshOnly) {
 		case "masteryGraph":
 			//console.log("Changing to mastery graph view");
 			$(".advancedMasteryGraph").removeClass(h).addClass(s);
+			animateMasteryGraph();
 			break;
 		case "all":
 			//console.log("Changing to all view");
@@ -459,6 +584,10 @@ $(function() {
 	$("input:radio[name=scatterplotScopeOption]").on("change", function() {
 		loadScatterplot($(this).val());
 	});
+	// Reload the mastery graph when scope changes
+	$("input:radio[name=masteryGraphScopeOption]").on("change", function() {
+		loadMasteryGraph($(this).val());
+	});
 	$(".advancedToggle").click(function() {
 		// Deselect other options
 		$(".advancedToggleLi").removeClass("active");
@@ -489,6 +618,7 @@ $(function() {
 		loadConcepts();
 		loadRecommendations();
 		loadScatterplot();
+		loadMasteryGraph();
 	});
 	// Go to simple view first
 	changeView("simple");
