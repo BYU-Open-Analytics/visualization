@@ -605,6 +605,15 @@ $(function() {
 		dashboardID: 'content_recommender_dashboard',
 		dashboardName: 'Content Recommender Dashboard'
 	});
+	// Record start load time for duration for statement
+	var loadTime = Date.now();
+	// Send exited statement when student leaves page
+	window.onbeforeunload = function() { sendStatement({
+		statementName: 'dashboardExited',
+		duration: centisecsToISODuration( (Date.now() - loadTime) / 10),
+		dashboardID: 'student_skills_dashboard',
+		dashboardName: 'Student Skills Dashboard'
+	}); }
 
 	// Set up event listeneres
 	$("#jumbotronDismiss").click(function() {

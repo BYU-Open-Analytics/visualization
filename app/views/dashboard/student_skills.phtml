@@ -1,33 +1,163 @@
-<h2>Student Skills<small>— currently random numbers</small></h2>
 <?php
 if ( $context->valid ) {
 ?>
-<div id="visualizationContainer" class="container">
+
+<!-- Welcome jumbotron message -->
+<div class="jumbotron" id="welcomeJumbotron">
+  <h1>Welcome!</h1>
+  <p>This dashboard will display recommendations to you about which student skills should be improved on in order to become a better student based on your online activity.</p>
+  <p><button class="btn btn-primary btn-large" data-dismiss="welcomeJumbotron" id="jumbotronDismiss">Continue to Dashboard</button></p>
+</div>
+
+<!-- Container for skills list, time chart, skills graph, and advanced -->
+<div id="mainContainer" class="container">
   <div class="row">
-    <div id="radarContainer" class="col-md-6">
-      <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
-	<div id="radarChart"></div>
+    <div class="col-sm-9"><div class="row">
+
+      <!-- Skills List Section -->
+      <div id="skillsListSection" class="advancedSimple advancedAll col-md-12">
+        <div class="row">
+	  <div class="col-sm-6">
+            <h3>Your Strongest Skill(s)</h3>
+            <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
+              <ul id="strongestSkillsList"> </ul>
+          </div>
+	  <div class="col-sm-6">
+            <h3>Your Weakest Skill(s)</h3>
+            <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
+              <ul id="weakestSkillsList"> </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skills Graph -->
+      <div id="skillsGraphSection" class="advancedSkillsGraph col-md-12">
+        <h3>Student Skills<small>— currently random numbers</small></h3>
+        <div id="visualizationContainer" class="container">
+            <div id="radarContainer">
+              <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
+              <div id="radarChart"></div>
+            </div>
+        </div>
+      </div>
+   
+    </div></div>
+      
+    <!-- Advanced -->
+    <div id="advancedSection" class="col-sm-3">
+      <h3>Change View</h3>
+      <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" class="advancedToggleLi active"><a id="advancedToggleSimple" class="advancedToggle" data-option="simple" href="#">See simple view</a></li>
+        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleMore" class="advancedToggle" data-option="more" href="#">See more details</a><div class="advancedToggleOptional"><input id="advancedToggleMoreClass" class="advancedToggleOptional" data-option="moreClass" type="checkbox" />&nbsp;<label for="advancedToggleMoreClass">Compare to class</label></div></li>
+        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleScatterplot" class="advancedToggle" data-option="scatterplot" href="#">See scatterplot for these concepts</a><div class="advancedToggleOptional"><input id="advancedToggleScatterplotClass" class="advancedToggleOptional" data-option="scatterplotClass" type="checkbox" />&nbsp;<label for="advancedToggleScatterplotClass">Compare to class</label></div></li>
+        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleMasteryGraph" class="advancedToggle" data-option="masteryGraph" href="#">See my concept mastery graph</a></li>
+        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleAll" class="advancedToggle" data-option="all" href="#">See all recommendations for all concepts</a></li>
+      </ul>
     </div>
+   
   </div>
 </div>
 
-<div class="modal fade" tabindex="-1" id="questionLaunchModal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">This quiz is for practice only.</h4>
-			</div>
-			<div class="modal-body">
-				To have this quiz count for your grade, launch this quiz through Learning Suite.
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Do not launch</button>
-				<a href="#" target="_blank" id="questionLaunchContinueButton" type="button" class="btn btn-primary">Continue to practice</a>
-		</div>
-	</div>
-</div>
+<div id="templates" class="">
 
+  <div class="timeSkillTemplate">
+    <div class="skillScoreBar">
+      <h3>Time Management
+      <span class="skillInfo" id="timeSkillInfo" data-toggle="tooltip" title="Time Management is planning ahead and working on your work well before the due date."><span class="glyphicon glyphicon-info-sign"></span></span></h3>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading" data-score="0"><h4>To improve your Time Management skill, you should:</h4></div>
+      <ol class="list-group">
+        <li class="list-group-item">1. Try to complete your online work before 10pm the day before they are due</li>
+        <li class="list-group-item">2. Plan ahead so you won't be bogged down by multiple projects</li>
+        <li class="list-group-item">3. Visit these online resources to learn about time management and procrastination: <br>
+          <ol><li class="list-group-item">
+	    <a href="https://www.youtube.com/watch?v=Qvcx7Y4caQE" target="_blank" data-toggle="tooltip" title="How to Stop Procrastinating"><?php echo Phalcon\Tag::image("img/videoTime1.png"); ?></a>
+            <a href="https://www.youtube.com/watch?v=VUk6LXRZMMk" target="_blank" data-toggle="tooltip" title="How to Manage Your Time Better"><?php echo Phalcon\Tag::image("img/videoTime2.png"); ?></a>
+          </li></ol>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="activitySkillTemplate">
+    <div class="skillScoreBar">
+      <h3>Online Activity
+      <span class="skillInfo" id="activitySkillInfo" data-toggle="tooltip" title="Online activity is how much you interact with the online videos and quizzes."><span class="glyphicon glyphicon-info-sign"></span></span></h3>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading" data-score="0"><h4>To improve your Online Activity skill, you should:</h4></div>
+      <ol class="list-group">
+        <li class="list-group-item">1. Re-watch videos you did not completely understand</li>
+        <li class="list-group-item">2. Pause videos to take notes or write down questions</li>
+        <li class="list-group-item">3. Redo quiz questions for practice</li>
+        <li class="list-group-item">4. Visit these online resources to learn about online interaction: <br>
+          <ol><li class="list-group-item">
+	    <a href="https://www.youtube.com/watch?v=UAhRf3U50lM" target="_blank" data-toggle="tooltip" title="How to Take Great Notes"><?php echo Phalcon\Tag::image("img/videoActivity1.png"); ?></a>
+            <a href="http://theconversation.com/whats-the-best-most-effective-way-to-take-notes-41961" target="_blank" data-toggle="tooltip" title="What’s the best, most effective way to take notes?"><?php echo Phalcon\Tag::image("img/textActivity1.png"); ?></a>
+          </li></ol>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="regulationSkillTemplate">
+    <div class="skillScoreBar">
+      <h3>Self-Regulation
+      <span class="skillInfo" id="regulationSkillInfo" data-toggle="tooltip" title="Self-Regulation is being able to identify what you know and what you don't know so that you can spend your time more effectively on the material that you need to know most."><span class="glyphicon glyphicon-info-sign"></span></span></h3>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading" data-score="0"><h4>To improve your Self-Regulation skill, you should:</h4></div>
+      <ol class="list-group">
+        <li class="list-group-item">1. Try coming back to this visualization more often for additional tips on how to succeed.</li>
+        <li class="list-group-item">2. Try following some of the visualization suggestions.</li>
+        <li class="list-group-item">3. Try going back over videos and quizzes that you feel would be beneficial from previous sections or chapters</li>
+        <li class="list-group-item">4. Visit these online resources to learn more about self-regulation: <br>
+          <ol><li class="list-group-item">
+	    <a href="https://www.youtube.com/watch?v=jTa1vOH6JjA" target="_blank" data-toggle="tooltip" title="Self-Regulated Learning"><?php echo Phalcon\Tag::image("img/videoRegulation1.png"); ?></a>
+            <a href="http://www.facultyfocus.com/articles/teaching-and-learning/what-it-means-to-be-a-self-regulated-learner/" target="_blank" data-toggle="tooltip" title="What it Means to be a Self-Regulated Learner" alt="What it Means to be a Self-Regulated Learner"><?php echo Phalcon\Tag::image("img/textRegulation1.png"); ?></a>
+          </li></ol>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="efficacySkillTemplate">
+    <div class="skillScoreBar">
+      <h3>Self-Efficacy
+      <span class="skillInfo" id="efficacySkillInfo" data-toggle="tooltip" title="Self-efficacy is being confident in and accurately rating whether you know something or not. Students that are more aware of what they know and what they don't tend to do better."><span class="glyphicon glyphicon-info-sign"></span></span></h3>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading" data-score="0"><h4>To improve your Self-Efficacy skill, you should:</h4></div>
+      <ol class="list-group">
+        <li class="list-group-item">1. Try rating your confidence levels more accurately on the quiz questions.</li>
+        <li class="list-group-item">2. Visit these online resources to learn more about self-efficacy: <br>
+          <ol><li class="list-group-item">
+	    <a href="https://www.youtube.com/watch?v=OFsBNqmclZM" target="_blank" data-toggle="tooltip" title="Self-Efficacy"><?php echo Phalcon\Tag::image("img/videoEfficacy1.png"); ?></a>
+            <a href="http://reflectd.co/2014/01/20/self-efficacy-beliefs/" target="_blank" data-toggle="tooltip" title="Self-Efficacy Beliefs" alt="Self-Efficacy Beliefs"><?php echo Phalcon\Tag::image("img/textEfficacy1.png"); ?></a>
+          </li></ol>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="consistencySkillTemplate">
+    <div class="skillScoreBar">
+      <h3>Consistency
+      <span class="skillInfo" id="consistencySkillInfo" data-toggle="tooltip" title="Consistency is how frequently you work on your online activities. Consistent study is better than studying for longer amounts of time right before an exam."><span class="glyphicon glyphicon-info-sign"></span></span></h3>
+    </div>
+    <div class="panel panel-default">
+      <div class="panel-heading" data-score="0"><h4>To improve your Consistency skill, you should:</h4></div>
+      <ol class="list-group">
+        <li class="list-group-item">1. Try to schedule a time every day to spend time working on this class.</li>
+        <li class="list-group-item">2. Visit these online resources to learn about consistent study: <br>
+          <ol><li class="list-group-item">
+            <a href="http://www.howtostudy.com/manage-your-time/" target="_blank" data-toggle="tooltip" title="Manage Your Time" alt="Manage Your Time"><?php echo Phalcon\Tag::image("img/textConsistency1.png"); ?></a>
+          </li></ol>
+        </li>
+      </ul>
+    </div>
+  </div>
 
 <?php
 echo Phalcon\Tag::javascriptInclude("js/vendor/d3-radar.js");
@@ -37,4 +167,3 @@ echo Phalcon\Tag::stylesheetLink("css/student_skills.css");
 } else {
 	echo "<p class='alert alert-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";
 }
-

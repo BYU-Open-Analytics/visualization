@@ -67,6 +67,63 @@ function updateRadarChart() {
 	});
 }
 
+// Toggles on right of page to change what we're showing
+function changeView(optionName, optionValue, refreshOnly) {
+	currentView = [optionName, optionValue];
+
+	var h = "advancedHide";
+	var s = "advancedShow";
+	// Hide all advanced things first
+	$(".advancedSimple, .advancedMore, .advancedMoreClass, .advancedScatterplot, .advancedScatterplotClass, .advancedMasteryGraph, .advancedAll").removeClass(s).addClass(h);
+	switch (optionName) {
+		case "simple":
+			//console.log("Changing to simple view");
+			$(".advancedSimple").removeClass(h).addClass(s);
+			break;
+		case "more":
+			//console.log("Changing to more view");
+			$(".advancedSimple, .advancedMore").removeClass(h).addClass(s);
+			break;
+		case "scatterplot":
+			//console.log("Changing to scatterplot view");
+			$(".advancedScatterplot").removeClass(h).addClass(s);
+			break;
+		case "masteryGraph":
+			//console.log("Changing to mastery graph view");
+			$(".advancedMasteryGraph").removeClass(h).addClass(s);
+			if (!refreshOnly) {
+				loadMasteryGraph();
+			}
+			animateMasteryGraph();
+			break;
+		case "all":
+			//console.log("Changing to all view");
+			$(".advancedAll").removeClass(h).addClass(s);
+			if (!refreshOnly) {
+				loadAllRecommendations();
+			}
+			break;
+		case "moreClass":
+			if (optionValue == true) {
+				//console.log("Changing to more + class compare view");
+				$(".advancedSimple, .advancedMore, .advancedMoreClass").removeClass(h).addClass(s);
+			} else {
+				//console.log("Changing to more view");
+				$(".advancedSimple, .advancedMore").removeClass(h).addClass(s);
+			}
+			break;
+		case "scatterplotClass":
+			if (optionValue == true) {
+				//console.log("Changing to scatterplot + class compare view");
+				$(".advancedScatterplot, .advancedScatterplotClass").removeClass(h).addClass(s);
+			} else {
+				//console.log("Changing to scatterplot view");
+				$(".advancedScatterplot").removeClass(h).addClass(s);
+			}
+			break;
+	}
+}
+
 // When page is done loading, show our visualizations
 $(function() {
 
@@ -86,5 +143,33 @@ $(function() {
 		dashboardName: 'Student Skills Dashboard'
 	}); }
 
+	// Set up event listeneres
+	$("#jumbotronDismiss").click(function() {
+		$("#"+$(this).attr("data-dismiss")).hide();
+		$("#mainContainer").removeClass("hidden").addClass("show");
+	});
+	$(".advancedToggle").click(function() {
+		// Deselect other options
+		$(".advancedToggleLi").removeClass("active");
+		$(".advancedToggleOptional").prop("checked", false);
+		// Select this option
+		$(this).parent(".advancedToggleLi").addClass("active");
+		changeView($(this).attr("data-option"));
+		return false;
+	});
+	$(".advancedToggleOptional").change(function(event) {
+		changeView($(this).attr("data-option"), this.checked);
+		event.stopPropagation();
+		event.preventDefault();
+	});
+	// Set up bootstrap tooltips
+	$('[data-toggle="tooltip"]').tooltip({
+		container: 'body'
+	});
+	
+	// Load data
 	updateRadarChart();
+
+	// Go to simple view first
+	changeView("simple");
 });

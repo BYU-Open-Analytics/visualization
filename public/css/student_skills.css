@@ -1,1 +1,11 @@
 /* Styles specific to student skills dashboard */
+
+/* SKills List */
+
+
+
+/* Advanced */
+/* Classes to hide certain elements until the corresponding option is toggled on */
+/*.advancedMore, .advancedMoreClass, .advancedScatterplot, .advancedScatterplotClass, .advancedMasteryGraph, .advancedAll {
+	display: none;
+}*/
