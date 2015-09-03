@@ -216,7 +216,7 @@ class ContentRecommenderStatsController extends Controller
 		}
 		for ($i=0; $i<$count; $i++) {
 			$group1 [] = ["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1", "correct" => false, "attempts" => 0, "classPercentCorrect" => 60, "classAverageAttempts" => 5];
-			$group2 [] = ["conceptId" => 4, "assessment_id" => 3, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1", "correct" => true, "attempts" => 10, "classPercentCorrect" => 60, "classAverageAttempts" => 5];
+			$group2 [] = ["conceptId" => 4, "assessment_id" => 3, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1", "correct" => true, "attempts" => rand(0,10), "classPercentCorrect" => 60, "classAverageAttempts" => 5];
 			$group3 [] = ["conceptId" => 4, "assessment_id" => 3, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1", "correct" => true, "attempts" => 10, "classPercentCorrect" => 60, "classAverageAttempts" => 5];
 			$group4 [] = ["conceptId" => 4, "assessment_id" => 3, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1", "correct" => true, "attempts" => 10, "classPercentCorrect" => 60, "classAverageAttempts" => 5];
 		}

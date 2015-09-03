@@ -73,6 +73,13 @@ td {
 	padding: 5px;
 }
 
+.correct-falseHolder .label-correct {
+	display: none;
+}
+.correct-trueHolder .label-incorrect {
+	display: none;
+}
+
 /* Scatterplot */
 .axis path, .axis line {
 	fill: none;

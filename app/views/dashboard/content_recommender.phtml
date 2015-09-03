@@ -104,21 +104,20 @@ if ( $context->valid ) {
         <thead class="recommendHeaderTemplate">
           <tr>
             <th>Quiz Question</th>
-            <th class="advancedMore">Correct</th>
-            <th class="advancedMore">Attempts</th>
-            <th class="advancedMoreClass">Class Average</th>
-            <th class="advancedMoreClass">Attempts</th>
-            <th>Launch Quiz</th>
-            <th>See Related Videos</th>
+            <th><span class="advancedMore">Correct</span></th>
+            <th><span class="advancedMore">Attempts</span></th>
+            <th><span class="advancedMoreClass">Class Average</span></th>
+            <!--<th><span class="advancedMoreClass">Class Average</span></th>-->
+            <th><!--Launch Quiz--></th>
+            <th><!--See Related Videos--></th>
           </tr>
         </thead>
         <!-- Template for recommendation item -->
         <tr class="recommendQuestionDisplay">
   	  <td>{display}</td>
-	  <td class="advancedMore"><span class="label label-success">(IN)Correct CHANGE!</span></td>
-	  <td class="advancedMore"><span class="label label-default">{attempts} attempts</span></td>
-  	  <td class="advancedMoreClass"><span class="label label-success">{classPercentCorrect}% Correct</span></td>
-          <td class="advancedMoreClass"><span class="label label-default">{classAverageAttempts} attempts</span></td>
+	  <td><span class="advancedMore correct-{correct}Holder"><span class="label label-danger label-incorrect">Incorrect</span><span class="label label-success label-correct">Correct</span></span></td>
+	  <td><span class="advancedMore"><span class="label label-default">{attempts} attempts</span></span></td>
+  	  <td><span class="advancedMoreClass"><span class="label label-success">{classPercentCorrect}% Correct</span> <span class="label label-default">{classAverageAttempts} attempts</span></span></td>
           <td><button class="btn btn-info btn-xs" data-toggle="modal" data-target="#questionLaunchModal" data-assessment="{assessment_id}" data-question="{question_id}"> <span class="glyphicon glyphicon-log-in"></span> Launch Quiz </button></td>
   	  <td><button class="btn btn-info btn-xs" data-toggle="modal" data-target="#relatedVideosModal" data-assessment="{assessment_id}" data-question="{question_id}"> <span class="glyphicon glyphicon-film"></span> See Related Videos </button></td>
         </tr>

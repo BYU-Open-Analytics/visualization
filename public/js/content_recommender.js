@@ -200,6 +200,7 @@ function loadRecommendations() {
 		$("#recommendSection .spinner").hide();
 		//console.log(error, data);
 		for (var i=1; i<5; i++) {
+			//$("#recommend"+i+"List").empty();
 			d3.select("#recommend"+i+"List")
 				.selectAll("tr")
 				.data(data["group"+i])
@@ -217,14 +218,17 @@ function loadAllRecommendations() {
 	d3.json("../content_recommender_stats/recommendations/all", function(error, data) {
 		$("#recommendSection .spinner").hide();
 		//console.log(error, data);
+		//TODO update this to be new table format like function above
 		for (var i=1; i<5; i++) {
+			//$("#recommend"+i+"List").empty();
 			d3.select("#recommend"+i+"List")
-				.selectAll("li")
+				.selectAll("tr")
 				.data(data["group"+i])
 				.enter()
-				.append("li")
+				.append("tr")
 				.attr("class", "advancedAll")
 				.html(function(d) { return questionElement(d); });
+			//$("#recommend"+i+"List").prepend($("#templates .recommendHeaderTemplate").clone());
 		}
 		refreshView();
 	});
