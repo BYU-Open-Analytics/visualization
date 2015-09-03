@@ -69,6 +69,10 @@ td {
 	overflow: auto;
 }
 
+#recommendSection td {
+	padding: 5px;
+}
+
 /* Scatterplot */
 .axis path, .axis line {
 	fill: none;
@@ -138,13 +142,19 @@ td {
 .advancedShow {
 	display: block!important;
 }
-table.advancedShow {
-	display: table;
+tr.advancedShow {
+	display: table-row!important;
 }
-table.advancedShow tr, tr.advancedShow {
+td.advancedShow {
+	display: table-cell!important;
+}
+table.advancedShow {
+	display: table!important;
+}
+/*table.advancedShow tr, tr.advancedShow {
 	display: table-row;
 }
 table.advancedShow tr td, tr.advancedShow td, td.advancedShow {
 	display: table-cell;
-}
+}*/
 

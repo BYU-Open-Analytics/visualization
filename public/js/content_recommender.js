@@ -201,12 +201,13 @@ function loadRecommendations() {
 		//console.log(error, data);
 		for (var i=1; i<5; i++) {
 			d3.select("#recommend"+i+"List")
-				.selectAll("li")
+				.selectAll("tr")
 				.data(data["group"+i])
 				.enter()
-				.append("li")
+				.append("tr")
 				.attr("class", "advancedSimple")
 				.html(function(d) { return questionElement(d); });
+			$("#recommend"+i+"List").prepend($("#templates .recommendHeaderTemplate").clone());
 		}
 	});
 }

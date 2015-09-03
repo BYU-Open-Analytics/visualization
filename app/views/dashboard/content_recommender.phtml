@@ -12,143 +12,179 @@ if ( $context->valid ) {
 <!-- Container for concepts, recommendations, and advanced -->
 <div id="mainContainer" class="container">
   <div class="row">
-    <!-- Concepts -->
-    <div id="conceptsSection" class="advancedSimple advancedAll col-md-3">
-      <h3>Strongest Concepts</h3>
-      <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
-        <ul id="strongestConceptsList"> </ul>
-      <h3>Weakest Concepts</h3>
-      <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
-        <ul id="weakestConceptsList"> </ul>
-    </div>
+    <div class="col-sm-9"><div class="row">
 
-    <!-- Recommendations -->
-    <div id="recommendSection" class="advancedSimple advancedAll col-md-6">
-        <h3 class="advancedSimple">Recommendations</h3>
-        <h3 class="advancedAll">Recommendations for all concepts</h3>
-        <div class="panel-group" id="recommendationsAccordion" role="tablist">
-          <!-- Group 1 -->
-          <div class="panel panel-default">
-            <div class="panel-heading">
-	      <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend1">Try these quiz questions
-	        <span class="recommendInfo" id="recommend1Info" data-toggle="tooltip" title="These questions were selected because you have not attempted them yet. This material will likely be on an upcoming exam, so to improve your score, it is recommended that you practice these questions."><span class="glyphicon glyphicon-info-sign"></span></span></a>
-              </h4>
-            </div>
-            <div id="recommend1" class="panel-collapse collapse in">
-              <div class="panel-body recommendPanelBody">
-                <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
-                <ul id="recommend1List"> </ul>
-              </div>
-            </div>
+      <!-- Concepts -->
+      <div id="conceptsSection" class="advancedSimple advancedAll col-md-12">
+        <div class="row">
+	  <div class="col-sm-6">
+            <h3>Strongest Concepts</h3>
+            <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
+              <ul id="strongestConceptsList"> </ul>
           </div>
-          <!-- Group 2 -->
-          <div class="panel panel-default">
-            <div class="panel-heading">
-	      <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend2">Watch videos before attempting these quiz questions
-	        <span class="recommendInfo" id="recommend2Info" data-toggle="tooltip" title="These questions were selected because, based on your online activity, it seems you did not watch the videos before you attempted the quiz. To better learn the material, it is recommended that you watch the videos associated with these quiz questions."><span class="glyphicon glyphicon-info-sign"></span></span></a>
-              </h4>
-            </div>
-            <div id="recommend2" class="panel-collapse collapse">
-              <div class="panel-body recommendPanelBody">
-                <ul id="recommend2List"> </ul>
-              </div>
-            </div>
+	  <div class="col-sm-6">
+            <h3>Weakest Concepts</h3>
+            <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
+              <ul id="weakestConceptsList"> </ul>
           </div>
-          <!-- Group 3 -->
-          <div class="panel panel-default">
-            <div class="panel-heading">
-	      <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend3">Find additional help
-	        <span class="recommendInfo" id="recommend3Info" data-toggle="tooltip" title="These questions were selected because you have spent time watching the videos, but for some reason, the quiz was still difficult for you. To learn this material, you may want to email the instructor, go into the TA lab, or ask a friend to help you out."><span class="glyphicon glyphicon-info-sign"></span></span></a>
-              </h4>
-            </div>
-            <div id="recommend3" class="panel-collapse collapse">
-              <div class="panel-body recommendPanelBody">
-                <ul id="recommend3List"> </ul>
-              </div>
-            </div>
-          </div>
-          <!-- Group 4 -->
-          <div class="panel panel-default">
-            <div class="panel-heading">
-	      <h4 class="panel-title">
-                <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend4">Practice these questions again
-	        <span class="recommendInfo" id="recommend4Info" data-toggle="tooltip" title="These questions were selected because even though you eventually answered it correctly, you missed them multiple times at first. These questions are recommended you to re-do to help you solidify your understanding."><span class="glyphicon glyphicon-info-sign"></span></span></a>
-              </h4>
-            </div>
-            <div id="recommend4" class="panel-collapse collapse">
-              <div class="panel-body recommendPanelBody">
-                <ul id="recommend4List"> </ul>
-              </div>
-            </div>
-          </div>
-
-       </div>
-    </div>
-
-    <!-- Template for recommendation item -->
-    <div id="templates" class="hidden">
-      <span class="recommendQuestionDisplay">
-	{display}<br>
-	<div class="recommendQuestionInfoTable">
-	  <span class="advancedMore">
-            <span class="advancedMoreClass pull-left">You: &nbsp;</span>
-	    <span class="label label-success">Correct</span>
-	    <span class="label label-default">{attempts} attempts</span><br>
-	  </span>
-          <span class="advancedMoreClass">
-            <span class="advancedMoreClass pull-left">Class Average: </span>
-	    <span class="label label-success">{classPercentCorrect}% Correct</span>
-            <span class="label label-default">{classAverageAttempts} attempts</span><br>
-          </span>
         </div>
-	<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#questionLaunchModal" data-assessment="{assessment_id}" data-question="{question_id}">
-	  <span class="glyphicon glyphicon-log-in"></span> Launch Quiz
-	</button>
-	<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#relatedVideosModal" data-assessment="{assessment_id}" data-question="{question_id}">
-	  <span class="glyphicon glyphicon-film"></span> See Related Videos
-	</button>
-      </span>
-    </div>
-
-
-    <!-- Scatterplot -->
-    <div id="scatterplotSection" class="advancedScatterplot col-md-9">
-      <h3>Scatterplot</h3>
-        <span class="spinner pull-right"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
-        <form>
-          <div class="btn-group" data-toggle="buttons">
-	    <label class="btn btn-default active scopeOptionLabel"><input type="radio" name="scatterplotScopeOption" value="concept" checked />Concept: 
-
-            </label>
-	    <label class="btn btn-default scopeOptionLabel"><input type="radio" name="scatterplotScopeOption" value="chapter" />Chapter: 
-	
-            </label>
-	    <label class="btn btn-default scopeOptionLabel"><input type="radio" name="scatterplotScopeOption" value="unit" />Unit: 
-              <select class="unitSelector" name="scatterplotUnitSelector">
-                <?php print_r($units); foreach ($units as $unit) { echo '<option value="'.$unit['id'].'">'.$unit['name'].'</option>'; } ?>
-              </select>
-            </label>
-            <label class="btn btn-default scopeOptionLabel"><input type="radio" name="scatterplotScopeOption" value="all" />All</label>
+      </div>
+  
+      <!-- Recommendations -->
+      <div id="recommendSection" class="advancedSimple advancedAll col-md-12">
+          <h3 class="advancedSimple">Recommendations</h3>
+          <h3 class="advancedAll">Recommendations for all concepts</h3>
+          <div class="panel-group" id="recommendationsAccordion" role="tablist">
+            <!-- Group 1 -->
+            <div class="panel panel-default">
+              <div class="panel-heading">
+  	      <h4 class="panel-title">
+                  <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend1">Try these quiz questions
+  	        <span class="recommendInfo" id="recommend1Info" data-toggle="tooltip" title="These questions were selected because you have not attempted them yet. This material will likely be on an upcoming exam, so to improve your score, it is recommended that you practice these questions."><span class="glyphicon glyphicon-info-sign"></span></span></a>
+                </h4>
+              </div>
+              <div id="recommend1" class="panel-collapse collapse in">
+                <div class="panel-body recommendPanelBody">
+                  <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
+                  <table class="table" id="recommend1List"> </table>
+                </div>
+              </div>
+            </div>
+            <!-- Group 2 -->
+            <div class="panel panel-default">
+              <div class="panel-heading">
+  	      <h4 class="panel-title">
+                  <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend2">Watch videos before attempting these quiz questions
+  	        <span class="recommendInfo" id="recommend2Info" data-toggle="tooltip" title="These questions were selected because, based on your online activity, it seems you did not watch the videos before you attempted the quiz. To better learn the material, it is recommended that you watch the videos associated with these quiz questions."><span class="glyphicon glyphicon-info-sign"></span></span></a>
+                </h4>
+              </div>
+              <div id="recommend2" class="panel-collapse collapse">
+                <div class="panel-body recommendPanelBody">
+                  <table class="table" id="recommend2List"> </table>
+                </div>
+              </div>
+            </div>
+            <!-- Group 3 -->
+            <div class="panel panel-default">
+              <div class="panel-heading">
+  	      <h4 class="panel-title">
+                  <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend3">Find additional help
+  	        <span class="recommendInfo" id="recommend3Info" data-toggle="tooltip" title="These questions were selected because you have spent time watching the videos, but for some reason, the quiz was still difficult for you. To learn this material, you may want to email the instructor, go into the TA lab, or ask a friend to help you out."><span class="glyphicon glyphicon-info-sign"></span></span></a>
+                </h4>
+              </div>
+              <div id="recommend3" class="panel-collapse collapse">
+                <div class="panel-body recommendPanelBody">
+                  <table class="table" id="recommend3List"> </table>
+                </div>
+              </div>
+            </div>
+            <!-- Group 4 -->
+            <div class="panel panel-default">
+              <div class="panel-heading">
+  	      <h4 class="panel-title">
+                  <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend4">Practice these questions again
+  	        <span class="recommendInfo" id="recommend4Info" data-toggle="tooltip" title="These questions were selected because even though you eventually answered it correctly, you missed them multiple times at first. These questions are recommended you to re-do to help you solidify your understanding."><span class="glyphicon glyphicon-info-sign"></span></span></a>
+                </h4>
+              </div>
+              <div id="recommend4" class="panel-collapse collapse">
+                <div class="panel-body recommendPanelBody">
+                  <table class="table" id="recommend4List"> </table>
+                </div>
+              </div>
+            </div>
+  
+         </div>
+      </div>
+  
+     
+      
+      <div id="templates" class="hidden">
+        <table id="recommendTemplates">
+        <!-- Template for recommendation table header -->
+        <thead class="recommendHeaderTemplate">
+          <tr>
+            <th>Quiz Question</th>
+            <th class="advancedMore">Correct</th>
+            <th class="advancedMore">Attempts</th>
+            <th class="advancedMoreClass">Class Average</th>
+            <th class="advancedMoreClass">Attempts</th>
+            <th>Launch Quiz</th>
+            <th>See Related Videos</th>
+          </tr>
+        </thead>
+        <!-- Template for recommendation item -->
+        <tr class="recommendQuestionDisplay">
+  	  <td>{display}</td>
+	  <td class="advancedMore"><span class="label label-success">(IN)Correct CHANGE!</span></td>
+	  <td class="advancedMore"><span class="label label-default">{attempts} attempts</span></td>
+  	  <td class="advancedMoreClass"><span class="label label-success">{classPercentCorrect}% Correct</span></td>
+          <td class="advancedMoreClass"><span class="label label-default">{classAverageAttempts} attempts</span></td>
+          <td><button class="btn btn-info btn-xs" data-toggle="modal" data-target="#questionLaunchModal" data-assessment="{assessment_id}" data-question="{question_id}"> <span class="glyphicon glyphicon-log-in"></span> Launch Quiz </button></td>
+  	  <td><button class="btn btn-info btn-xs" data-toggle="modal" data-target="#relatedVideosModal" data-assessment="{assessment_id}" data-question="{question_id}"> <span class="glyphicon glyphicon-film"></span> See Related Videos </button></td>
+        </tr>
+        </table>
+      </div>
+      
+<!--
+  	<div class="recommendQuestionInfoTable">
+  	  <span class="advancedMore">
+              <span class="advancedMoreClass pull-left">You: &nbsp;</span>
+  	    <span class="label label-success">Correct</span>
+  	    <span class="label label-default">{attempts} attempts</span><br>
+  	  </span>
+            <span class="advancedMoreClass">
+              <span class="advancedMoreClass pull-left">Class Average: </span>
+  	    <span class="label label-success">{classPercentCorrect}% Correct</span>
+              <span class="label label-default">{classAverageAttempts} attempts</span><br>
+            </span>
           </div>
-        </form>
-    </div>
+  	<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#questionLaunchModal" data-assessment="{assessment_id}" data-question="{question_id}">
+  	  <span class="glyphicon glyphicon-log-in"></span> Launch Quiz
+  	</button>
+  	<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#relatedVideosModal" data-assessment="{assessment_id}" data-question="{question_id}">
+  	  <span class="glyphicon glyphicon-film"></span> See Related Videos
+  	</button>
+        </span>
+      </div> -->
+  
+  
+      <!-- Scatterplot -->
+      <div id="scatterplotSection" class="advancedScatterplot col-md-12">
+        <h3>Scatterplot</h3>
+          <span class="spinner pull-right"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
+          <form>
+            <div class="btn-group" data-toggle="buttons">
+  	    <label class="btn btn-default active scopeOptionLabel"><input type="radio" name="scatterplotScopeOption" value="concept" checked />Concept: 
+  
+              </label>
+  	    <label class="btn btn-default scopeOptionLabel"><input type="radio" name="scatterplotScopeOption" value="chapter" />Chapter: 
+  	
+              </label>
+  	    <label class="btn btn-default scopeOptionLabel"><input type="radio" name="scatterplotScopeOption" value="unit" />Unit: 
+                <select class="unitSelector" name="scatterplotUnitSelector">
+                  <?php print_r($units); foreach ($units as $unit) { echo '<option value="'.$unit['id'].'">'.$unit['name'].'</option>'; } ?>
+                </select>
+              </label>
+              <label class="btn btn-default scopeOptionLabel"><input type="radio" name="scatterplotScopeOption" value="all" />All</label>
+            </div>
+          </form>
+      </div>
+  
+      <!-- Concept Mastery Graph -->
+      <div id="masteryGraphSection" class="advancedMasteryGraph col-md-12">
+        <h3>Concept Mastery Graph <small>—Scores still need to be scaled by class once we have actual data</small></h3>
+          <span class="spinner pull-right"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
+          <form>
+            <div class="btn-group" data-toggle="buttons">
+              <label class="btn btn-default active"><input type="radio" name="masteryGraphScopeOption" value="chapter" checked />Chapter</label>
+              <label class="btn btn-default"><input type="radio" name="masteryGraphScopeOption" value="unit" />Unit</label>
+              <label class="btn btn-default"><input type="radio" name="masteryGraphScopeOption" value="all" />All</label>
+            </div>
+          </form><br><br>
+  	<div class="svgContainer"></div>
+      </div>
 
-    <!-- Concept Mastery Graph -->
-    <div id="masteryGraphSection" class="advancedMasteryGraph col-md-9">
-      <h3>Concept Mastery Graph <small>—Scores still need to be scaled by class once we have actual data</small></h3>
-        <span class="spinner pull-right"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
-        <form>
-          <div class="btn-group" data-toggle="buttons">
-            <label class="btn btn-default active"><input type="radio" name="masteryGraphScopeOption" value="chapter" checked />Chapter</label>
-            <label class="btn btn-default"><input type="radio" name="masteryGraphScopeOption" value="unit" />Unit</label>
-            <label class="btn btn-default"><input type="radio" name="masteryGraphScopeOption" value="all" />All</label>
-          </div>
-        </form><br><br>
-	<div class="svgContainer"></div>
-    </div>
+    </div></div>
 
     <!-- Advanced -->
     <div id="advancedSection" class="col-sm-3">
