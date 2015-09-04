@@ -18,6 +18,7 @@
 	- Site base URI
 - Execute the following commands on the SQLite database
 	- `create table user_settings (userId text, name text, value text);`
+	- `create table stored_calculations (userId text, calculationId text, dateStored integer, value real);`
 
 ## LTI integration
 - Basic LTI POST requests should be sent to `{base URI}/launch.php`
