@@ -179,14 +179,14 @@ class ContentRecommenderStatsController extends Controller
 		}
 
 		$strongest = [
-			["id" => 1, "display" => "Chapter 1 - Concept A"],
-			["id" => 2, "display" => "Chapter 1 - Concept B"],
-			["id" => 3, "display" => "Chapter 1 - Concept C"],
+			["id" => 1, "display" => "Chapter 1 - Concept A", "score" => rand(0,50) / 10],
+			["id" => 2, "display" => "Chapter 1 - Concept B", "score" => rand(0,50) /10],
+			["id" => 3, "display" => "Chapter 1 - Concept C", "score" => rand(0,50) /10],
 		];
 		$weakest = [
-			["id" => 4, "display" => "Chapter 1 - Concept D"],
-			["id" => 5, "display" => "Chapter 1 - Concept E"],
-			["id" => 6, "display" => "Chapter 2 - concept A"],
+			["id" => 4, "display" => "Chapter 1 - Concept D", "score" => rand(50,100) /10],
+			["id" => 5, "display" => "Chapter 1 - Concept E", "score" => rand(50,100) /10],
+			["id" => 6, "display" => "Chapter 2 - concept A", "score" => rand(50,100) /10],
 		];
 		$result = ["strongest" => $strongest, "weakest" => $weakest];
 		echo json_encode($result);
@@ -327,4 +327,5 @@ class ContentRecommenderStatsController extends Controller
 	}
 
 }
+
 

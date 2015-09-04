@@ -167,18 +167,28 @@ function loadConcepts() {
 	d3.json("../content_recommender_stats/concepts", function(error, data) {
 		$("#conceptsSection .spinner").hide();
 		console.log(error, data);
-		d3.select("#strongestConceptsList")
-			.selectAll("li")
-			.data(data.strongest)
-			.enter()
-			.append("li")
-			.html(function(d) { return d.display; });
-		d3.select("#weakestConceptsList")
-			.selectAll("li")
-			.data(data.weakest)
-			.enter()
-			.append("li")
-			.html(function(d) { return d.display; });
+		// Sort weakest by lowest score first
+		data.weakest.sort(function(a, b) {
+			return a.score < b.score;
+		});
+		// Sort strongest by highest score first
+		data.strongest.sort(function(a, b) {
+			return a.score > b.score;
+		});
+		// Display the concepts in the lists for both weakest and strongest
+		function displayConceptList(category) {
+			d3.select("#" + category + "ConceptsList")
+				.selectAll("div")
+				.data(data[category])
+				.enter()
+				.append("div")
+				//If their score is 0-3 make it red. If their score is 4-6 make it yellow, and if their score is > 6 make it green.
+				// TODO remove these magic numbers and colors
+				.style("background-color", function(d) { return d.score >= 6 ? "#5cb85c" : d.score >= 4 ? "#f0ad4e" : "#d9534f"; })
+				.html(function(d) { return d.display + ": " + d.score; });
+		}
+		displayConceptList("weakest");
+		displayConceptList("strongest");
 	});
 }
 

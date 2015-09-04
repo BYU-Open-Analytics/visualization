@@ -39,7 +39,21 @@ td {
 }
 
 /* Concepts */
+.conceptsList div {
+	padding: 10px;
+	color: #222;
+	border-bottom: solid rgba(255, 255, 255, 0.7) 1px;
+}
+.conceptsList div:first-child {
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+}
 
+.conceptsList div:last-child {
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	border-bottom: none;
+}
 
 /* Recommendations */
 .recommendInfo {
