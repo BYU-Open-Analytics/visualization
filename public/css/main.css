@@ -108,6 +108,9 @@
 .advancedShow {
 	display: block!important;
 }
+.advancedShow.inlineShow {
+	display: inline!important;
+}
 tr.advancedShow {
 	display: table-row!important;
 }
