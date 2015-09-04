@@ -18,14 +18,14 @@ if ( $context->valid ) {
       <div id="skillsListSection" class="advancedSimple advancedAll col-md-12">
         <div class="row">
 	  <div class="col-sm-6">
-            <h3>Your Strongest Skill(s)</h3>
+            <h3>Your Strongest Skill<span class="advancedAll">s</span></h3>
             <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
-              <ul id="strongestSkillsList"> </ul>
+              <div id="strongestSkillsList"> </div>
           </div>
 	  <div class="col-sm-6">
-            <h3>Your Weakest Skill(s)</h3>
+            <h3>Your Weakest Skill<span class="advancedAll">s</span></h3>
             <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
-              <ul id="weakestSkillsList"> </ul>
+              <div id="weakestSkillsList"> </div>
           </div>
         </div>
       </div>
@@ -48,25 +48,30 @@ if ( $context->valid ) {
       <h3>Change View</h3>
       <ul class="nav nav-pills nav-stacked">
         <li role="presentation" class="advancedToggleLi active"><a id="advancedToggleSimple" class="advancedToggle" data-option="simple" href="#">See simple view</a></li>
-        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleMore" class="advancedToggle" data-option="more" href="#">See more details</a><div class="advancedToggleOptional"><input id="advancedToggleMoreClass" class="advancedToggleOptional" data-option="moreClass" type="checkbox" />&nbsp;<label for="advancedToggleMoreClass">Compare to class</label></div></li>
-        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleScatterplot" class="advancedToggle" data-option="scatterplot" href="#">See scatterplot for these concepts</a><div class="advancedToggleOptional"><input id="advancedToggleScatterplotClass" class="advancedToggleOptional" data-option="scatterplotClass" type="checkbox" />&nbsp;<label for="advancedToggleScatterplotClass">Compare to class</label></div></li>
-        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleMasteryGraph" class="advancedToggle" data-option="masteryGraph" href="#">See my concept mastery graph</a></li>
-        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleAll" class="advancedToggle" data-option="all" href="#">See all recommendations for all concepts</a></li>
+
+	<li role="presentation" class="advancedToggleLi"><a id="advancedToggleAll" class="advancedToggle" data-option="all" href="#">See all skills</a>
+	  <div class="advancedToggleOptional"><input id="advancedToggleAllScores" class="advancedToggleOptional" data-option="allScores" type="checkbox" />&nbsp;<label for="advancedToggleAllScores">Show skill scores</label><br /></div>
+	  <div class="advancedToggleOptional"><input id="advancedToggleAllScoresClass" class="advancedToggleOptional" data-option="allScoresClass" type="checkbox" />&nbsp;<label for="advancedToggleAllScoresClass">Compare to class</label></div>
+        </li>
+        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleTimeGraph" class="advancedToggle" data-option="timeGraph" href="#">See skills over time</a><div class="advancedToggleOptional"><input id="advancedToggleTimeGraphClass" class="advancedToggleOptional" data-option="timeGraphClass" type="checkbox" />&nbsp;<label for="advancedToggleTimeGraphClass">Compare to class</label></div></li>
+        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleSkillsGraph" class="advancedToggle" data-option="skillsGraph" href="#">See my skills graph</a></li>
       </ul>
     </div>
    
   </div>
 </div>
 
-<div id="templates" class="">
+<div id="templates" class="hidden">
 
-  <div class="timeSkillTemplate">
+  <div class="timeSkillTemplate skillTemplate">
     <div class="skillScoreBar">
-      <h3>Time Management
-      <span class="skillInfo" id="timeSkillInfo" data-toggle="tooltip" title="Time Management is planning ahead and working on your work well before the due date."><span class="glyphicon glyphicon-info-sign"></span></span></h3>
+      <h4>Time Management
+      <span class="skillInfo pull-right" id="timeSkillInfo" data-toggle="tooltip" title="Time Management is planning ahead and working on your work well before the due date."><span class="glyphicon glyphicon-info-sign"></span></span>
+      <span class="advancedAllScores pull-right">Your score: <span class="skillScoreLabel"></span>/10</span>
+      </h4>
     </div>
     <div class="panel panel-default">
-      <div class="panel-heading" data-score="0"><h4>To improve your Time Management skill, you should:</h4></div>
+      <div class="panel-heading" data-score="0"><h5>To improve your Time Management skill, you should:</h5></div>
       <ol class="list-group">
         <li class="list-group-item">1. Try to complete your online work before 10pm the day before they are due</li>
         <li class="list-group-item">2. Plan ahead so you won't be bogged down by multiple projects</li>
@@ -80,13 +85,15 @@ if ( $context->valid ) {
     </div>
   </div>
 
-  <div class="activitySkillTemplate">
+  <div class="activitySkillTemplate skillTemplate">
     <div class="skillScoreBar">
-      <h3>Online Activity
-      <span class="skillInfo" id="activitySkillInfo" data-toggle="tooltip" title="Online activity is how much you interact with the online videos and quizzes."><span class="glyphicon glyphicon-info-sign"></span></span></h3>
+      <h4>Online Activity
+      <span class="skillInfo pull-right" id="activitySkillInfo" data-toggle="tooltip" title="Online activity is how much you interact with the online videos and quizzes."><span class="glyphicon glyphicon-info-sign"></span></span>
+      <span class="advancedAllScores pull-right">Your score: <span class="skillScoreLabel"></span>/10</span>
+      </h4>
     </div>
     <div class="panel panel-default">
-      <div class="panel-heading" data-score="0"><h4>To improve your Online Activity skill, you should:</h4></div>
+      <div class="panel-heading" data-score="0"><h5>To improve your Online Activity skill, you should:</h5></div>
       <ol class="list-group">
         <li class="list-group-item">1. Re-watch videos you did not completely understand</li>
         <li class="list-group-item">2. Pause videos to take notes or write down questions</li>
@@ -101,13 +108,15 @@ if ( $context->valid ) {
     </div>
   </div>
 
-  <div class="regulationSkillTemplate">
+  <div class="regulationSkillTemplate skillTemplate">
     <div class="skillScoreBar">
-      <h3>Self-Regulation
-      <span class="skillInfo" id="regulationSkillInfo" data-toggle="tooltip" title="Self-Regulation is being able to identify what you know and what you don't know so that you can spend your time more effectively on the material that you need to know most."><span class="glyphicon glyphicon-info-sign"></span></span></h3>
+      <h4>Self-Regulation
+      <span class="skillInfo pull-right" id="regulationSkillInfo" data-toggle="tooltip" title="Self-Regulation is being able to identify what you know and what you don't know so that you can spend your time more effectively on the material that you need to know most."><span class="glyphicon glyphicon-info-sign"></span></span>
+      <span class="advancedAllScores pull-right">Your score: <span class="skillScoreLabel"></span>/10</span>
+      </h4>
     </div>
     <div class="panel panel-default">
-      <div class="panel-heading" data-score="0"><h4>To improve your Self-Regulation skill, you should:</h4></div>
+      <div class="panel-heading" data-score="0"><h5>To improve your Self-Regulation skill, you should:</h5></div>
       <ol class="list-group">
         <li class="list-group-item">1. Try coming back to this visualization more often for additional tips on how to succeed.</li>
         <li class="list-group-item">2. Try following some of the visualization suggestions.</li>
@@ -122,13 +131,15 @@ if ( $context->valid ) {
     </div>
   </div>
 
-  <div class="efficacySkillTemplate">
+  <div class="efficacySkillTemplate skillTemplate">
     <div class="skillScoreBar">
-      <h3>Self-Efficacy
-      <span class="skillInfo" id="efficacySkillInfo" data-toggle="tooltip" title="Self-efficacy is being confident in and accurately rating whether you know something or not. Students that are more aware of what they know and what they don't tend to do better."><span class="glyphicon glyphicon-info-sign"></span></span></h3>
+      <h4>Self-Efficacy
+      <span class="skillInfo pull-right" id="efficacySkillInfo" data-toggle="tooltip" title="Self-efficacy is being confident in and accurately rating whether you know something or not. Students that are more aware of what they know and what they don't tend to do better."><span class="glyphicon glyphicon-info-sign"></span></span>
+      <span class="advancedAllScores pull-right">Your score: <span class="skillScoreLabel"></span>/10</span>
+      </h4>
     </div>
     <div class="panel panel-default">
-      <div class="panel-heading" data-score="0"><h4>To improve your Self-Efficacy skill, you should:</h4></div>
+      <div class="panel-heading" data-score="0"><h5>To improve your Self-Efficacy skill, you should:</h5></div>
       <ol class="list-group">
         <li class="list-group-item">1. Try rating your confidence levels more accurately on the quiz questions.</li>
         <li class="list-group-item">2. Visit these online resources to learn more about self-efficacy: <br>
@@ -141,13 +152,15 @@ if ( $context->valid ) {
     </div>
   </div>
 
-  <div class="consistencySkillTemplate">
+  <div class="consistencySkillTemplate skillTemplate">
     <div class="skillScoreBar">
-      <h3>Consistency
-      <span class="skillInfo" id="consistencySkillInfo" data-toggle="tooltip" title="Consistency is how frequently you work on your online activities. Consistent study is better than studying for longer amounts of time right before an exam."><span class="glyphicon glyphicon-info-sign"></span></span></h3>
+      <h4>Consistency
+      <span class="skillInfo pull-right" id="consistencySkillInfo" data-toggle="tooltip" title="Consistency is how frequently you work on your online activities. Consistent study is better than studying for longer amounts of time right before an exam."><span class="glyphicon glyphicon-info-sign"></span></span>
+      <span class="advancedAllScores pull-right">Your score: <span class="skillScoreLabel"></span>/10</span>
+      </h4>
     </div>
     <div class="panel panel-default">
-      <div class="panel-heading" data-score="0"><h4>To improve your Consistency skill, you should:</h4></div>
+      <div class="panel-heading" data-score="0"><h5>To improve your Consistency skill, you should:</h5></div>
       <ol class="list-group">
         <li class="list-group-item">1. Try to schedule a time every day to spend time working on this class.</li>
         <li class="list-group-item">2. Visit these online resources to learn about consistent study: <br>

@@ -1,13 +1,39 @@
-// Question Launch Modal
-$("#questionLaunchModal").on("show.bs.modal", function(e) {
-	console.log(e);
-	$(this).find(".btn-primary").attr('href','../consumer.php?app=openassessments&assessment_id=' + $(e.relatedTarget).attr('data-assessment') + '&question_id=' + $(e.relatedTarget).attr('data-question'));
-});
-$("#questionLaunchContinueButton").click(function(e) {
-	$("#questionLaunchModal").modal("hide");
-});
+function loadSkills(data) {
+	// Hide the loading spinner
+	$("#skillsListSection .spinner").hide();
+	var skills = data.student;
+	// Sort skills weakest to strongest
+	skills.sort(function(a,b) {
+		return a.score - b.score;
+	});
+	console.log(skills);
 
-function updateRadarChart() {
+	// Display two weakest skills
+	var s0 = $("." + skills[0].id + "SkillTemplate").appendTo("#weakestSkillsList")
+	$("." + skills[0].id + "SkillTemplate .skillScoreLabel").text(skills[0].score);
+	var s1 = $("." + skills[1].id + "SkillTemplate").appendTo("#weakestSkillsList")
+	$("." + skills[1].id + "SkillTemplate .skillScoreLabel").text(skills[1].score);
+	s1.addClass("advancedAll");
+
+	// Display two strongest skills
+	var s4 = $("." + skills[4].id + "SkillTemplate").appendTo("#strongestSkillsList")
+	$("." + skills[4].id + "SkillTemplate .skillScoreLabel").text(skills[4].score);
+	var s3 = $("." + skills[3].id + "SkillTemplate").appendTo("#strongestSkillsList")
+	$("." + skills[3].id + "SkillTemplate .skillScoreLabel").text(skills[3].score);
+	s3.addClass("advancedAll");
+
+	// Determine what to do with middle skill. Put it in whichever category its score is closest to.
+	
+	
+	
+	// Change score bar bg color to scale
+	var colorScale = d3.scale.linear()
+			.domain([0, 3.3, 6.6, 10])
+			.range(["red", "orange", "yellow", "green"]);
+	$(".skillTemplate")
+}
+
+function loadSkillsGraph(data) {
 	var radarConfig = {
 		w: 500,
 		h: 500,
@@ -17,54 +43,52 @@ function updateRadarChart() {
 	};
 	var legendOptions = ["Class Median", "Student"];
 	var colorScale = d3.scale.category10();
-	// TODO absolute url ref fix
-	d3.json("../student_skills_stats", function(error, data) {
-		//Hide the loading spinner
-		$("#radarContainer .spinner").hide();
-		console.log(data, error);
-		// TODO error checking
-		// Format data
-		var studentData = data.student.map(function(d) { return {axis:d.axis, value:(d.value)}; });
-		var classData = data.class.map(function(d) { return {axis:d.axis, value:(d.value)}; });
-		// Draw the radar chart
-		RadarChart.draw("#radarChart", [classData, studentData], radarConfig);
+	//Hide the loading spinner
+	$("#radarContainer .spinner").hide();
+	// Format data
+	var studentData = data.student.map(function(d) { return {axis:d.id, value:(d.score)}; });
+	var classData = data.class.map(function(d) { return {axis:d.id, value:(d.score)}; });
+	// Draw the radar chart
+	RadarChart.draw("#radarChart", [classData, studentData], radarConfig);
 
-		// Draw the legend to the side
-		// Container
-		var svg = d3.select("#radarChart svg")
-			.append("svg")
-			.attr("width", radarConfig.w + 300)
-			.attr("height", radarConfig.h);
-		// Legend container
-		var legend = svg.append("g")
-			.attr("class", "legend")
-			.attr("height", 100)
-			.attr("width", 200)
-			.attr("transform", "translate(90,20)");
-		// Color squares
-		legend.selectAll("rect")
-			.data(legendOptions)
-			.enter()
-			.append("rect")
-			.attr("x", radarConfig.w - 65)
-			.attr("y", function(d, i) { return i * 20; })
-			.attr("width", 10)
-			.attr("height", 10)
-			.style("fill", function(d, i) { return colorScale(i); });
-		// Text next to squares
-		legend.selectAll("text")
-			.data(legendOptions)
-			.enter()
-			.append("text")
-			.attr("x", radarConfig.w - 52)
-			.attr("y", function(d, i) { return i * 20 + 9; })
-			.attr("font-size", "11px")
-			.attr("fill", "#737373")
-			.text(function(d) { return d; });
+	// Draw the legend to the side
+	// Container
+	var svg = d3.select("#radarChart svg")
+		.append("svg")
+		.attr("width", radarConfig.w + 300)
+		.attr("height", radarConfig.h);
+	// Legend container
+	var legend = svg.append("g")
+		.attr("class", "legend")
+		.attr("height", 100)
+		.attr("width", 200)
+		.attr("transform", "translate(90,20)");
+	// Color squares
+	legend.selectAll("rect")
+		.data(legendOptions)
+		.enter()
+		.append("rect")
+		.attr("x", radarConfig.w - 65)
+		.attr("y", function(d, i) { return i * 20; })
+		.attr("width", 10)
+		.attr("height", 10)
+		.style("fill", function(d, i) { return colorScale(i); });
+	// Text next to squares
+	legend.selectAll("text")
+		.data(legendOptions)
+		.enter()
+		.append("text")
+		.attr("x", radarConfig.w - 52)
+		.attr("y", function(d, i) { return i * 20 + 9; })
+		.attr("font-size", "11px")
+		.attr("fill", "#737373")
+		.text(function(d) { return d; });
+}
 
 
-		
-	});
+// Sometimes we're just refreshing the current view, if we added advanced elements and need those to show/hide accordingly.
+function refreshView() {
+	changeView(currentView[0], currentView[1], true);
 }
 
 // Toggles on right of page to change what we're showing
@@ -74,52 +98,47 @@ function changeView(optionName, optionValue, refreshOnly) {
 	var h = "advancedHide";
 	var s = "advancedShow";
 	// Hide all advanced things first
-	$(".advancedSimple, .advancedMore, .advancedMoreClass, .advancedScatterplot, .advancedScatterplotClass, .advancedMasteryGraph, .advancedAll").removeClass(s).addClass(h);
+	$(".advancedSimple, .advancedAll, .advancedAllScores, .advancedAllScoresClass, .advancedTimeGraph, .advancedTimeGraphClass, .advancedSkillsGraph").removeClass(s).addClass(h);
 	switch (optionName) {
 		case "simple":
 			//console.log("Changing to simple view");
 			$(".advancedSimple").removeClass(h).addClass(s);
 			break;
-		case "more":
-			//console.log("Changing to more view");
-			$(".advancedSimple, .advancedMore").removeClass(h).addClass(s);
-			break;
-		case "scatterplot":
-			//console.log("Changing to scatterplot view");
-			$(".advancedScatterplot").removeClass(h).addClass(s);
-			break;
-		case "masteryGraph":
-			//console.log("Changing to mastery graph view");
-			$(".advancedMasteryGraph").removeClass(h).addClass(s);
-			if (!refreshOnly) {
-				loadMasteryGraph();
-			}
-			animateMasteryGraph();
-			break;
 		case "all":
-			//console.log("Changing to all view");
-			$(".advancedAll").removeClass(h).addClass(s);
-			if (!refreshOnly) {
-				loadAllRecommendations();
+			//console.log("Changing to more view");
+			$(".advancedSimple, .advancedAll").removeClass(h).addClass(s);
+			break;
+		case "allScores":
+			//console.log("Changing to more view");
+			if (optionValue == true) {
+				$(".advancedSimple, .advancedAll, .advancedAllScores").removeClass(h).addClass(s);
+			} else {
+				$(".advancedSimple, .advancedAll").removeClass(h).addClass(s);
 			}
 			break;
-		case "moreClass":
+		case "allScoresClass":
+			//console.log("Changing to more view");
 			if (optionValue == true) {
-				//console.log("Changing to more + class compare view");
-				$(".advancedSimple, .advancedMore, .advancedMoreClass").removeClass(h).addClass(s);
+				$(".advancedSimple, .advancedAll, .advancedAllScores, .advancedAllScoresClass").removeClass(h).addClass(s);
 			} else {
-				//console.log("Changing to more view");
-				$(".advancedSimple, .advancedMore").removeClass(h).addClass(s);
+				$(".advancedSimple, .advancedAll, .advancedAllScores").removeClass(h).addClass(s);
 			}
 			break;
-		case "scatterplotClass":
+		case "timeGraph":
+			//console.log("Changing to scatterplot view");
+			$(".advancedTimeGraph").removeClass(h).addClass(s);
+			break;
+		case "timeGraphClass":
+			//console.log("Changing to scatterplot view");
 			if (optionValue == true) {
-				//console.log("Changing to scatterplot + class compare view");
-				$(".advancedScatterplot, .advancedScatterplotClass").removeClass(h).addClass(s);
+				$(".advancedTimeGraph, .advancedTimeGraphClass").removeClass(h).addClass(s);
 			} else {
-				//console.log("Changing to scatterplot view");
-				$(".advancedScatterplot").removeClass(h).addClass(s);
+				$(".advancedTimeGraph").removeClass(h).addClass(s);
 			}
+			break;
+		case "skillsGraph":
+			//console.log("Changing to scatterplot view");
+			$(".advancedSkillsGraph").removeClass(h).addClass(s);
 			break;
 	}
 }
@@ -168,7 +187,11 @@ $(function() {
 	});
 	
 	// Load data
-	updateRadarChart();
+	// TODO absolute url ref fix
+	d3.json("../student_skills_stats", function(error, data) {
+		loadSkills(data);
+		loadSkillsGraph(data);
+	});
 
 	// Go to simple view first
 	changeView("simple");

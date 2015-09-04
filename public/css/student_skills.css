@@ -1,7 +1,9 @@
 /* Styles specific to student skills dashboard */
 
 /* SKills List */
-
+.skillInfo {
+	margin-left: 10px;
+}
 
 
 /* Advanced */
