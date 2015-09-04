@@ -9,28 +9,44 @@ function loadSkills(data) {
 	console.log(skills);
 
 	// Display two weakest skills
-	var s0 = $("." + skills[0].id + "SkillTemplate").appendTo("#weakestSkillsList")
+	var s0 = $("." + skills[0].id + "SkillTemplate").appendTo("#weakestSkillsList");
 	$("." + skills[0].id + "SkillTemplate .skillScoreLabel").text(skills[0].score);
-	var s1 = $("." + skills[1].id + "SkillTemplate").appendTo("#weakestSkillsList")
+	var s1 = $("." + skills[1].id + "SkillTemplate").appendTo("#weakestSkillsList");
 	$("." + skills[1].id + "SkillTemplate .skillScoreLabel").text(skills[1].score);
 	s1.addClass("advancedAll");
 
 	// Display two strongest skills
-	var s4 = $("." + skills[4].id + "SkillTemplate").appendTo("#strongestSkillsList")
+	var s4 = $("." + skills[4].id + "SkillTemplate").appendTo("#strongestSkillsList");
 	$("." + skills[4].id + "SkillTemplate .skillScoreLabel").text(skills[4].score);
-	var s3 = $("." + skills[3].id + "SkillTemplate").appendTo("#strongestSkillsList")
+	var s3 = $("." + skills[3].id + "SkillTemplate").appendTo("#strongestSkillsList");
 	$("." + skills[3].id + "SkillTemplate .skillScoreLabel").text(skills[3].score);
 	s3.addClass("advancedAll");
 
 	// Determine what to do with middle skill. Put it in whichever category its score is closest to.
+	if ((skills[3].score - skills[2].score) <= (skills[2].score - skills[1].score)) {
+		var s2 = $("." + skills[2].id + "SkillTemplate").appendTo("#strongestSkillsList");
+	} else {
+		var s2 = $("." + skills[2].id + "SkillTemplate").appendTo("#weakestSkillsList");
+	}
+	$("." + skills[2].id + "SkillTemplate .skillScoreLabel").text(skills[2].score);
+	s2.addClass("advancedAll");
+
 	
+	// Put score in each skill
+	for (var i=0; i<5; i++) {
+		$("." + skills[i].id + "SkillTemplate .skillScoreLabel").text(skills[i].score);
+		$("." + skills[i].id + "SkillTemplate .skillPercentileLabel").text(skills[i].score * 10);
+	}
 	
-	
-	// Change score bar bg color to scale
-	var colorScale = d3.scale.linear()
-			.domain([0, 3.3, 6.6, 10])
-			.range(["red", "orange", "yellow", "green"]);
-	$(".skillTemplate")
+	// Change score bar bg color to match the score
+	$(".skillTemplate").each(function() {
+		//If their score is 0-3 make it red. If their score is 4-6 make it yellow, and if their score is > 6 make it green.
+		var score = $($(this).find(".skillScoreLabel")[0]).text();
+		var color = score >= 6 ? "#5cb85c" : score >= 4 ? "#f0ad4e" : "#d9534f";
+		$(this).find(".skillScoreBar").css("background",color);
+	});
+
+	refreshView();
 }
 
 function loadSkillsGraph(data) {
@@ -110,6 +126,7 @@ function changeView(optionName, optionValue, refreshOnly) {
 			break;
 		case "allScores":
 			//console.log("Changing to more view");
+			$("#advancedToggleAllScoresClass").prop("checked",false);
 			if (optionValue == true) {
 				$(".advancedSimple, .advancedAll, .advancedAllScores").removeClass(h).addClass(s);
 			} else {
@@ -118,10 +135,11 @@ function changeView(optionName, optionValue, refreshOnly) {
 			break;
 		case "allScoresClass":
 			//console.log("Changing to more view");
+			$("#advancedToggleAllScores").prop("checked",false);
 			if (optionValue == true) {
-				$(".advancedSimple, .advancedAll, .advancedAllScores, .advancedAllScoresClass").removeClass(h).addClass(s);
+				$(".advancedSimple, .advancedAll, .advancedAllScoresClass").removeClass(h).addClass(s);
 			} else {
-				$(".advancedSimple, .advancedAll, .advancedAllScores").removeClass(h).addClass(s);
+				$(".advancedSimple, .advancedAll").removeClass(h).addClass(s);
 			}
 			break;
 		case "timeGraph":

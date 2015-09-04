@@ -18,11 +18,11 @@ class StudentSkillsStatsController extends Controller
 		}
 		$stats = [
 		    'student' => [
-			['id' => 'time', 'score' => rand(1,10)],
-			['id' => 'activity', 'score' => rand(1,10)],
-			['id' => 'regulation', 'score' => rand(1,10)],
-			['id' => 'efficacy', 'score' => rand(1,10)],
-			['id' => 'consistency', 'score' => rand(1,10)],
+			['id' => 'time', 'score' => rand(1,100) / 10],
+			['id' => 'activity', 'score' => rand(1,100) / 10],
+			['id' => 'regulation', 'score' => rand(1,100) / 10],
+			['id' => 'efficacy', 'score' => rand(1,100) / 10],
+			['id' => 'consistency', 'score' => rand(1,100) / 10],
 		    ],
 		    'class' => [
 			['id' => 'time', 'score' => 5],
