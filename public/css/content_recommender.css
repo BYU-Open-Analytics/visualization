@@ -69,6 +69,10 @@ td {
 	overflow: auto;
 }
 
+#recommendSection .panel-heading {
+	cursor: pointer;
+}
+
 #recommendSection td {
 	padding: 5px;
 }
