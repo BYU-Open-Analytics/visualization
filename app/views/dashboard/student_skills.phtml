@@ -30,6 +30,27 @@ if ( $context->valid ) {
         </div>
       </div>
 
+      <!-- Time Graph -->
+      <div id="timeGraphSection" class="advancedTimeGraph col-md-12">
+        <h3>Your Skills Over Time<small>— currently random numbers</small></h3>
+        <div id="visualizationContainer" class="container">
+            <div id="timeGraphContainer">
+              <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
+              <div id="timeGraph"></div>
+            </div>
+            <h5>Select a skill:</h5>
+            <form>
+              <div class="btn-group" data-toggle="buttons">
+                <label class="btn btn-default active"><input type="radio" name="timeGraphSkillOption" value="time" checked />Time Management</label>
+                <label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="activity" />Online Activity</label>
+                <label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="regulation" />Self-Regulation</label>
+                <label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="efficacy" />Self-Efficacy</label>
+                <label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="consistency" />Consistency</label>
+              </div>
+            </form>
+        </div>
+      </div>
+
       <!-- Skills Graph -->
       <div id="skillsGraphSection" class="advancedSkillsGraph col-md-12">
         <h3>Student Skills<small>— currently random numbers</small></h3>

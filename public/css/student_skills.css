@@ -28,6 +28,23 @@
 	color: #333;
 }
 
+/* Time Graph */
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
 
 /* Advanced */
 /* Classes to hide certain elements until the corresponding option is toggled on */
