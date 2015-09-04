@@ -42,8 +42,15 @@
 
 .line {
   fill: none;
-  stroke: steelblue;
   stroke-width: 1.5px;
+}
+.studentLine {
+	stroke: rgb(255, 127, 14);
+	color: rgb(255, 127, 14);
+}
+.classLine {
+	stroke: rgb(31, 119, 180);
+	color: rgb(31, 119, 180);
 }
 
 /* Advanced */

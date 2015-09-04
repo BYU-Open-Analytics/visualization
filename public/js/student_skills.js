@@ -171,10 +171,22 @@ function loadTimeGraph(skillId) {
 	      .style("text-anchor", "end")
 	      .text("Score");
 
+	  var studentData = $.grep(data, function(d,i) {
+		  return d.scope == "student";
+	  });
 	  svg.append("path")
-	      .datum(data)
-	      .attr("class", "line")
+	      .datum(studentData)
+	      .attr("class", "line studentLine")
 	      .attr("d", line);
+
+	  var classData = $.grep(data, function(d,i) {
+		  return d.scope == "class";
+	  });
+	  svg.append("path")
+	      .datum(classData)
+	      .attr("class", "line classLine")
+	      .attr("d", line);
+
 	});
 }
 

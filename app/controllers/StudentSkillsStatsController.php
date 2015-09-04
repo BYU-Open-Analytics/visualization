@@ -52,6 +52,9 @@ class StudentSkillsStatsController extends Controller
 		for ($i=0; $i<50; $i++) {
 			$result []= ['student', date('Y-m-d', mktime(0, 0, 0, date("m") , date("d") - $i, date("Y"))), rand(1,100) / 10];
 		}
+		for ($i=0; $i<50; $i++) {
+			$result []= ['class', date('Y-m-d', mktime(0, 0, 0, date("m") , date("d") - $i, date("Y"))), rand(20,80) / 10];
+		}
 
 		// Output data as csv so that we only have to send header information once
 		header("Content-Type: text/csv");
