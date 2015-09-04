@@ -51,8 +51,8 @@ function loadSkills(data) {
 
 function loadSkillsGraph(data) {
 	var radarConfig = {
-		w: 500,
-		h: 500,
+		w: 400,
+		h: 400,
 		maxValue: 10,
 		levels: 10,
 		ExtraWidthX: 300
@@ -101,6 +101,11 @@ function loadSkillsGraph(data) {
 		.text(function(d) { return d; });
 }
 
+function showSkillsGraphRecommend(skillId) {
+	$("#skillsGraphRecommend").html($("#skillsListSection ." + skillId + "SkillTemplate").clone().addClass("advancedSkillsGraph"));
+	refreshView();
+}
+
 function loadTimeGraph(skillId) {
 	// Default skill is time management
 	skillId = skillId != null ? skillId : "time";
@@ -113,7 +118,7 @@ function loadTimeGraph(skillId) {
 	// Largely from http://bl.ocks.org/mbostock/3883245
 	var margin = {top: 20, right: 20, bottom: 50, left: 10},
 	    width = 800 - margin.left - margin.right,
-	    height = 500 - margin.top - margin.bottom;
+	    height = 400 - margin.top - margin.bottom;
 
 	var parseDate = d3.time.format("%Y-%m-%d").parse;
 

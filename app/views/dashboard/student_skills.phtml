@@ -58,8 +58,11 @@ if ( $context->valid ) {
       <!-- Skills Graph -->
       <div id="skillsGraphSection" class="advancedSkillsGraph col-md-12">
         <h3>Student Skills<small>— currently random numbers</small></h3>
-        <div id="visualizationContainer" class="container">
-            <div id="radarContainer">
+        <div class="row">
+	  <div class="col-md-4" id="skillsGraphRecommend">
+            <p class="lead" style="text-align; center;">Click on any skill <br /> to learn more. (not yet implemented. figure out how to inject event listeners into d3-radar)</p>
+          </div>
+            <div class="col-md-8" id="radarContainer">
               <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
               <div id="radarChart"></div>
             </div>
