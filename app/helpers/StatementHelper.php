@@ -7,7 +7,7 @@ class StatementHelper extends Module {
 	// Build statements specific to the visualization app
 	public function buildStatement($params, $ltiContext) {
 		// $params will be an array if info needed for the statement type, sent from the frontend
-		$verbAuthority = "http://adlnet.gov/expapi/verbs/";
+		$verbAuthority = "http://byuopenanalytics.byu.edu/verbs/";
 		$objectAuthority = "http://byuopenanalytics.byu.edu/";
 
 
@@ -40,6 +40,13 @@ class StatementHelper extends Module {
 				];
 				$result = [
 					"duration"	=> $params["duration"]
+				];
+				break;
+			case "interacted":
+				$verbName = $params["verbName"];
+				$object = [
+					"id"		=> $objectAuthority.$params["dashboardID"]."#".$params["objectName"],
+					"definition"	=> ["name" => ["en-US" => $params["objectName"]." of ".$params["dashboardName"]]]
 				];
 				break;
 		}

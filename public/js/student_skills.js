@@ -259,6 +259,19 @@ function changeView(optionName, optionValue, refreshOnly) {
 	}
 }
 
+// Called for basically every click interaction. Sends an xAPI statement with the given verb and object
+// verbName is often "clicked". objectName should be string with no spaces, e.g. "viewSettingMasteryGraph"
+function track(verbName, objectName) {
+	console.log("Tracking: ",verbName,objectName);
+	sendStatement({
+		statementName: 'interacted',
+		dashboardID: 'student_skills_dashboard',
+		dashboardName: 'Student Skills Dashboard',
+		verbName: verbName,
+		objectName: objectName
+	});
+}
+
 // When page is done loading, show our visualizations
 $(function() {
 
@@ -282,6 +295,7 @@ $(function() {
 	$("#jumbotronDismiss").click(function() {
 		$("#"+$(this).attr("data-dismiss")).hide();
 		$("#mainContainer").removeClass("hidden").addClass("show");
+		track("clicked", "continueButton");
 	});
 	$(".advancedToggle").click(function() {
 		// Deselect other options
@@ -290,20 +304,27 @@ $(function() {
 		// Select this option
 		$(this).parent(".advancedToggleLi").addClass("active");
 		changeView($(this).attr("data-option"));
+		track("clicked","viewSetting"+$(this).attr("data-option"));
 		return false;
 	});
 	$(".advancedToggleOptional").change(function(event) {
 		changeView($(this).attr("data-option"), this.checked);
+		track("clicked","viewSetting"+$(this).attr("data-option"));
 		event.stopPropagation();
 		event.preventDefault();
 	});
 	// Reload the time graph when skill selection changes
 	$("input:radio[name=timeGraphSkillOption]").on("change", function() {
 		loadTimeGraph($(this).val());
+		track("clicked","timeGraphSkillOption"+$(this).val());
 	});
 	// Set up bootstrap tooltips
 	$('[data-toggle="tooltip"]').tooltip({
 		container: 'body'
+	});
+	// Set up event listener for links that we want to track
+	$(document).on("click", "[data-track]", function() {
+		track("clicked", $(this).attr("data-track"));
 	});
 	
 	// Load data

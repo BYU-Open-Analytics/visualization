@@ -110,10 +110,16 @@ function updateVideoProgressCircles() {
 
 // Question Launch Modal
 $("#questionLaunchModal").on("show.bs.modal", function(e) {
+	// Set URL of button to launc the quiz from visualization LTI tool consumer
 	$(this).find(".btn-primary").attr('href','../consumer.php?app=openassessments&assessment_id=' + $(e.relatedTarget).attr('data-assessment') + '&question_id=' + $(e.relatedTarget).attr('data-question'));
+	// Set the question/assessment id in the button so the button can send an interaction statement
+	$(this).find(".btn-primary").attr("data-assessment",$(e.relatedTarget).attr('data-assessment')).attr("data-question", $(e.relatedTarget).attr('data-question'));
+	// Track that the modal was shown
+	track("clicked", "confirmLaunchQuiz" + $(e.relatedTarget).attr('data-assessment') + '.' + $(e.relatedTarget).attr('data-question'));
 });
 $("#questionLaunchContinueButton").click(function(e) {
 	$("#questionLaunchModal").modal("hide");
+	track("clicked", "launchQuiz" + $(this).attr('data-assessment') + '.' + $(this).attr('data-question'));
 });
 
 // Related videos modal
@@ -133,7 +139,7 @@ $("#relatedVideosModal").on("show.bs.modal", function(e) {
 		.attr("class","videoRefCell");
 	tr.append("td")
 		// TODO absolute URL ref fix
-		.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d.ID + '" target="_blank">' + d.title + '</a>'; })
+		.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d.ID + '" data-track="ayamelLaunch' + d.ID + '" target="_blank">' + d.title + '</a>'; })
 		.attr("class","videoTitleCell");
 	tr.append("td")
 		.attr("class", "videoProgressCell advancedMore")
@@ -143,6 +149,9 @@ $("#relatedVideosModal").on("show.bs.modal", function(e) {
 		.attr("disabled", "disabled")
 		.attr("value", function() { return Math.ceil(Math.random() * 100); }); // TODO put actual percentage here
 		
+	// Track that the modal was shown
+	track("clicked", "relatedVideos" + $(e.relatedTarget).attr('data-assessment') + '.' + $(e.relatedTarget).attr('data-question'));
+
 	// Don't stall the UI waiting for all these to finish drawing
 	setTimeout(updateVideoProgressCircles, 1);
 	refreshView();
@@ -607,6 +616,19 @@ function changeView(optionName, optionValue, refreshOnly) {
 	}
 }
 
+// Called for basically every click interaction. Sends an xAPI statement with the given verb and object
+// verbName is often "clicked". objectName should be string with no spaces, e.g. "viewSettingMasteryGraph"
+function track(verbName, objectName) {
+	console.log("Tracking: ",verbName,objectName);
+	sendStatement({
+		statementName: 'interacted',
+		dashboardID: 'content_recommender_dashboard',
+		dashboardName: 'Content Recommender Dashboard',
+		verbName: verbName,
+		objectName: objectName
+	});
+}
+
 // When page is done loading, show our visualizations
 $(function() {
 	// Send dashboard launched statement
@@ -629,14 +651,21 @@ $(function() {
 	$("#jumbotronDismiss").click(function() {
 		$("#"+$(this).attr("data-dismiss")).hide();
 		$("#mainContainer").removeClass("hidden").addClass("show");
+		track("clicked", "continueButton");
 	});
 	// Reload the scatterplot when scope changes
 	$("input:radio[name=scatterplotScopeOption]").on("change", function() {
 		loadScatterplot($(this).val());
+		track("clicked","scatterplotScope"+$(this).val());
 	});
 	// Reload the mastery graph when scope changes
 	$("input:radio[name=masteryGraphScopeOption]").on("change", function() {
 		loadMasteryGraph($(this).val());
+		track("clicked","masteryGraphScope"+$(this).val());
+	});
+	// Track when recommendation sections are switched
+	$("#recommendationsAccordion").on('shown.bs.collapse', function(e) {
+		track("clicked", $('#recommendationsAccordion .in').attr("id") + "Section");
 	});
 	$(".advancedToggle").click(function() {
 		// Deselect other options
@@ -645,16 +674,22 @@ $(function() {
 		// Select this option
 		$(this).parent(".advancedToggleLi").addClass("active");
 		changeView($(this).attr("data-option"));
+		track("clicked","viewSetting"+$(this).attr("data-option"));
 		return false;
 	});
 	$(".advancedToggleOptional").change(function(event) {
 		changeView($(this).attr("data-option"), this.checked);
+		track("clicked","viewSetting"+$(this).attr("data-option"));
 		event.stopPropagation();
 		event.preventDefault();
 	});
 	// Set up bootstrap tooltips
 	$('[data-toggle="tooltip"]').tooltip({
 		container: 'body'
+	});
+	// Set up event listener for links that we want to track
+	$(document).on("click", "[data-track]", function() {
+		track("clicked", $(this).attr("data-track"));
 	});
 	
 	// Load data
