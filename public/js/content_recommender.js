@@ -305,7 +305,7 @@ function loadScatterplot(scopeOption) {
 
 		//Create tooltips
 		//var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return d.assessment_id + "." + d.question_id; });
-		var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return d.x + "." + d.y; });
+		var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return d.group == "student" ? d.x + "." + d.y : ""; });
 		svg.call(tip);
 
 		//Create circles
@@ -574,6 +574,8 @@ function changeView(optionName, optionValue, refreshOnly) {
 		case "scatterplot":
 			//console.log("Changing to scatterplot view");
 			$(".advancedScatterplot").removeClass(h).addClass(s);
+			// Have to manually do things in the svg chart
+			$("#scatterplotSection .classPoint").hide();
 			break;
 		case "masteryGraph":
 			//console.log("Changing to mastery graph view");
@@ -603,9 +605,11 @@ function changeView(optionName, optionValue, refreshOnly) {
 			if (optionValue == true) {
 				//console.log("Changing to scatterplot + class compare view");
 				$(".advancedScatterplot, .advancedScatterplotClass").removeClass(h).addClass(s);
+				$("#scatterplotSection .classPoint").fadeIn();
 			} else {
 				//console.log("Changing to scatterplot view");
 				$(".advancedScatterplot").removeClass(h).addClass(s);
+				$("#scatterplotSection .classPoint").fadeOut();
 			}
 			break;
 	}
