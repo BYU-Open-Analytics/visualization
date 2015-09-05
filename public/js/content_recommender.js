@@ -175,7 +175,6 @@ function getRelatedVideos(assessmentId, questionId) {
 function loadConcepts() {
 	d3.json("../content_recommender_stats/concepts", function(error, data) {
 		$("#conceptsSection .spinner").hide();
-		console.log(error, data);
 		// Sort weakest by lowest score first
 		data.weakest.sort(function(a, b) {
 			return a.score < b.score;
@@ -217,7 +216,6 @@ function questionElement(d) {
 function loadRecommendations() {
 	d3.json("../content_recommender_stats/recommendations", function(error, data) {
 		$("#recommendSection .spinner").hide();
-		//console.log(error, data);
 		for (var i=1; i<5; i++) {
 			//$("#recommend"+i+"List").empty();
 			d3.select("#recommend"+i+"List")
@@ -236,7 +234,6 @@ function loadRecommendations() {
 function loadAllRecommendations() {
 	d3.json("../content_recommender_stats/recommendations/all", function(error, data) {
 		$("#recommendSection .spinner").hide();
-		//console.log(error, data);
 		//TODO update this to be new table format like function above
 		for (var i=1; i<5; i++) {
 			//$("#recommend"+i+"List").empty();
@@ -261,7 +258,6 @@ function loadScatterplot(scopeOption) {
 	scopeOption = scopeOption != null ? scopeOption : "concept";
 	d3.csv("../content_recommender_stats/scatterplot/" + scopeOption, coerceTypes, function(error, data) {
 		$("#scatterplotSection .spinner").hide();
-		console.log("scatterplot", error, data);
 
 		//Width and height
 		var margin = {top: 10, right: 10, bottom: 50, left: 55},
@@ -416,7 +412,6 @@ function loadMasteryGraph(scopeOption) {
 	// TODO don't use absolute url ref here
 	d3.json("../content_recommender_stats/masteryGraph/" + scopeOption, function(error, data) {
 		$("#masteryGraphSection .spinner").hide();
-		console.log("masterygraph", error, data);
 
 		//Width and height
 		var margin = {top: 10, right: 10, bottom: 180, left: 40},
@@ -539,11 +534,11 @@ function wrap(text, width, dx, dy) {
         y = text.attr("y"),
         dy = parseFloat(text.attr("dy")) + dy,
         tspan = text.text("").append("tspan").attr("x", 0).attr("y", y).attr("dx", dx).attr("dy", dy + "em");
-    console.log(words, width);
+    //console.log(words, width);
     while (word = words.pop()) {
       line.push(word);
       tspan.text(line.join(" "));
-      console.log(tspan.node().getComputedTextLength());
+      //console.log(tspan.node().getComputedTextLength());
       if (tspan.node().getComputedTextLength() > width) {
         line.pop();
         tspan.text(line.join(" "));

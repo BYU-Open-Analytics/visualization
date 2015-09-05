@@ -6,7 +6,6 @@ function loadSkills(data) {
 	skills.sort(function(a,b) {
 		return a.score - b.score;
 	});
-	console.log(skills);
 
 	// Display two weakest skills
 	var s0 = $("." + skills[0].id + "SkillTemplate").appendTo("#weakestSkillsList");
@@ -155,7 +154,6 @@ function loadTimeGraph(skillId) {
 	  data.forEach(function(d) {
 	    d.date = parseDate(d.date);
 	    d.score = +d.score;
-	    console.log(d);
 	  });
 
 	  x.domain(d3.extent(data, function(d) { return d.date; }));
@@ -215,15 +213,12 @@ function changeView(optionName, optionValue, refreshOnly) {
 	$(".advancedSimple, .advancedAll, .advancedAllScores, .advancedAllScoresClass, .advancedTimeGraph, .advancedTimeGraphClass, .advancedSkillsGraph").removeClass(s).addClass(h);
 	switch (optionName) {
 		case "simple":
-			//console.log("Changing to simple view");
 			$(".advancedSimple").removeClass(h).addClass(s);
 			break;
 		case "all":
-			//console.log("Changing to more view");
 			$(".advancedSimple, .advancedAll").removeClass(h).addClass(s);
 			break;
 		case "allScores":
-			//console.log("Changing to more view");
 			$("#advancedToggleAllScoresClass").prop("checked",false);
 			if (optionValue == true) {
 				$(".advancedSimple, .advancedAll, .advancedAllScores").removeClass(h).addClass(s);
@@ -232,7 +227,6 @@ function changeView(optionName, optionValue, refreshOnly) {
 			}
 			break;
 		case "allScoresClass":
-			//console.log("Changing to more view");
 			$("#advancedToggleAllScores").prop("checked",false);
 			if (optionValue == true) {
 				$(".advancedSimple, .advancedAll, .advancedAllScoresClass").removeClass(h).addClass(s);
@@ -241,11 +235,9 @@ function changeView(optionName, optionValue, refreshOnly) {
 			}
 			break;
 		case "timeGraph":
-			//console.log("Changing to scatterplot view");
 			$(".advancedTimeGraph").removeClass(h).addClass(s);
 			break;
 		case "timeGraphClass":
-			//console.log("Changing to scatterplot view");
 			if (optionValue == true) {
 				$(".advancedTimeGraph, .advancedTimeGraphClass").removeClass(h).addClass(s);
 			} else {
@@ -253,7 +245,6 @@ function changeView(optionName, optionValue, refreshOnly) {
 			}
 			break;
 		case "skillsGraph":
-			//console.log("Changing to scatterplot view");
 			$(".advancedSkillsGraph").removeClass(h).addClass(s);
 			break;
 	}
