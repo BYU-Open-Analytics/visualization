@@ -74,7 +74,7 @@ function loadSkillsGraph(data) {
 		.attr("height", radarConfig.h);
 	// Legend container
 	var legend = svg.append("g")
-		.attr("class", "legend")
+		.attr("class", "legend classLegend")
 		.attr("height", 100)
 		.attr("width", 200)
 		.attr("transform", "translate(90,20)");
@@ -236,16 +236,34 @@ function changeView(optionName, optionValue, refreshOnly) {
 			break;
 		case "timeGraph":
 			$(".advancedTimeGraph").removeClass(h).addClass(s);
+			// Have to manually do things in the svg chart
+			$("#timeGraphSection .classLine").hide();
 			break;
 		case "timeGraphClass":
 			if (optionValue == true) {
 				$(".advancedTimeGraph, .advancedTimeGraphClass").removeClass(h).addClass(s);
+				$("#timeGraphSection .classLine").fadeIn();
 			} else {
 				$(".advancedTimeGraph").removeClass(h).addClass(s);
+				$("#timeGraphSection .classLine").fadeOut();
 			}
 			break;
 		case "skillsGraph":
 			$(".advancedSkillsGraph").removeClass(h).addClass(s);
+			// Have to manually do things in the svg chart
+			$("#radarChart .radar-chart-serie0").hide();
+			$("#radarChart .classLegend").hide();
+			break;
+		case "skillsGraphClass":
+			if (optionValue == true) {
+				$(".advancedSkillsGraph, .advancedSkillsGraphClass").removeClass(h).addClass(s);
+				$("#radarChart .radar-chart-serie0").fadeIn();
+				$("#radarChart .classLegend").fadeIn();
+			} else {
+				$(".advancedSkillsGraph").removeClass(h).addClass(s);
+				$("#radarChart .radar-chart-serie0").fadeOut();
+				$("#radarChart .classLegend").fadeOut();
+			}
 			break;
 	}
 }
