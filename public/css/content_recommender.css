@@ -116,10 +116,25 @@ td {
 	shape-rendering: crispEdges;
 }
 
+.quadrant {
+	fill: transparent;
+}
+.quadrant:hover {
+	fill: #ddd;
+}
+
+.quadrantInfo {
+	float: right;
+	padding-right: 50px;
+}
+
 .studentPoint:hover {
 	r: 10px;
 }
 
+.classPoint {
+	pointer-events: none;
+}
 .classPoint:hover {
 	r: 6px;
 }

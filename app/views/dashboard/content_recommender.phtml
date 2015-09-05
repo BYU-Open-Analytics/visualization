@@ -149,7 +149,7 @@ if ( $context->valid ) {
   
       <!-- Scatterplot -->
       <div id="scatterplotSection" class="advancedScatterplot col-md-12">
-        <h3>Scatterplot</h3>
+        <h3>Question Scatterplot</h3>
           <span class="spinner pull-right"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
           <form>
             <div class="btn-group" data-toggle="buttons">
@@ -167,6 +167,26 @@ if ( $context->valid ) {
               <label class="btn btn-default scopeOptionLabel"><input type="radio" name="scatterplotScopeOption" value="all" />All</label>
             </div>
           </form>
+	  <div id="quadrantInfo1" class="quadrantInfo hidden">
+	    <p class="lead">
+              Quadrant 1 info
+	    </p>
+          </div>
+	  <div id="quadrantInfo2" class="quadrantInfo hidden">
+	    <p class="lead">
+              Quadrant 2 info
+	    </p>
+          </div>
+	  <div id="quadrantInfo3" class="quadrantInfo hidden">
+	    <p class="lead">
+              Quadrant 3 info
+	    </p>
+          </div>
+	  <div id="quadrantInfo4" class="quadrantInfo hidden">
+	    <p class="lead">
+              Quadrant 4 info
+	    </p>
+          </div>
       </div>
   
       <!-- Concept Mastery Graph -->

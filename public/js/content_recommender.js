@@ -393,6 +393,34 @@ function loadScatterplot(scopeOption) {
 			.attr("text-anchor", "end")
 			.attr("transform", "translate(-20, " + yScale(yMax) + ")rotate(270)")
 			.text("High");
+
+		//Create quadrants
+		var q1 = svg.append("rect")
+			.attr("class", "quadrant")
+		        .on('mouseover', function() { showQuadrantInfo(1) })
+			.attr("x", xScale((xMin + xMax) / 2) + "px")
+			.attr("y", "0px");
+		var q2 = svg.append("rect")
+			.attr("class", "quadrant")
+		        .on('mouseover', function() { showQuadrantInfo(2) })
+			.attr("x", "0px")
+			.attr("y", "0px");
+		var q3 = svg.append("rect")
+			.attr("class", "quadrant")
+		        .on('mouseover', function() { showQuadrantInfo(3) })
+			.attr("x", "0px")
+			.attr("y", yScale((yMin + yMax) / 2) + "px");
+		var q4 = svg.append("rect")
+			.attr("class", "quadrant")
+		        .on('mouseover', function() { showQuadrantInfo(4) })
+			.attr("x", xScale((xMin + xMax) / 2) + "px")
+			.attr("y", yScale((yMin + yMax) / 2) + "px");
+
+		svg.selectAll(".quadrant")
+			.attr("width", width / 2 + "px")
+			.attr("height", height / 2 + "px")
+			.moveToBack();
+
 		refreshView();
 	});
 
@@ -401,6 +429,12 @@ function loadScatterplot(scopeOption) {
 		d.y = +d.y;
 		return d;
 	}
+}
+
+// Shows description for each quadrant of the scatterplot when hovered over
+function showQuadrantInfo(quadrant) {
+	$(".quadrantInfo").addClass("hidden");
+	$("#quadrantInfo"+quadrant).removeClass("hidden").show();
 }
 
 // Loads the scatterplot
