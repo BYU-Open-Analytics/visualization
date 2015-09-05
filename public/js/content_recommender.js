@@ -482,14 +482,15 @@ function loadMasteryGraph(scopeOption) {
 			.attr("transform", "translate(0," + height + ")")
 			.call(xAxis)
 			.selectAll(".tick text")  
-			.call(wrap, 200, -.6, -.55);
+			.attr("dy", "-.9em")
+			.attr("dx", "-1em")
+			.call(wrap, 200);
 		chart.selectAll(".axis.x .tick text")
 			.style("text-anchor", "end")
-			//.attr("dx", "-.6em")
-			//.attr("dy", "-.55em")
 			.attr("transform", function(d) {
 				return "rotate(-90)" 
-			});
+			})
+			.selectAll("tspan");
 
 		rects.transition()
 			.duration(500)
@@ -523,7 +524,7 @@ function animateMasteryGraph() {
 }
 
 // Helper function from http://bl.ocks.org/mbostock/7555321
-function wrap(text, width, dx, dy) {
+function wrap(text, width) {
   text.each(function() {
     var text = d3.select(this),
         words = text.text().split(/\s+/).reverse(),
@@ -532,18 +533,17 @@ function wrap(text, width, dx, dy) {
         lineNumber = 0,
         lineHeight = 1.1, // ems
         y = text.attr("y"),
-        dy = parseFloat(text.attr("dy")) + dy,
-        tspan = text.text("").append("tspan").attr("x", 0).attr("y", y).attr("dx", dx).attr("dy", dy + "em");
-    //console.log(words, width);
+        dy = parseFloat(text.attr("dy")),
+        dx = parseFloat(text.attr("dx")),
+        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
     while (word = words.pop()) {
       line.push(word);
       tspan.text(line.join(" "));
-      //console.log(tspan.node().getComputedTextLength());
       if (tspan.node().getComputedTextLength() > width) {
         line.pop();
         tspan.text(line.join(" "));
         line = [word];
-        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dx", dx).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").attr("dx", dx + "em").text(word);
       }
     }
   });

@@ -321,6 +321,8 @@ class ContentRecommenderStatsController extends Controller
 		$pointCounts = ['chapter' => 4, 'unit' => 18, 'all' => 65];
 
 		for ($i=1; $i<=$pointCounts[$scope]; $i++) {
+			$result []= ["id" => $i, "display" => "Short $i", "score" => (rand(0,100) / 10)];
+			$result []= ["id" => $i, "display" => "Medium concept length $i", "score" => (rand(0,100) / 10)];
 			$result []= ["id" => $i, "display" => "Effusion and the Kinetic Molecular Theory of Gases $i", "score" => (rand(0,100) / 10)];
 		}
 		echo json_encode($result);
