@@ -251,12 +251,25 @@ function loadAllRecommendations() {
 }
 
 // Loads the scatterplot
-function loadScatterplot(scopeOption) {
+function loadScatterplot() {
 	// Show the spinner while loading
 	$("#scatterplotSection .spinner").show();
-	// Default scope is concept
-	scopeOption = scopeOption != null ? scopeOption : "concept";
-	d3.csv("../content_recommender_stats/scatterplot/" + scopeOption, coerceTypes, function(error, data) {
+	// Determine what current scope and grouping id (concept/chapter/unit id) are
+	var scopeOption = $("input[name=scatterplotScopeOption]").val();
+	var scopeGroupingId = "all";
+	switch (scopeOption) {
+		case "concept":
+			scopeGroupingId = $("[name=scatterplotConceptSelector]").val();
+			break;
+		case "chapter":
+			scopeGroupingId = $("[name=scatterplotChapterSelector]").val();
+			break;
+		case "unit":
+			scopeGroupingId = $("[name=scatterplotUnitSelector]").val();
+			break;
+	}
+
+	d3.csv("../content_recommender_stats/scatterplot/" + scopeOption + "/" + scopeGroupingId, coerceTypes, function(error, data) {
 		$("#scatterplotSection .spinner").hide();
 
 		//Width and height
@@ -441,10 +454,21 @@ function showQuadrantInfo(quadrant) {
 function loadMasteryGraph(scopeOption) {
 	// Show the spinner while loading
 	$("#masteryGraphSection .spinner").show();
+	// Determine what current scope and grouping id (concept/chapter/unit id) are
+	var scopeOption = $("input[name=masteryGraphScopeOption]").val();
+	var scopeGroupingId = "all";
+	switch (scopeOption) {
+		case "chapter":
+			scopeGroupingId = $("[name=masteryGraphChapterSelector]").val();
+			break;
+		case "unit":
+			scopeGroupingId = $("[name=masteryGraphUnitSelector]").val();
+			break;
+	}
 	// Default scope is chapter
 	scopeOption = scopeOption != null ? scopeOption : "chapter";
 	// TODO don't use absolute url ref here
-	d3.json("../content_recommender_stats/masteryGraph/" + scopeOption, function(error, data) {
+	d3.json("../content_recommender_stats/masteryGraph/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
 		$("#masteryGraphSection .spinner").hide();
 
 		//Width and height
@@ -686,15 +710,23 @@ $(function() {
 		$("#mainContainer").removeClass("hidden").addClass("show");
 		track("clicked", "continueButton");
 	});
-	// Reload the scatterplot when scope changes
+	// Reload the scatterplot when scope changes, and when concept/chapter/unit changes
 	$("input:radio[name=scatterplotScopeOption]").on("change", function() {
-		loadScatterplot($(this).val());
+		loadScatterplot();
 		track("clicked","scatterplotScope"+$(this).val());
 	});
-	// Reload the mastery graph when scope changes
+	$("[name=scatterplotConceptSelector], [name=scatterplotChapterSelector], [name=scatterplotUnitSelector]").on("change", function() {
+		loadScatterplot();
+		track("clicked",$(this).attr("name")+$(this).val());
+	});
+	// Reload the mastery graph when scope changes, and when chapter/unit changes
 	$("input:radio[name=masteryGraphScopeOption]").on("change", function() {
 		loadMasteryGraph($(this).val());
 		track("clicked","masteryGraphScope"+$(this).val());
+	});
+	$("[name=masteryGraphChapterSelector], [name=masteryGraphUnitSelector]").on("change", function() {
+		loadMasteryGraph();
+		track("clicked",$(this).attr("name")+$(this).val());
 	});
 	// Track when recommendation sections are switched
 	$("#recommendationsAccordion").on('shown.bs.collapse', function(e) {

@@ -37,6 +37,7 @@ class DashboardController extends Controller
 
 		// Concept, Chapter, and Unit lists
 		// TODO way to have html list default to current
+		// Concepts
 		$conceptsMapping = CSVHelper::parseWithHeaders('csv/concept_chapter.csv');
 		$concepts = [];
 		// Make each hierarchical content category have consistent structure for view
@@ -45,9 +46,19 @@ class DashboardController extends Controller
 		}
 		$this->view->concepts = $concepts;
 
+		// Chapters
+		$chaptersMapping = CSVHelper::parseWithHeaders('csv/chapter_unit.csv');
+		$chapters = [];
+		foreach ($chaptersMapping as $c) {
+			$chapters [] = ["id" => $c["chapter_number"], "title" => $c["chapter_number"] . " " . $c["chapter_title_short"]];
+		}
+		$this->view->chapters = $chapters;
+
+		// Units
+		$unitsMapping = CSVHelper::parseWithHeaders('csv/unit_chapter.csv');
 		$units = [];
-		for ($i=1; $i<=4; $i++) {
-			$units []= ["id" => $i, "title" => "Unit $i"];
+		foreach ($unitsMapping as $u) {
+			$units [] = ["id" => $u["unit_number"], "title" => $u["unit_title"]];
 		}
 		$this->view->units = $units;
 	}

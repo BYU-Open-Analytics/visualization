@@ -231,7 +231,7 @@ class ContentRecommenderStatsController extends Controller
 
 
 	// Returns an array of points for the concept mastery scatterplot
-	public function scatterplotAction($scope = 'concept', $group = 'student') {
+	public function scatterplotAction($scope = 'all', $groupingId = '') {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
@@ -307,7 +307,7 @@ class ContentRecommenderStatsController extends Controller
 		fclose($output);
 	}
 
-	public function masteryGraphAction($scope = 'chapter') {
+	public function masteryGraphAction($scope = 'all', $groupingId = '') {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
