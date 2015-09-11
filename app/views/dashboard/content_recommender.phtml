@@ -154,14 +154,16 @@ if ( $context->valid ) {
           <form>
             <div class="btn-group" data-toggle="buttons">
   	    <label class="btn btn-default active scopeOptionLabel"><input type="radio" name="scatterplotScopeOption" value="concept" checked />Concept: 
-  
+                <select class="conceptSelector" name="scatterplotConceptSelector">
+                  <?php print_r($concepts); foreach ($concepts as $concept) { echo '<option value="'.$concept['id'].'">'.$concept['title'].'</option>'; } ?>
+                </select>
               </label>
   	    <label class="btn btn-default scopeOptionLabel"><input type="radio" name="scatterplotScopeOption" value="chapter" />Chapter: 
   	
               </label>
   	    <label class="btn btn-default scopeOptionLabel"><input type="radio" name="scatterplotScopeOption" value="unit" />Unit: 
                 <select class="unitSelector" name="scatterplotUnitSelector">
-                  <?php print_r($units); foreach ($units as $unit) { echo '<option value="'.$unit['id'].'">'.$unit['name'].'</option>'; } ?>
+                  <?php print_r($units); foreach ($units as $unit) { echo '<option value="'.$unit['id'].'">'.$unit['title'].'</option>'; } ?>
                 </select>
               </label>
               <label class="btn btn-default scopeOptionLabel"><input type="radio" name="scatterplotScopeOption" value="all" />All</label>
