@@ -240,6 +240,78 @@ class ContentRecommenderStatsController extends Controller
 			return;
 		}
 
+		// Get the list of questions for videos associated with concepts for the given scope and grouping ID
+		// We have to do it this way, because questions are only associated with videos.
+		$questions = [];
+		$videos = CSVHelper::parseWithHeaders('csv/video_concept_question.csv');
+		switch ($scope) {
+			case "concept":
+				// Filter based on chapter
+				foreach ($videos as $v) {
+					if ($v["concept_number"] == $groupingId) {
+						// Add these questions to our list
+						$questions = array_merge($questions, explode(",", $v["questions"]));
+					}
+				}
+				break;
+
+			case "chapter":
+				// Filter based on chapter
+				foreach ($videos as $v) {
+					if ($v["chapter_number"] == $groupingId) {
+						$questions = array_merge($questions, explode(",", $v["questions"]));
+					}
+				}
+				break;
+			case "unit":
+				// Filter based on unit
+				// Unit number isn't given in this mapping, so get unit -> chapter mapping
+				$units = CSVHelper::parseWithHeaders('csv/unit_chapter.csv');
+				$unit = $units[array_search($groupingId, array_column($units, 'unit_number'))];
+				// Get chapters that are in this unit
+				$correspondingChapters = explode(",", $unit["chapters"]);
+
+				foreach ($videos as $v) {
+					// Check if this video is in a chapter that is in this unit
+					if (in_array($v["chapter_number"], $correspondingChapters)) {
+						// Add these questions to our list
+						$questions = array_merge($questions, explode(",", $v["questions"]));
+					}
+				}
+				break;
+			case "all":
+				// Add all questions to list
+				foreach ($videos as $v) {
+					// Add these questions to our list
+					$questions = array_merge($questions, explode(",", $v["questions"]));
+				}
+				break;
+		}
+
+		// Remove duplicate questions (if question is associated with more than one video, only show it once)
+		$uniqueQuestions = array_unique($questions);
+
+		// Array of questions with more details about each
+		$questionDetails = [];
+
+		// Calculate 1. question attempts and 2. video watch amount for each question
+		// 1. Question attempts
+		// First get the assessment id for the given question
+		$assessmentIds = CSVHelper::parseWithHeaders('csv/quiz_assessmentid.csv');
+		foreach ($questions as $q) {
+			$questionParts = explode(".", $q);
+			// TODO Error checking for things like "Missing quiz" that are in the mappings
+			if (count($questionParts) != 2) {
+				continue;
+			}
+			$quizNumber = explode(".", $q)[0];
+			$questionNumber = explode(".", $q)[1];
+			$assessmentId = $assessmentIds[array_search($quizNumber, array_column($assessmentIds, 'quiz_number'))]["assessment_id"];
+
+			$questionDetails []= ["quizNumber" => $quizNumber, "questionNumber" => $questionNumber, "assessmentId" => $assessmentId];
+		}
+		
+
 		function randomPoint($group) {
 			// Randomly return outliers
 			if (rand(0,30) == 5) {
@@ -248,12 +320,15 @@ class ContentRecommenderStatsController extends Controller
 			return [$group, "qid", "aid", rand(-100, 100) / 10, rand(-100, 100) / 10];
 		}
 		$result = [];
-		// For now, return arbitrarily larger number of points depending on scope
-		$pointCounts = ['concept' => 20, 'chapter' => 40, 'unit' => 80, 'all' => '160'];
-		for ($i=0; $i<$pointCounts[$scope]; $i++) {
+		// For now, return random points based on number of questions
+		$numPoints = count($questionDetails);
+		//foreach ($questionDetails as $q) {
+			//$result [] = 
+		//}
+		for ($i=0; $i<$numPoints; $i++) {
 			$result []= randomPoint("student");
 		}
-		for ($i=0; $i<($pointCounts[$scope]*10); $i++) {
+		for ($i=0; $i<($numPoints*10); $i++) {
 			$result []= randomPoint("class");
 		}
 
@@ -296,8 +371,9 @@ class ContentRecommenderStatsController extends Controller
 			}, $result);
 			//print_r($result);
 			//print_r($yStats);
+		
 		//die();
-		// Output data as csv so that we only have to send header information once
+		// Output data as csv so that we only have to send header information once for so many points
 		header("Content-Type: text/csv");
 		$output = fopen("php://output", "w");
 		fputcsv($output, ["group", "question_id", "assessment_id", "x", "y"]);
