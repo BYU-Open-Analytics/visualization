@@ -317,13 +317,28 @@ class ContentRecommenderStatsController extends Controller
 		}
 
 		$result = [];
-		// For now, return arbitrarily larger number of concepts depending on scope
-		$pointCounts = ['chapter' => 4, 'unit' => 18, 'all' => 65];
+		//echo $scope . ":" . $groupingId;
 
-		for ($i=1; $i<=$pointCounts[$scope]; $i++) {
-			$result []= ["id" => $i, "display" => "Short $i", "score" => (rand(0,100) / 10)];
-			$result []= ["id" => $i, "display" => "Medium concept length $i", "score" => (rand(0,100) / 10)];
-			$result []= ["id" => $i, "display" => "Effusion and the Kinetic Molecular Theory of Gases $i", "score" => (rand(0,100) / 10)];
+		// Get the list of concepts for the given scope and grouping ID
+		$concepts = CSVHelper::parseWithHeaders('csv/concept_chapter_unit.csv');
+		switch ($scope) {
+			case "chapter":
+				// Filter concepts to ones in the selected chapter
+				$concepts = array_filter($concepts, function($concept) use ($groupingId) {
+					return ($concept["chapter_number"] == $groupingId);
+				});
+				break;
+			case "unit":
+				// Filter concepts to ones in the selected unit
+				$concepts = array_filter($concepts, function($concept) use ($groupingId) {
+					return ($concept["unit_number"] == $groupingId);
+				});
+				break;
+			// If scope is "all", then all concepts are already in the list; no need to filter
+		}
+
+		foreach ($concepts as $c) {
+			$result []= ["id" => $c["concept_number"], "display" => $c["concept_title"], "score" => (rand(0,100) / 10)];
 		}
 		echo json_encode($result);
 	}

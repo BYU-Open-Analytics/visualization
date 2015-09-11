@@ -255,7 +255,7 @@ function loadScatterplot() {
 	// Show the spinner while loading
 	$("#scatterplotSection .spinner").show();
 	// Determine what current scope and grouping id (concept/chapter/unit id) are
-	var scopeOption = $("input[name=scatterplotScopeOption]").val();
+	var scopeOption = $("input[name=scatterplotScopeOption]:checked").val();
 	var scopeGroupingId = "all";
 	switch (scopeOption) {
 		case "concept":
@@ -455,7 +455,7 @@ function loadMasteryGraph(scopeOption) {
 	// Show the spinner while loading
 	$("#masteryGraphSection .spinner").show();
 	// Determine what current scope and grouping id (concept/chapter/unit id) are
-	var scopeOption = $("input[name=masteryGraphScopeOption]").val();
+	var scopeOption = $("input[name=masteryGraphScopeOption]:checked").val();
 	var scopeGroupingId = "all";
 	switch (scopeOption) {
 		case "chapter":
@@ -465,6 +465,7 @@ function loadMasteryGraph(scopeOption) {
 			scopeGroupingId = $("[name=masteryGraphUnitSelector]").val();
 			break;
 	}
+	console.log(scopeOption, scopeGroupingId);
 	// Default scope is chapter
 	scopeOption = scopeOption != null ? scopeOption : "chapter";
 	// TODO don't use absolute url ref here
@@ -542,7 +543,7 @@ function loadMasteryGraph(scopeOption) {
 			.selectAll(".tick text")  
 			.attr("dy", "-.9em")
 			.attr("dx", "-1em")
-			.call(wrap, 200);
+			.call(wrap, 170);
 		chart.selectAll(".axis.x .tick text")
 			.style("text-anchor", "end")
 			.attr("transform", function(d) {

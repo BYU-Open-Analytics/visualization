@@ -38,7 +38,7 @@ class DashboardController extends Controller
 		// Concept, Chapter, and Unit lists
 		// TODO way to have html list default to current
 		// Concepts
-		$conceptsMapping = CSVHelper::parseWithHeaders('csv/concept_chapter.csv');
+		$conceptsMapping = CSVHelper::parseWithHeaders('csv/concept_chapter_unit.csv');
 		$concepts = [];
 		// Make each hierarchical content category have consistent structure for view
 		foreach ($conceptsMapping as $c) {
