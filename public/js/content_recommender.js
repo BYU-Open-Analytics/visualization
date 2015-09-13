@@ -271,6 +271,7 @@ function loadScatterplot() {
 
 	d3.csv("../content_recommender_stats/scatterplot/" + scopeOption + "/" + scopeGroupingId, coerceTypes, function(error, data) {
 		$("#scatterplotSection .spinner").hide();
+		console.log("Scatterplot ERROR: ", error);
 
 		//Width and height
 		var margin = {top: 10, right: 10, bottom: 50, left: 55},

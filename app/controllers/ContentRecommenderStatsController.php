@@ -335,6 +335,8 @@ class ContentRecommenderStatsController extends Controller
 
 		$xValues = array_map(function($point) { return $point[3]; }, $result);
 		$yValues = array_map(function($point) { return $point[4]; }, $result);
+
+		// TODO check that xValues and yValues have a length, otherwise statshelper will spit out errors
 		// Perform some statistics grossness
 			// Remove any outliers for both axes, based on 1.5*IQR
 			// Cap and floor x outliers
