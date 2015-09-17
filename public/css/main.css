@@ -67,6 +67,7 @@
   color: #fff;
   border-radius: 2px;
   margin: 0px;
+  z-index: 10000;
 }
 
 /* Creates a small triangle extender for the tooltip */

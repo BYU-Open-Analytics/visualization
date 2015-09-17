@@ -317,12 +317,13 @@ class ContentRecommenderStatsController extends Controller
 		}
 		
 
-		function randomPoint($group) {
+		$headerRow = ["group", "quiz_number", "question_number", "x", "y"];
+		function randomPoint($group, $q) {
 			// Randomly return outliers
 			if (rand(0,30) == 5) {
-				return [$group, "qid", "aid", rand(-10000, 1000), rand(-10000, 1000)];
+				return [$group, $q["quizNumber"], $q["questionNumber"], rand(-10000, 1000), rand(-10000, 1000)];
 			}
-			return [$group, "qid", "aid", rand(-100, 100) / 10, rand(-100, 100) / 10];
+			return [$group, $q["quizNumber"], $q["questionNumber"], rand(-100, 100), rand(-100, 100)];
 		}
 		$result = [];
 		// For now, return random points based on number of questions
@@ -331,10 +332,10 @@ class ContentRecommenderStatsController extends Controller
 			//$result [] = 
 		//}
 		for ($i=0; $i<$numPoints; $i++) {
-			$result []= randomPoint("student");
-		}
-		for ($i=0; $i<($numPoints*10); $i++) {
-			$result []= randomPoint("class");
+			$result []= randomPoint("student", $questionDetails[$i]);
+			for ($j=0; $j<10; $j++) {
+				$result []= randomPoint("class", $questionDetails[$i]);
+			}
 		}
 
 		$xValues = array_map(function($point) { return $point[3]; }, $result);
@@ -383,7 +384,7 @@ class ContentRecommenderStatsController extends Controller
 		// Output data as csv so that we only have to send header information once for so many points
 		header("Content-Type: text/csv");
 		$output = fopen("php://output", "w");
-		fputcsv($output, ["group", "question_id", "assessment_id", "x", "y"]);
+		fputcsv($output, $headerRow);
 		foreach ($result as $row) {
 			fputcsv($output, $row); // here you can change delimiter/enclosure
 		}

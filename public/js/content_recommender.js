@@ -315,11 +315,12 @@ function loadScatterplot() {
 			.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-		//Data elements are as follows ["student/class", "conceptId", x, y]
+		//Data elements are as follows (from ContentRecommenderStatsController.php, in scatterplotAction())
+		//$headerRow = ["group", "quiz_number", "question_number", "x", "y"];
 
 		//Create tooltips
 		//var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return d.assessment_id + "." + d.question_id; });
-		var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return d.group == "student" ? d.x + "." + d.y : ""; });
+		var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return d.group == "student" ? "Question " + d.quiz_number + "." + d.question_number : ""; });
 		svg.call(tip);
 
 		//Create circles
