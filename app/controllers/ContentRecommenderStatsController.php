@@ -178,17 +178,21 @@ class ContentRecommenderStatsController extends Controller
 			echo '[{"error":"Invalid lti context"}]';
 			return;
 		}
+		// Get the list of concepts and (for now) randomly choose some for strongest and weakest
+		$concepts = CSVHelper::parseWithHeaders('csv/concept_chapter_unit.csv');
 
-		$strongest = [
-			["id" => 1, "display" => "Chapter 1 - Concept A", "score" => rand(0,50) / 10],
-			["id" => 2, "display" => "Chapter 1 - Concept B", "score" => rand(0,50) /10],
-			["id" => 3, "display" => "Chapter 1 - Concept C", "score" => rand(0,50) /10],
-		];
-		$weakest = [
-			["id" => 4, "display" => "Chapter 1 - Concept D", "score" => rand(50,100) /10],
-			["id" => 5, "display" => "Chapter 1 - Concept E", "score" => rand(50,100) /10],
-			["id" => 6, "display" => "Chapter 2 - concept A", "score" => rand(50,100) /10],
-		];
+		$conceptIndices = count($concepts) - 1;
+		$strongest = [];
+		for ($i=0; $i<3; $i++) {
+			$c = $concepts[rand(0, $conceptIndices)];
+			$strongest []= ["id" => $c["concept_number"], "display" => $c["concept_number"]." ".$c["concept_title"], "score" => rand(50,100) / 10];
+		}
+		$weakest = [];
+		for ($i=0; $i<3; $i++) {
+			$c = $concepts[rand(0, $conceptIndices)];
+			$weakest []= ["id" => $c["concept_number"], "display" => $c["concept_number"]." ".$c["concept_title"], "score" => rand(0,50) / 10];
+		}
+
 		$result = ["strongest" => $strongest, "weakest" => $weakest];
 		echo json_encode($result);
 	}
