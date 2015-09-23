@@ -177,11 +177,11 @@ function loadConcepts() {
 		$("#conceptsSection .spinner").hide();
 		// Sort weakest by lowest score first
 		data.weakest.sort(function(a, b) {
-			return a.score < b.score;
+			return a.score > b.score;
 		});
 		// Sort strongest by highest score first
 		data.strongest.sort(function(a, b) {
-			return a.score > b.score;
+			return a.score < b.score;
 		});
 		// Display the concepts in the lists for both weakest and strongest
 		function displayConceptList(category) {
@@ -193,7 +193,7 @@ function loadConcepts() {
 				//If their score is 0-3 make it red. If their score is 4-6 make it yellow, and if their score is > 6 make it green.
 				// TODO remove these magic numbers and colors
 				.style("background-color", function(d) { return d.score >= 6 ? "#5cb85c" : d.score >= 4 ? "#f0ad4e" : "#d9534f"; })
-				.html(function(d) { return d.display + ": " + d.score; });
+				.html(function(d) { return "<b class='badge pull-right'>" + d.score + " / 10</b> " + d.display; });
 		}
 		displayConceptList("weakest");
 		displayConceptList("strongest");

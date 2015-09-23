@@ -46,7 +46,7 @@ if ( $context->valid ) {
               <div id="recommend1" class="panel-collapse collapse in">
                 <div class="panel-body recommendPanelBody">
                   <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.svg"); ?><br /></span>
-                  <table class="table table-striped" id="recommend1List"> </table>
+                  <table class="table table-hover table-striped" id="recommend1List"> </table>
                 </div>
               </div>
             </div>
@@ -60,7 +60,7 @@ if ( $context->valid ) {
               </div>
               <div id="recommend2" class="panel-collapse collapse">
                 <div class="panel-body recommendPanelBody">
-                  <table class="table" id="recommend2List"> </table>
+                  <table class="table table-hover" id="recommend2List"> </table>
                 </div>
               </div>
             </div>
@@ -74,7 +74,7 @@ if ( $context->valid ) {
               </div>
               <div id="recommend3" class="panel-collapse collapse">
                 <div class="panel-body recommendPanelBody">
-                  <table class="table" id="recommend3List"> </table>
+                  <table class="table table-hover" id="recommend3List"> </table>
                 </div>
               </div>
             </div>
@@ -88,7 +88,7 @@ if ( $context->valid ) {
               </div>
               <div id="recommend4" class="panel-collapse collapse">
                 <div class="panel-body recommendPanelBody">
-                  <table class="table" id="recommend4List"> </table>
+                  <table class="table table-hover" id="recommend4List"> </table>
                 </div>
               </div>
             </div>
@@ -102,12 +102,18 @@ if ( $context->valid ) {
         <table id="recommendTemplates">
         <!-- Template for recommendation table header -->
         <thead class="recommendHeaderTemplate">
+          <tr class="advancedMoreClass">
+            <th colspan="3"></th>
+            <th colspan="3" style="border-left: 2px solid #ddd; border-right: 2px solid #ddd;"><span class="advancedMoreClass">Class</span></th>
+            <th colspan="2"></th>
+          </tr>
           <tr>
             <th>Quiz Question</th>
-            <th><span class="advancedMore">Correct</span></th>
-            <th><span class="advancedMore">Attempts</span></th>
-            <th><span class="advancedMoreClass">Class Average</span></th>
-            <!--<th><span class="advancedMoreClass">Class Average</span></th>-->
+            <th style="text-align: center;"><span class="advancedMore">Correct</span></th>
+            <th style="text-align: center;"><span class="advancedMore">Attempts</span></th>
+            <th><span class="advancedMoreClass">Viewed<br>Hint</span></th>
+            <th><span class="advancedMoreClass">Viewed<br>Answer</span></th>
+            <th><span class="advancedMoreClass">Average<br>Attempts</span></th>
             <th><!--Launch Quiz--></th>
             <th><!--See Related Videos--></th>
           </tr>
@@ -115,11 +121,13 @@ if ( $context->valid ) {
         <!-- Template for recommendation item -->
         <tr class="recommendQuestionDisplay">
   	  <td>{display}</td>
-	  <td><span class="advancedMore correct-{correct}Holder"><span class="label label-danger label-incorrect">Incorrect</span><span class="label label-success label-correct">Correct</span></span></td>
-	  <td><span class="advancedMore"><span class="label label-default">{attempts} attempts</span></span></td>
-  	  <td><span class="advancedMoreClass"><span class="label label-success">{classPercentCorrect}% Correct</span> <span class="label label-default">{classAverageAttempts} attempts</span></span></td>
-          <td><button class="btn btn-info btn-xs" data-toggle="modal" data-target="#questionLaunchModal" data-assessment="{assessment_id}" data-question="{question_id}"> <span class="glyphicon glyphicon-log-in"></span> Launch Quiz </button></td>
-  	  <td><button class="btn btn-info btn-xs" data-toggle="modal" data-target="#relatedVideosModal" data-assessment="{assessment_id}" data-question="{question_id}"> <span class="glyphicon glyphicon-film"></span> See Related Videos </button></td>
+	  <td style="text-align: center;"><span class="advancedMore correct-{correct}Holder"><span class="glyphicon glyphicon-ok correctIcon"></span><span class="glyphicon glyphicon-remove incorrectIcon"></span></span></td>
+	  <td style="text-align: center;"><span class="advancedMore" style="font-weight: bold;">{attempts}</span></td>
+          <td><span class="advancedMoreClass">{classViewedHint}%</span></td>
+          <td><span class="advancedMoreClass">{classViewedAnswer}%</span></td>
+          <td><span class="advancedMoreClass">{classAverageAttempts}</span></td>
+          <td><button class="btn btn-info btn-xs" data-toggle="modal" data-target="#questionLaunchModal" data-assessment="{assessment_id}" data-question="{question_id}"> <span class="glyphicon glyphicon-log-in"></span> &nbsp; Quiz &nbsp;</button></td>
+  	  <td><button class="btn btn-info btn-xs" data-toggle="modal" data-target="#relatedVideosModal" data-assessment="{assessment_id}" data-question="{question_id}"> <span class="glyphicon glyphicon-film"></span> &nbsp; Videos &nbsp;</button></td>
         </tr>
         </table>
       </div>

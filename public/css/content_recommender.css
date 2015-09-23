@@ -90,11 +90,16 @@ td {
 #recommendSection td {
 	padding: 5px;
 }
-
-.correct-falseHolder .label-correct {
+.correctIcon {
+	color: #5cb85c;
+}
+.incorrectIcon {
+	color: #d9534f;
+}
+.correct-falseHolder .correctIcon {
 	display: none;
 }
-.correct-trueHolder .label-incorrect {
+.correct-trueHolder .incorrectIcon {
 	display: none;
 }
 
