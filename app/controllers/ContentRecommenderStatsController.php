@@ -421,8 +421,10 @@ class ContentRecommenderStatsController extends Controller
 			// If scope is "all", then all concepts are already in the list; no need to filter
 		}
 
+		$masteryHelper = new MasteryHelper();
 		foreach ($concepts as $c) {
-			$result []= ["id" => $c["concept_number"], "display" => $c["concept_title"], "score" => (rand(0,100) / 10)];
+			$score = $masteryHelper::calculateConceptMasteryScore($context->getUserEmail(), $c["concept_number"]);
+			$result []= ["id" => $c["concept_number"], "display" => $c["concept_title"], "score" => $score];
 		}
 		echo json_encode($result);
 	}
