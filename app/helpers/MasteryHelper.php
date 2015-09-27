@@ -10,7 +10,7 @@ class MasteryHelper extends Module {
 
 		// Get questions in concept
 		$questionIds = array();
-		$conceptQuestions = CSVHelper::parseWithHeaders('csv/concept_question.csv');
+		$conceptQuestions = CSVHelper::parseWithHeaders('csv/video_concept_question.csv');
 		// Filter questions to ones in the selected concept
 		$questionLists = array_filter($conceptQuestions, function($concept) use ($conceptId) {
 			return ($concept["concept_number"] == $conceptId);
