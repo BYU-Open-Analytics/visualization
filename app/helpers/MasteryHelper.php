@@ -6,8 +6,6 @@ class MasteryHelper extends Module {
 
 	public static function calculateConceptMasteryScore($studentId, $conceptId) {
 
-		$statementHelper = new StatementHelper();
-
 		// Get questions in concept
 		$questionIds = array();
 		$conceptQuestions = CSVHelper::parseWithHeaders('csv/video_concept_question.csv');
@@ -23,7 +21,6 @@ class MasteryHelper extends Module {
 		//print_r($questionIds);
 		//echo "<hr>";
 		
-
 		// Calculate total # attempts (answered statements) for all questions in the concept
 		$conceptTotalAttempts = 0;
 
@@ -42,27 +39,33 @@ class MasteryHelper extends Module {
 			$questionNumber = $idParts[1];
 			// Get assessment id from quiz id
 			$assessmentId = $assessmentIds[array_search($quizNumber, array_column($assessmentIds, 'quiz_number'))]["assessment_id"];
-
-			// Regex for assessment id and question number (since url for object IDs will change, but end part will be the same format)
-			$regex = new MongoRegex('/' . $assessmentId . '\.xml#' . $questionNumber . '$/');
-			$questionDescription = "Question #{$questionNumber} of assessment {$assessmentId}";
-			// Get the count of answered statements for this question for current user
-			$statements = $statementHelper->getStatements("openassessments",[
-				'statement.actor.mbox' => 'mailto:'.$studentId,
-				'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/answered',
-				//'statement.object.id' => $regex,
-				'statement.object.definition.name.en-US' => $questionDescription,
-			], [
-				'statement.result.success' => true,
-			]);
-			if ($statements["error"]) {
-				// TODO error handling
-			} else {
-				// My attempt at debugging slow queries to figure out how to speed them out
-				//var_dump($statements["cursor"]->explain());
-				$conceptTotalAttempts += $statements["cursor"]->count();
-			}
+			$conceptTotalAttempts += self::countAttemptsForQuestion($studentId, $assessmentId, $questionNumber);
 		}
 		return $conceptTotalAttempts;
+	}
+
+	public static function countAttemptsForQuestion($studentId, $assessmentId, $questionNumber) {
+		$statementHelper = new StatementHelper();
+
+		// Regex for assessment id and question number (since url for object IDs will change, but end part will be the same format)
+		$regex = new MongoRegex('/' . $assessmentId . '\.xml#' . $questionNumber . '$/');
+		$questionDescription = "Question #{$questionNumber} of assessment {$assessmentId}";
+		// Get the count of answered statements for this question for current user
+		$statements = $statementHelper->getStatements("openassessments",[
+			'statement.actor.mbox' => 'mailto:'.$studentId,
+			'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/answered',
+			//'statement.object.id' => $regex,
+			'statement.object.definition.name.en-US' => $questionDescription,
+		], [
+			'statement.result.success' => true,
+		]);
+		if ($statements["error"]) {
+			// TODO error handling
+		} else {
+			// My attempt at debugging slow queries to figure out how to speed them out
+			//var_dump($statements["cursor"]->explain());
+			return $statements["cursor"]->count();
+		}
+
 	}
 }
