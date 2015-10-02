@@ -1,7 +1,7 @@
 <?php
 
 use Phalcon\Mvc\Controller;
-include __DIR__ . "/../library/array_column.php";
+include __DIR__ . "/../library/array_functions.php";
 
 class ContentRecommenderStatsController extends Controller
 {

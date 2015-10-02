@@ -1,6 +1,7 @@
 <?php 
 
 use Phalcon\Mvc\User\Module;
+include __DIR__ . "/../library/array_functions.php";
 
 class MasteryHelper extends Module {
 
@@ -24,10 +25,15 @@ class MasteryHelper extends Module {
 		// Calculate total # attempts (answered statements) for all questions in the concept
 		$conceptTotalAttempts = 0;
 
+		// Array to hold information about each question
+		$conceptQuestions = array();
+
 		// Load quiz id -> assessment id mapping
 		$assessmentIds = CSVHelper::parseWithHeaders('csv/quiz_assessmentid.csv');
+		// Load question type mapping
+		$questionTypes = CSVHelper::parseWithHeaders('csv/question_type.csv');
 
-		// Loop through each question
+		// Loop through each question and get basic information for each
 		foreach ($questionIds as $questionId) {
 			// Split up quiz id and question id from format 12.1 (quizNumber.questionNumber)
 			$idParts = explode(".", $questionId);
@@ -39,7 +45,20 @@ class MasteryHelper extends Module {
 			$questionNumber = $idParts[1];
 			// Get assessment id from quiz id
 			$assessmentId = $assessmentIds[array_search($quizNumber, array_column($assessmentIds, 'quiz_number'))]["assessment_id"];
-			$conceptTotalAttempts += self::countAttemptsForQuestion($studentId, $assessmentId, $questionNumber);
+
+			// Get question type, since we do different calculations based on multiple choice or short answer
+			$questionType = $questionTypes[multi_array_search($questionTypes, ["quiz" => $quizNumber, "question" => $questionNumber])[0]]["type"];
+
+			// Don't include essay questions in any calculations
+			$questionAttempts = 0;
+			if ($questionType != "essay") {
+				$questionAttempts = self::countAttemptsForQuestion($studentId, $assessmentId, $questionNumber);
+				$conceptTotalAttempts += $questionAttempts;
+			}
+
+			// Store this information in the array
+			$conceptQuestions []= ["quizNumber" => $quizNumber, "questionNumber" => $questionNumber, "assessmentId" => $assessmentId, "attempts" => $questionAttempts];
+
 		}
 		return $conceptTotalAttempts;
 	}
@@ -66,6 +85,7 @@ class MasteryHelper extends Module {
 			//var_dump($statements["cursor"]->explain());
 			return $statements["cursor"]->count();
 		}
-
 	}
+
+	//static function 
 }
