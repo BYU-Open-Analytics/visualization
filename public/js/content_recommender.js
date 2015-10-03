@@ -256,7 +256,7 @@ function loadScatterplot() {
 	$("#scatterplotSection .spinner").show();
 	// Determine what current scope and grouping id (concept/chapter/unit id) are
 	var scopeOption = $("input[name=scatterplotScopeOption]:checked").val();
-	var scopeGroupingId = "all";
+	var scopeGroupingId = "";
 	switch (scopeOption) {
 		case "concept":
 			scopeGroupingId = $("[name=scatterplotConceptSelector]").val();

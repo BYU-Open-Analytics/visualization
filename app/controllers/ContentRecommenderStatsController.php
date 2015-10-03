@@ -236,7 +236,7 @@ class ContentRecommenderStatsController extends Controller
 
 
 	// Returns an array of points for the concept mastery scatterplot
-	public function scatterplotAction($scope = 'all', $groupingId = '') {
+	public function scatterplotAction($scope = 'concept', $groupingId = '') {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
@@ -244,6 +244,8 @@ class ContentRecommenderStatsController extends Controller
 			echo '[{"error":"Invalid lti context"}]';
 			return;
 		}
+
+		// TODO default to current concept?
 
 		// Get the list of questions for videos associated with concepts for the given scope and grouping ID
 		// We have to do it this way, because questions are only associated with videos.
