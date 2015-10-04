@@ -425,7 +425,7 @@ class ContentRecommenderStatsController extends Controller
 
 		$masteryHelper = new MasteryHelper();
 		foreach ($concepts as $c) {
-			$score = $masteryHelper::calculateConceptMasteryScore($context->getUserEmail(), $c["concept_number"]);
+			$score = $masteryHelper::calculateConceptMasteryScore($context->getUserEmail(), $c["concept_number"], true);
 			$result []= ["id" => $c["concept_number"], "display" => $c["concept_title"], "score" => $score];
 		}
 		echo json_encode($result);
