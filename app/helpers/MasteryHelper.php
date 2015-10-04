@@ -69,7 +69,8 @@ class MasteryHelper extends Module {
 			echo "Questions in concept $conceptId <hr><pre>";
 			print_r($conceptQuestions);
 		}
-		return $conceptTotalCorrectAttempts / $conceptTotalAttempts;
+		// Avoid division by zero
+		return $conceptTotalAttempts == 0 ? 0 : $conceptTotalCorrectAttempts / $conceptTotalAttempts;
 	}
 
 	// Returns the number of attempts (answered statements) a student has made for a particular question
