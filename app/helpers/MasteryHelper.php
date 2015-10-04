@@ -55,9 +55,9 @@ class MasteryHelper extends Module {
 			// Don't include essay questions in any calculations
 			$questionAttempts = 0;
 			if ($questionType != "essay") {
-				$attempts = self::countAttemptsForQuestion($studentId, $assessmentId, $questionNumber);
+				$attempts = self::countAttemptsForQuestion($studentId, $assessmentId, $questionNumber, $debug);
 				$conceptTotalAttempts += $attempts;
-				$correctAttempts = self::countcorrectAttemptsForQuestion($studentId, $assessmentId, $questionNumber);
+				$correctAttempts = self::countcorrectAttemptsForQuestion($studentId, $assessmentId, $questionNumber, $debug);
 				$conceptTotalCorrectAttempts += $correctAttempts;
 
 				// Store this information in the array
