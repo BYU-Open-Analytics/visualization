@@ -37,6 +37,9 @@ try {
     $di->setShared("ltiContext",$context);
     // Now in views and controllers, all we have to do is check if this context is valid
 
+	// Get in the right time zone
+	date_default_timezone_set("America/Denver");
+
     // Setup the database service
     $di->set('db', function() use ($config) {
 	    return new DbAdapter(array(
