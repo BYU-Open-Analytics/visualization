@@ -55,16 +55,15 @@ class MasteryHelper extends Module {
 			// Don't include essay questions in any calculations
 			$questionAttempts = 0;
 			if ($questionType != "essay") {
-				$attempts = self::countAttemptsForQuestion($studentId, $assessmentId, $questionNumber, $debug);
-				$conceptTotalAttempts += $attempts;
-				$correctAttempts = self::countcorrectAttemptsForQuestion($studentId, $assessmentId, $questionNumber, $debug);
-				$conceptTotalCorrectAttempts += $correctAttempts;
-
 				// Store this information in the array
-				$conceptQuestions []= ["quizNumber" => $quizNumber, "questionNumber" => $questionNumber, "assessmentId" => $assessmentId, "attempts" => $questionAttempts, "correctAttempts" => $correctAttempts, "questionType" => $questionType];
+				$conceptQuestions []= ["quizNumber" => $quizNumber, "questionNumber" => $questionNumber, "assessmentId" => $assessmentId, "questionType" => $questionType];
 			}
 
 		}
+				//$attempts = self::countAttemptsForQuestion($studentId, $assessmentId, $questionNumber, $debug);
+				//$conceptTotalAttempts += $attempts;
+				//$correctAttempts = self::countcorrectAttemptsForQuestion($studentId, $assessmentId, $questionNumber, $debug);
+				//$conceptTotalCorrectAttempts += $correctAttempts;
 		if ($debug) {
 			echo "Questions in concept $conceptId <hr><pre>";
 			print_r($conceptQuestions);
@@ -135,13 +134,12 @@ class MasteryHelper extends Module {
 					foreach ($statements["cursor"] as $possibleShowAnswerStatement) {
 						if ($possibleShowAnswerStatement["statement"]["verb"]["id"] == 'http://adlnet.gov/expapi/verbs/showed-answer') {
 							// Compare time 
-							$answeredTime = strtotime($statement["statement"]["timestamp"]);
-							$showAnswerTime = strtotime($possibleShowAnswerStatement["statement"]["timestamp"]);
-							$timeDifference = $answeredTime - $showAnswerTime;
+							$timeDifference = strtotime($statement["statement"]["timestamp"]) - strtotime($possibleShowAnswerStatement["statement"]["timestamp"]);
 							if ($debug) echo "Time diff (seconds): $timeDifference<br>";
 							// TODO move this magic number 60
 							if ($timeDifference > 0 && $timeDifference < 60) {
 								$attemptCorrect = false;
+								break;
 							}
 						}
 					}
@@ -160,6 +158,4 @@ class MasteryHelper extends Module {
 			return $correctAttempts;
 		}
 	}
-
-	//static function 
 }

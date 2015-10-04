@@ -393,7 +393,7 @@ class ContentRecommenderStatsController extends Controller
 		fclose($output);
 	}
 
-	public function masteryGraphAction($scope = 'all', $groupingId = '') {
+	public function masteryGraphAction($scope = 'all', $groupingId = '', $debug = false) {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
@@ -425,7 +425,7 @@ class ContentRecommenderStatsController extends Controller
 
 		$masteryHelper = new MasteryHelper();
 		foreach ($concepts as $c) {
-			$score = $masteryHelper::calculateConceptMasteryScore($context->getUserEmail(), $c["concept_number"], true);
+			$score = $masteryHelper::calculateConceptMasteryScore($context->getUserEmail(), $c["concept_number"], $debug);
 			$result []= ["id" => $c["concept_number"], "display" => $c["concept_title"], "score" => $score];
 		}
 		echo json_encode($result);
