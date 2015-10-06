@@ -124,7 +124,7 @@ td {
 .quadrant {
 	fill: transparent;
 }
-.quadrant:hover {
+.activeQuadrant {
 	fill: #ddd;
 }
 

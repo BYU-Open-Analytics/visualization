@@ -271,7 +271,9 @@ function loadScatterplot() {
 
 	d3.csv("../content_recommender_stats/scatterplot/" + scopeOption + "/" + scopeGroupingId, coerceTypes, function(error, data) {
 		$("#scatterplotSection .spinner").hide();
-		console.log("Scatterplot ERROR: ", error);
+		if (error != null) {
+			console.log("Scatterplot ERROR: ", error);
+		}
 
 		//Width and height
 		var margin = {top: 10, right: 10, bottom: 50, left: 55},
@@ -412,21 +414,25 @@ function loadScatterplot() {
 		//Create quadrants
 		var q1 = svg.append("rect")
 			.attr("class", "quadrant")
+			.attr("id", "quadrant1")
 		        .on('mouseover', function() { showQuadrantInfo(1) })
 			.attr("x", xScale((xMin + xMax) / 2) + "px")
 			.attr("y", "0px");
 		var q2 = svg.append("rect")
 			.attr("class", "quadrant")
+			.attr("id", "quadrant2")
 		        .on('mouseover', function() { showQuadrantInfo(2) })
 			.attr("x", "0px")
 			.attr("y", "0px");
 		var q3 = svg.append("rect")
 			.attr("class", "quadrant")
+			.attr("id", "quadrant3")
 		        .on('mouseover', function() { showQuadrantInfo(3) })
 			.attr("x", "0px")
 			.attr("y", yScale((yMin + yMax) / 2) + "px");
 		var q4 = svg.append("rect")
 			.attr("class", "quadrant")
+			.attr("id", "quadrant4")
 		        .on('mouseover', function() { showQuadrantInfo(4) })
 			.attr("x", xScale((xMin + xMax) / 2) + "px")
 			.attr("y", yScale((yMin + yMax) / 2) + "px");
@@ -446,8 +452,12 @@ function loadScatterplot() {
 	}
 }
 
-// Shows description for each quadrant of the scatterplot when hovered over
+// Shows description for each quadrant of the scatterplot when hovered over, and give that quadrant a background
 function showQuadrantInfo(quadrant) {
+	// jQuery can't add a class to an SVG element with .addClass and .removeClass
+	$(".quadrant").attr("class", "quadrant");
+	$("#quadrant"+quadrant).attr("class","quadrant activeQuadrant");
+
 	$(".quadrantInfo").addClass("hidden");
 	$("#quadrantInfo"+quadrant).removeClass("hidden").show();
 }
@@ -467,7 +477,7 @@ function loadMasteryGraph() {
 			scopeGroupingId = $("[name=masteryGraphUnitSelector]").val();
 			break;
 	}
-	console.log(scopeOption, scopeGroupingId);
+	//console.log(scopeOption, scopeGroupingId);
 	// Default scope is chapter
 	scopeOption = scopeOption != null ? scopeOption : "chapter";
 	// TODO don't use absolute url ref here
