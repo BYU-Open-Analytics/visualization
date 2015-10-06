@@ -453,7 +453,7 @@ function showQuadrantInfo(quadrant) {
 }
 
 // Loads the scatterplot
-function loadMasteryGraph(scopeOption) {
+function loadMasteryGraph() {
 	// Show the spinner while loading
 	$("#masteryGraphSection .spinner").show();
 	// Determine what current scope and grouping id (concept/chapter/unit id) are
@@ -475,18 +475,18 @@ function loadMasteryGraph(scopeOption) {
 		$("#masteryGraphSection .spinner").hide();
 
 		//Width and height
-		var margin = {top: 10, right: 10, bottom: 180, left: 40},
-		    height = 550 - margin.top - margin.bottom,
-		    width = (35 * data.length + 100) - margin.left - margin.right;
+		var margin = {top: 40, right: 10, bottom: 10, left: 180},
+		    width = 550 - margin.left - margin.right,
+		    height = (35 * data.length + 100) - margin.top - margin.bottom;
 		
-		var x = d3.scale.ordinal()
-			.rangeRoundBands([0, width], .1);
-		var y = d3.scale.linear()
-			.range([height, 0]);
+		var x = d3.scale.linear()
+			.range([0, width]);
+		var y = d3.scale.ordinal()
+			.rangeRoundBands([0, height], .1);
 		
 		var xAxis = d3.svg.axis()
 			.scale(x)
-			.orient("bottom");
+			.orient("top");
 		var yAxis = d3.svg.axis()
 			.scale(y)
 			.orient("left");
@@ -506,8 +506,8 @@ function loadMasteryGraph(scopeOption) {
 			.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-		x.domain(data.map(function(d) { return d.display; }));
-		y.domain([0, 10]);
+		x.domain([0, 10]);
+		y.domain(data.map(function(d) { return d.display; }));
 
 		//Create tooltips
 		var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return d.score; });
@@ -516,15 +516,15 @@ function loadMasteryGraph(scopeOption) {
 		var bars = chart.selectAll(".bar")
 			.data(data)
 			.enter().append("g")
-			.attr("transform", function(d) { return "translate(" + x(d.display) + ", 0)"; })
+			.attr("transform", function(d) { return "translate(0, " + y(d.display) + ")"; })
 			.attr("class", "bar");
 
 		var rects = bars.append("rect")
 			//.attr("x", function(d) { return x(d.name); })
-			//y and height are temporary, but must have initial values for transition to work
-			.attr("y", height + "px")
-			.attr("height", 0 + "px")
-			.attr("width", x.rangeBand())
+			//x and width are temporary, but must have initial values for transition to work
+			.attr("x", 0 + "px")
+			.attr("width", 0 + "px")
+			.attr("height", y.rangeBand())
 			.attr("fill", function(d) { return colorScale(d.score); })
 			.attr("cursor", "pointer")
 			.attr("data-toggle", "modal")
@@ -533,31 +533,31 @@ function loadMasteryGraph(scopeOption) {
 			.on('mouseover', tip.show)
 			.on('mouseout', tip.hide);
 
-		// Y axis
+		// Y axis with rotated and wrapped labels
 		chart.append("g")
 			.attr("class", "axis y")
-			.call(yAxis);
-		// X axis with rotated and wrapped labels
-		chart.append("g")
-			.attr("class", "x axis")
-			.attr("transform", "translate(0," + height + ")")
-			.call(xAxis)
+			//.attr("transform", "translate(" + width + ",0)")
+			.call(yAxis)
 			.selectAll(".tick text")  
-			.attr("dy", "-.9em")
+			.attr("dy", "-.3em")
 			.attr("dx", "-1em")
 			.call(wrap, 170);
-		chart.selectAll(".axis.x .tick text")
+		// X axis
+		chart.append("g")
+			.attr("class", "x axis")
+			.call(xAxis)
+		chart.selectAll(".axis.y .tick text")
 			.style("text-anchor", "end")
-			.attr("transform", function(d) {
-				return "rotate(-90)" 
-			})
+			//.attr("transform", function(d) {
+				//return "rotate(-90)" 
+			//})
 			.selectAll("tspan");
 
 		rects.transition()
 			.duration(500)
 			.delay(function(d, i) { return i * 10; })
-			.attr("y", function(d) { return y(d.score); })
-			.attr("height", function(d) { return height - y(d.score); });
+			//.attr("x", function(d) { return width - x(d.score); })
+			.attr("width", function(d) { return x(d.score); });
 		//refreshView();
 	});
 
@@ -570,18 +570,16 @@ function loadMasteryGraph(scopeOption) {
 
 // Function to make the mastery graph bar chart animate
 function animateMasteryGraph() {
-	// TODO 310 is a magic number
-	var y = d3.scale.linear()
-		.range([310, 0])
+	// TODO 360 is a magic number
+	var x = d3.scale.linear()
+		.range([0, 360])
 		.domain([0, 10]);
 	d3.selectAll("#masteryGraphSection svg .bar rect")
-		.attr("y", 310)
-		.attr("height", 0)
+		.attr("width", 0)
 		.transition()
 		.duration(500)
 		.delay(function(d, i) { return i * 10; })
-		.attr("y", function(d) { return y(d.score); })
-		.attr("height", function(d) { return 310 - y(d.score); });
+		.attr("width", function(d) { return x(d.score); });
 }
 
 // Helper function from http://bl.ocks.org/mbostock/7555321
