@@ -18,18 +18,17 @@ class MasteryHelper extends Module {
 		array_walk($questionLists, function($concept) use (&$questionIds) {
 			$questionIds = array_merge($questionIds, explode(",", $concept["questions"]));
 		});
+		// Remove duplicate questions (if question is associated with more than one video, only show it once)
+		$questionIds = array_unique($questionIds);
 		if ($debug) {
-			echo "Concept ID $conceptId: ";
+			echo "<h1>Concept ID $conceptId: </h1>";
 			print_r($questionIds);
 			echo "<hr>";
 		}
 		
-		// Calculate total # attempts (answered statements) for all questions in the concept
-		$conceptTotalAttempts = 0;
-		$conceptTotalCorrectAttempts = 0;
-
-		// Array to hold information about each question
-		$conceptQuestions = array();
+		// Array to hold information about each question (we don't care about essay questions)
+		$conceptShortAnswerQuestions = array();
+		$conceptMultipleChoiceQuestions = array();
 
 		// Load quiz id -> assessment id mapping
 		$assessmentIds = CSVHelper::parseWithHeaders('csv/quiz_assessmentid.csv');
@@ -52,28 +51,73 @@ class MasteryHelper extends Module {
 			// Get question type, since we do different calculations based on multiple choice or short answer
 			$questionType = $questionTypes[multi_array_search($questionTypes, ["quiz" => $quizNumber, "question" => $questionNumber])[0]]["type"];
 
-			// Don't include essay questions in any calculations
-			$questionAttempts = 0;
-			if ($questionType != "essay") {
-				// Store this information in the array
-				$conceptQuestions []= ["quizNumber" => $quizNumber, "questionNumber" => $questionNumber, "assessmentId" => $assessmentId, "questionType" => $questionType];
+			// Store this information for each question
+			$question = [
+				"quizNumber" => $quizNumber,
+				"questionNumber" => $questionNumber,
+				"assessmentId" => $assessmentId,
+				"questionType" => $questionType
+			];
+
+			switch ($questionType) {
+				case "essay":
+					// Don't include essay questions in any calculations, so don't add this question to the $conceptQuestions array
+					break;
+				case "short_answer":
+					// Get the number of attempts and correct (no show answer in preceding minute) attempts
+					$question["attempts"] = self::countAttemptsForQuestion($studentId, $assessmentId, $questionNumber, $debug);
+					$question["correctAttempts"] = self::countCorrectAttemptsForQuestion($studentId, $assessmentId, $questionNumber, $debug);
+					$conceptShortAnswerQuestions []= $question;
+					break;
+				case "multiple_choice":
+					// We need to know how many options for a multiple choice question
+					$question["options"] = $questionTypes[multi_array_search($questionTypes, ["quiz" => $quizNumber, "question" => $questionNumber])[0]]["options"];
+					// Get the number of attempts and correct (no show answer in preceding minute) attempts
+					$question["attempts"] = self::countAttemptsForQuestion($studentId, $assessmentId, $questionNumber, $debug);
+					$question["correctAttempts"] = self::countCorrectAttemptsForQuestion($studentId, $assessmentId, $questionNumber, $debug);
+					$conceptMultipleChoiceQuestions []= $question;
+					break;
 			}
 
 		}
-				//$attempts = self::countAttemptsForQuestion($studentId, $assessmentId, $questionNumber, $debug);
-				//$conceptTotalAttempts += $attempts;
-				//$correctAttempts = self::countcorrectAttemptsForQuestion($studentId, $assessmentId, $questionNumber, $debug);
-				//$conceptTotalCorrectAttempts += $correctAttempts;
+		// Calculate initial: correctness factor and attempts penalty
+		// 1. Short answer questions
+			// Get number of correct short answer questions
+			// Use array_filter to get short answer questions with correct attempts > 0
+			$shortAnswerCorrectCount = count(array_filter($conceptShortAnswerQuestions, function($question) {
+				return ($question["correctAttempts"] > 0);
+			}));
+			// Total number of short answer questions
+			$shortAnswerQuestionCount = count($conceptShortAnswerQuestions);
+			// Get total number of attempts for all short answer questions
+			$shortAnswerAttemptCount = array_sum(array_column($conceptShortAnswerQuestions, "attempts"));
+			// TODO refactor magic numbers
+			// Short answer initial = ( 10 * ( # correct SA in concept / # total SA questions in concept) - (0.2 * (total attempts for all SA questions in concept - number of SA questions in concept) / number of SA questions in concept) )
+			if ($debug) {
+				echo "Short answer correctness and attempts penalty: ";
+				echo "(10 * ( $shortAnswerCorrectCount / $shortAnswerQuestionCount) ) - (0.2 * ($shortAnswerAttemptCount - $shortAnswerQuestionCount) / $shortAnswerQuestionCount)";
+			}
+			$shortAnswerInitialScore = (10 * ( $shortAnswerCorrectCount / $shortAnswerQuestionCount) ) - (0.2 * ($shortAnswerAttemptCount - $shortAnswerQuestionCount) / $shortAnswerQuestionCount);
+
+		// 2. Multiple choice questions
+		
+		// Calculate practice bonus
+			// 1. Short answer questions
+			// 2. Multiple choice questions
+
+		// Calculate total mastery score: initial + bonus
+
 		if ($debug) {
 			echo "Questions in concept $conceptId <hr><pre>";
-			print_r($conceptQuestions);
+			print_r($conceptShortAnswerQuestions);
+			print_r($conceptMultipleChoiceQuestions);
 		}
 		// Avoid division by zero
 		return $conceptTotalAttempts == 0 ? 0 : $conceptTotalCorrectAttempts / $conceptTotalAttempts;
 	}
 
 	// Returns the number of attempts (answered statements) a student has made for a particular question
-	public static function countAttemptsForQuestion($studentId, $assessmentId, $questionNumber) {
+	public static function countAttemptsForQuestion($studentId, $assessmentId, $questionNumber, $debug) {
 		$statementHelper = new StatementHelper();
 
 		// Regex for assessment id and question number (since url for object IDs will change, but end part will be the same format)
