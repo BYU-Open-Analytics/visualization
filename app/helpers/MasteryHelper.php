@@ -80,40 +80,110 @@ class MasteryHelper extends Module {
 			}
 
 		}
-		// Calculate initial: correctness factor and attempts penalty
-		// 1. Short answer questions
+		// 1. Calculate initial: correctness factor and attempts penalty
+		// 1.a. Short answer questions
+			// TODO avoid division by zero if no questions of this type (perhaps set score to 0 for this part, and move on?)
+			// Total number of short answer questions
+			$shortAnswerQuestionCount = count($conceptShortAnswerQuestions);
 			// Get number of correct short answer questions
 			// Use array_filter to get short answer questions with correct attempts > 0
 			$shortAnswerCorrectCount = count(array_filter($conceptShortAnswerQuestions, function($question) {
 				return ($question["correctAttempts"] > 0);
 			}));
-			// Total number of short answer questions
-			$shortAnswerQuestionCount = count($conceptShortAnswerQuestions);
 			// Get total number of attempts for all short answer questions
 			$shortAnswerAttemptCount = array_sum(array_column($conceptShortAnswerQuestions, "attempts"));
 			// TODO refactor magic numbers
 			// Short answer initial = ( 10 * ( # correct SA in concept / # total SA questions in concept) - (0.2 * (total attempts for all SA questions in concept - number of SA questions in concept) / number of SA questions in concept) )
+			$shortAnswerCorrectnessFactor = (10 * ( $shortAnswerCorrectCount / $shortAnswerQuestionCount) );
+			$shortAnswerAttemptPenalty = (0.2 * max($shortAnswerAttemptCount - $shortAnswerQuestionCount, 0) / $shortAnswerQuestionCount);
+
+			$shortAnswerInitialScore = max($shortAnswerCorrectnessFactor - $shortAnswerAttemptPenalty, 0);
 			if ($debug) {
 				echo "Short answer correctness and attempts penalty: ";
-				echo "(10 * ( $shortAnswerCorrectCount / $shortAnswerQuestionCount) ) - (0.2 * ($shortAnswerAttemptCount - $shortAnswerQuestionCount) / $shortAnswerQuestionCount)";
+				// TODO avoid division by zero if no questions of this type
+				// Use max to make sure we don't go below 0
+				echo "(10 * ( $shortAnswerCorrectCount / $shortAnswerQuestionCount) ) - (0.2 * max($shortAnswerAttemptCount - $shortAnswerQuestionCount, 0) / $shortAnswerQuestionCount) = $shortAnswerInitialScore \n";
 			}
-			$shortAnswerInitialScore = (10 * ( $shortAnswerCorrectCount / $shortAnswerQuestionCount) ) - (0.2 * ($shortAnswerAttemptCount - $shortAnswerQuestionCount) / $shortAnswerQuestionCount);
 
-		// 2. Multiple choice questions
+		// 1.b. Multiple choice questions
+			// TODO avoid division by zero if no questions of this type (perhaps set score to 0 for this part, and move on?)
+			// Total number of multiple choice questions
+			$multipleChoiceQuestionCount = count($conceptMultipleChoiceQuestions);
+			// Get number of correct multiple choice questions
+			// Use array_filter to get multiple choice questions with correct attempts > 0
+			$multipleChoiceCorrectCount = count(array_filter($conceptMultipleChoiceQuestions, function($question) {
+				return ($question["correctAttempts"] > 0);
+			}));
+			// Get total number of attempts for all multiple choice questions
+			$multipleChoiceAttemptCount = array_sum(array_column($conceptMultipleChoiceQuestions, "attempts"));
+			// TODO refactor magic numbers
+			// Multiple choice initial = 10 * ( # correct MC in concept / # total MC questions in concept) - ( ( sum( (question attempts - 1) * (10 / options in question) ) ) / number of MC questions
+			$multipleChoiceCorrectnessFactor = (10 * ( $multipleChoiceCorrectCount / $multipleChoiceQuestionCount) );
+			// Attempts penalty based on number of attempts for a question as well as how many options that question has
+			$multipleChoiceAttemptPenalty = 0;
+			// Sum of penalties
+			foreach ($conceptMultipleChoiceQuestions as $question) {
+				$multipleChoiceAttemptPenalty += ( max($question["attempts"] - 1, 0) * (10 / $question["options"]) );
+			}
+			// Now average penalty
+			$multipleChoiceAttemptPenalty = $multipleChoiceAttemptPenalty / $multipleChoiceQuestionCount;
+
+			$multipleChoiceInitialScore = max($multipleChoiceCorrectnessFactor - $multipleChoiceAttemptPenalty, 0);
+			if ($debug) {
+				echo "Multiple Choice correctness and attempts penalty: ";
+				echo "(10 * ( $multipleChoiceCorrectCount / $multipleChoiceQuestionCount) ) - ($multipleChoiceAttemptPenalty / $multipleChoiceQuestionCount) = $multipleChoiceInitialScore \n";
+			}
 		
-		// Calculate practice bonus
-			// 1. Short answer questions
-			// 2. Multiple choice questions
+		// 2. Calculate practice bonus
+			// For questions with > 1 correct statement without a show answer statement in the preceding minute, then add a practice bonus equal to the attempts penalty.
+			// 2.a. Short answer questions
+			$shortAnswerPracticeBonus = 0;
+			// Get short answer questions that have > 1 correct attempt and add a practice bonus for each of them
+			foreach ($conceptShortAnswerQuestions as $question) {
+				if ($question["correctAttempts"] > 1) {
+					$shortAnswerPracticeBonus += 0.2 * ($question["attempts"] - 1) / $shortAnswerQuestionCount;
+				}
+			}
+			if ($debug) {
+				echo "Short answer practice bonus: $shortAnswerPracticeBonus \n";
+			}
 
-		// Calculate total mastery score: initial + bonus
+			
+			// 2.b. Multiple choice questions
+			$multipleChoicePracticeBonus = 0;
+			// Get number of multiple choice questions that have > 1 correct attempt and add a practice bonus for each of them
+			foreach ($conceptMultipleChoiceQuestions as $question) {
+				if ($question["correctAttempts"] > 1) {
+					$multipleChoicePracticeBonus += ( ($question["attempts"] - 1) * (10 / $question["options"]) ) / $multipleChoiceQuestionCount;
+				}
+			}
+			if ($debug) {
+				echo "Multiple Choice practice bonus: $multipleChoicePracticeBonus \n";
+			}
+
+		// Calculate total mastery score for each question type: initial + bonus
+		$shortAnswerScore = $shortAnswerInitialScore + $shortAnswerPracticeBonus;
+		$multipleChoiceScore = $multipleChoiceInitialScore + $multipleChoicePracticeBonus;
+		// Weight each question type score by number of questions.
+		// Don't use total number of questions, since that will include essay. Instead use MC count + SA coconut
+		$weightedShortAnswerScore = $shortAnswerScore * ($shortAnswerQuestionCount / ($shortAnswerQuestionCount + $multipleChoiceQuestionCount) );
+		$weightedMultipleChoiceScore = $multipleChoiceScore * ($multipleChoiceQuestionCount / ($shortAnswerQuestionCount + $multipleChoiceQuestionCount) );
+
+		// Finally!
+		$conceptScore = $weightedShortAnswerScore + $weightedMultipleChoiceScore;
 
 		if ($debug) {
+			echo "Short answer score: $shortAnswerScore = $shortAnswerInitialScore + $shortAnswerPracticeBonus \n";
+			echo "Multiple choice score: $multipleChoiceScore = $multipleChoiceInitialScore + $multipleChoicePracticeBonus \n";
+			echo "Weighted SA: $weightedShortAnswerScore = $shortAnswerScore * ($shortAnswerQuestionCount / ($shortAnswerQuestionCount + $multipleChoiceQuestionCount) ) \n";
+			echo "Weighted MC: $weightedMultipleChoiceScore = $multipleChoiceScore * ($multipleChoiceQuestionCount / ($shortAnswerQuestionCount + $multipleChoiceQuestionCount) ) \n";
+			echo "Total concept score: $conceptScore \n";
 			echo "Questions in concept $conceptId <hr><pre>";
 			print_r($conceptShortAnswerQuestions);
 			print_r($conceptMultipleChoiceQuestions);
 		}
 		// Avoid division by zero
-		return $conceptTotalAttempts == 0 ? 0 : $conceptTotalCorrectAttempts / $conceptTotalAttempts;
+		return $conceptScore;
 	}
 
 	// Returns the number of attempts (answered statements) a student has made for a particular question
