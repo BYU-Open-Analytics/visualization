@@ -174,8 +174,14 @@ class MasteryHelper extends Module {
 			$multipleChoiceScore = $multipleChoiceInitialScore + $multipleChoicePracticeBonus;
 		// Weight each question type score by number of questions.
 			// Don't use total number of questions, since that will include essay. Instead use MC count + SA coconut
-			$weightedShortAnswerScore = $shortAnswerScore * ($shortAnswerQuestionCount / ($shortAnswerQuestionCount + $multipleChoiceQuestionCount) );
-			$weightedMultipleChoiceScore = $multipleChoiceScore * ($multipleChoiceQuestionCount / ($shortAnswerQuestionCount + $multipleChoiceQuestionCount) );
+			// Avoid division by 0 (a concept might only have essay questions?)
+			if ($shortAnswerQuestionCount + $multipleChoiceQuestionCount > 0) {
+				$weightedShortAnswerScore = $shortAnswerScore * ($shortAnswerQuestionCount / ($shortAnswerQuestionCount + $multipleChoiceQuestionCount) );
+				$weightedMultipleChoiceScore = $multipleChoiceScore * ($multipleChoiceQuestionCount / ($shortAnswerQuestionCount + $multipleChoiceQuestionCount) );
+			} else {
+				$weightedShortAnswerScore = 0;
+				$weightedMultipleChoiceScore = 0;
+			}
 
 		// Finally!
 			$conceptScore = $weightedShortAnswerScore + $weightedMultipleChoiceScore;
