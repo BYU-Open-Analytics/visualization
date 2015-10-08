@@ -27,27 +27,8 @@ class MasteryHelper extends Module {
 
 		// Loop through each question and get basic information for each
 		foreach ($questionIds as $questionId) {
-			// Split up quiz id and question id from format 12.1 (quizNumber.questionNumber)
-			$idParts = explode(".", $questionId);
-			// Make sure we have a (at least format-wise) valid question id
-			if (count($idParts) != 2) {
-				continue;
-			}
-			$quizNumber = $idParts[0];
-			$questionNumber = $idParts[1];
-			// Get assessment id from quiz id
-			$assessmentId = $assessmentIds[array_search($quizNumber, array_column($assessmentIds, 'quiz_number'))]["assessment_id"];
-
-			// Get question type, since we do different calculations based on multiple choice or short answer
-			$questionType = $questionTypes[multi_array_search($questionTypes, ["quiz" => $quizNumber, "question" => $questionNumber])[0]]["type"];
-
-			// Store this information for each question
-			$question = [
-				"quizNumber" => $quizNumber,
-				"questionNumber" => $questionNumber,
-				"assessmentId" => $assessmentId,
-				"questionType" => $questionType
-			];
+			// This function returns an array with quizNumber, questionNumber, assessmentId, and questionType
+			$question = MappingHelper::getQuestionInfo($questionId);
 
 			switch ($questionType) {
 				case "essay":

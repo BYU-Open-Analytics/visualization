@@ -219,12 +219,21 @@ class ContentRecommenderStatsController extends Controller
 		$group2 = [];
 		$group3 = [];
 		$group4 = [];
-		// Get chapters from this unit
-		$chapters = ($unit == "all") ? MappingHelper::allChapters() : MappingHelper::chaptersInUnit($unit);
+		// Get chapters from this unit (or all units)
+		$chapterNumbers = ($unit == "all") ? MappingHelper::allChapters() : MappingHelper::chaptersInUnit($unit);
 		// Then get concepts that are in those chapters
+		$concepts = MappingHelper::conceptsInChapters($chapterNumbers);
+		// We need just the concept numbers to find questions
+		$conceptNumbers = array_column($concepts, "concept_number");
+		// Finally, get all the question ids in those concepts
+		$questions = MappingHelper::questionsInConcepts($conceptNumbers);
 
-		// Finally, get all the questions in those concepts
+		// Get some info about each question
+		foreach ($questions as $question) 
+
 		// Group 1: questions with 0 attempts
+
+
 
 		// By default, only show recommendations for weakest concepts. If parameter is for all, then show recommendations for all concepts.
 		$count = 6;
