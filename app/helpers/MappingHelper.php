@@ -4,6 +4,15 @@ use Phalcon\Mvc\User\Module;
 
 class MappingHelper extends Module {
 
+	/* NOTE: The usage of quiz number, assessment Id, question Id, etc. is often rather opaque.
+	 Here's a list of what I'm calling what:
+	• questionId: human-normal id consisting of quiz number, period, and question number: "3.4" (fourth question of quiz 3)
+		○ This is what is listed in the csv mappings
+	• quizNumber: the number of the quiz in the course flow. Sequential, 1-whatever. Needs to be converted to assessmentId before use in statement queries.
+	• questionNumber: the 1-n number of the question
+	• assessmentId: the Open Assessments ID for a quiz. Not sequential, or related to quizNumber. Needed for statement queries.
+	*/
+
 	// Returns an array of all chapter numbers
 	static public function allChapters() {
 		// Get unit -> chapter mapping
