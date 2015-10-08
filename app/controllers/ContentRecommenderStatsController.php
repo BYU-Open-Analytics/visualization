@@ -202,7 +202,7 @@ class ContentRecommenderStatsController extends Controller
 		// Watch these videos before attempting these quiz questions (Group 2)
 		// Find additional help (Group 3)
 		// Practice these questions again (Group 4)
-	public function recommendationsAction($unit) {
+	public function recommendationsAction($unit, $debug = false) {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
@@ -226,12 +226,31 @@ class ContentRecommenderStatsController extends Controller
 		// We need just the concept numbers to find questions
 		$conceptNumbers = array_column($concepts, "concept_number");
 		// Finally, get all the question ids in those concepts
-		$questions = MappingHelper::questionsInConcepts($conceptNumbers);
+		$questionIds = MappingHelper::questionsInConcepts($conceptNumbers);
 
+		$questions = array();
 		// Get some info about each question
-		foreach ($questions as $question) 
+		foreach ($questionIds as $questionId) {
+			$question = MappingHelper::questionInformation($questionId);
+			// Check that it's a valid question
+			if ($question != false) {
+				// Get number of attempts and number of correct attempts
+				$question["attempts"] = MasteryHelper::countAttemptsForQuestion($context->getUserEmail(), $question["assessmentId"], $question["questionNumber"], $debug);
+				$question["correctAttempts"] = MasteryHelper::countCorrectAttemptsForQuestion($context->getUserEmail(), $question["assessmentId"], $question["questionNumber"], $debug);
+				// Get amount of associated videos watched
+				//$question["
+				$questions []= $question;
+			}
+		}
 
+
+		// Now go through the questions for each group and find matching questions
 		// Group 1: questions with 0 attempts
+		foreach ($questions as $question) {
+			if ($question["attempts"] == 0) {
+				$group1 []= $question;
+			}
+		}
 
 
 

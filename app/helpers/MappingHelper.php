@@ -64,6 +64,7 @@ class MappingHelper extends Module {
 
 	// Returns an array of information about a given question with format {quiz number}.{question number}
 		// Array with quizNumber, questionNumber, assessmentId, and questionType (and options if multiple_choice)
+		// If given questionId is not valid, it returns false
 	static public function questionInformation($questionId) {
 		// Load quiz id -> assessment id mapping
 		$assessmentIds = CSVHelper::parseWithHeaders('csv/quiz_assessmentid.csv');
@@ -74,7 +75,7 @@ class MappingHelper extends Module {
 		$idParts = explode(".", $questionId);
 		// Make sure we have a (at least format-wise) valid question id
 		if (count($idParts) != 2) {
-			continue;
+			return false;
 		}
 		$quizNumber = $idParts[0];
 		$questionNumber = $idParts[1];
