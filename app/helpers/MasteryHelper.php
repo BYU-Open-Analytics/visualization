@@ -8,18 +8,8 @@ class MasteryHelper extends Module {
 	public static function calculateConceptMasteryScore($studentId, $conceptId, $debug = false) {
 
 		// Get questions in concept
-		$questionIds = array();
-		$conceptQuestions = CSVHelper::parseWithHeaders('csv/video_concept_question.csv');
-		// Filter questions to ones in the selected concept
-		$questionLists = array_filter($conceptQuestions, function($concept) use ($conceptId) {
-			return ($concept["concept_number"] == $conceptId);
-		});
-		// Combine multiple rows of questions that are with the same concept
-		array_walk($questionLists, function($concept) use (&$questionIds) {
-			$questionIds = array_merge($questionIds, explode(",", $concept["questions"]));
-		});
-		// Remove duplicate questions (if question is associated with more than one video, only show it once)
-		$questionIds = array_unique($questionIds);
+		$questionIds = MappingHelper::questionsInConcept($conceptId);
+
 		if ($debug) {
 			echo "<h1>Concept ID $conceptId: </h1>";
 			print_r($questionIds);
