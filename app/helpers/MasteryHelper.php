@@ -20,32 +20,25 @@ class MasteryHelper extends Module {
 		$conceptShortAnswerQuestions = array();
 		$conceptMultipleChoiceQuestions = array();
 
-		// Load quiz id -> assessment id mapping
-		$assessmentIds = CSVHelper::parseWithHeaders('csv/quiz_assessmentid.csv');
-		// Load question type mapping
-		$questionTypes = CSVHelper::parseWithHeaders('csv/question_type.csv');
-
 		// Loop through each question and get basic information for each
 		foreach ($questionIds as $questionId) {
-			// This function returns an array with quizNumber, questionNumber, assessmentId, and questionType
-			$question = MappingHelper::getQuestionInfo($questionId);
+			// This function returns an array with quizNumber, questionNumber, assessmentId, and questionType (and number of options for a MC q)
+			$question = MappingHelper::questionInformation($questionId);
 
-			switch ($questionType) {
+			switch ($question["questionType"]) {
 				case "essay":
 					// Don't include essay questions in any calculations, so don't add this question to the $conceptQuestions array
 					break;
 				case "short_answer":
 					// Get the number of attempts and correct (no show answer in preceding minute) attempts
-					$question["attempts"] = self::countAttemptsForQuestion($studentId, $assessmentId, $questionNumber, $debug);
-					$question["correctAttempts"] = self::countCorrectAttemptsForQuestion($studentId, $assessmentId, $questionNumber, $debug);
+					$question["attempts"] = self::countAttemptsForQuestion($studentId, $question["assessmentId"], $question["questionNumber"], $debug);
+					$question["correctAttempts"] = self::countCorrectAttemptsForQuestion($studentId, $question["assessmentId"], $question["questionNumber"], $debug);
 					$conceptShortAnswerQuestions []= $question;
 					break;
 				case "multiple_choice":
-					// We need to know how many options for a multiple choice question
-					$question["options"] = $questionTypes[multi_array_search($questionTypes, ["quiz" => $quizNumber, "question" => $questionNumber])[0]]["options"];
 					// Get the number of attempts and correct (no show answer in preceding minute) attempts
-					$question["attempts"] = self::countAttemptsForQuestion($studentId, $assessmentId, $questionNumber, $debug);
-					$question["correctAttempts"] = self::countCorrectAttemptsForQuestion($studentId, $assessmentId, $questionNumber, $debug);
+					$question["attempts"] = self::countAttemptsForQuestion($studentId, $question["assessmentId"], $question["questionNumber"], $debug);
+					$question["correctAttempts"] = self::countCorrectAttemptsForQuestion($studentId, $question["assessmentId"], $question["questionNumber"], $debug);
 					$conceptMultipleChoiceQuestions []= $question;
 					break;
 			}

@@ -63,7 +63,7 @@ class MappingHelper extends Module {
 	}
 
 	// Returns an array of information about a given question with format {quiz number}.{question number}
-		// Array with quizNumber, questionNumber, assessmentId, and questionType
+		// Array with quizNumber, questionNumber, assessmentId, and questionType (and options if multiple_choice)
 	static public function questionInformation($questionId) {
 		// Load quiz id -> assessment id mapping
 		$assessmentIds = CSVHelper::parseWithHeaders('csv/quiz_assessmentid.csv');
@@ -90,6 +90,11 @@ class MappingHelper extends Module {
 			"assessmentId" => $assessmentId,
 			"questionType" => $questionType
 		];
+
+		// If a multiple choice question, add the number of options the question has
+		if ($questionType == "multiple_choice") {
+			$question["options"] = $questionTypes[multi_array_search($questionTypes, ["quiz" => $quizNumber, "question" => $questionNumber])[0]]["options"];
+		}
 		return $question;
 	}
 
