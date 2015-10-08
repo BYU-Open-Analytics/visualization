@@ -4,9 +4,15 @@ use Phalcon\Mvc\User\Module;
 
 class CSVHelper extends Module {
 
+	// Cache any used mappings in memory
+	static $cachedMappings = array();
+
 	// Returns an associative array from a csv file, using column headers as keys
 	// From http://steindom.com/articles/shortest-php-code-convert-csv-associative-array
 	public static function parseWithHeaders($filename) {
+		//if (isset($cachedMappings[$filename])) {
+			//return $cachedMappings[$filename];
+		//}
 		$rows = array_map('str_getcsv', file($filename));
 		$header = array_shift($rows);
 		$csv = array();

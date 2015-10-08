@@ -202,7 +202,7 @@ class ContentRecommenderStatsController extends Controller
 		// Watch these videos before attempting these quiz questions (Group 2)
 		// Find additional help (Group 3)
 		// Practice these questions again (Group 4)
-	public function recommendationsAction($scope = "weakest") {
+	public function recommendationsAction($unit) {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
@@ -210,13 +210,25 @@ class ContentRecommenderStatsController extends Controller
 			echo '[{"error":"Invalid lti context"}]';
 			return;
 		}
+		if (!isset($unit)) {
+			echo '[{"error":"No unit specified"}]';
+			return;
+		}
+
 		$group1 = [];
 		$group2 = [];
 		$group3 = [];
 		$group4 = [];
+		// Get chapters from this unit
+		$chapters = ($unit == "all") ? MappingHelper::allChapters() : MappingHelper::chaptersInUnit($unit);
+		// Then get concepts that are in those chapters
+
+		// Finally, get all the questions in those concepts
+		// Group 1: questions with 0 attempts
+
 		// By default, only show recommendations for weakest concepts. If parameter is for all, then show recommendations for all concepts.
 		$count = 6;
-		if ($scope == "all") {
+		if ($unit == "all") {
 			$count = 30;
 		}
 		for ($i=0; $i<$count; $i++) {
@@ -403,7 +415,6 @@ class ContentRecommenderStatsController extends Controller
 		}
 
 		$result = [];
-		//echo $scope . ":" . $groupingId;
 
 		// Get the list of concepts for the given scope and grouping ID
 		$concepts = CSVHelper::parseWithHeaders('csv/concept_chapter_unit.csv');
