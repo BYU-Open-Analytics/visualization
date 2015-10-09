@@ -253,7 +253,7 @@ class ContentRecommenderStatsController extends Controller
 			}
 		}
 
-		print_r($questions);
+		if ($debug) { print_r($questions); }
 
 
 		// By default, only show recommendations for weakest concepts. If parameter is for all, then show recommendations for all concepts.

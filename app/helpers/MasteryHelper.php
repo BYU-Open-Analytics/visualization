@@ -283,7 +283,7 @@ class MasteryHelper extends Module {
 			// TODO magic number of 10
 			$totalVideoTimeWatched += $watchStatementCount * 10;
 
-			echo "Video for $questionId : ID $videoId with $watchStatementCount watched statements\n";
+			if ($debug) { echo "Video for $questionId : ID $videoId with $watchStatementCount watched statements\n"; }
 		}
 		// Return percentage of videos watched, avoiding division by 0
 		return ($totalVideoTime != 0) ? ($totalVideoTimeWatched / $totalVideoTime) : 0;
