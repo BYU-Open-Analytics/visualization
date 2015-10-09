@@ -26,19 +26,25 @@ class SkillsHelper extends Module {
 
 	}
 
-	public static function calculateRegulationScore($student) {
-		return rand(0,100) / 10;
-
-	}
-
-	public static function calculateEfficacyScore($student) {
-		return rand(0,100) / 10;
-
-	}
-
 	public static function calculateConsistencyScore($student) {
 		return rand(0,100) / 10;
 
 	}
+
+	public static function calculateAwarenessScore($student) {
+		return rand(0,100) / 10;
+
+	}
+
+	public static function calculateDeepLearningScore($student) {
+		return rand(0,100) / 10;
+
+	}
+
+	public static function calculatePersistenceScore($student) {
+		return rand(0,100) / 10;
+
+	}
+
 
 }
