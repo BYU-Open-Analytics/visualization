@@ -238,7 +238,8 @@ class ContentRecommenderStatsController extends Controller
 				$question["attempts"] = MasteryHelper::countAttemptsForQuestion($context->getUserEmail(), $question["assessmentId"], $question["questionNumber"], $debug);
 				$question["correctAttempts"] = MasteryHelper::countCorrectAttemptsForQuestion($context->getUserEmail(), $question["assessmentId"], $question["questionNumber"], $debug);
 				// Get amount of associated videos watched
-				//$question["
+				// Note that question ID is being used instead of assessment ID and question number, since we're searching the csv mapping and not dealing with statements here
+				$question["videoPercentage"] = MasteryHelper::calculateVideoPercentageForQuestion($context->getUserEmail(), $questionId);
 				$questions []= $question;
 			}
 		}
@@ -252,6 +253,7 @@ class ContentRecommenderStatsController extends Controller
 			}
 		}
 
+		print_r($questions);
 
 
 		// By default, only show recommendations for weakest concepts. If parameter is for all, then show recommendations for all concepts.

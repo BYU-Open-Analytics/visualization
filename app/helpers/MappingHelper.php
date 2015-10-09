@@ -71,7 +71,21 @@ class MappingHelper extends Module {
 		return $questions;
 	}
 
-	// Returns an array of information about a given question with format {quiz number}.{question number}
+	// Returns an array of videos for a given questionId
+	static public function videosForQuestion($questionId) {
+		$videos = CSVHelper::parseWithHeaders('csv/video_concept_question.csv');
+		$relatedVideos = array();
+		foreach ($videos as $video) {
+			// Can't just do a string search in $video["questions"], since 1.11 would match 1.1
+			$videoQuestions = explode(",", $video["questions"]);
+			if (in_array($questionId, $videoQuestions)) {
+				$relatedVideos []= $video;
+			}
+		}
+		return $relatedVideos;
+	}
+
+	// Returns an array of information about a given question ID with format {quiz number}.{question number}
 		// Array with quizNumber, questionNumber, assessmentId, and questionType (and options if multiple_choice)
 		// If given questionId is not valid, it returns false
 	static public function questionInformation($questionId) {

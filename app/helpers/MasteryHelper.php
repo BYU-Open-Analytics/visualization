@@ -250,4 +250,42 @@ class MasteryHelper extends Module {
 			return $correctAttempts;
 		}
 	}
+
+	// Calculates the percentage of video time watched for all videos associated with a given questionID (we're using ID here, since that's what we need to search for in the mappings, and we're not dealing with statements here)
+	public static function calculateVideoPercentageForQuestion($studentId, $questionId, $debug = false) {
+		// Find the videos related to this question
+		$relatedVideos = MappingHelper::videosForQuestion($questionId);
+		$totalVideoTime = 0;
+		$totalVideoTimeWatched = 0;
+		foreach ($relatedVideos as $video) {
+			// Get each video's length
+			$videoLength = $video["video_length"];
+			$totalVideoTime += $videoLength;
+			$videoId = $video["video_id"];
+
+			// Calculate how much time of this video was watched
+			$statementHelper = new StatementHelper();
+			$statements = $statementHelper->getStatements("ayamel",[
+				'statement.actor.mbox' => 'mailto:'.$studentId,
+				'statement.verb.id' => 'https://ayamel.byu.edu/watched',
+				'statement.object.id' => 'https://ayamel.byu.edu/content/'.$videoId,
+			], [
+				'statement.object.id' => true,
+			]);
+			if ($statements["error"]) {
+				$watchStatementCount = 0;
+				if ($debug) {
+					echo "Error in fetching watched statements for question $questionId and video $videoId";
+				}
+			} else {
+				$watchStatementCount = $statements["cursor"]->count();
+			}
+			// TODO magic number of 10
+			$totalVideoTimeWatched += $watchStatementCount * 10;
+
+			echo "Video for $questionId : ID $videoId with $watchStatementCount watched statements\n";
+		}
+		// Return percentage of videos watched, avoiding division by 0
+		return ($totalVideoTime != 0) ? ($totalVideoTimeWatched / $totalVideoTime) : 0;
+	}
 }
