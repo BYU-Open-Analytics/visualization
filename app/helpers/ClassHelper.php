@@ -36,6 +36,76 @@ class ClassHelper extends Module {
 		return round($average * 10) / 10;
 	}
 
+	// Returns the percentage of students that viewed the hint for a given question
+	public function calculateViewedHintPercentageForQuestion($assessmentId, $questionNumber, $debug = false) {
+		$config = $this->getDI()->getShared('config');
+
+		// Connect to database
+		$m = new MongoClient("mongodb://{$config->lrs_database->username}:{$config->lrs_database->password}@{$config->lrs_database->host}/{$config->lrs_database->dbname}");
+		$db = $m->{$config->lrs_database->dbname};
+
+		$questionDescription = "Question #{$questionNumber} of assessment {$assessmentId}";
+
+		// Aggregate, matching the verb, LRS, and object (specific question of a specific assessment), and get a count grouped by student email
+		$aggregation = [
+			['$match' => [
+				'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/showed-hint',
+				'lrs._id' => $config->lrs->openassessments->id,
+				'statement.object.definition.name.en-US' => $questionDescription,
+			] ],
+			['$group' => ['_id' => '$statement.actor.mbox', 'count' => ['$sum' => 1] ] ]
+		];
+
+		$collection = $db->statements;
+		// Get the results and average them
+		$results = $collection->aggregate($aggregation)["result"];
+		$resultsCount = count($results);
+		$viewedHintCount = 0;
+		foreach ($results as $result) {
+			if ($result["count"] > 0) {
+				$viewedHintCount++;
+			}
+		}
+		// Avoid division by 0
+		$percentage = $resultsCount > 0 ? $viewedHintCount / $resultsCount : 0;
+		return round($percentage * 100) / 100;
+	}
+
+	// Returns the percentage of students that viewed the answer for a given question
+	public function calculateViewedAnswerPercentageForQuestion($assessmentId, $questionNumber, $debug = false) {
+		$config = $this->getDI()->getShared('config');
+
+		// Connect to database
+		$m = new MongoClient("mongodb://{$config->lrs_database->username}:{$config->lrs_database->password}@{$config->lrs_database->host}/{$config->lrs_database->dbname}");
+		$db = $m->{$config->lrs_database->dbname};
+
+		$questionDescription = "Question #{$questionNumber} of assessment {$assessmentId}";
+
+		// Aggregate, matching the verb, LRS, and object (specific question of a specific assessment), and get a count grouped by student email
+		$aggregation = [
+			['$match' => [
+				'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/showed-answer',
+				'lrs._id' => $config->lrs->openassessments->id,
+				'statement.object.definition.name.en-US' => $questionDescription,
+			] ],
+			['$group' => ['_id' => '$statement.actor.mbox', 'count' => ['$sum' => 1] ] ]
+		];
+
+		$collection = $db->statements;
+		// Get the results and average them
+		$results = $collection->aggregate($aggregation)["result"];
+		$resultsCount = count($results);
+		$viewedHintCount = 0;
+		foreach ($results as $result) {
+			if ($result["count"] > 0) {
+				$viewedHintCount++;
+			}
+		}
+		// Avoid division by 0
+		$percentage = $resultsCount > 0 ? $viewedHintCount / $resultsCount : 0;
+		return round($percentage * 100) / 100;
+	}
+
 	// Returns an array of all students' actor.mbox identifiers
 	public static function allStudents() {
 		

@@ -246,6 +246,8 @@ class ContentRecommenderStatsController extends Controller
 				// This is one place where we're just using correct, not better correct, attempts
 				$question["correct"] = $question["correctAttempts"]["correct"] > 0;
 				$question["classAverageAttempts"] = $classHelper->calculateAverageAttemptsForQuestion($question["assessmentId"], $question["questionNumber"], $debug);
+				$question["classViewedHint"] = $classHelper->calculateViewedHintPercentageForQuestion($question["assessmentId"], $question["questionNumber"], $debug);
+				$question["classViewedAnswer"] = $classHelper->calculateViewedAnswerPercentageForQuestion($question["assessmentId"], $question["questionNumber"], $debug);
 				$questions []= $question;
 			}
 		}
