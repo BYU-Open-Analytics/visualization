@@ -173,7 +173,7 @@ function getRelatedVideos(assessmentId, questionId) {
 
 // Loads strongest and weakest concepts
 function loadConcepts() {
-	d3.json("../content_recommender_stats/concepts", function(error, data) {
+	d3.json("../content_recommender_stats/masteryGraph/unit/" + currentCourseUnit(), function(error, data) {
 		$("#conceptsSection .spinner").hide();
 		// Sort weakest by lowest score first
 		data.weakest.sort(function(a, b) {
@@ -214,7 +214,7 @@ function questionElement(d) {
 
 // Loads recommendations
 function loadRecommendations() {
-	d3.json("../content_recommender_stats/recommendations", function(error, data) {
+	d3.json("../content_recommender_stats/recommendations/" + currentCourseUnit(), function(error, data) {
 		$("#recommendSection .spinner").hide();
 		for (var i=1; i<5; i++) {
 			//$("#recommend"+i+"List").empty();

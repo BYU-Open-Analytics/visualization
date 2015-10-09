@@ -240,6 +240,9 @@ class ContentRecommenderStatsController extends Controller
 				// Get amount of associated videos watched
 				// Note that question ID is being used instead of assessment ID and question number, since we're searching the csv mapping and not dealing with statements here
 				$question["videoPercentage"] = MasteryHelper::calculateVideoPercentageForQuestion($context->getUserEmail(), $questionId);
+				// Variables used in the display table
+				// This is one place where we're just using correct, not better correct, attempts
+				$question["correct"] = $question["correctAttempts"]["correct"] > 0;
 				$questions []= $question;
 			}
 		}
@@ -256,20 +259,20 @@ class ContentRecommenderStatsController extends Controller
 				// >0 attempts for each question
 				// No correct statements without a show answer statement in the preceding minute for each question (correctAttempts < 1)
 				// Watched less than half of the videos associated with each question
-			if ($question["attempts"] > 0 && $question["correctAttempts"] == 0 && $question["videoPercentage"] < 0.50) {
+			if ($question["attempts"] > 0 && $question["correctAttempts"]["betterCorrect"] == 0 && $question["videoPercentage"] < 0.50) {
 				$group2 [] = $question;
 			}
 			// Group 3:
 				// >0 attempts for each question
 				// No correct statements without a show answer statement in the preceding minute for each question (correctAttempts < 1)
 				// Watched more than half of the videos associated with each question
-			if ($question["attempts"] > 0 && $question["correctAttempts"] == 0 && $question["videoPercentage"] >= 0.50) {
+			if ($question["attempts"] > 0 && $question["correctAttempts"]["betterCorrect"] == 0 && $question["videoPercentage"] >= 0.50) {
 				$group3 [] = $question;
 			}
 			// Group 4:
 				// >  0 correct statements without a show answer statement in the preceding minute for each question (correctAttempts > 0)
 				// More than 1 attempt
-			if ($question["correctAttempts"] > 0 && $question["attempts"] > 1) {
+			if ($question["correctAttempts"]["betterCorrect"] > 0 && $question["attempts"] > 1) {
 				$group4 []= $question;
 			}
 			

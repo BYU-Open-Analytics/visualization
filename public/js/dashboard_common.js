@@ -4,6 +4,11 @@ function sendStatement(params) {
 	$.post("../xapi", params);
 }
 
+function currentCourseUnit() {
+	// TODO return the correct unit based on current day
+	return 1;
+}
+
 // From http://stackoverflow.com/a/14426477
 d3.selection.prototype.moveToFront = function() {
   return this.each(function(){

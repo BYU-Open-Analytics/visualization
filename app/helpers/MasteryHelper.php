@@ -53,7 +53,7 @@ class MasteryHelper extends Module {
 					// Get number of correct short answer questions
 					// Use array_filter to get short answer questions with correct attempts > 0
 					$shortAnswerCorrectCount = count(array_filter($conceptShortAnswerQuestions, function($question) {
-						return ($question["correctAttempts"] > 0);
+						return ($question["correctAttempts"]["betterCorrect"] > 0);
 					}));
 					// Get total number of attempts for all short answer questions
 					$shortAnswerAttemptCount = array_sum(array_column($conceptShortAnswerQuestions, "attempts"));
@@ -75,7 +75,7 @@ class MasteryHelper extends Module {
 					$shortAnswerPracticeBonus = 0;
 					// Get short answer questions that have > 1 correct attempt and add a practice bonus for each of them
 					foreach ($conceptShortAnswerQuestions as $question) {
-						if ($question["correctAttempts"] > 1) {
+						if ($question["correctAttempts"]["betterCorrect"] > 1) {
 							$shortAnswerPracticeBonus += 0.2 * ($question["attempts"] - 1) / $shortAnswerQuestionCount;
 						}
 					}
@@ -96,7 +96,7 @@ class MasteryHelper extends Module {
 					// Get number of correct multiple choice questions
 					// Use array_filter to get multiple choice questions with correct attempts > 0
 					$multipleChoiceCorrectCount = count(array_filter($conceptMultipleChoiceQuestions, function($question) {
-						return ($question["correctAttempts"] > 0);
+						return ($question["correctAttempts"]["betterCorrect"] > 0);
 					}));
 					// Get total number of attempts for all multiple choice questions
 					$multipleChoiceAttemptCount = array_sum(array_column($conceptMultipleChoiceQuestions, "attempts"));
@@ -121,7 +121,7 @@ class MasteryHelper extends Module {
 					$multipleChoicePracticeBonus = 0;
 					// Get number of multiple choice questions that have > 1 correct attempt and add a practice bonus for each of them
 					foreach ($conceptMultipleChoiceQuestions as $question) {
-						if ($question["correctAttempts"] > 1) {
+						if ($question["correctAttempts"]["betterCorrect"] > 1) {
 							$multipleChoicePracticeBonus += ( ($question["attempts"] - 1) * (10 / $question["options"]) ) / $multipleChoiceQuestionCount;
 						}
 					}
@@ -190,7 +190,8 @@ class MasteryHelper extends Module {
 		}
 	}
 
-	// Returns the number of correct attempts (Correct = if there's a correct statement with no show answer statement in the minute before) a student has for a particular question
+	// Returns the number of correct, and better-correct attempts (Better-Correct = if there's a correct statement with no show answer statement in the minute before) a student has for a particular question
+	// Returns array, e.g. {"correct" => 5, "betterCorrect" => 2}
 	public static function countCorrectAttemptsForQuestion($studentId, $assessmentId, $questionNumber, $debug = false) {
 		$statementHelper = new StatementHelper();
 
@@ -216,13 +217,16 @@ class MasteryHelper extends Module {
 			// TODO error handling
 		} else {
 			$correctAttempts = 0;
+			$betterCorrectAttempts = 0;
 			// Find the correct answered statements
 			foreach ($statements["cursor"] as $statement) {
 				if ($statement["statement"]["verb"]["id"] == 'http://adlnet.gov/expapi/verbs/answered' && $statement["statement"]["result"]["success"] == true) {
 					if ($debug) echo "Correct answered statement!<br>";
-					// Now see if there's a shown-answer statement in the preceding minute
+					// Have a correct attempt
+					$correctAttempts++;
+					// Now see if there's a shown-answer statement in the preceding minute to check if it's a better-correct
 					// Set this to false if we find a shown-answer statement in the preceding minute
-					$attemptCorrect = true;
+					$attemptBetterCorrect = true;
 					foreach ($statements["cursor"] as $possibleShowAnswerStatement) {
 						if ($possibleShowAnswerStatement["statement"]["verb"]["id"] == 'http://adlnet.gov/expapi/verbs/showed-answer') {
 							// Compare time 
@@ -230,13 +234,13 @@ class MasteryHelper extends Module {
 							if ($debug) echo "Time diff (seconds): $timeDifference<br>";
 							// TODO move this magic number 60
 							if ($timeDifference > 0 && $timeDifference < 60) {
-								$attemptCorrect = false;
+								$attemptBetterCorrect = false;
 								break;
 							}
 						}
 					}
-					if ($attemptCorrect) {
-						$correctAttempts++;
+					if ($attemptBetterCorrect) {
+						$betterCorrectAttempts++;
 					}
 
 				}
@@ -246,8 +250,8 @@ class MasteryHelper extends Module {
 					echo "<hr>";
 				}
 			}
-			if ($debug) echo "correct attempts: $correctAttempts";
-			return $correctAttempts;
+			if ($debug) echo "correct attempts: $correctAttempts, better correct attempts: $betterCorrectAttempts";
+			return ["correct" => $correctAttempts, "betterCorrect" => $betterCorrectAttempts];
 		}
 	}
 
