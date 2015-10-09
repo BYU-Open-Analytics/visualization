@@ -246,27 +246,37 @@ class ContentRecommenderStatsController extends Controller
 
 
 		// Now go through the questions for each group and find matching questions
-		// Group 1: questions with 0 attempts
 		foreach ($questions as $question) {
+			// Group 1:
+				// Questions with 0 attempts
 			if ($question["attempts"] == 0) {
 				$group1 []= $question;
 			}
+			// Group 2:
+				// >0 attempts for each question
+				// No correct statements without a show answer statement in the preceding minute for each question (correctAttempts < 1)
+				// Watched less than half of the videos associated with each question
+			if ($question["attempts"] > 0 && $question["correctAttempts"] == 0 && $question["videoPercentage"] < 0.50) {
+				$group2 [] = $question;
+			}
+			// Group 3:
+				// >0 attempts for each question
+				// No correct statements without a show answer statement in the preceding minute for each question (correctAttempts < 1)
+				// Watched more than half of the videos associated with each question
+			if ($question["attempts"] > 0 && $question["correctAttempts"] == 0 && $question["videoPercentage"] >= 0.50) {
+				$group3 [] = $question;
+			}
+			// Group 4:
+				// >  0 correct statements without a show answer statement in the preceding minute for each question (correctAttempts > 0)
+				// More than 1 attempt
+			if ($question["correctAttempts"] > 0 && $question["attempts"] > 1) {
+				$group4 []= $question;
+			}
+			
 		}
 
 		if ($debug) { print_r($questions); }
 
-
-		// By default, only show recommendations for weakest concepts. If parameter is for all, then show recommendations for all concepts.
-		$count = 6;
-		if ($unit == "all") {
-			$count = 30;
-		}
-		for ($i=0; $i<$count; $i++) {
-			$group1 [] = ["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1", "correct" => (rand() % 2) ? true : false, "attempts" => 0, "classViewedHint" => rand(0,100), "classViewedAnswer" => rand(0,100), "classAverageAttempts" => 5];
-			$group2 [] = ["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1", "correct" => (rand() % 2) ? true : false, "attempts" => 0, "classViewedHint" => rand(0,100), "classViewedAnswer" => rand(0,100), "classAverageAttempts" => 5];
-			$group3 [] = ["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1", "correct" => (rand() % 2) ? true : false, "attempts" => 0, "classViewedHint" => rand(0,100), "classViewedAnswer" => rand(0,100), "classAverageAttempts" => 5];
-			$group4 [] = ["conceptId" => 4, "assessment_id" => 1, "question_id" => 1, "display" => "Chapter 1 - Concept D - Quiz Question 1", "correct" => (rand() % 2) ? true : false, "attempts" => 0, "classViewedHint" => rand(0,100), "classViewedAnswer" => rand(0,100), "classAverageAttempts" => 5];
-		}
 		$result = [
 			"group1" => $group1,
 			"group2" => $group2,
