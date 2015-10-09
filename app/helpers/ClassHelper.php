@@ -95,14 +95,14 @@ class ClassHelper extends Module {
 		// Get the results and average them
 		$results = $collection->aggregate($aggregation)["result"];
 		$resultsCount = count($results);
-		$viewedHintCount = 0;
+		$viewedAnswerCount = 0;
 		foreach ($results as $result) {
 			if ($result["count"] > 0) {
-				$viewedHintCount++;
+				$viewedAnswerCount++;
 			}
 		}
 		// Avoid division by 0
-		$percentage = $resultsCount > 0 ? $viewedHintCount / $resultsCount : 0;
+		$percentage = $resultsCount > 0 ? $viewedAnswerCount / $resultsCount : 0;
 		return round($percentage * 100) / 100;
 	}
 
