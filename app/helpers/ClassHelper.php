@@ -36,7 +36,7 @@ class ClassHelper extends Module {
 		return round($average * 10) / 10;
 	}
 
-	// Returns the percentage of students that viewed the hint for a given question
+	// Returns the percentage (0-100) of students that viewed the hint for a given question
 	public function calculateViewedHintPercentageForQuestion($assessmentId, $questionNumber, $debug = false) {
 		$config = $this->getDI()->getShared('config');
 
@@ -68,10 +68,10 @@ class ClassHelper extends Module {
 		}
 		// Avoid division by 0
 		$percentage = $resultsCount > 0 ? $viewedHintCount / $resultsCount : 0;
-		return round($percentage * 100) / 100;
+		return round($percentage * 100);
 	}
 
-	// Returns the percentage of students that viewed the answer for a given question
+	// Returns the percentage (0-100) of students that viewed the answer for a given question
 	public function calculateViewedAnswerPercentageForQuestion($assessmentId, $questionNumber, $debug = false) {
 		$config = $this->getDI()->getShared('config');
 
@@ -103,7 +103,7 @@ class ClassHelper extends Module {
 		}
 		// Avoid division by 0
 		$percentage = $resultsCount > 0 ? $viewedAnswerCount / $resultsCount : 0;
-		return round($percentage * 100) / 100;
+		return round($percentage * 100);
 	}
 
 	// Returns an array of all students' actor.mbox identifiers
