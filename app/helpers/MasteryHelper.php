@@ -268,6 +268,7 @@ class MasteryHelper extends Module {
 			$videoId = $video["video_id"];
 
 			// Calculate how much time of this video was watched
+			// TODO this could be made more efficient by using an $in query for all videos
 			$statementHelper = new StatementHelper();
 			$statements = $statementHelper->getStatements("ayamel",[
 				'statement.actor.mbox' => 'mailto:'.$studentId,

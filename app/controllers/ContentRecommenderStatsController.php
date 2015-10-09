@@ -215,6 +215,8 @@ class ContentRecommenderStatsController extends Controller
 			return;
 		}
 
+		$classHelper = new ClassHelper();
+
 		$group1 = [];
 		$group2 = [];
 		$group3 = [];
@@ -243,6 +245,7 @@ class ContentRecommenderStatsController extends Controller
 				// Variables used in the display table
 				// This is one place where we're just using correct, not better correct, attempts
 				$question["correct"] = $question["correctAttempts"]["correct"] > 0;
+				$question["classAverageAttempts"] = $classHelper->calculateAverageAttemptsForQuestion($question["assessmentId"], $question["questionNumber"], $debug);
 				$questions []= $question;
 			}
 		}

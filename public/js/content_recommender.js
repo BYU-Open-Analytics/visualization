@@ -175,25 +175,27 @@ function getRelatedVideos(assessmentId, questionId) {
 function loadConcepts() {
 	d3.json("../content_recommender_stats/masteryGraph/unit/" + currentCourseUnit(), function(error, data) {
 		$("#conceptsSection .spinner").hide();
-		// Sort weakest by lowest score first
-		data.weakest.sort(function(a, b) {
+		// Sort by lowest score first
+		data.sort(function(a, b) {
 			return a.score > b.score;
 		});
-		// Sort strongest by highest score first
-		data.strongest.sort(function(a, b) {
-			return a.score < b.score;
-		});
+		// Get the three weakest and strongest
+		var categories = {
+			weakest: data.slice(0,3),
+			strongest: data.slice(data.length - 3, data.length)
+		}
+		categories.strongest.reverse();
 		// Display the concepts in the lists for both weakest and strongest
 		function displayConceptList(category) {
 			d3.select("#" + category + "ConceptsList")
 				.selectAll("div")
-				.data(data[category])
+				.data(categories[category])
 				.enter()
 				.append("div")
 				//If their score is 0-3 make it red. If their score is 4-6 make it yellow, and if their score is > 6 make it green.
 				// TODO remove these magic numbers and colors
 				.style("background-color", function(d) { return d.score >= 6 ? "#5cb85c" : d.score >= 4 ? "#f0ad4e" : "#d9534f"; })
-				.html(function(d) { return "<b class='badge pull-right'>" + d.score + " / 10</b> " + d.display; });
+				.html(function(d) { return "<b class='badge pull-right'>" + (Math.round(d.score * 100) / 100) + " / 10</b> " + d.display; });
 		}
 		displayConceptList("weakest");
 		displayConceptList("strongest");
