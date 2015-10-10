@@ -9,6 +9,9 @@ th:last-child, td:last-child {
 table {
 	width: 100%;
 }
+table img, td img {
+	max-width: 100%;
+}
 
 td {
 	word-wrap: break-word;
@@ -87,8 +90,13 @@ td {
 	cursor: pointer;
 }
 
+#recommendSection tr {
+	border-bottom: 1px solid #ddd!important;
+}
+
 #recommendSection td {
 	padding: 5px;
+	max-width: 40%!important;
 }
 .correctIcon {
 	color: #5cb85c;
