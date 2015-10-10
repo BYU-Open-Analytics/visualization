@@ -35,6 +35,11 @@ class MappingHelper extends Module {
 
 	}
 
+	// Returns an array of concept numbers for the given chapter number
+	static public function conceptsInChapter($chapter) {
+		return self::conceptsInChapters([$chapter]);
+	}
+
 	// Returns an array of concept numbers for the given array of chapter numbers
 	static public function conceptsInChapters($chapters) {
 		$allConcepts = CSVHelper::parseWithHeaders('csv/concept_chapter_unit.csv');

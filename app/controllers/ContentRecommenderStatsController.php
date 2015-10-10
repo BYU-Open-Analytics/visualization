@@ -240,7 +240,7 @@ class ContentRecommenderStatsController extends Controller
 				$question["attempts"] = MasteryHelper::countAttemptsForQuestion($context->getUserEmail(), $question["assessmentId"], $question["questionNumber"], $debug);
 				$question["correctAttempts"] = MasteryHelper::countCorrectAttemptsForQuestion($context->getUserEmail(), $question["assessmentId"], $question["questionNumber"], $debug);
 				// Get amount of associated videos watched
-				// Note that question ID is being used instead of assessment ID and question number, since we're searching the csv mapping and not dealing with statements here
+				// Note that question ID is being used instead of assessment ID and question number, since we're searching the csv mapping and not dealing with assessment statements here
 				$question["videoPercentage"] = MasteryHelper::calculateVideoPercentageForQuestion($context->getUserEmail(), $questionId);
 				// Variables used in the display table
 				// This is one place where we're just using correct, not better correct, attempts
@@ -252,6 +252,38 @@ class ContentRecommenderStatsController extends Controller
 			}
 		}
 
+
+		// Fetch question texts for all questions in these assessments
+			// Get the Open Assessments API endpoint from config
+			$assessmentsEndpoint = $this->getDI()->getShared('config')->openassessments_endpoint;
+			$assessmentIds = ["assessment_ids" => array_values(array_unique(array_column($questions, "assessmentId")))];
+			print_r(array_column($questions, "assessmentId"));
+			print_r($assessmentIds);
+			$request = $assessmentsEndpoint."api/question_text";
+			echo $request;
+			$session = curl_init($request);
+			curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+			curl_setopt($session, CURLOPT_POST, 1);
+			curl_setopt($session, CURLOPT_POSTFIELDS, json_encode($assessmentIds));
+
+			$response = curl_exec($session);
+
+			// Catch curl errors
+			if (curl_errno($session)) {
+				$error = "Curl error: " . curl_error($session);
+			}
+			curl_close($session);
+
+			$questionTexts = json_decode($response, true);
+
+			print_r($questionTexts);
+
+			foreach ($questions as $key => $q) {
+				// Make sure the question text exists before setting it
+				// Avoid off-by-one error. The question id from statement object id will be 1 to n+1
+				$questions[$key]["display"] = isset($questionTexts[$q["assessmentId"]][$q["questionNumber"]-1]) ? $questionTexts[$q["assessmentId"]][$q["questionNumber"]-1] : "Error getting question text for #{$q["assessmentId"]} # #{$q["questionNumber"]}-1";
+				//$q["questionText"] = $questionText;
+			}
 
 		// Now go through the questions for each group and find matching questions
 		foreach ($questions as $question) {
@@ -296,7 +328,7 @@ class ContentRecommenderStatsController extends Controller
 
 
 	// Returns an array of points for the concept mastery scatterplot
-	public function scatterplotAction($scope = 'concept', $groupingId = '') {
+	public function scatterplotAction($scope = 'concept', $groupingId = '', $debug = false) {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
@@ -307,77 +339,54 @@ class ContentRecommenderStatsController extends Controller
 
 		// TODO default to current concept?
 
-		// Get the list of questions for videos associated with concepts for the given scope and grouping ID
-		// We have to do it this way, because questions are only associated with videos.
+		// Get the list of questions associated with concepts for the given scope and grouping ID
 		$questions = [];
-		$videos = CSVHelper::parseWithHeaders('csv/video_concept_question.csv');
 		switch ($scope) {
 			case "concept":
-				// Filter based on chapter
-				foreach ($videos as $v) {
-					if ($v["concept_number"] == $groupingId) {
-						// Add these questions to our list
-						$questions = array_merge($questions, explode(",", $v["questions"]));
-					}
-				}
+				// Filter based on concept
+				$questions = MappingHelper::questionsInConcept($groupingId);
 				break;
-
 			case "chapter":
 				// Filter based on chapter
-				foreach ($videos as $v) {
-					if ($v["chapter_number"] == $groupingId) {
-						$questions = array_merge($questions, explode(",", $v["questions"]));
-					}
-				}
+				// conceptsInChapter returns an array with more than just concept number, so get just concept_number column
+				$questions = MappingHelper::questionsInConcepts(array_column(MappingHelper::conceptsInChapter($groupingId), "concept_number"));
 				break;
 			case "unit":
 				// Filter based on unit
-				// Unit number isn't given in this mapping, so get unit -> chapter mapping
-				$units = CSVHelper::parseWithHeaders('csv/unit_chapter.csv');
-				$unit = $units[array_search($groupingId, array_column($units, 'unit_number'))];
-				// Get chapters that are in this unit
-				$correspondingChapters = explode(",", $unit["chapters"]);
-
-				foreach ($videos as $v) {
-					// Check if this video is in a chapter that is in this unit
-					if (in_array($v["chapter_number"], $correspondingChapters)) {
-						// Add these questions to our list
-						$questions = array_merge($questions, explode(",", $v["questions"]));
-					}
-				}
+				$questions = MappingHelper::questionsInConcepts(array_column(MappingHelper::conceptsInChapters(MappingHelper::chaptersInUnit($groupingId)), "concept_number"));
 				break;
-			case "all":
-				// Add all questions to list
-				foreach ($videos as $v) {
-					// Add these questions to our list
-					$questions = array_merge($questions, explode(",", $v["questions"]));
-				}
+			default:
+				echo '[{"error":"Invalid scope option"}]';
+				return;
 				break;
+		}
+		if ($debug) {
+			echo "questions for scope $scope and grouping $groupingId: \n";
+			print_r($questions);
 		}
 
 		// Remove duplicate questions (if question is associated with more than one video, only show it once)
 		$uniqueQuestions = array_unique($questions);
 
 		// Array of questions with more details about each
-		$questionDetails = [];
+		$questionDetails = array();
 
-		// Calculate 1. question attempts and 2. video watch amount for each question
-		// 1. Question attempts
-		// First get the assessment id for the given question
-		$assessmentIds = CSVHelper::parseWithHeaders('csv/quiz_assessmentid.csv');
-		foreach ($questions as $q) {
-			$questionParts = explode(".", $q);
-			// TODO Error checking for things like "Missing quiz" that are in the mappings
-			if (count($questionParts) != 2) {
-				continue;
+		// Get some info about each question
+		foreach ($questions as $questionId) {
+			$question = MappingHelper::questionInformation($questionId);
+			// Check that it's a valid question
+			if ($question != false) {
+				// Get number of attempts
+				$question["attempts"] = MasteryHelper::countAttemptsForQuestion($context->getUserEmail(), $question["assessmentId"], $question["questionNumber"], $debug);
+				// Get amount of associated videos watched
+				// Note that question ID is being used instead of assessment ID and question number, since we're searching the csv mapping and not dealing with assessment statements here
+				$question["videoPercentage"] = MasteryHelper::calculateVideoPercentageForQuestion($context->getUserEmail(), $questionId);
+
+				$questionDetails []= $question;
 			}
-			$quizNumber = explode(".", $q)[0];
-			$questionNumber = explode(".", $q)[1];
-			$assessmentId = $assessmentIds[array_search($quizNumber, array_column($assessmentIds, 'quiz_number'))]["assessment_id"];
-
-			$questionDetails []= ["quizNumber" => $quizNumber, "questionNumber" => $questionNumber, "assessmentId" => $assessmentId];
 		}
-		
+
+		$questionDetails = [];
 
 		$headerRow = ["group", "quiz_number", "question_number", "x", "y"];
 		function randomPoint($group, $q) {

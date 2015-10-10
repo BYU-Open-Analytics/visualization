@@ -17,6 +17,7 @@ class SkillsHelper extends Module {
 
 	// Perform (or retrieve) calculations for a given skill for a given student
 
+	// Percent of a student's total events between 11pm and 5am (raw percentage, that still needs to be scaled by class)
 	public static function calculateTimeScore($student) {
 		return rand(0,100) / 10;
 	}
