@@ -257,10 +257,13 @@ class ContentRecommenderStatsController extends Controller
 			// Get the Open Assessments API endpoint from config
 			$assessmentsEndpoint = $this->getDI()->getShared('config')->openassessments_endpoint;
 			$assessmentIds = ["assessment_ids" => array_values(array_unique(array_column($questions, "assessmentId")))];
-			print_r(array_column($questions, "assessmentId"));
-			print_r($assessmentIds);
+
 			$request = $assessmentsEndpoint."api/question_text";
-			echo $request;
+			if ($debug) {
+				print_r(array_column($questions, "assessmentId"));
+				print_r($assessmentIds);
+				echo $request;
+			}
 			$session = curl_init($request);
 			curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($session, CURLOPT_POST, 1);
@@ -276,7 +279,7 @@ class ContentRecommenderStatsController extends Controller
 
 			$questionTexts = json_decode($response, true);
 
-			print_r($questionTexts);
+			if ($debug) { print_r($questionTexts); }
 
 			foreach ($questions as $key => $q) {
 				// Make sure the question text exists before setting it
