@@ -282,18 +282,18 @@ function loadScatterplot() {
 		    height = 450 - margin.top - margin.bottom,
 		    width = 500 - margin.left - margin.right;
 
-		var xMax = d3.max(data, function(d) { return d.x; });
-		var yMax = d3.max(data, function(d) { return d.y; });
-		var xMin = d3.min(data, function(d) { return d.x; });
-		var yMin = d3.min(data, function(d) { return d.y; });
+		var xMax = 100;//d3.max(data, function(d) { return d.x; });
+		var yMax = 10;//d3.max(data, function(d) { return d.y; });
+		var xMin = 0;//d3.min(data, function(d) { return d.x; });
+		var yMin = 0;//d3.min(data, function(d) { return d.y; });
 
 		//Create scale functions
 		// Don't want dots overlapping axis, so add in buffer to data domain
 		var xScale = d3.scale.linear()
-			 .domain([xMin, xMax])
+			 .domain([0, 100])
 			 .range([0, width]);
 		var yScale = d3.scale.linear()
-			 .domain([yMin, yMax])
+			 .domain([0, 10])
 			 .range([height, 0]);
 
 		//Define X axis

@@ -39,6 +39,36 @@ class ClassHelper extends Module {
 		return round($average * 10) / 10;
 	}
 
+	// Returns a number 0-10 representing the percentile of the given number of attempts in the distribution of all students' number of attempts for the given question
+	public function calculateScaledAttemptsForQuestion($attemptsToScale, $assessmentId, $questionNumber, $debug = false) {
+		$config = $this->getDI()->getShared('config');
+
+		// Connect to database
+		$m = new MongoClient("mongodb://{$config->lrs_database->username}:{$config->lrs_database->password}@{$config->lrs_database->host}/{$config->lrs_database->dbname}");
+		$db = $m->{$config->lrs_database->dbname};
+
+		$questionDescription = "Question #{$questionNumber} of assessment {$assessmentId}";
+
+		// Aggregate, matching the verb, LRS, and object (specific question of a specific assessment), and get a count grouped by student email
+		$aggregation = [
+			['$match' => [
+				'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/answered',
+				'lrs._id' => $config->lrs->openassessments->id,
+				'statement.object.definition.name.en-US' => $questionDescription,
+			] ],
+			['$group' => ['_id' => '$statement.actor.mbox', 'count' => ['$sum' => 1] ] ]
+		];
+
+		$collection = $db->statements;
+		// Get the results and average them
+		$results = $collection->aggregate($aggregation)["result"];
+		$resultsSum = array_sum(array_column($results, "count"));
+		$resultsCount = count($results);
+		// Avoid division by 0
+		$average = $resultsCount > 0 ? $resultsSum / $resultsCount : 0;
+		return round($average * 10) / 10;
+	}
+
 	// Returns the percentage (0-100) of students that viewed the hint for a given question
 	public function calculateViewedHintPercentageForQuestion($assessmentId, $questionNumber, $debug = false) {
 		$config = $this->getDI()->getShared('config');

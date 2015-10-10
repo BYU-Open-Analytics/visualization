@@ -371,6 +371,8 @@ class ContentRecommenderStatsController extends Controller
 		// Remove duplicate questions (if question is associated with more than one video, only show it once)
 		$uniqueQuestions = array_unique($questions);
 
+		$classHelper = new ClassHelper();
+
 		// Array of questions with more details about each
 		$questionDetails = array();
 
@@ -389,9 +391,7 @@ class ContentRecommenderStatsController extends Controller
 			}
 		}
 
-		$questionDetails = [];
-
-		$headerRow = ["group", "quiz_number", "question_number", "x", "y"];
+		/*
 		function randomPoint($group, $q) {
 			// Randomly return outliers
 			if (rand(0,30) == 5) {
@@ -405,6 +405,7 @@ class ContentRecommenderStatsController extends Controller
 		//foreach ($questionDetails as $q) {
 			//$result [] = 
 		//}
+		//
 		for ($i=0; $i<$numPoints; $i++) {
 			$result []= randomPoint("student", $questionDetails[$i]);
 			for ($j=0; $j<10; $j++) {
@@ -455,8 +456,23 @@ class ContentRecommenderStatsController extends Controller
 			//print_r($yStats);
 		
 		//die();
+		*/
+		// X = video percentage, Y = question attempts
+		$headerRow = ["group", "quiz_number", "question_number", "x", "y"];
+
+		$result = array_map(function($q) {
+			return ["student", $q["assessmentId"], $q["questionNumber"], $q["videoPercentage"], $q["attempts"]];
+		}, $questionDetails);
+		if ($debug) {
+			echo "question details for scope $scope and grouping $groupingId: \n";
+			print_r($questionDetails);
+			print_r($result);
+		}
+
 		// Output data as csv so that we only have to send header information once for so many points
-		header("Content-Type: text/csv");
+		if (!$debug) {
+			header("Content-Type: text/csv");
+		}
 		$output = fopen("php://output", "w");
 		fputcsv($output, $headerRow);
 		foreach ($result as $row) {

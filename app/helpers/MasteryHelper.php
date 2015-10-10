@@ -255,7 +255,7 @@ class MasteryHelper extends Module {
 		}
 	}
 
-	// Calculates the percentage of video time watched for all videos associated with a given questionID (we're using ID here, since that's what we need to search for in the mappings, and we're not dealing with statements here)
+	// Calculates the percentage (0-100) of video time watched for all videos associated with a given questionID (we're using ID here, since that's what we need to search for in the mappings, and we're not dealing with statements here)
 	public static function calculateVideoPercentageForQuestion($studentId, $questionId, $debug = false) {
 		// Find the videos related to this question
 		$relatedVideos = MappingHelper::videosForQuestion($questionId);
@@ -290,7 +290,8 @@ class MasteryHelper extends Module {
 
 			if ($debug) { echo "Video for $questionId : ID $videoId with $watchStatementCount watched statements\n"; }
 		}
-		// Return percentage of videos watched, avoiding division by 0
-		return ($totalVideoTime != 0) ? ($totalVideoTimeWatched / $totalVideoTime) : 0;
+		// Return percentage (0-100) of videos watched, avoiding division by 0
+		$percentage = ($totalVideoTime != 0) ? ($totalVideoTimeWatched / $totalVideoTime) : 0;
+		return round($percentage * 100);
 	}
 }
