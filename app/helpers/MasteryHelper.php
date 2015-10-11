@@ -261,34 +261,40 @@ class MasteryHelper extends Module {
 		$relatedVideos = MappingHelper::videosForQuestion($questionId);
 		$totalVideoTime = 0;
 		$totalVideoTimeWatched = 0;
+		$videoIds = array();
+
 		foreach ($relatedVideos as $video) {
 			// Get each video's length
-			$videoLength = $video["video_length"];
-			$totalVideoTime += $videoLength;
-			$videoId = $video["video_id"];
+			$totalVideoTime += $video["video_length"];
+			// Add its ID to a list that we'll fetch watched statements for
+			$videoIds []= 'https://ayamel.byu.edu/content/'.$video["video_id"];
+		}
 
-			// Calculate how much time of this video was watched
-			// TODO this could be made more efficient by using an $in query for all videos
-			$statementHelper = new StatementHelper();
-			$statements = $statementHelper->getStatements("ayamel",[
-				'statement.actor.mbox' => 'mailto:'.$studentId,
-				'statement.verb.id' => 'https://ayamel.byu.edu/watched',
-				'statement.object.id' => 'https://ayamel.byu.edu/content/'.$videoId,
-			], [
-				'statement.object.id' => true,
-			]);
-			if ($statements["error"]) {
-				$watchStatementCount = 0;
-				if ($debug) {
-					echo "Error in fetching watched statements for question $questionId and video $videoId";
-				}
-			} else {
-				$watchStatementCount = $statements["cursor"]->count();
+		// Calculate how much time these videos were watched
+		// This is more efficient by using an $in query for all videos, rather than querying for each individual video as previously done
+		$statementHelper = new StatementHelper();
+		$statements = $statementHelper->getStatements("ayamel",[
+			'statement.actor.mbox' => 'mailto:'.$studentId,
+			'statement.verb.id' => 'https://ayamel.byu.edu/watched',
+			'statement.object.id' => array('$in' => $videoIds),
+		], [
+			'statement.object.id' => true,
+		]);
+		if ($statements["error"]) {
+			$watchStatementCount = 0;
+			if ($debug) {
+				echo "Error in fetching watched statements for question $questionId and videos: \n";
+				print_r($videoIds);
 			}
-			// TODO magic number of 10
-			$totalVideoTimeWatched += $watchStatementCount * 10;
+		} else {
+			$watchStatementCount = $statements["cursor"]->count();
+		}
+		// TODO magic number of 10
+		$totalVideoTimeWatched = $watchStatementCount * 10;
 
-			if ($debug) { echo "Video for $questionId : ID $videoId with $watchStatementCount watched statements\n"; }
+		if ($debug) {
+			echo "Videos for $questionId : $watchStatementCount watched statements for the following videos: \n";
+			print_r($videoIds);
 		}
 		// Return percentage (0-100) of videos watched, avoiding division by 0
 		$percentage = ($totalVideoTime != 0) ? ($totalVideoTimeWatched / $totalVideoTime) : 0;
