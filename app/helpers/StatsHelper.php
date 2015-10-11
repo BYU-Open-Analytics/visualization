@@ -81,6 +81,9 @@ class StatsHelper extends Module {
 	// A score of 0 will always give a scaled score of 0
 	// A score equal to the max score in the distribution will always give a scaled score of 0
 	public static function calculateScaledScore($distribution, $score) {
+		if (count($distribution) == 0) {
+			return 0;
+		}
 		$sortedDist = $distribution;
 		sort($sortedDist);
 		$maxScore = max($sortedDist);
