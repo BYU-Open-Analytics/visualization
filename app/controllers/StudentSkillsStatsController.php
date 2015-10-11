@@ -16,6 +16,9 @@ class StudentSkillsStatsController extends Controller
 			echo '[{"error":"Invalid lti context"}]';
 			return;
 		}
+		$skillsHelper = new SkillsHelper();
+		echo $skillsHelper->calculateActivityScore($context->getUserEmail());
+
 		$stats = [
 		    'student' => [
 			['id' => 'time', 'score' => rand(1,100) / 10],
