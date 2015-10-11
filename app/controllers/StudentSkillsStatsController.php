@@ -17,7 +17,7 @@ class StudentSkillsStatsController extends Controller
 			return;
 		}
 		$skillsHelper = new SkillsHelper();
-		echo $skillsHelper->calculateActivityScore($context->getUserEmail());
+		echo $skillsHelper->calculateConsistencyScore($context->getUserEmail());
 
 		$stats = [
 		    'student' => [

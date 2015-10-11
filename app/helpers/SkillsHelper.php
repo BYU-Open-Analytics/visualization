@@ -18,7 +18,7 @@ class SkillsHelper extends Module {
 		$m = new MongoClient("mongodb://{$config->lrs_database->username}:{$config->lrs_database->password}@{$config->lrs_database->host}/{$config->lrs_database->dbname}");
 		$db = $m->{$config->lrs_database->dbname};
 
-		// Aggregate, matching the verb, LRS, and object (specific question of a specific assessment), and get a count grouped by student email
+		// Aggregate, fetching the student's statements in the past two weeks for open assessments and ayamel
 		$aggregation = [
 			['$match' => [
 				'timestamp' => array('$gte' => new MongoDate(strtotime('-2 weeks'))),
@@ -38,7 +38,50 @@ class SkillsHelper extends Module {
 	}
 
 	public function calculateConsistencyScore($studentId) {
-		return rand(0,100) / 10;
+		$config = $this->getDI()->getShared('config');
+
+		// Connect to database
+		$m = new MongoClient("mongodb://{$config->lrs_database->username}:{$config->lrs_database->password}@{$config->lrs_database->host}/{$config->lrs_database->dbname}");
+		$db = $m->{$config->lrs_database->dbname};
+
+		// Aggregate, fetching the student's statements in the past two weeks for open assessments and ayamel
+		// http://www.saturngod.net/articles/group-by-date-in-mongodb/
+		$aggregation = [
+			['$match' => [
+				'timestamp' => array('$gte' => new MongoDate(strtotime('midnight -2 weeks'))),
+				//'statement.actor.mbox' => 'mailto:'.$studentId,
+				'lrs._id' => array('$in' => array( 
+					$config->lrs->openassessments->id, 
+					$config->lrs->ayamel->id,
+				)),
+			]],
+			['$project' => [
+				'y' => ['$year' => '$timestamp'],
+				'm' => ['$month' => '$timestamp'],
+				'd' => ['$dayOfMonth' => '$timestamp'],
+			]],
+			['$group' => [
+				'_id' => [
+					'year' => '$y',
+					'month' => '$m',
+					'day' => '$d',
+				],
+				'count' => [
+					'$sum' => 1
+				]
+			]],
+			['$sort' => [
+				'_id.year' => 1,
+				'_id.month' => 1,
+				'_id.day' => 1,
+			]]
+		];
+
+		$collection = $db->statements;
+		$results = $collection->aggregate($aggregation)["result"];
+		print_r($results);
+		// TODO store raw, and then return scaled
+		return count($results);
 
 	}
 
