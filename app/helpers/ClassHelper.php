@@ -62,9 +62,9 @@ class ClassHelper extends Module {
 		$collection = $db->statements;
 		// Get the results and average them
 		$results = $collection->aggregate($aggregation)["result"];
+		$attemptCounts = array_column($results, "count");
 		if ($debug) {
 			echo "Calculating scaled score for $attemptsToScale from the following class attempt counts: \n";
-			$attemptCounts = array_column($results, "count");
 			sort($attemptCounts);
 			foreach ($attemptCounts as $r) {
 				echo $r.",";
@@ -76,11 +76,8 @@ class ClassHelper extends Module {
 				echo "Percent rank for $i attempts is: $scaledScore\n";
 			}
 		}
-		$resultsSum = array_sum(array_column($results, "count"));
-		$resultsCount = count($results);
-		// Avoid division by 0
-		$average = $resultsCount > 0 ? $resultsSum / $resultsCount : 0;
-		return round($average * 10) / 10;
+		$scaledScore = StatsHelper::calculateScaledScore($attemptCounts, $attemptsToScale);
+		return round($scaledScore * 10 * 100) / 100;
 	}
 
 	// Returns the percentage (0-100) of students that viewed the hint for a given question

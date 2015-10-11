@@ -462,7 +462,7 @@ class ContentRecommenderStatsController extends Controller
 		$headerRow = ["group", "quiz_number", "question_number", "x", "y"];
 
 		$result = array_map(function($q) {
-			return ["student", $q["assessmentId"], $q["questionNumber"], $q["videoPercentage"], $q["attempts"]];
+			return ["student", $q["assessmentId"], $q["questionNumber"], $q["videoPercentage"], $q["scaledAttemptScore"]];
 		}, $questionDetails);
 		if ($debug) {
 			echo "question details for scope $scope and grouping $groupingId: \n";
