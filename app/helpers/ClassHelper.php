@@ -40,7 +40,7 @@ class ClassHelper extends Module {
 	}
 
 	// Returns a number 0-10 representing the percentile of the given number of attempts in the distribution of all students' number of attempts for the given question
-	public function calculateScaledAttemptsForQuestion($attemptsToScale, $assessmentId, $questionNumber, $debug = false) {
+	public function calculateScaledAttemptScoreForQuestion($attemptsToScale, $assessmentId, $questionNumber, $debug = false) {
 		$config = $this->getDI()->getShared('config');
 
 		// Connect to database
@@ -62,6 +62,20 @@ class ClassHelper extends Module {
 		$collection = $db->statements;
 		// Get the results and average them
 		$results = $collection->aggregate($aggregation)["result"];
+		if ($debug) {
+			echo "Calculating scaled score for $attemptsToScale from the following class attempt counts: \n";
+			$attemptCounts = array_column($results, "count");
+			sort($attemptCounts);
+			foreach ($attemptCounts as $r) {
+				echo $r.",";
+			}
+			echo "\n";
+			$maxValue = max($attemptCounts);
+			for ($i=0; $i<=$maxValue; $i++) {
+				$scaledScore = StatsHelper::calculateScaledScore($attemptCounts, $i);
+				echo "Percent rank for $i attempts is: $scaledScore\n";
+			}
+		}
 		$resultsSum = array_sum(array_column($results, "count"));
 		$resultsCount = count($results);
 		// Avoid division by 0

@@ -383,6 +383,7 @@ class ContentRecommenderStatsController extends Controller
 			if ($question != false) {
 				// Get number of attempts
 				$question["attempts"] = MasteryHelper::countAttemptsForQuestion($context->getUserEmail(), $question["assessmentId"], $question["questionNumber"], $debug);
+				$question["scaledAttemptScore"] = $classHelper->calculateScaledAttemptScoreForQuestion($question["attempts"], $question["assessmentId"], $question["questionNumber"], $debug);
 				// Get amount of associated videos watched
 				// Note that question ID is being used instead of assessment ID and question number, since we're searching the csv mapping and not dealing with assessment statements here
 				$question["videoPercentage"] = MasteryHelper::calculateVideoPercentageForQuestion($context->getUserEmail(), $questionId);
