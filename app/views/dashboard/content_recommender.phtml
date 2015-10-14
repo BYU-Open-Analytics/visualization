@@ -47,25 +47,79 @@ if ( $context->valid ) {
              <div role="tabpanel" class="tab-pane active" id="recommend1">
                 <div class="recommendInfo alert alert-info" id="recommend1Info"><span class="glyphicon glyphicon-info-sign"></span>These questions were selected because you have not attempted them yet. This material will likely be on an upcoming exam, so to improve your score, it is recommended that you practice these questions.</div>
                 <span class="spinner"><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
-                <table class="table table-hover table-striped" id="recommend1List"> </table>
+                <table class="table table-hover table-striped sticky-header" id="recommend1List"> </table>
               </div>
 
             <!-- Group 2 -->
              <div role="tabpanel" class="tab-pane" id="recommend2">
   	            <div class="recommendInfo alert alert-info" id="recommend2Info"><span class="glyphicon glyphicon-info-sign"></span>These questions were selected because, based on your online activity, it seems you did not watch the videos before you attempted the quiz. To better learn the material, it is recommended that you watch the videos associated with these quiz questions.</div>
-                <table class="table table-hover table-striped" id="recommend2List"> </table>
+                <table class="table table-hover table-striped sticky-header" id="recommend2List"> </table>
               </div>
 
             <!-- Group 3 -->
              <div role="tabpanel" class="tab-pane" id="recommend3">
   	            <div class="recommendInfo alert alert-info" id="recommend3Info"><span class="glyphicon glyphicon-info-sign"></span>These questions were selected because you have spent time watching the videos, but for some reason, the quiz was still difficult for you. To learn this material, you may want to email the instructor, go into the TA lab, or ask a friend to help you.</div>
-                <table class="table table-hover table-striped" id="recommend3List"> </table>
+                <table class="table table-hover table-striped sticky-header" id="recommend3List"> </table>
               </div>
 
             <!-- Group 4 -->
              <div role="tabpanel" class="tab-pane" id="recommend4">
   	            <div class="recommendInfo alert alert-info" id="recommend4Info"><span class="glyphicon glyphicon-info-sign"></span>These questions were selected because even though you eventually answered it correctly, you missed them multiple times at first. These questions are recommended you to re-do to help you solidify your understanding.</div>
-                <table class="table table-hover table-striped" id="recommend4List"> </table>
+				<!-- <table class="table table-hover table-striped sticky-header" id="recommend4List"> </table> -->
+        <table class='table table-striped sticky-header' id='table2'>
+            <thead>
+                <th>second tab header one</th>
+                <th>second tab header two</th>
+            </thead>
+            <tr>
+                <td>second tab text</td>
+                <td>second tab text</td>
+            </tr>
+            <tr>
+                <td>second tab text</td>
+                <td>second tab text</td>
+            </tr>
+            <tr>
+                <td>second tab text</td>
+                <td>second tab text</td>
+            </tr>
+            <tr>
+                <td>second tab text</td>
+                <td>second tab text</td>
+            </tr>
+            <tr>
+                <td>second tab text</td>
+                <td>second tab text</td>
+            </tr>
+            <tr>
+                <td>second tab text</td>
+                <td>second tab text</td>
+            </tr>
+            <tr>
+                <td>second tab text</td>
+                <td>second tab text</td>
+            </tr>
+            <tr>
+                <td>second tab text</td>
+                <td>second tab text</td>
+            </tr>
+            <tr>
+                <td>second tab text</td>
+                <td>second tab text</td>
+            </tr>
+            <tr>
+                <td>second tab text</td>
+                <td>second tab text</td>
+            </tr>
+            <tr>
+                <td>second tab text</td>
+                <td>second tab text</td>
+            </tr>
+            <tr>
+                <td>second tab text</td>
+                <td>second tab text</td>
+            </tr>
+        </table>
               </div>
 
             </div>
@@ -108,29 +162,6 @@ if ( $context->valid ) {
         </table>
       </div>
       
-<!--
-  	<div class="recommendQuestionInfoTable">
-  	  <span class="advancedMore">
-              <span class="advancedMoreClass pull-left">You: &nbsp;</span>
-  	    <span class="label label-success">Correct</span>
-  	    <span class="label label-default">{attempts} attempts</span><br>
-  	  </span>
-            <span class="advancedMoreClass">
-              <span class="advancedMoreClass pull-left">Class Average: </span>
-  	    <span class="label label-success">{classPercentCorrect}% Correct</span>
-              <span class="label label-default">{classAverageAttempts} attempts</span><br>
-            </span>
-          </div>
-  	<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#questionLaunchModal" data-assessment="{assessment_id}" data-question="{question_id}">
-  	  <span class="glyphicon glyphicon-log-in"></span> Launch Quiz
-  	</button>
-  	<button class="btn btn-info btn-xs" data-toggle="modal" data-target="#relatedVideosModal" data-assessment="{assessment_id}" data-question="{question_id}">
-  	  <span class="glyphicon glyphicon-film"></span> See Related Videos
-  	</button>
-        </span>
-      </div> -->
-  
-  
       <!-- Scatterplot -->
       <div id="scatterplotSection" class="advancedScatterplot col-md-12">
         <h3>Question Scatterplot</h3>
@@ -282,6 +313,7 @@ if ( $context->valid ) {
 
 <?php
 echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.knob.min.js");
+echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.stickytableheaders.min.js");
 echo Phalcon\Tag::javascriptInclude("js/content_recommender.js");
 echo Phalcon\Tag::stylesheetLink("css/content_recommender.css");
 

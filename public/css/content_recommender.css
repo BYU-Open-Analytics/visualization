@@ -13,6 +13,10 @@ table img, td img {
 	max-width: 100%;
 }
 
+thead, th {
+	background-color: #fff;
+}
+
 td {
 	word-wrap: break-word;
 	/* Have to override bootstrap */
@@ -86,15 +90,6 @@ td {
 	text-align: right;
 	width: 100px;
 	padding-right: 5px;
-}
-
-.recommendPanelBody {
-	max-height: 360px;
-	overflow: auto;
-}
-
-#recommendSection .panel-heading {
-	cursor: pointer;
 }
 
 #recommendSection tr {

@@ -229,6 +229,8 @@ function loadRecommendations() {
 				.html(function(d) { return questionElement(d); });
 			$("#recommend"+i+"List").prepend($("#templates .recommendHeaderTemplate").clone());
 		}
+		// Set up sticky table headers
+		setupStickyHeaders();
 	});
 }
 
@@ -620,6 +622,12 @@ function wrap(text, width) {
   });
 }
 
+// Set up sticky headers for the recommendation tables
+function setupStickyHeaders() {
+	$('table').stickyTableHeaders({fixedOffset: $("nav")});
+	$(window).trigger('resize.stickyTableHeaders');
+}
+
 // Sometimes we're just refreshing the current view, if we added advanced elements and need those to show/hide accordingly.
 function refreshView() {
 	changeView(currentView[0], currentView[1], true);
@@ -743,9 +751,10 @@ $(function() {
 		loadMasteryGraph();
 		track("clicked",$(this).attr("name")+$(this).val());
 	});
-	// Track when recommendation tabs are switched
+	// Track when recommendation tabs are switched, and udpate table sticky headers
 	$("#recommendTabs").on('shown.bs.tab', function(e) {
 		track("clicked", $('#recommendSection .tab-pane.active').attr("id") + "Section");
+		$(window).trigger('resize.stickyTableHeaders');
 	});
 	$(".advancedToggle").click(function() {
 		// Deselect other options
@@ -773,8 +782,8 @@ $(function() {
 	});
 	
 	// Load data
-	updateQuestionsTable();
-	updateVideosTable();
+	//updateQuestionsTable();
+	//updateVideosTable();
 
 	// First, we have to load data mappings for quiz questions/videos/concepts/dates
 	d3.csv("../csv/mappings.csv", function(error, data) {
