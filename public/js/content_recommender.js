@@ -464,7 +464,7 @@ function showQuadrantInfo(quadrant) {
 	$("#quadrantInfo"+quadrant).removeClass("hidden").show();
 }
 
-// Loads the scatterplot
+// Loads the mastery graph
 function loadMasteryGraph() {
 	// Show the spinner while loading
 	$("#masteryGraphSection .spinner").show();
@@ -780,7 +780,8 @@ $(function() {
 		// Then we can load other things
 		loadConcepts();
 		loadRecommendations();
-		loadScatterplot();
+		// Don't load or show scatterplot for now
+		//loadScatterplot();
 	});
 	// Go to simple view first
 	changeView("simple");

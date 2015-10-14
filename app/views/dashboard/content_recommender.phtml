@@ -202,7 +202,7 @@ if ( $context->valid ) {
   
       <!-- Concept Mastery Graph -->
       <div id="masteryGraphSection" class="advancedMasteryGraph col-md-12">
-        <h3>Concept Mastery Graph <small></small></h3>
+        <h3>All Concept Mastery Scores<small></small></h3>
           <span class="spinner pull-right"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
           <form>
             <div class="btn-group" data-toggle="buttons">
@@ -230,8 +230,8 @@ if ( $context->valid ) {
       <ul class="nav nav-pills nav-stacked">
         <li role="presentation" class="advancedToggleLi active"><a id="advancedToggleSimple" class="advancedToggle" data-option="simple" href="#">See simple view</a></li>
         <li role="presentation" class="advancedToggleLi"><a id="advancedToggleMore" class="advancedToggle" data-option="more" href="#">See more details</a><div class="advancedToggleOptional"><input id="advancedToggleMoreClass" class="advancedToggleOptional" data-option="moreClass" type="checkbox" />&nbsp;<label for="advancedToggleMoreClass">Compare to class</label></div></li>
-        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleScatterplot" class="advancedToggle" data-option="scatterplot" href="#">See scatterplot for these concepts</a><div class="advancedToggleOptional"><input id="advancedToggleScatterplotClass" class="advancedToggleOptional" data-option="scatterplotClass" type="checkbox" />&nbsp;<label for="advancedToggleScatterplotClass">Compare to class</label></div></li>
-        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleMasteryGraph" class="advancedToggle" data-option="masteryGraph" href="#">See my concept mastery graph</a></li>
+        <!-- <li role="presentation" class="advancedToggleLi"><a id="advancedToggleScatterplot" class="advancedToggle" data-option="scatterplot" href="#">See scatterplot for these concepts</a><div class="advancedToggleOptional"><input id="advancedToggleScatterplotClass" class="advancedToggleOptional" data-option="scatterplotClass" type="checkbox" />&nbsp;<label for="advancedToggleScatterplotClass">Compare to class</label></div></li> -->
+        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleMasteryGraph" class="advancedToggle" data-option="masteryGraph" href="#">See all concept scores</a></li>
         <li role="presentation" class="advancedToggleLi"><a id="advancedToggleAll" class="advancedToggle" data-option="all" href="#">See all recommendations for all concepts</a></li>
       </ul>
     </div>
