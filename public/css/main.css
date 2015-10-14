@@ -102,6 +102,11 @@
 	margin: 10px 0px 0px 20px;
 }
 
+#advancedSection input[disabled] + label {
+	color: #ccc;
+	cursor: not-allowed;
+}
+
 /* Showing and hiding certain ones based on toggles */
 .advancedHide {
 	display: none;

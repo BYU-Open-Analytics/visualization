@@ -641,6 +641,8 @@ function changeView(optionName, optionValue, refreshOnly) {
 		case "more":
 			//console.log("Changing to more view");
 			$(".advancedSimple, .advancedMore").removeClass(h).addClass(s);
+			// The More Class checkbox is dependent on this checkbox
+			$("#advancedToggleMoreClass").prop("disabled", !optionValue).prop("checked", false);
 			break;
 		case "scatterplot":
 			//console.log("Changing to scatterplot view");

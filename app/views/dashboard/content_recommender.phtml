@@ -204,11 +204,16 @@ if ( $context->valid ) {
     <div id="advancedSection" class="col-sm-3">
       <h3>Advanced</h3>
       <ul class="nav nav-pills nav-stacked">
-        <li role="presentation" class="advancedToggleLi active"><a id="advancedToggleSimple" class="advancedToggle" data-option="simple" href="#">See simple view</a></li>
-        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleMore" class="advancedToggle" data-option="more" href="#">See more details</a><div class="advancedToggleOptional"><input id="advancedToggleMoreClass" class="advancedToggleOptional" data-option="moreClass" type="checkbox" />&nbsp;<label for="advancedToggleMoreClass">Compare to class</label></div></li>
+		<li role="presentation" class="advancedToggleLi active">
+		  <a id="advancedToggleSimple" class="advancedToggle" data-option="simple" href="#">See simple view</a>
+		  <div class="advancedToggleOptional"><input id="advancedToggleMore" class="advancedToggleOptional" data-option="more" type="checkbox" />&nbsp;<label for="advancedToggleMore">See more details</label><br></div>
+		  <div class="advancedToggleOptional"><input id="advancedToggleMoreClass" disabled class="advancedToggleOptional" data-option="moreClass" type="checkbox" />&nbsp;<label for="advancedToggleMoreClass">Compare to class</label></div>
+        </li>
         <!-- <li role="presentation" class="advancedToggleLi"><a id="advancedToggleScatterplot" class="advancedToggle" data-option="scatterplot" href="#">See scatterplot for these concepts</a><div class="advancedToggleOptional"><input id="advancedToggleScatterplotClass" class="advancedToggleOptional" data-option="scatterplotClass" type="checkbox" />&nbsp;<label for="advancedToggleScatterplotClass">Compare to class</label></div></li> -->
-        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleMasteryGraph" class="advancedToggle" data-option="masteryGraph" href="#">See all concept scores</a></li>
-        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleAll" class="advancedToggle" data-option="all" href="#">See all recommendations for all concepts</a></li>
+		<li role="presentation" class="advancedToggleLi">
+		  <a id="advancedToggleMasteryGraph" class="advancedToggle" data-option="masteryGraph" href="#">See all concept scores</a>
+		  <!-- <div class="advancedToggleOptional"><input id="advancedToggleMore" class="advancedToggleOptional" data-option="more" type="checkbox" />&nbsp;<label for="advancedToggleMore">See more details</label></div> -->
+        </li>
       </ul>
     </div>
 
