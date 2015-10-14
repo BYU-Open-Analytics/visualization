@@ -103,7 +103,39 @@ class SkillsHelper extends Module {
 
 	// Stores the given raw score for a specific skill for the given student in the PostgreSQL students table
 	function saveRawSkillScore($studentId, $skillId, $rawScore) {
-
+		// See if this student is already in the database
+		echo "<hr>$studentId, $skillId, $rawScore \n";
+		if ($existingStudent = Students::findFirst("email = '$studentId'")) {
+			// If they do, update the existing database row
+			echo $existingStudent->email;
+			$existingStudent->{$skillId} = $rawScore;
+			if ($existingStudent->update() == false) {
+				//print_r($existingStudent->getMessages());
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			// If they don't, create a new student
+			$student = new Students();
+			$student->email = $studentId;
+			$student->{$skillId} = $rawScore;
+			// Initialize all other skill scores to 0
+			//$student->time = 0;
+			//$student->activity = 0;
+			//$student->consistency = 0;
+			//$student->awareness = 0;
+			//$student->deep_learning = 0;
+			//$student->persistence_attempts = 0;
+			//$student->persistence_watched = 0;
+			
+			if ($student->create() == false) {
+				return false;
+			} else {
+				return true;
+			}
+		}
+			
 	}
 	
 	// Retrieves a scaled score for a skill for the given student
