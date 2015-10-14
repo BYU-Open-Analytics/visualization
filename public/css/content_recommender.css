@@ -61,6 +61,7 @@ td {
 /* Recommendations */
 .recommendInfo {
 	font-style: italic;
+	margin: 10px;
 }
 
 .recommendInfo .glyphicon {
