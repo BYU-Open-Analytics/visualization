@@ -60,12 +60,18 @@ td {
 
 /* Recommendations */
 .recommendInfo {
-	display: inline-block;
-	float: right;
-	height: 100%;
-	text-align: right;
+	font-style: italic;
+}
+
+.recommendInfo .glyphicon {
+	font-size: 150%;
 	line-height: 100%;
-	cursor: pointer;
+	float: left;
+	margin: 5px 15px 10px 10px;
+}
+
+#recommendTabs li {
+	max-width: 23%;
 }
 
 .recommendQuestionDisplay button {

@@ -32,67 +32,44 @@ if ( $context->valid ) {
   
       <!-- Recommendations -->
       <div id="recommendSection" class="advancedSimple advancedAll col-md-12">
-          <h3 class="advancedSimple">Recommendations</h3>
-          <h3 class="advancedAll">Recommendations for all concepts</h3>
-          <div class="panel-group" id="recommendationsAccordion" role="tablist">
+          <h3 class="advancedSimple">Question Recommendations</h3>
+          <h3 class="advancedAll">Question Recommendations for all concepts</h3>
+
+          <ul class="nav nav-tabs" id="recommendTabs" role="tablist">
+			<li role="presentation" class="active"><a href="#recommend1" aria-controls="recommend1" role="tab" data-toggle="tab"><div class="text-center">You did not attempt these questions <br> Attempt these questions</div></a></li>
+			<li role="presentation"><a href="#recommend2" aria-controls="recommend2" role="tab" data-toggle="tab"><div class="text-center">You did not watch the videos <br> Watch these videos</div></a></li>
+			<li role="presentation"><a href="#recommend3" aria-controls="recommend3" role="tab" data-toggle="tab"><div class="text-center">You tried but did not succeed <br> Find additional help</div></a></li>
+			<li role="presentation"><a href="#recommend4" aria-controls="recommend4" role="tab" data-toggle="tab"><div class="text-center">You eventually got it right <br> Practice these questions again</div></a></li>
+          </ul>
+
+          <div class="tab-content">
             <!-- Group 1 -->
-            <div class="panel panel-default">
-              <div class="panel-heading" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend1">
-  	      <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend1">Try these quiz questions
-  	        <span class="recommendInfo" id="recommend1Info" data-toggle="tooltip" title="These questions were selected because you have not attempted them yet. This material will likely be on an upcoming exam, so to improve your score, it is recommended that you practice these questions."><span class="glyphicon glyphicon-info-sign"></span></span></a>
-                </h4>
+             <div role="tabpanel" class="tab-pane active" id="recommend1">
+                <div class="recommendInfo alert alert-info" id="recommend1Info"><span class="glyphicon glyphicon-info-sign"></span>These questions were selected because you have not attempted them yet. This material will likely be on an upcoming exam, so to improve your score, it is recommended that you practice these questions.</div>
+                <span class="spinner"><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
+                <table class="table table-hover table-striped" id="recommend1List"> </table>
               </div>
-              <div id="recommend1" class="panel-collapse collapse in">
-                <div class="panel-body recommendPanelBody">
-                  <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
-                  <table class="table table-hover table-striped" id="recommend1List"> </table>
-                </div>
-              </div>
-            </div>
+
             <!-- Group 2 -->
-            <div class="panel panel-default">
-              <div class="panel-heading" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend2">
-  	      <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend2">Watch videos before attempting these quiz questions
-  	        <span class="recommendInfo" id="recommend2Info" data-toggle="tooltip" title="These questions were selected because, based on your online activity, it seems you did not watch the videos before you attempted the quiz. To better learn the material, it is recommended that you watch the videos associated with these quiz questions."><span class="glyphicon glyphicon-info-sign"></span></span></a>
-                </h4>
+             <div role="tabpanel" class="tab-pane" id="recommend2">
+  	            <div class="recommendInfo alert alert-info" id="recommend2Info"><span class="glyphicon glyphicon-info-sign"></span>These questions were selected because, based on your online activity, it seems you did not watch the videos before you attempted the quiz. To better learn the material, it is recommended that you watch the videos associated with these quiz questions.</div>
+                <table class="table table-hover table-striped" id="recommend2List"> </table>
               </div>
-              <div id="recommend2" class="panel-collapse collapse">
-                <div class="panel-body recommendPanelBody">
-                  <table class="table table-hover" id="recommend2List"> </table>
-                </div>
-              </div>
-            </div>
+
             <!-- Group 3 -->
-            <div class="panel panel-default">
-              <div class="panel-heading" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend3">
-  	      <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend3">Find additional help
-  	        <span class="recommendInfo" id="recommend3Info" data-toggle="tooltip" title="These questions were selected because you have spent time watching the videos, but for some reason, the quiz was still difficult for you. To learn this material, you may want to email the instructor, go into the TA lab, or ask a friend to help you out."><span class="glyphicon glyphicon-info-sign"></span></span></a>
-                </h4>
+             <div role="tabpanel" class="tab-pane" id="recommend3">
+  	            <div class="recommendInfo alert alert-info" id="recommend3Info"><span class="glyphicon glyphicon-info-sign"></span>These questions were selected because you have spent time watching the videos, but for some reason, the quiz was still difficult for you. To learn this material, you may want to email the instructor, go into the TA lab, or ask a friend to help you.</div>
+                <table class="table table-hover table-striped" id="recommend3List"> </table>
               </div>
-              <div id="recommend3" class="panel-collapse collapse">
-                <div class="panel-body recommendPanelBody">
-                  <table class="table table-hover" id="recommend3List"> </table>
-                </div>
-              </div>
-            </div>
+
             <!-- Group 4 -->
-            <div class="panel panel-default">
-              <div class="panel-heading" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend4">
-  	      <h4 class="panel-title">
-                  <a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend4">Practice these questions again
-  	        <span class="recommendInfo" id="recommend4Info" data-toggle="tooltip" title="These questions were selected because even though you eventually answered it correctly, you missed them multiple times at first. These questions are recommended you to re-do to help you solidify your understanding."><span class="glyphicon glyphicon-info-sign"></span></span></a>
-                </h4>
+             <div role="tabpanel" class="tab-pane" id="recommend4">
+  	            <div class="recommendInfo alert alert-info" id="recommend4Info"><span class="glyphicon glyphicon-info-sign"></span>These questions were selected because even though you eventually answered it correctly, you missed them multiple times at first. These questions are recommended you to re-do to help you solidify your understanding.</div>
+                <table class="table table-hover table-striped" id="recommend4List"> </table>
               </div>
-              <div id="recommend4" class="panel-collapse collapse">
-                <div class="panel-body recommendPanelBody">
-                  <table class="table table-hover" id="recommend4List"> </table>
-                </div>
-              </div>
+
             </div>
-  
+
          </div>
       </div>
   
