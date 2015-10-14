@@ -741,9 +741,9 @@ $(function() {
 		loadMasteryGraph();
 		track("clicked",$(this).attr("name")+$(this).val());
 	});
-	// Track when recommendation sections are switched
-	$("#recommendationsAccordion").on('shown.bs.collapse', function(e) {
-		track("clicked", $('#recommendationsAccordion .in').attr("id") + "Section");
+	// Track when recommendation tabs are switched
+	$("#recommendTabs").on('shown.bs.tab', function(e) {
+		track("clicked", $('#recommendSection .tab-pane.active').attr("id") + "Section");
 	});
 	$(".advancedToggle").click(function() {
 		// Deselect other options
