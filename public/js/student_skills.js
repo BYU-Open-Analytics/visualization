@@ -45,23 +45,33 @@ function loadSkills(data) {
 }
 
 function loadSkillsGraph(data) {
+
+	var skillTitles = {
+		"time": "Time Management",
+		"activity": "Online Activity",
+		"consistency": "Consistency",
+		"awareness": "Knowledge Awareness",
+		"deepLearning": "Deep Learning",
+		"persistence": "Persistence"
+		};
+	var colorScale = d3.scale.category10();
 	var radarConfig = {
 		w: 400,
 		h: 400,
+		labelFactor: 1.15,
 		maxValue: 10,
-		levels: 10,
-		ExtraWidthX: 300
+		levels: 5,
+		margin: {top: 100, right: 100, bottom: 100, left: 100},
+		color: colorScale
 	};
-	var legendOptions = ["Class Median", "Student"];
-	var colorScale = d3.scale.category10();
+	var legendOptions = ["Student", "Class Median"];
 	//Hide the loading spinner
 	$("#radarContainer .spinner").hide();
 	// Format data
-	var studentData = data.student.map(function(d) { return {axis:d.id, value:(d.score)}; });
-	console.log(studentData);
+	var studentData = data.student.map(function(d) { return {axis:skillTitles[d.id], value:(d.score)}; });
 	var classData = data.class.map(function(d) { return {axis:d.id, value:(d.score)}; });
 	// Draw the radar chart
-	RadarChart.draw("#radarChart", [classData, studentData], radarConfig);
+	RadarChart("#radarChart", [studentData, classData], radarConfig);
 
 	// Draw the legend to the side
 	// Container
@@ -248,17 +258,17 @@ function changeView(optionName, optionValue, refreshOnly) {
 		case "skillsGraph":
 			$(".advancedSkillsGraph").removeClass(h).addClass(s);
 			// Have to manually do things in the svg chart
-			$("#radarChart .radar-chart-serie0").hide();
+			$("#radarChart .radar-chart-serie1").hide();
 			$("#radarChart .classLegend").hide();
 			break;
 		case "skillsGraphClass":
 			if (optionValue == true) {
 				$(".advancedSkillsGraph, .advancedSkillsGraphClass").removeClass(h).addClass(s);
-				$("#radarChart .radar-chart-serie0").fadeIn();
+				$("#radarChart .radar-chart-serie1").fadeIn();
 				$("#radarChart .classLegend").fadeIn();
 			} else {
 				$(".advancedSkillsGraph").removeClass(h).addClass(s);
-				$("#radarChart .radar-chart-serie0").fadeOut();
+				$("#radarChart .radar-chart-serie1").fadeOut();
 				$("#radarChart .classLegend").fadeOut();
 			}
 			break;
