@@ -159,16 +159,47 @@ class SkillsHelper extends Module {
 	}
 
 	public function calculatePersistenceScore($studentId, $raw = false, $debug = false) {
-		// TODO Calculate and store both parts
-		// TODO Then get the scaled persistence score, which will scale both parts independently
+		// Calculate and store both parts of this skill score
+
+		$statementHelper = new StatementHelper();
+
+		// Calculate number of watched statements for student
+		$statements = $statementHelper->getStatements("ayamel",[
+			'statement.actor.mbox' => 'mailto:'.$studentId,
+			'statement.verb.id' => 'https://ayamel.byu.edu/watched',
+			// Timeframe of past two weeks
+			'timestamp' => array('$gte' => new MongoDate(strtotime('midnight -2 weeks'))),
+		], [
+			'statement.object.id' => true,
+		]);
+		if ($statements["error"]) {
+			$watchStatementCount = 0;
+		} else {
+			$watchStatementCount = $statements["cursor"]->count();
+		}
+
+		// Calculate number of question attempt (answered) statements for student
+		$statements = $statementHelper->getStatements("openassessments",[
+			'statement.actor.mbox' => 'mailto:'.$studentId,
+			'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/answered',
+			// Timeframe of past two weeks
+			'timestamp' => array('$gte' => new MongoDate(strtotime('midnight -2 weeks'))),
+		], [
+			'statement.object.id' => true,
+		]);
+		if ($statements["error"]) {
+			$attemptCount = 0;
+		} else {
+			$attemptCount = $statements["cursor"]->count();
+		}
 
 		// store raw, and then return scaled
-		$rawAttemptsScore = rand(0,100);
+		$rawAttemptsScore = $attemptCount;
 		$this->saveRawSkillScore($studentId, "persistence_attempts", $rawAttemptsScore);
-		$rawWatchedScore = rand(0,100);
+		$rawWatchedScore = $watchStatementCount;
 		$this->saveRawSkillScore($studentId, "persistence_watched", $rawWatchedScore);
 
-		if ($raw) { return ($rawAttemptsScore + $rawWatchedScore) / 2; }
+		if ($raw) { return "$rawAttemptsScore , $rawWatchedScore"; }
 		return $this->getScaledSkillScore($studentId, "persistence");
 	}
 
