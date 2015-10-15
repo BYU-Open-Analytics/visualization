@@ -8,7 +8,10 @@ class SkillsHelper extends Module {
 
 	// Percent of a student's total events between 11pm and 5am (raw percentage, that still needs to be scaled by class)
 	public function calculateTimeScore($studentId) {
-		return rand(0,100) / 10;
+		// store raw, and then return scaled
+		$rawScore = rand(0,100);
+		$this->saveRawSkillScore($studentId, "time", $rawScore);
+		return $this->getScaledSkillScore($studentId, "time");
 	}
 
 	public function calculateActivityScore($studentId) {
@@ -89,30 +92,41 @@ class SkillsHelper extends Module {
 	}
 
 	public function calculateAwarenessScore($studentId) {
-		return rand(0,100) / 10;
 
+		// store raw, and then return scaled
+		$rawScore = rand(0,100);
+		$this->saveRawSkillScore($studentId, "awareness", $rawScore);
+		return $this->getScaledSkillScore($studentId, "awareness");
 	}
 
 	public function calculateDeepLearningScore($studentId) {
-		return rand(0,100) / 10;
+		// TODO implement
 
+		// store raw, and then return scaled
+		$rawScore = rand(0,100);
+		$this->saveRawSkillScore($studentId, "deep_learning", $rawScore);
+		return $this->getScaledSkillScore($studentId, "deep_learning");
 	}
 
 	public function calculatePersistenceScore($studentId) {
 		// TODO Calculate and store both parts
 		// TODO Then get the scaled persistence score, which will scale both parts independently
-		return rand(0,100) / 10;
 
+		// store raw, and then return scaled
+		$rawAttemptsScore = rand(0,100);
+		$this->saveRawSkillScore($studentId, "persistence_attempts", $rawAttemptsScore);
+		$rawWatchedScore = rand(0,100);
+		$this->saveRawSkillScore($studentId, "persistence_watched", $rawWatchedScore);
+
+		return $this->getScaledSkillScore($studentId, "persistence");
 	}
 
 
 	// Stores the given raw score for a specific skill for the given student in the PostgreSQL students table
 	function saveRawSkillScore($studentId, $skillId, $rawScore) {
 		// See if this student is already in the database
-		echo "<hr>$studentId, $skillId, $rawScore \n";
 		if ($existingStudent = Students::findFirst("email = '$studentId'")) {
 			// If they do, update the existing database row
-			echo $existingStudent->email;
 			$existingStudent->{$skillId} = $rawScore;
 			if ($existingStudent->update() == false) {
 				//print_r($existingStudent->getMessages());
