@@ -35,7 +35,7 @@ class IndexController extends Controller
 		// Group -1 means no consent
 		if ($group == -1) {
 				$_SESSION["group"] = "noconsent";
-				$this->response->redirect('/info/consent');
+				$this->response->redirect('./info/consent');
 				$this->view->disable();
 				return;
 		}
