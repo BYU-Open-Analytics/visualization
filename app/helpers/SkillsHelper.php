@@ -7,7 +7,7 @@ class SkillsHelper extends Module {
 	// Perform (or retrieve) calculations for a given skill for a given student. Return a score scaled by class, 0-10.
 
 	// Percent of a student's total events between 11pm and 5am (raw percentage, that still needs to be scaled by class)
-	public function calculateTimeScore($studentId) {
+	public function calculateTimeScore($studentId, $raw = false, $debug = false) {
 		// store raw, and then return scaled
 		$rawScore = rand(0,100);
 		$this->saveRawSkillScore($studentId, "time", $rawScore);
@@ -42,7 +42,7 @@ class SkillsHelper extends Module {
 		return $this->getScaledSkillScore($studentId, "activity");
 	}
 
-	public function calculateConsistencyScore($studentId) {
+	public function calculateConsistencyScore($studentId, $raw = false, $debug = false) {
 		$config = $this->getDI()->getShared('config');
 
 		// Connect to database
@@ -87,11 +87,12 @@ class SkillsHelper extends Module {
 		// store raw, and then return scaled
 		$rawScore = count($results);
 		$this->saveRawSkillScore($studentId, "consistency", $rawScore);
+		if ($raw) { return $rawScore; }
 		return $this->getScaledSkillScore($studentId, "consistency");
 
 	}
 
-	public function calculateAwarenessScore($studentId, $debug = false) {
+	public function calculateAwarenessScore($studentId, $raw = false, $debug = false) {
 		// Get a score from the table for each question attempt, add those up, divide by number of attempts, and scale this raw score by class.
 		//			  Low Medium High
 		//	  Correct 0   1      1
@@ -143,11 +144,12 @@ class SkillsHelper extends Module {
 			// store raw, and then return scaled
 			$rawScore = $questionAwarenessTotal / $nonEssayAttemptCount;
 			$this->saveRawSkillScore($studentId, "awareness", $rawScore);
+			if ($raw) { return $rawScore; }
 			return $this->getScaledSkillScore($studentId, "awareness");
 		}
 	}
 
-	public function calculateDeepLearningScore($studentId) {
+	public function calculateDeepLearningScore($studentId, $raw = false, $debug = false) {
 		// TODO implement
 
 		// store raw, and then return scaled
@@ -156,7 +158,7 @@ class SkillsHelper extends Module {
 		return $this->getScaledSkillScore($studentId, "deep_learning");
 	}
 
-	public function calculatePersistenceScore($studentId) {
+	public function calculatePersistenceScore($studentId, $raw = false, $debug = false) {
 		// TODO Calculate and store both parts
 		// TODO Then get the scaled persistence score, which will scale both parts independently
 
@@ -166,6 +168,7 @@ class SkillsHelper extends Module {
 		$rawWatchedScore = rand(0,100);
 		$this->saveRawSkillScore($studentId, "persistence_watched", $rawWatchedScore);
 
+		if ($raw) { return ($rawAttemptsScore + $rawWatchedScore) / 2; }
 		return $this->getScaledSkillScore($studentId, "persistence");
 	}
 

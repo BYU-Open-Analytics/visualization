@@ -8,7 +8,7 @@ class StudentSkillsStatsController extends Controller
 		$this->tag->setTitle('Student Skills Stats');
 	}
 
-	public function skillsAction() {
+	public function skillsAction($raw = false, $debug = false) {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
@@ -20,12 +20,12 @@ class StudentSkillsStatsController extends Controller
 
 		$stats = [
 		    'student' => [
-			['id' => 'time', 'score' => $skillsHelper->calculateTimeScore($context->getUserEmail())],
-			['id' => 'activity', 'score' => $skillsHelper->calculateActivityScore($context->getUserEmail())],
-			['id' => 'consistency', 'score' => $skillsHelper->calculateConsistencyScore($context->getUserEmail())],
-			['id' => 'awareness', 'score' => $skillsHelper->calculateAwarenessScore($context->getUserEmail())],
-			['id' => 'deepLearning', 'score' => $skillsHelper->calculateDeepLearningScore($context->getUserEmail())],
-			['id' => 'persistence', 'score' => $skillsHelper->calculatePersistenceScore($context->getUserEmail())],
+			['id' => 'time', 'score' => $skillsHelper->calculateTimeScore($context->getUserEmail(), $raw, $debug)],
+			['id' => 'activity', 'score' => $skillsHelper->calculateActivityScore($context->getUserEmail(), $raw, $debug)],
+			['id' => 'consistency', 'score' => $skillsHelper->calculateConsistencyScore($context->getUserEmail(), $raw, $debug)],
+			['id' => 'awareness', 'score' => $skillsHelper->calculateAwarenessScore($context->getUserEmail(), $raw, $debug)],
+			['id' => 'deepLearning', 'score' => $skillsHelper->calculateDeepLearningScore($context->getUserEmail(), $raw, $debug)],
+			['id' => 'persistence', 'score' => $skillsHelper->calculatePersistenceScore($context->getUserEmail(), $raw, $debug)],
 		    ],
 		    'class' => [
 			['id' => 'time', 'score' => 5],
