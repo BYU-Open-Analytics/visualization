@@ -36,7 +36,7 @@ class TestController extends Controller
 		$this->view->disable();
 		echo "<pre>Scaled score test: ";
 		$sh = new SkillsHelper();
-		echo $sh->getScaledSkillScore("1jbaird@uni.ac.uk", "persistence", true);
+		echo $sh->getScaledSkillScore("jbaird@uni.ac.uk", "persistence", true);
 
 	}
 }

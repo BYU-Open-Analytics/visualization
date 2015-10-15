@@ -54,7 +54,7 @@ class SkillsHelper extends Module {
 		$aggregation = [
 			['$match' => [
 				'timestamp' => array('$gte' => new MongoDate(strtotime('midnight -2 weeks'))),
-				//'statement.actor.mbox' => 'mailto:'.$studentId,
+				'statement.actor.mbox' => 'mailto:'.$studentId,
 				'lrs._id' => array('$in' => array( 
 					$config->lrs->openassessments->id, 
 					$config->lrs->ayamel->id,
@@ -91,12 +91,60 @@ class SkillsHelper extends Module {
 
 	}
 
-	public function calculateAwarenessScore($studentId) {
+	public function calculateAwarenessScore($studentId, $debug = false) {
+		// Get a score from the table for each question attempt, add those up, divide by number of attempts, and scale this raw score by class.
+		//			  Low Medium High
+		//	  Correct 0   1      1
+		//	Incorrect 1   0      0
 
-		// store raw, and then return scaled
-		$rawScore = rand(0,100);
-		$this->saveRawSkillScore($studentId, "awareness", $rawScore);
-		return $this->getScaledSkillScore($studentId, "awareness");
+		$scoreTable = [
+			"correct" => ["low" => 0, "medium" => 1, "high" => 1],
+			"incorrect" => ["low" => 1, "medium" => 0, "high" => 0],
+		];
+
+		// Query is simple enough for this one (no aggregation) that we can use StatementHelper
+		$statementHelper = new StatementHelper();
+
+		// Get the count of answered statements for this question for current user
+		// TODO take the verb authority (adlnet/expapi/verbs/) part and put into a global constant
+		$statements = $statementHelper->getStatements("openassessments",[
+			'statement.actor.mbox' => 'mailto:'.$studentId,
+			'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/answered',
+			// Timeframe of past two weeks
+			'timestamp' => array('$gte' => new MongoDate(strtotime('midnight -2 weeks'))),
+		], [
+			'_id' => false,
+			'statement.context.extensions' => true,
+			'statement.result.success' => true,
+		]);
+		if ($statements["error"]) {
+			// TODO error handling
+			return 0;
+		} else {
+			// Calculate score for each question
+			$questionAwarenessTotal = 0;
+			$nonEssayAttemptCount = 0;
+			foreach ($statements["cursor"] as $statement) {
+				$statement = StatementHelper::replaceHtmlEntity($statement, true);
+				if ($debug) { print_r($statement); }
+				if (isset($statement['statement']['context']['extensions']['http://byuopenanalytics.byu.edu/expapi/extensions/confidence_level'])) {
+					// Exclude essay questions (we didn't do this in the query, because the key for the extension contains periods, which are problematic with mongo)
+					if ($statement['statement']['context']['extensions']['http://byuopenanalytics.byu.edu/expapi/extensions/question_type'] != "essay") {
+						$level = $statement['statement']['context']['extensions']['http://byuopenanalytics.byu.edu/expapi/extensions/confidence_level'];
+						$questionScore = $statement['statement']['result']['success'] == true ? $scoreTable["correct"][$level] : $scoreTable["incorrect"][$level];
+						$questionAwarenessTotal += $questionScore;
+						$nonEssayAttemptCount++;
+						if ($debug) { echo "Question score: $questionScore<hr>"; }
+					}
+				}
+			}
+			if ($debug) { echo "Score for $nonEssayAttemptCount non-essay attempts: $questionAwarenessTotal"; }
+
+			// store raw, and then return scaled
+			$rawScore = $questionAwarenessTotal / $nonEssayAttemptCount;
+			$this->saveRawSkillScore($studentId, "awareness", $rawScore);
+			return $this->getScaledSkillScore($studentId, "awareness");
+		}
 	}
 
 	public function calculateDeepLearningScore($studentId) {
