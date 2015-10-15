@@ -12,21 +12,21 @@ class DashboardController extends Controller
 		$context = $this->getDI()->getShared('ltiContext');
 		$this->view->context = $context;
 		// Fetch user settings
-		$currentSettings = UserSettings::query()
-				->where("userId = :userId:")
-				->bind(["userId" => $context->getUserKey()])
-				->execute();
-		$this->view->currentSettings = $currentSettings;
+		//$currentSettings = UserSettings::query()
+				//->where("userId = :userId:")
+				//->bind(["userId" => $context->getUserKey()])
+				//->execute();
+		//$this->view->currentSettings = $currentSettings;
 	}
 	public function indexAction() {
 		$context = $this->getDI()->getShared('ltiContext');
 		// TODO this is where need to redirect users to appropriate dashboard based on their current group, or provide options
 
-		$setting = new UserSettings();
-		$setting->userId = $context->getUserKey();
-		$setting->name = "test";
-		$setting->value = "randomvalue";
-		$setting->save();
+		//$setting = new UserSettings();
+		//$setting->userId = $context->getUserKey();
+		//$setting->name = "test";
+		//$setting->value = "randomvalue";
+		//$setting->save();
 	}
 	public function content_recommenderAction() {
 		$this->tag->setTitle('Content Recommender Dashboard');
