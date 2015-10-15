@@ -1,0 +1,12 @@
+<?php
+
+if (!$ltiContext->valid) {
+	echo "<p class='alert alert-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";
+	die();
+}
+?>
+<div class="jumbotron">
+  <h1>Consent Required</h1>
+  <p>Sorry. These dashboards are only available to students that have consented to participate in the research project this semester. If you would like to participate, please email <?php echo $consentEmail; ?>.</p>
+  <p><a class="btn btn-primary btn-lg" target="_blank" href="mailto:<?php echo $consentEmail; ?>" role="button">Send Email</a></p>
+</div>
