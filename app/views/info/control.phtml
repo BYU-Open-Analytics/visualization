@@ -1,0 +1,11 @@
+<?php
+
+if (!$ltiContext->valid) {
+	echo "<p class='alert alert-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";
+	die();
+}
+?>
+<div class="jumbotron">
+  <h1>Check Back Later</h1>
+  <p>Hi. Thank you for participating in the research project. You will receive access to the dashboard on [insert the date that they will receive access to the dashboard]. Please check back then. If you have questions, please email Bob at <?php echo $consentEmail; ?>.</p>
+</div>
