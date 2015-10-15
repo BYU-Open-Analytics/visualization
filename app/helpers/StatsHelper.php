@@ -72,14 +72,9 @@ class StatsHelper extends Module {
 	    return $return;
 	}
 
-	// From http://stackoverflow.com/a/8137455
-	// Put percentile calculation function here
-	//
-	//
-
 	// Returns a scaled value 0 - 1 for a score in a given distribution. Sort of similar to percentile, but with a few special cases, and not appropriate for generalized use
 	// A score of 0 will always give a scaled score of 0
-	// A score equal to the max score in the distribution will always give a scaled score of 0
+	// A score equal to the max score in the distribution will always give a scaled score of 1
 	public static function calculateScaledScore($distribution, $score) {
 		if (count($distribution) == 0) {
 			return 0;

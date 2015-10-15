@@ -17,22 +17,23 @@ class StudentSkillsStatsController extends Controller
 			return;
 		}
 		$skillsHelper = new SkillsHelper();
-		echo $skillsHelper->calculateConsistencyScore($context->getUserEmail());
 
 		$stats = [
 		    'student' => [
-			['id' => 'time', 'score' => rand(1,100) / 10],
-			['id' => 'activity', 'score' => rand(1,100) / 10],
-			['id' => 'regulation', 'score' => rand(1,100) / 10],
-			['id' => 'efficacy', 'score' => rand(1,100) / 10],
-			['id' => 'consistency', 'score' => rand(1,100) / 10],
+			['id' => 'time', 'score' => $skillsHelper->calculateTimeScore($context->getUserEmail())],
+			['id' => 'activity', 'score' => $skillsHelper->calculateActivityScore($context->getUserEmail())],
+			['id' => 'consistency', 'score' => $skillsHelper->calculateConsistencyScore($context->getUserEmail())],
+			['id' => 'awareness', 'score' => $skillsHelper->calculateAwarenessScore($context->getUserEmail())],
+			['id' => 'deepLearning', 'score' => $skillsHelper->calculateDeepLearningScore($context->getUserEmail())],
+			['id' => 'persistence', 'score' => $skillsHelper->calculatePersistenceScore($context->getUserEmail())],
 		    ],
 		    'class' => [
 			['id' => 'time', 'score' => 5],
 			['id' => 'activity', 'score' => 5],
-			['id' => 'regulation', 'score' => 5],
-			['id' => 'efficacy', 'score' => 5],
-			['id' => 'consistency', 'score' => 10],
+			['id' => 'consistency', 'score' => 5],
+			['id' => 'awareness', 'score' => 5],
+			['id' => 'deepLearning', 'score' => 5],
+			['id' => 'persistence', 'score' => 5],
 		    ]
 		];
 		echo json_encode($stats);

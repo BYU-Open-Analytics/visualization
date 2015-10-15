@@ -23,20 +23,20 @@ class TestController extends Controller
 		$this->view->disable();
 		echo "<pre>Skill score saving test: ";
 		$sh = new SkillsHelper();
-		$sh-> saveRawSkillScore("jbaird@uni.ac.uk","consistency",40);
+		for ($i=0; $i<100; $i++) {
+			$sh-> saveRawSkillScore($i."jbaird@uni.ac.uk","consistency",rand(0,100));
+			$sh-> saveRawSkillScore($i."jbaird@uni.ac.uk","activity",rand(0,100));
+			$sh-> saveRawSkillScore($i."jbaird@uni.ac.uk","time",rand(0,100));
+			$sh-> saveRawSkillScore($i."jbaird@uni.ac.uk","persistence_attempts",rand(0,100));
+			$sh-> saveRawSkillScore($i."jbaird@uni.ac.uk","persistence_watched",rand(0,100));
+		}
+	}
 
-		$sh-> saveRawSkillScore("1baird@uni.ac.uk","activity",86);
-
-		$sh-> saveRawSkillScore("2baird@uni.ac.uk","time",22);
-		$sh-> saveRawSkillScore("2baird@uni.ac.uk","time",33);
-		$sh-> saveRawSkillScore("2baird@uni.ac.uk","consistency",34);
-
-		$sh-> saveRawSkillScore("3baird@uni.ac.uk","consistency",45);
-
-		$sh-> saveRawSkillScore("4baird@uni.ac.uk","consistency",46);
-
-		$sh-> saveRawSkillScore("5baird@uni.ac.uk","consistency",47);
-
+	public function scaledAction() {
+		$this->view->disable();
+		echo "<pre>Scaled score test: ";
+		$sh = new SkillsHelper();
+		echo $sh->getScaledSkillScore("1jbaird@uni.ac.uk", "persistence", true);
 
 	}
 }

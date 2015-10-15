@@ -4,7 +4,7 @@ use Phalcon\Mvc\User\Module;
 
 class SkillsHelper extends Module {
 
-	// Perform (or retrieve) calculations for a given skill for a given student
+	// Perform (or retrieve) calculations for a given skill for a given student. Return a score scaled by class, 0-10.
 
 	// Percent of a student's total events between 11pm and 5am (raw percentage, that still needs to be scaled by class)
 	public function calculateTimeScore($studentId) {
@@ -33,8 +33,10 @@ class SkillsHelper extends Module {
 
 		$collection = $db->statements;
 		$results = $collection->aggregate($aggregation)["result"];
-		// TODO store raw, and then return scaled
-		return $results[0]["count"];
+		// store raw, and then return scaled
+		$rawScore = $results[0]["count"];
+		$this->saveRawSkillScore($studentId, "activity", $rawScore);
+		return $this->getScaledSkillScore($studentId, "activity");
 	}
 
 	public function calculateConsistencyScore($studentId) {
@@ -79,9 +81,10 @@ class SkillsHelper extends Module {
 
 		$collection = $db->statements;
 		$results = $collection->aggregate($aggregation)["result"];
-		print_r($results);
-		// TODO store raw, and then return scaled
-		return count($results);
+		// store raw, and then return scaled
+		$rawScore = count($results);
+		$this->saveRawSkillScore($studentId, "consistency", $rawScore);
+		return $this->getScaledSkillScore($studentId, "consistency");
 
 	}
 
@@ -96,6 +99,8 @@ class SkillsHelper extends Module {
 	}
 
 	public function calculatePersistenceScore($studentId) {
+		// TODO Calculate and store both parts
+		// TODO Then get the scaled persistence score, which will scale both parts independently
 		return rand(0,100) / 10;
 
 	}
@@ -135,12 +140,31 @@ class SkillsHelper extends Module {
 				return true;
 			}
 		}
-			
 	}
 	
-	// Retrieves a scaled score for a skill for the given student
-	function getScaledSkillScore($studentId, $skillId) {
+	// Retrieves a scaled score 0-10 for a skill for the given student
+	function getScaledSkillScore($studentId, $skillId, $debug = false) {
+		// Special case for persistence, which has two parts that need to be scaled independently
+		if ($skillId == "persistence") {
+			// Scale the two parts indpendently, and weight them equally
+			return ($this->getScaledSkillScore($studentId, "persistence_attempts", $debug) + $this->getScaledSkillScore($studentId, "persistence_watched", $debug)) / 2;
+		}
 
+		$scoreResults = Students::find([
+			"columns" => "$skillId"
+		]);
+		$rawScores = array_column($scoreResults->toArray(), "$skillId");
+		$rawScore = Students::findFirst("email = '$studentId'")->{$skillId};
+		$scaledScore = StatsHelper::calculateScaledScore($rawScores, $rawScore);
+		
+		if ($debug) {
+			echo "All scores for skill $skillId: \n";
+			foreach ($rawScores as $s) {
+				echo "$s\n";
+			}
+			echo "Raw $skillId score for student $studentId is $rawScore, and scaled score is $scaledScore\n";
+		}
+		return round($scaledScore * 100) / 10;
 	}
 
 }
