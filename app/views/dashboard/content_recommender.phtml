@@ -36,35 +36,35 @@ if ( $context->valid ) {
           <h3 class="advancedAll">Question Recommendations for all concepts</h3>
 
           <ul class="nav nav-tabs" id="recommendTabs" role="tablist">
-			<li role="presentation" class="active"><a href="#recommend1" aria-controls="recommend1" role="tab" data-toggle="tab"><div class="text-center">You did not attempt these questions <br> Attempt these questions</div></a></li>
-			<li role="presentation"><a href="#recommend2" aria-controls="recommend2" role="tab" data-toggle="tab"><div class="text-center">You did not watch the videos <br> Watch these videos</div></a></li>
-			<li role="presentation"><a href="#recommend3" aria-controls="recommend3" role="tab" data-toggle="tab"><div class="text-center">You tried but did not succeed <br> Find additional help</div></a></li>
-			<li role="presentation"><a href="#recommend4" aria-controls="recommend4" role="tab" data-toggle="tab"><div class="text-center">You eventually got it right <br> Practice these questions again</div></a></li>
+			<li role="presentation" class="active"><a href="#recommend1" aria-controls="recommend1" role="tab" data-toggle="tab"><div class="text-center">Attempt these questions</div></a></li>
+			<li role="presentation"><a href="#recommend2" aria-controls="recommend2" role="tab" data-toggle="tab"><div class="text-center">Watch these videos</div></a></li>
+			<li role="presentation"><a href="#recommend3" aria-controls="recommend3" role="tab" data-toggle="tab"><div class="text-center">Find additional help</div></a></li>
+			<li role="presentation"><a href="#recommend4" aria-controls="recommend4" role="tab" data-toggle="tab"><div class="text-center">Practice these again</div></a></li>
           </ul>
 
           <div class="tab-content">
             <!-- Group 1 -->
              <div role="tabpanel" class="tab-pane active" id="recommend1">
-                <div class="recommendInfo alert alert-info" id="recommend1Info"><span class="glyphicon glyphicon-info-sign"></span>These questions were selected because you have not attempted them yet. This material will likely be on an upcoming exam, so to improve your score, it is recommended that you practice these questions.</div>
+                <div class="recommendInfo alert alert-info" id="recommend1Info"><span class="glyphicon glyphicon-info-sign"></span><h4>You did not attempt these questions</h4> These questions were selected because you have not attempted them yet. This material will likely be on an upcoming exam, so to improve your score, it is recommended that you practice these questions.</div>
                 <span class="spinner"><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
                 <table class="table table-hover table-striped sticky-header" id="recommend1List"> </table>
               </div>
 
             <!-- Group 2 -->
              <div role="tabpanel" class="tab-pane" id="recommend2">
-  	            <div class="recommendInfo alert alert-info" id="recommend2Info"><span class="glyphicon glyphicon-info-sign"></span>These questions were selected because, based on your online activity, it seems you did not watch the videos before you attempted the quiz. To better learn the material, it is recommended that you watch the videos associated with these quiz questions.</div>
+  	            <div class="recommendInfo alert alert-info" id="recommend2Info"><span class="glyphicon glyphicon-info-sign"></span><h4>You did not watch the videos for these questions</h4> These questions were selected because, based on your online activity, it seems you did not watch the videos before you attempted the quiz. To better learn the material, it is recommended that you watch the videos associated with these quiz questions.</div>
                 <table class="table table-hover table-striped sticky-header" id="recommend2List"> </table>
               </div>
 
             <!-- Group 3 -->
              <div role="tabpanel" class="tab-pane" id="recommend3">
-  	            <div class="recommendInfo alert alert-info" id="recommend3Info"><span class="glyphicon glyphicon-info-sign"></span>These questions were selected because you have spent time watching the videos, but for some reason, the quiz was still difficult for you. To learn this material, you may want to email the instructor, go into the TA lab, or ask a friend to help you.</div>
+  	            <div class="recommendInfo alert alert-info" id="recommend3Info"><span class="glyphicon glyphicon-info-sign"></span><h4>You tried but did not succeed</h4> These questions were selected because you have spent time watching the videos, but for some reason, the quiz was still difficult for you. To learn this material, you may want to email the instructor, go into the TA lab, or ask a friend to help you.</div>
                 <table class="table table-hover table-striped sticky-header" id="recommend3List"> </table>
               </div>
 
             <!-- Group 4 -->
              <div role="tabpanel" class="tab-pane" id="recommend4">
-  	            <div class="recommendInfo alert alert-info" id="recommend4Info"><span class="glyphicon glyphicon-info-sign"></span>These questions were selected because even though you eventually answered it correctly, you missed them multiple times at first. These questions are recommended you to re-do to help you solidify your understanding.</div>
+  	            <div class="recommendInfo alert alert-info" id="recommend4Info"><span class="glyphicon glyphicon-info-sign"></span><h4>You eventually got it right</h4> These questions were selected because even though you eventually answered it correctly, you missed them multiple times at first. These questions are recommended you to re-do to help you solidify your understanding.</div>
 				<table class="table table-hover table-striped sticky-header" id="recommend4List"> </table>
               </div>
 
@@ -182,7 +182,7 @@ if ( $context->valid ) {
       <h3>Advanced</h3>
       <ul class="nav nav-pills nav-stacked">
 		<li role="presentation" class="advancedToggleLi active">
-		  <a id="advancedToggleSimple" class="advancedToggle" data-option="simple" href="#">See simple view</a>
+		  <a id="advancedToggleSimple" class="advancedToggle" data-option="simple" href="#">See recommendations</a>
 		  <div class="advancedToggleOptional"><input id="advancedToggleMore" class="advancedToggleOptional" data-option="more" type="checkbox" />&nbsp;<label for="advancedToggleMore">See more details</label><br></div>
 		  <div class="advancedToggleOptional"><input id="advancedToggleMoreClass" disabled class="advancedToggleOptional" data-option="moreClass" type="checkbox" />&nbsp;<label for="advancedToggleMoreClass">Compare to class</label></div>
         </li>
