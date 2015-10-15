@@ -21,7 +21,8 @@ function RadarChart(id, data, options) {
 	 opacityCircles: 0.1, 			//The opacity of the circles of each blob
 	 strokeWidth: 2, 			//The width of the stroke around each blob
 	 roundStrokes: false,			//If true the area and stroke will follow a round path (cardinal-closed)
-	 color: d3.scale.category10()		//Color function
+	 color: d3.scale.category10(),		//Color function
+	 clickHandler: null
 	};
 	
 	//Put all of the options into a variable called cfg
@@ -217,7 +218,9 @@ function RadarChart(id, data, options) {
 		.attr("cx", function(d,i){ return rScale(d.value) * Math.cos(angleSlice*i - Math.PI/2); })
 		.attr("cy", function(d,i){ return rScale(d.value) * Math.sin(angleSlice*i - Math.PI/2); })
 		.style("fill", "none")
+		.style("cursor", "pointer")
 		.style("pointer-events", "all")
+		.on("click", cfg.clickHandler)
 		.on("mouseover", function(d,i) {
 			newX =  parseFloat(d3.select(this).attr('cx')) - 10;
 			newY =  parseFloat(d3.select(this).attr('cy')) - 10;

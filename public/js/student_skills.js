@@ -44,16 +44,33 @@ function loadSkills(data) {
 	refreshView();
 }
 
+var skillIds = {
+	"Time Management": "time",
+	"Online Activity": "activity",
+	"Consistency": "consistency",
+	"Knowledge Awareness": "awareness",
+	"Deep Learning": "deepLearning",
+	"Persistence": "persistence"
+	};
+var skillTitles = {
+	"time": "Time Management",
+	"activity": "Online Activity",
+	"consistency": "Consistency",
+	"awareness": "Knowledge Awareness",
+	"deepLearning": "Deep Learning",
+	"persistence": "Persistence"
+	};
+
+function skillsGraphPointClicked(d) {
+	// Find the skill id from the title
+	var skillId = skillIds[d.axis];
+	$("#skillsGraphRecommend").html($("#skillsListSection ." + skillId + "SkillTemplate").clone().addClass("advancedSkillsGraph"));
+	refreshView();
+}
+
+
 function loadSkillsGraph(data) {
 
-	var skillTitles = {
-		"time": "Time Management",
-		"activity": "Online Activity",
-		"consistency": "Consistency",
-		"awareness": "Knowledge Awareness",
-		"deepLearning": "Deep Learning",
-		"persistence": "Persistence"
-		};
 	var colorScale = d3.scale.category10();
 	var radarConfig = {
 		w: 400,
@@ -61,8 +78,9 @@ function loadSkillsGraph(data) {
 		labelFactor: 1.15,
 		maxValue: 10,
 		levels: 5,
-		margin: {top: 100, right: 100, bottom: 100, left: 100},
-		color: colorScale
+		margin: {top: 40, right: 100, bottom: 100, left: 100},
+		color: colorScale,
+		clickHandler: skillsGraphPointClicked
 	};
 	var legendOptions = ["Student", "Class Median"];
 	//Hide the loading spinner
@@ -105,11 +123,6 @@ function loadSkillsGraph(data) {
 		.attr("font-size", "11px")
 		.attr("fill", "#737373")
 		.text(function(d) { return d; });
-}
-
-function showSkillsGraphRecommend(skillId) {
-	$("#skillsGraphRecommend").html($("#skillsListSection ." + skillId + "SkillTemplate").clone().addClass("advancedSkillsGraph"));
-	refreshView();
 }
 
 function loadTimeGraph(skillId) {

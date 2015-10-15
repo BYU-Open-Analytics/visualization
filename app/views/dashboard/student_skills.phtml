@@ -32,7 +32,7 @@ if ( $context->valid ) {
 
       <!-- Time Graph -->
       <div id="timeGraphSection" class="advancedTimeGraph col-md-12">
-        <h3>Your Skills Over Time<small>— currently random numbers</small></h3>
+        <h3>Your Skills Over Time</h3>
         <div id="visualizationContainer" class="container">
             <div id="timeGraphContainer">
               <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
@@ -57,10 +57,12 @@ if ( $context->valid ) {
 
       <!-- Skills Graph -->
       <div id="skillsGraphSection" class="advancedSkillsGraph col-md-12">
-        <h3>Student Skills<small>— currently random numbers</small></h3>
+        <h3>Student Skills</h3>
         <div class="row">
 	  <div class="col-md-4" id="skillsGraphRecommend">
-            <p class="lead" style="text-align; center;">Click on any skill <br /> to learn more. (not yet implemented. figure out how to inject event listeners into d3-radar)</p>
+            <div id="graphDetailBox">
+              <p class="lead" style="text-align; center;">Click on any skill point <br /> to learn more.</p>
+            </div>
           </div>
             <div class="col-md-8" id="radarContainer">
               <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
