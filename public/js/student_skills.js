@@ -7,32 +7,28 @@ function loadSkills(data) {
 		return a.score - b.score;
 	});
 
-	// Display two weakest skills
-	var s0 = $("." + skills[0].id + "SkillTemplate").appendTo("#weakestSkillsList");
-	$("." + skills[0].id + "SkillTemplate .skillScoreLabel").text(skills[0].score);
-	var s1 = $("." + skills[1].id + "SkillTemplate").appendTo("#weakestSkillsList");
-	$("." + skills[1].id + "SkillTemplate .skillScoreLabel").text(skills[1].score);
-	s1.addClass("advancedAll");
-
-	// Display two strongest skills
-	var s4 = $("." + skills[4].id + "SkillTemplate").appendTo("#strongestSkillsList");
-	$("." + skills[4].id + "SkillTemplate .skillScoreLabel").text(skills[4].score);
-	var s3 = $("." + skills[3].id + "SkillTemplate").appendTo("#strongestSkillsList");
-	$("." + skills[3].id + "SkillTemplate .skillScoreLabel").text(skills[3].score);
-	s3.addClass("advancedAll");
-
-	// Determine what to do with middle skill. Put it in whichever category its score is closest to.
-	if ((skills[3].score - skills[2].score) <= (skills[2].score - skills[1].score)) {
-		var s2 = $("." + skills[2].id + "SkillTemplate").appendTo("#strongestSkillsList");
-	} else {
-		var s2 = $("." + skills[2].id + "SkillTemplate").appendTo("#weakestSkillsList");
+	// Get three weakest skills
+	for (var i=0; i<3; i++) {
+		var s = $("." + skills[i].id + "SkillTemplate").appendTo("#weakestSkillsList");
+		$("." + skills[i].id + "SkillTemplate .skillScoreLabel").text(skills[i].score);
+		// Only show the first one by default
+		if (i>0) {
+			s.addClass("advancedAll");
+		}
 	}
-	$("." + skills[2].id + "SkillTemplate .skillScoreLabel").text(skills[2].score);
-	s2.addClass("advancedAll");
 
+	// Get three strongest skills
+	for (var i=5; i>2; i--) {
+		var s = $("." + skills[i].id + "SkillTemplate").appendTo("#strongestSkillsList");
+		$("." + skills[i].id + "SkillTemplate .skillScoreLabel").text(skills[i].score);
+		// Only show the first one by default
+		if (i<5) {
+			s.addClass("advancedAll");
+		}
+	}
 	
 	// Put score in each skill
-	for (var i=0; i<5; i++) {
+	for (var i=0; i<6; i++) {
 		$("." + skills[i].id + "SkillTemplate .skillScoreLabel").text(skills[i].score);
 		$("." + skills[i].id + "SkillTemplate .skillPercentileLabel").text(skills[i].score * 10);
 	}
@@ -62,6 +58,7 @@ function loadSkillsGraph(data) {
 	$("#radarContainer .spinner").hide();
 	// Format data
 	var studentData = data.student.map(function(d) { return {axis:d.id, value:(d.score)}; });
+	console.log(studentData);
 	var classData = data.class.map(function(d) { return {axis:d.id, value:(d.score)}; });
 	// Draw the radar chart
 	RadarChart.draw("#radarChart", [classData, studentData], radarConfig);
