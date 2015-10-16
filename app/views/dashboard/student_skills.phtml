@@ -10,7 +10,7 @@ if ( $context->valid ) {
 </div>
 
 <!-- Container for skills list, time chart, skills graph, and advanced -->
-<div id="mainContainer" class="container">
+<div id="mainContainer" class="container hidden">
   <div class="row">
     <div class="col-sm-9"><div class="row">
 
@@ -42,10 +42,11 @@ if ( $context->valid ) {
             <form>
               <div class="btn-group" data-toggle="buttons">
                 <label class="btn btn-default active"><input type="radio" name="timeGraphSkillOption" value="time" checked />Time Management</label>
-                <label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="activity" />Online Activity</label>
-                <label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="regulation" />Self-Regulation</label>
-                <label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="efficacy" />Self-Efficacy</label>
-                <label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="consistency" />Consistency</label>
+                <label class="btn btn-default"><input type="radio" name="activityGraphSkillOption" value="activity" />Online Activity</label>
+                <label class="btn btn-default"><input type="radio" name="consistencyGraphSkillOption" value="regulation" />Consistency</label>
+                <label class="btn btn-default"><input type="radio" name="awarenessGraphSkillOption" value="efficacy" />Knowledge Awareness</label>
+                <label class="btn btn-default"><input type="radio" name="deepLearningGraphSkillOption" value="efficacy" />Deep Learning</label>
+                <label class="btn btn-default"><input type="radio" name="persistenceGraphSkillOption" value="efficacy" />Persistence</label>
               </div>
             </form>
             <span class="legend advancedTimeGraphClass">
