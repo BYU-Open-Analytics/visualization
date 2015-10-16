@@ -571,7 +571,7 @@ function loadMasteryGraph() {
 			.duration(500)
 			.delay(function(d, i) { return i * 10; })
 			//.attr("x", function(d) { return width - x(d.score); })
-			.attr("width", function(d) { return x(d.score); });
+			.attr("width", function(d) { return d.score > 0 ? x(d.score) : 10; });
 		//refreshView();
 	});
 
@@ -593,7 +593,7 @@ function animateMasteryGraph() {
 		.transition()
 		.duration(500)
 		.delay(function(d, i) { return i * 10; })
-		.attr("width", function(d) { return x(d.score); });
+		.attr("width", function(d) { return d.score > 0 ? x(d.score) : 10;  });
 }
 
 // Helper function from http://bl.ocks.org/mbostock/7555321
