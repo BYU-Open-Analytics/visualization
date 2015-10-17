@@ -169,34 +169,6 @@ class ContentRecommenderStatsController extends Controller
 		}
 	}
 
-	// Returns list of strongest and weakest concepts
-	public function conceptsAction() {
-		$this->view->disable();
-		// Get our context (this takes care of starting the session, too)
-		$context = $this->getDI()->getShared('ltiContext');
-		if (!$context->valid) {
-			echo '[{"error":"Invalid lti context"}]';
-			return;
-		}
-		// Get the list of concepts and (for now) randomly choose some for strongest and weakest
-		$concepts = CSVHelper::parseWithHeaders('csv/concept_chapter_unit.csv');
-
-		$conceptIndices = count($concepts) - 1;
-		$strongest = [];
-		for ($i=0; $i<3; $i++) {
-			$c = $concepts[rand(0, $conceptIndices)];
-			$strongest []= ["id" => $c["concept_number"], "display" => $c["concept_number"]." ".$c["concept_title"], "score" => rand(50,100) / 10];
-		}
-		$weakest = [];
-		for ($i=0; $i<3; $i++) {
-			$c = $concepts[rand(0, $conceptIndices)];
-			$weakest []= ["id" => $c["concept_number"], "display" => $c["concept_number"]." ".$c["concept_title"], "score" => rand(0,50) / 10];
-		}
-
-		$result = ["strongest" => $strongest, "weakest" => $weakest];
-		echo json_encode($result);
-	}
-
 	// Returns content recommendations in 4 groups:
 		// Try these quiz questions (Group 1)
 		// Watch these videos before attempting these quiz questions (Group 2)
@@ -494,23 +466,21 @@ class ContentRecommenderStatsController extends Controller
 		$result = [];
 
 		// Get the list of concepts for the given scope and grouping ID
-		$concepts = CSVHelper::parseWithHeaders('csv/concept_chapter_unit.csv');
+		$concepts = [];
 		switch ($scope) {
 			case "chapter":
-				// Filter concepts to ones in the selected chapter
-				$concepts = array_filter($concepts, function($concept) use ($groupingId) {
-					return ($concept["chapter_number"] == $groupingId);
-				});
+				// Filter based on chapter
+				$concepts = MappingHelper::conceptsInChapter($groupingId);
 				break;
 			case "unit":
-				// Filter concepts to ones in the selected unit
-				$concepts = array_filter($concepts, function($concept) use ($groupingId) {
-					return ($concept["unit_number"] == $groupingId);
-				});
+				// Filter based on unit
+				$concepts = MappingHelper::conceptsInChapters(MappingHelper::chaptersInUnit($groupingId));
 				break;
-			// If scope is "all", then all concepts are already in the list; no need to filter
+			default:
+				// All concepts
+				$concepts = MappingHelper::conceptsInChapters(MappingHelper::allChapters());
+				break;
 		}
-
 		$masteryHelper = new MasteryHelper();
 		foreach ($concepts as $c) {
 			$score = $masteryHelper::calculateConceptMasteryScore($context->getUserEmail(), $c["concept_number"], $debug);

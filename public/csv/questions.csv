@@ -1,0 +1,182 @@
+OA Quiz ID,Learning Suite Quiz Number,Quiz Number,Question,Type,# of answer choices,
+78,1,1,1,Essay,,
+78,1,1,2,Short Answer,,
+78,1,1,3,Short Answer,,
+78,1,1,4,Short Answer,,
+78,1,1,5,Short Answer,,
+78,1,1,6,Short Answer,,
+78,1,1,7,Essay,,
+78,1,1,8,Short Answer,,
+79,2,2,1,Short Answer,,
+79,2,2,2,Short Answer,,
+79,2,2,3,Short Answer,,
+79,2,2,4,Short Answer,,
+80,3,3,1,Multiple-Choice,4,1
+80,3,3,2,Essay,,
+80,3,3,3,Short Answer,,
+80,3,3,4,Short Answer,,
+80,3,3,5,Multiple-Choice,4,1
+80,3,3,6,Short Answer,,
+80,3,3,7,Multiple-Choice,4,1
+80,3,3,8,Multiple-Choice,4,1
+81,4,4,1,Short Answer,,
+81,4,4,2,Short Answer,,
+81,4,4,3,Short Answer,,
+81,4,4,4,Short Answer,,
+81,4,4,5,Short Answer,,
+81,4,4,6,Short Answer,,
+94,5,17,1,Short Answer,,
+94,5,17,2,Short Answer,,
+94,5,17,3,Short Answer,,
+94,5,17,4,Short Answer,,
+94,5,17,5,Short Answer,,
+94,5,17,6,Short Answer,,
+95,6,18,1,Multiple-Choice,4,1
+95,6,18,2,Multiple-Choice,4,1
+95,6,18,3,Short Answer,,
+95,6,18,4,Short Answer,,
+96,7,19,1,Multiple-Choice,4,1
+96,7,19,2,Multiple-Choice,4,1
+96,7,19,3,Short Answer,,
+97,8,20,1,Short Answer,,
+97,8,20,2,Short Answer,,
+97,8,20,3,Short Answer,,
+97,8,20,4,Short Answer,,
+97,8,20,5,Short Answer,,
+97,8,20,6,Short Answer,,
+97,8,20,7,Short Answer,,
+82,9,5,1,Multiple-Choice,4,1
+82,9,5,2,Multiple-Choice,7,1
+82,9,5,3,Short Answer,,
+82,9,5,4,Short Answer,,
+82,9,5,5,Essay,,
+83,10,6,1,Multiple-Choice,4,1
+83,10,6,2,Essay,,
+83,10,6,3,Multiple-Choice,4,1
+83,10,6,4,Essay,,
+83,10,6,5,Short Answer,,
+83,10,6,6,Short Answer,,
+83,10,6,7,Short Answer,,
+83,10,6,8,Short Answer,,
+84,11,7,1,Multiple-Choice,4,1
+84,11,7,2,Multiple-Choice,4,1
+84,11,7,3,Multiple-Choice,4,1
+84,11,7,4,Multiple-Choice,4,1
+84,11,7,5,Short Answer,,
+85,12,8,1,Short Answer,,
+85,12,8,2,Short Answer,,
+85,12,8,3,Short Answer,,
+85,12,8,4,Short Answer,,
+85,12,8,5,Short Answer,,
+85,12,8,6,Short Answer,,
+86,13,9,1,Multiple-Choice,4,1
+86,13,9,2,Multiple-Choice,4,1
+86,13,9,3,Multiple-Choice,4,1
+86,13,9,4,Multiple-Choice,2,1
+87,14,10,1,Short Answer,,
+87,14,10,2,Short Answer,,
+87,14,10,3,Short Answer,,
+87,14,10,4,Short Answer,,
+87,14,10,5,Short Answer,,
+87,14,10,6,Short Answer,,
+87,14,10,7,Short Answer,,
+87,14,10,8,Short Answer,,
+87,14,10,9,Short Answer,,
+87,14,10,10,Short Answer,,
+87,14,10,11,Short Answer,,
+88,15,11,1,Multiple-Choice,8,1
+88,15,11,2,Multiple-Choice,5,1
+88,15,11,3,Multiple-Choice,5,1
+88,15,11,4,Multiple-Choice,5,1
+88,15,11,5,Essay,,
+88,15,11,6,Multiple-Choice,2,1
+89,16,12,1,Multiple-Choice,8,1
+89,16,12,2,Multiple-Choice,8,1
+90,17,13,1,Multiple-Choice,6,1
+90,17,13,2,Short Answer,,
+90,17,13,3,Short Answer,,
+90,17,13,4,Multiple-Choice,2,1
+90,17,13,5,Multiple-Choice,4,1
+90,17,13,6,Multiple-Choice,2,1
+90,17,13,7,Multiple-Choice,6,1
+90,17,13,8,Short Answer,,
+90,17,13,9,Short Answer,,
+90,17,13,10,Multiple-Choice,2,1
+90,17,13,11,Multiple-Choice,4,1
+90,17,13,12,Multiple-Choice,2,1
+90,17,13,13,Multiple-Choice,6,1
+90,17,13,14,Short Answer,,
+90,17,13,15,Short Answer,,
+90,17,13,16,Multiple-Choice,2,1
+90,17,13,17,Multiple-Choice,4,1
+90,17,13,18,Multiple-Choice,2,1
+90,17,13,19,Multiple-Choice,6,1
+90,17,13,20,Short Answer,,
+90,17,13,21,Short Answer,,
+90,17,13,22,Multiple-Choice,2,1
+90,17,13,23,Multiple-Choice,4,1
+90,17,13,24,Multiple-Choice,2,1
+90,17,13,25,Multiple-Choice,6,1
+90,17,13,26,Short Answer,,
+90,17,13,27,Short Answer,,
+90,17,13,28,Multiple-Choice,2,1
+90,17,13,29,Multiple-Choice,4,1
+90,17,13,30,Multiple-Choice,2,1
+91,18,14,1,Short Answer,,
+91,18,14,2,Multiple-Choice,3,1
+91,18,14,3,Essay,,
+91,18,14,4,Multiple-Choice,2,1
+91,18,14,5,Multiple-Choice,2,1
+91,18,14,6,Multiple-Choice,2,1
+92,19,15,1,Multiple-Choice,4,1
+92,19,15,2,Multiple-Choice,4,1
+92,19,15,3,Multiple-Choice,4,1
+92,19,15,4,Multiple-Choice,4,1
+93,20,16,1,Multiple-Choice,3,1
+93,20,16,2,Multiple-Choice,3,1
+93,20,16,3,Multiple-Choice,3,1
+93,20,16,4,Multiple-Choice,5,1
+93,20,16,5,Essay,,
+93,20,16,6,Multiple-Choice,4,1
+98,21,21,1,Multiple-Choice,2,1
+98,21,21,2,Multiple-Choice,2,1
+98,21,21,3,Multiple-Choice,2,1
+98,21,21,4,Multiple-Choice,4,1
+98,21,21,5,Multiple-Choice,4,1
+100,22,22,1,Multiple-Choice,3,1
+100,22,22,2,Multiple-Choice,3,1
+100,22,22,3,Short Answer,,
+100,22,22,4,Multiple-Choice,3,1
+100,22,22,5,Essay,,
+101,23,23,1,Short Answer,,
+101,23,23,2,Short Answer,,
+101,23,23,3,Short Answer,,
+102,24,24,1,Multiple-Choice,4,1
+102,24,24,2,Short Answer,,
+103,25,25,1,Multiple-Choice,3,1
+103,25,25,2,Multiple-Choice,3,1
+103,25,25,3,Multiple-Choice,3,1
+103,25,25,4,Short Answer,,
+104,26,26,1,Multiple-Choice,4,1
+104,26,26,2,Short Answer,,
+104,26,26,3,Multiple-Choice,3,1
+105,27,27,1,Multiple-Choice,3,1
+105,27,27,2,Multiple-Choice,3,1
+105,27,27,3,Multiple-Choice,3,1
+105,27,27,4,Short Answer,,
+106,28,28,1,Short Answer,,
+106,28,28,2,Short Answer,,
+106,28,28,3,Short Answer,,
+107,29,29,1,Short Answer,,
+107,29,29,2,Multiple-Choice,3,1
+108,30,30,1,Short Answer,,
+108,30,30,2,Multiple-Choice,5,1
+108,30,30,3,Short Answer,,
+109,31,31,1,Short Answer,,
+109,31,31,2,Multiple-Choice,5,1
+109,31,31,3,Multiple-Choice,2,1
+109,31,31,4,Multiple-Choice,4,1
+110,32,32,1,Multiple-Choice,3,1
+110,32,32,2,Multiple-Choice,3,1
+110,32,32,3,Short Answer,,
+110,32,32,4,Short Answer,,
