@@ -45,33 +45,46 @@ class SkillsHelper extends Module {
 		$results = $collection->aggregate($aggregation)["result"];
 
 		// Now get into Utah time
-		// TODO daylight saving time nastiness
+		// TODO Make sure this takes daylight saving time into account
 		$localTimeZone = new DateTimeZone("America/Denver");
 		$secondOffset = $localTimeZone->getOffset(new DateTime("now", new DateTimeZone("UTC")));
 		$hourOffset = $secondOffset / 3600;
 
-		// Make sure we don't go above 23 or below 0 hours
+		// These are Utah time shifted into UTC
+		// Make sure we don't go above 23 or below 0 hours (on October 17, these were 17:00 and 23:00 for 11pm and 5am)
 		$UTC11pm = 23 + $hourOffset;
 		$UTC11pm = $UTC11pm > 23 ? $UTC11pm - 24 : $UTC11pm;
 		$UTC5am = 5 + $hourOffset;
 		$UTC5am = $UTC5am < 0 ? $UTC5am + 24 : $UTC5am;
 
-		if ($debug) {
-			echo "$UTC11pm, $UTC5am\n";
-			echo "<pre>";
-			print_r($results);
-
-		}
+		// Get total number of statements 
+		$totalStatementCount = array_sum(array_column($results, "count"));
 		
+		// Get number of statements between Utah's 11pm and 5am in UTC
+		$procrastinatedStatementCount = 0;
+		foreach ($results as $r) {
+			// TODO if the time period we're calculating changes, it might go across a midnight line, in which case this if wouldn't work right.
+			if ($r["_id"]["hour"] >= $UTC11pm && $r["_id"]["hour"] <= $UTC5am) {
+				$procrastinatedStatementCount += $r["count"];
+			}
+		}
 
+		if ($debug) {
+			echo "<pre>";
+			echo "11pm and 5am in UTC: $UTC11pm, $UTC5am\n";
+			print_r($results);
+			echo "Total statement count: $totalStatementCount\n";
+			echo "Total procrastinated statement count: $procrastinatedStatementCount\n";
+		}
 		// store raw, and then return scaled
-		$rawScore = rand(0,100);
+		// Do 1 - percentage so that fewer statements in 11pm-5am gives a higher score
+		$rawScore = 1 - ($procrastinatedStatementCount / $totalStatementCount);
 		$this->saveRawSkillScore($studentId, "time", $rawScore);
 		if ($raw) { return $rawScore; }
 		return $this->getScaledSkillScore($studentId, "time");
 	}
 
-	public function calculateActivityScore($studentId) {
+	public function calculateActivityScore($studentId, $raw = false, $debug = false) {
 		$config = $this->getDI()->getShared('config');
 
 		// Connect to database
