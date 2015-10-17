@@ -2,7 +2,7 @@
 
 ## Requirements
 - Apache
-- PHP v5.4 or newer
+- PHP *v5.5* or newer
 - Phalcon PHP extension ([installation instructions](https://phalconphp.com/en/download))
 - MongoDB PHP extension ([installation instructions](http://us3.php.net/manual/en/mongo.installation.php))
 - Phalcon developer tools ([installation instructions](http://phalcon-php-framework-documentation.readthedocs.org/en/latest/reference/tools.html))
