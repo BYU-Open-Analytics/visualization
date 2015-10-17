@@ -39,4 +39,18 @@ class TestController extends Controller
 		echo $sh->getScaledSkillScore("jbaird@uni.ac.uk", "persistence", true);
 
 	}
+
+	public function deepLearningAction() {
+		$this->view->disable();
+		$context = $this->getDI()->getShared('ltiContext');
+		$sh = new SkillsHelper();
+		echo $sh->calculateDeepLearningScore($context->getUserEmail(), true, true);
+	}
+
+	public function timeAction() {
+		$this->view->disable();
+		$context = $this->getDI()->getShared('ltiContext');
+		$sh = new SkillsHelper();
+		echo $sh->calculateTimeScore($context->getUserEmail(), true, true);
+	}
 }

@@ -8,9 +8,66 @@ class SkillsHelper extends Module {
 
 	// Percent of a student's total events between 11pm and 5am (raw percentage, that still needs to be scaled by class)
 	public function calculateTimeScore($studentId, $raw = false, $debug = false) {
+		$config = $this->getDI()->getShared('config');
+
+		// Connect to database
+		$m = new MongoClient("mongodb://{$config->lrs_database->username}:{$config->lrs_database->password}@{$config->lrs_database->host}/{$config->lrs_database->dbname}");
+		$db = $m->{$config->lrs_database->dbname};
+
+		// Aggregate, fetching the student's statements in the past two weeks for open assessments and ayamel
+		// http://www.saturngod.net/articles/group-by-date-in-mongodb/
+		$aggregation = [
+			['$match' => [
+				'timestamp' => array('$gte' => new MongoDate(strtotime('midnight -2 weeks'))),
+				'statement.actor.mbox' => 'mailto:'.$studentId,
+				'lrs._id' => array('$in' => array( 
+					$config->lrs->openassessments->id, 
+					$config->lrs->ayamel->id,
+				)),
+			]],
+			['$project' => [
+				'h' => ['$hour' => '$timestamp'],
+			]],
+			['$group' => [
+				'_id' => [
+					'hour' => '$h',
+				],
+				'count' => [
+					'$sum' => 1
+				]
+			]],
+			['$sort' => [
+				'_id.hour' => 1,
+			]]
+		];
+
+		$collection = $db->statements;
+		$results = $collection->aggregate($aggregation)["result"];
+
+		// Now get into Utah time
+		// TODO daylight saving time nastiness
+		$localTimeZone = new DateTimeZone("America/Denver");
+		$secondOffset = $localTimeZone->getOffset(new DateTime("now", new DateTimeZone("UTC")));
+		$hourOffset = $secondOffset / 3600;
+
+		// Make sure we don't go above 23 or below 0 hours
+		$UTC11pm = 23 + $hourOffset;
+		$UTC11pm = $UTC11pm > 23 ? $UTC11pm - 24 : $UTC11pm;
+		$UTC5am = 5 + $hourOffset;
+		$UTC5am = $UTC5am < 0 ? $UTC5am + 24 : $UTC5am;
+
+		if ($debug) {
+			echo "$UTC11pm, $UTC5am\n";
+			echo "<pre>";
+			print_r($results);
+
+		}
+		
+
 		// store raw, and then return scaled
 		$rawScore = rand(0,100);
 		$this->saveRawSkillScore($studentId, "time", $rawScore);
+		if ($raw) { return $rawScore; }
 		return $this->getScaledSkillScore($studentId, "time");
 	}
 
@@ -39,6 +96,7 @@ class SkillsHelper extends Module {
 		// store raw, and then return scaled
 		$rawScore = $results[0]["count"];
 		$this->saveRawSkillScore($studentId, "activity", $rawScore);
+		if ($raw) { return $rawScore; }
 		return $this->getScaledSkillScore($studentId, "activity");
 	}
 
@@ -151,10 +209,62 @@ class SkillsHelper extends Module {
 
 	public function calculateDeepLearningScore($studentId, $raw = false, $debug = false) {
 		// TODO implement
+		// ( # of (questions that answer was viewed on) and (only 2 attempts per question) ) / (total question count)
+
+		$config = $this->getDI()->getShared('config');
+
+		// Connect to database
+		$m = new MongoClient("mongodb://{$config->lrs_database->username}:{$config->lrs_database->password}@{$config->lrs_database->host}/{$config->lrs_database->dbname}");
+		$db = $m->{$config->lrs_database->dbname};
+
+		// Aggregate, fetching the student's attempts, grouped by questions (to give us number of questions they attempted)
+		$questionCountAggregation = [
+			['$match' => [
+				'timestamp' => array('$gte' => new MongoDate(strtotime('-2 weeks'))),
+				'statement.actor.mbox' => 'mailto:'.$studentId,
+				'lrs._id' => $config->lrs->openassessments->id, 
+				'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/answered',
+			] ],
+			['$group' => ['_id' => '$statement.object.id', 'count' => ['$sum' => 1] ] ]
+		];
+
+		$collection = $db->statements;
+		$questionCountResults = $collection->aggregate($questionCountAggregation)["result"];
+
+		// Total number of questions attempted
+		$totalQuestionCount = count($questionCountResults);
+
+		// Now get the number of questions that the answer was viewed on and they had 2 attempts on
+		// First get the questions that they viewed the answer on
+		$viewedAnswerAggregation = [
+			['$match' => [
+				'timestamp' => array('$gte' => new MongoDate(strtotime('-2 weeks'))),
+				'statement.actor.mbox' => 'mailto:'.$studentId,
+				'lrs._id' => $config->lrs->openassessments->id, 
+				'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/showed-answer'
+			] ],
+			['$group' => ['_id' => '$statement.object.id', 'count' => ['$sum' => 1] ] ]
+		];
+		$viewedAnswerResults = $collection->aggregate($viewedAnswerAggregation)["result"];
+		// Now go through each of those and see if they had only 2 attempts on that question
+		foreach ($viewedAnswerResults as $viewedAnswerQuestion) {
+
+		}
+			
+
+
+
+		if ($debug) {
+			echo "<pre>Total questions attempted count: $totalQuestionCount\n";
+			print_r($questionCountResults);
+			echo "<hr>questions viewed answer on:\n";
+			print_r($viewedAnswerResults);
+		}
 
 		// store raw, and then return scaled
 		$rawScore = rand(0,100);
 		$this->saveRawSkillScore($studentId, "deep_learning", $rawScore);
+		if ($raw) { return $rawScore; }
 		return $this->getScaledSkillScore($studentId, "deep_learning");
 	}
 
