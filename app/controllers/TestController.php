@@ -53,4 +53,21 @@ class TestController extends Controller
 		$sh = new SkillsHelper();
 		echo $sh->calculateTimeScore($context->getUserEmail(), true, true);
 	}
+
+	public function mappingsAction() {
+		echo "<pre>";
+		echo "All chapters\n";
+		print_r(MappingHelper::allChapters());
+		echo "<hr> Chapters in unit 3\n";
+		print_r(MappingHelper::chaptersInUnit(3));
+		echo "<hr>Concepts in unit 3\n";
+		print_r(MappingHelper::conceptsInChapters(MappingHelper::chaptersInUnit(3)));
+		echo "<hr>Questions in concept 2.1\n";
+		print_r(MappingHelper::questionsInConcept("2.1"));
+		echo "<hr>Videos for question 3.8\n";
+		print_r(MappingHelper::videosForQuestion("3.8"));
+		echo "<hr>Question info for questino 3.8\n";
+		print_r(MappingHelper::questionInformation("3.8"));
+	}
+
 }
