@@ -11,7 +11,7 @@ class MasteryHelper extends Module {
 		$questionIds = MappingHelper::questionsInConcept($conceptId);
 
 		if ($debug) {
-			echo "<h1>Concept ID $conceptId: </h1>";
+			echo "<pre><h1>Concept ID $conceptId: </h1>";
 			print_r($questionIds);
 			echo "<hr>";
 		}
@@ -265,9 +265,9 @@ class MasteryHelper extends Module {
 
 		foreach ($relatedVideos as $video) {
 			// Get each video's length
-			$totalVideoTime += $video["video_length"];
+			$totalVideoTime += $video["length"];
 			// Add its ID to a list that we'll fetch watched statements for
-			$videoIds []= 'https://ayamel.byu.edu/content/'.$video["video_id"];
+			$videoIds []= 'https://ayamel.byu.edu/content/'.$video["Video ID"];
 		}
 
 		// Calculate how much time these videos were watched
