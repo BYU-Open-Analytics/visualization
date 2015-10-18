@@ -198,10 +198,14 @@ class ContentRecommenderStatsController extends Controller
 		// Then get concepts that are in those chapters
 		$concepts = MappingHelper::conceptsInChapters($chapterNumbers);
 		// We need just the concept numbers to find questions
-		$conceptNumbers = array_column($concepts, "concept_number");
+		$conceptNumbers = array_column($concepts, "Section Number");
 		// Finally, get all the question ids in those concepts
 		$questionIds = MappingHelper::questionsInConcepts($conceptNumbers);
 
+		if ($debug) {
+			echo "<pre>Getting information for these questions in unit $unit:\n";
+			print_r($questionIds);
+		}
 		$questions = array();
 		// Get some info about each question
 		foreach ($questionIds as $questionId) {
@@ -232,6 +236,7 @@ class ContentRecommenderStatsController extends Controller
 
 			$request = $assessmentsEndpoint."api/question_text";
 			if ($debug) {
+				echo "Fetching question texts for these assessment IDs:\n";
 				print_r(array_column($questions, "assessmentId"));
 				print_r($assessmentIds);
 				echo $request;
@@ -324,11 +329,11 @@ class ContentRecommenderStatsController extends Controller
 			case "chapter":
 				// Filter based on chapter
 				// conceptsInChapter returns an array with more than just concept number, so get just concept_number column
-				$questions = MappingHelper::questionsInConcepts(array_column(MappingHelper::conceptsInChapter($groupingId), "concept_number"));
+				$questions = MappingHelper::questionsInConcepts(array_column(MappingHelper::conceptsInChapter($groupingId), "Section Number"));
 				break;
 			case "unit":
 				// Filter based on unit
-				$questions = MappingHelper::questionsInConcepts(array_column(MappingHelper::conceptsInChapters(MappingHelper::chaptersInUnit($groupingId)), "concept_number"));
+				$questions = MappingHelper::questionsInConcepts(array_column(MappingHelper::conceptsInChapters(MappingHelper::chaptersInUnit($groupingId)), "Section Number"));
 				break;
 			default:
 				echo '[{"error":"Invalid scope option"}]';
