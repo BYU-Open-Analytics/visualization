@@ -35,6 +35,8 @@ class DashboardController extends Controller
 		$context = $this->getDI()->getShared('ltiContext');
 		$this->view->context = $context;
 
+		$this->view->feedbackEmail = $this->getDI()->getShared('config')->feedback_email;
+
 		// Concept, Chapter, and Unit lists
 		// TODO way to have html list default to current
 		// Concepts
@@ -68,5 +70,6 @@ class DashboardController extends Controller
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
 		$this->view->context = $context;
+		$this->view->feedbackEmail = $this->getDI()->getShared('config')->feedback_email;
 	}
 }

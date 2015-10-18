@@ -33,7 +33,8 @@ if ( $context->valid ) {
       <!-- Time Graph -->
       <div id="timeGraphSection" class="advancedTimeGraph col-md-12">
         <h3>Your Skills Over Time</h3>
-        <div id="visualizationContainer" class="container">
+			<p class="lead"><br>Check back here in a few days, when more historical skill data is available.</p>
+        <!--<div id="visualizationContainer" class="container">
             <div id="timeGraphContainer">
               <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
               <div id="timeGraph"></div>
@@ -53,7 +54,7 @@ if ( $context->valid ) {
               <b class="studentLine">Student</b><br />
               <b class="classLine">Class</b>
             </span>
-        </div>
+        </div>-->
       </div>
 
       <!-- Skills Graph -->
@@ -87,6 +88,9 @@ if ( $context->valid ) {
         <li role="presentation" class="advancedToggleLi"><a id="advancedToggleTimeGraph" class="advancedToggle" data-option="timeGraph" href="#">See skills over time</a><div class="advancedToggleOptional"><input id="advancedToggleTimeGraphClass" class="advancedToggleOptional" data-option="timeGraphClass" type="checkbox" />&nbsp;<label for="advancedToggleTimeGraphClass">Compare to class</label></div></li>
         <li role="presentation" class="advancedToggleLi"><a id="advancedToggleSkillsGraph" class="advancedToggle" data-option="skillsGraph" href="#">See my skills graph</a> <div class="advancedToggleOptional"><input id="advancedToggleSkillsGraphClass" class="advancedToggleOptional" data-option="skillsGraphClass" type="checkbox" />&nbsp;<label for="advancedToggleSkillsGraphClass">Compare to class</label></div></li>
       </ul>
+      <hr>
+      <h3>Feedback</h3>
+	  <p class="lead" style="font-size: 110%;">Have a suggestion? Found an issue? Send your feedback to <a target="_blank" href="mailto:<?php echo $feedbackEmail; ?>"><?php echo $feedbackEmail; ?></a></p>
     </div>
    
   </div>
