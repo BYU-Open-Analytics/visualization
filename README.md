@@ -48,6 +48,14 @@
 	email varchar(254) references students(email)
 	);`
 
+	- `create table feedback (
+	type text,
+	feedback text,
+	email varchar(254),
+	time_stored timestamp default now(),
+	id serial primary key
+	);`
+
 ## LTI integration
 - Basic LTI POST requests should be sent to `{base URI}/launch.php`
 - When logged in, LTI session information can be viewed at `{base URI}/ltiinfo`
