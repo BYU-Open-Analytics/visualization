@@ -18,11 +18,15 @@ class CalculationCacherController extends Controller
 		$config = $this->getDI()->getShared('config');
 
 
-		$studentId = "John Logie Baird";
 		$raw = false;
 		$debug = false;
 		$skillsHelper = new SkillsHelper();
+		$classHelper = new ClassHelper();
+		$studentIds = $classHelper->allStudents();
 
+		// Update skill scores for every student, and save history
+		foreach ($studentIds as $studentId) {
+			// TODO make this more efficient
 			$history = new SkillHistory();
 			$history->email = $studentId;
 			$history->time = $skillsHelper->calculateTimeScore($studentId, $raw, $debug);
@@ -31,13 +35,13 @@ class CalculationCacherController extends Controller
 			$history->awareness = $skillsHelper->calculateAwarenessScore($studentId, $raw, $debug);
 			$history->deep_learning = $skillsHelper->calculateDeepLearningScore($studentId, $raw, $debug);
 			$history->persistence = $skillsHelper->calculatePersistenceScore($studentId, $raw, $debug);
-			print_r($history);
 			
 			if ($history->create() == false) {
 				echo "Error saving history for $studentId";
 			} else {
 				echo "Successfully saved history for $studentId";
 			}
+		}
 
 
 		// Print total time taken
