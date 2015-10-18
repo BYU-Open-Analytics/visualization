@@ -66,6 +66,8 @@ function skillsGraphPointClicked(d) {
 	var skillId = skillIds[d.axis];
 	$("#skillsGraphRecommend").html($("#skillsListSection ." + skillId + "SkillTemplate").clone().addClass("advancedSkillsGraph"));
 	refreshView();
+	// Track this
+	track("clicked", "radarGraph"+skillId+"Point");
 }
 
 
