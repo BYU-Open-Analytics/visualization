@@ -92,15 +92,15 @@ if (!$context->valid) {
 function lmsdataToggle() {
     var ele = document.getElementById("lmsDataForm");
     if(ele.style.display == "block") {
-        ele.style.display = "none";
+        //ele.style.display = "none";
     }
     else {
-        ele.style.display = "block";
+        //ele.style.display = "block";
     }
 } 
   //]]> 
 </script>
-<a id="displayText" href="javascript:lmsdataToggle();">Toggle Resource and Launch Data</a>
+<!--<a id="displayText" href="javascript:lmsdataToggle();">Toggle Resource and Launch Data</a>-->
 <?php
   echo("<form method=\"post\" id=\"lmsDataForm\" style=\"display:none\">\n");
   echo("<input type=\"submit\" value=\"Recompute Launch Data\">\n");

@@ -132,22 +132,23 @@ $("#relatedVideosModal").on("show.bs.modal", function(e) {
 		.data(data)
 		.enter()
 		.append("tr")
-		.attr("id", function(d) { return "videoRow"+d.ID; });
+		.attr("id", function(d) { return "videoRow"+d["Video ID"]; });
 
 	tr.append("td")
 		.html(function(d) { return d.chapter + "." + d.section + "." + d.group + "." + d.video; })
 		.attr("class","videoRefCell");
 	tr.append("td")
 		// TODO absolute URL ref fix
-		.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d.ID + '" data-track="ayamelLaunch' + d.ID + '" target="_blank">' + d.title + '</a>'; })
+		.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d["Video ID"] + '" data-track="ayamelLaunch' + d["Video ID"] + '" target="_blank">' + d.title + '</a>'; })
 		.attr("class","videoTitleCell");
+	// TODO put back in percentage watched, with actual data
 	tr.append("td")
-		.attr("class", "videoProgressCell advancedMore")
-		.append("input")
-		.attr("type", "text")
-		.attr("class", "progressCircle")
-		.attr("disabled", "disabled")
-		.attr("value", function() { return Math.ceil(Math.random() * 100); }); // TODO put actual percentage here
+		.attr("class", "videoProgressCell advancedMore");
+		//.append("input")
+		//.attr("type", "text")
+		//.attr("class", "progressCircle")
+		//.attr("disabled", "disabled")
+		//.attr("value", function() { return Math.ceil(Math.random() * 100); }); // TODO put actual percentage here
 		
 	// Track that the modal was shown
 	track("clicked", "relatedVideos" + $(e.relatedTarget).attr('data-assessment') + '.' + $(e.relatedTarget).attr('data-question'));
@@ -161,10 +162,9 @@ $("#relatedVideosModal").on("show.bs.modal", function(e) {
 // Returns videos for a given question
 function getRelatedVideos(assessmentId, questionId) {
 	var relatedVideos = [];
-	// TODO Get associated chapter from assessmentid. For now, assuming 1->1 correlation between the two.
 	for (var i=0; i<mappings.length; i++) {
-		// See if this question is associated with this video
-		if ($.inArray(assessmentId+"."+questionId, mappings[i]["Quiz Questions"].split(",")) > -1) {
+		// See if this question's quiz is associated with this video
+		if (mappings[i]["Open Assessments ID"] == assessmentId) {
 			relatedVideos.push(mappings[i]);
 		}
 	}
