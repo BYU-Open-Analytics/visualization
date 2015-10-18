@@ -66,7 +66,7 @@ class TestController extends Controller
 		print_r(MappingHelper::questionsInConcept("2.1"));
 		echo "<hr>Videos for question 3.8\n";
 		print_r(MappingHelper::videosForQuestion("3.8"));
-		echo "<hr>Question info for questino 3.8\n";
+		echo "<hr>Question info for question 3.8\n";
 		print_r(MappingHelper::questionInformation("3.8"));
 	}
 

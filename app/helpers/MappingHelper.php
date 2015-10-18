@@ -13,6 +13,7 @@ class MappingHelper extends Module {
 	• questionNumber: the 1-n number of the question
 	• assessmentId: the Open Assessments ID for a quiz. Not sequential, or related to quizNumber. Needed for statement queries.
 	*/
+	// Array indexes are sometimes weird, so look for the headings in the CSV files
 
 	// Returns an array of all chapter numbers
 	static public function allChapters() {
@@ -50,18 +51,40 @@ class MappingHelper extends Module {
 		return $concepts;
 	}
 
+	// TODO
 	// Returns an array of unique questions (format is {quiz number}.{question number}) for the given concept id
 	static public function questionsInConcept($conceptId) {
-		$conceptQuestions = CSVHelper::parseWithHeaders('csv/video_concept_question.csv');
-		// Filter questions to ones in the selected concept
-		$questionLists = array_filter($conceptQuestions, function($concept) use ($conceptId) {
-			return ($concept["concept_number"] == $conceptId);
-		});
+		$videos = CSVHelper::parseWithHeaders('csv/mappings.csv');
+		$questionInfo = CSVHelper::parseWithHeaders('csv/questions.csv');
+
+		// Get list of quiz numbers that are associated with this concept
+		$quizNumbers = array();
+		foreach ($videos as $video) {
+			// Concept ID is the same as section number for our mappings' purposes
+			if ($video["Section Number"] == $conceptId) {
+				$quizNumbers [] = $video["Quiz #"];
+			}
+		}
+		$quizNumbers = array_unique($quizNumbers);
+		
+		// Then get question IDs for questions that are in those quizzes
 		$questionIds = array();
-		// Combine multiple rows of questions that are with the same concept
-		array_walk($questionLists, function($concept) use (&$questionIds) {
-			$questionIds = array_merge($questionIds, explode(",", $concept["questions"]));
-		});
+		foreach ($questionInfo as $q) {
+			if (in_array($q["Quiz Number"], $quizNumbers)) {
+				$questionIds [] = $q["Quiz Number"] . "." . $q["Question Number"];
+			}
+		}
+
+		// Filter questions to ones in the selected concept
+		//$questionLists = array_filter($conceptQuestions, function($concept) use ($conceptId) {
+			//return ($concept["concept_number"] == $conceptId);
+		//});
+		//$questionIds = array();
+		//// Combine multiple rows of questions that are with the same concept
+		//array_walk($questionLists, function($concept) use (&$questionIds) {
+			//$questionIds = array_merge($questionIds, explode(",", $concept["questions"]));
+		//});
+
 		// Remove duplicate questions (if question is associated with more than one video in the concept, only show it once)
 		$questionIds = array_unique($questionIds);
 		return $questionIds;
@@ -79,12 +102,12 @@ class MappingHelper extends Module {
 
 	// Returns an array of videos for a given questionId
 	static public function videosForQuestion($questionId) {
-		$videos = CSVHelper::parseWithHeaders('csv/video_concept_question.csv');
+		$videos = CSVHelper::parseWithHeaders('csv/mappings.csv');
 		$relatedVideos = array();
+		// Get the quiz number from the question ID so we can find videos that are related to the quiz that this question is in
+		$quizNumber = self::questionInformation($questionId)["quizNumber"];
 		foreach ($videos as $video) {
-			// Can't just do a string search in $video["questions"], since 1.11 would match 1.1
-			$videoQuestions = explode(",", $video["questions"]);
-			if (in_array($questionId, $videoQuestions)) {
+			if ($video['Quiz #'] == $quizNumber) {
 				$relatedVideos []= $video;
 			}
 		}
@@ -95,10 +118,8 @@ class MappingHelper extends Module {
 		// Array with quizNumber, questionNumber, assessmentId, and questionType (and options if multiple_choice)
 		// If given questionId is not valid, it returns false
 	static public function questionInformation($questionId) {
-		// Load quiz id -> assessment id mapping
-		$assessmentIds = CSVHelper::parseWithHeaders('csv/quiz_assessmentid.csv');
-		// Load question type mapping
-		$questionTypes = CSVHelper::parseWithHeaders('csv/question_type.csv');
+		// Load question information mapping
+		$questionInfo = CSVHelper::parseWithHeaders('csv/questions.csv');
 
 		// Split up quiz id and question id from format 12.1 (quizNumber.questionNumber)
 		$idParts = explode(".", $questionId);
@@ -108,11 +129,15 @@ class MappingHelper extends Module {
 		}
 		$quizNumber = $idParts[0];
 		$questionNumber = $idParts[1];
-		// Get assessment id from quiz id
-		$assessmentId = $assessmentIds[array_search($quizNumber, array_column($assessmentIds, 'quiz_number'))]["assessment_id"];
 
-		// Get question type
-		$questionType = $questionTypes[multi_array_search($questionTypes, ["quiz" => $quizNumber, "question" => $questionNumber])[0]]["type"];
+		// Get row from question info csv
+		$questionRow = $questionInfo[multi_array_search($questionInfo, ["Quiz Number" => $quizNumber, "Question Number" => $questionNumber])[0]];
+
+		// Get assessment id from quiz id
+		$assessmentId = $questionRow["OA Quiz ID"];
+
+		// Get question type: multiple_choice, short_answer, or essay
+		$questionType = $questionRow["Type"];
 
 		$question = [
 			"quizNumber" => $quizNumber,
@@ -123,7 +148,7 @@ class MappingHelper extends Module {
 
 		// If a multiple choice question, add the number of options the question has
 		if ($questionType == "multiple_choice") {
-			$question["options"] = $questionTypes[multi_array_search($questionTypes, ["quiz" => $quizNumber, "question" => $questionNumber])[0]]["options"];
+			$question["options"] = $questionRow["Multiple Choice Options"];
 		}
 		return $question;
 	}
