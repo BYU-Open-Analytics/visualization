@@ -488,10 +488,34 @@ class ContentRecommenderStatsController extends Controller
 		}
 		$masteryHelper = new MasteryHelper();
 		foreach ($concepts as $c) {
-			$score = $masteryHelper::calculateConceptMasteryScore($context->getUserEmail(), $c["Section Number"], $debug);
+			$score = rand(0,100);//$masteryHelper::calculateConceptMasteryScore($context->getUserEmail(), $c["Section Number"], $debug);
+			//print_r($c);
 			$result []= ["id" => $c["Section Number"], "display" => $c["Section Title"], "score" => $score];
 		}
 		echo json_encode($result);
+		switch (json_last_error()) {
+        case JSON_ERROR_NONE:
+            echo ' - No errors';
+        break;
+        case JSON_ERROR_DEPTH:
+            echo ' - Maximum stack depth exceeded';
+        break;
+        case JSON_ERROR_STATE_MISMATCH:
+            echo ' - Underflow or the modes mismatch';
+        break;
+        case JSON_ERROR_CTRL_CHAR:
+            echo ' - Unexpected control character found';
+        break;
+        case JSON_ERROR_SYNTAX:
+            echo ' - Syntax error, malformed JSON';
+        break;
+        case JSON_ERROR_UTF8:
+            echo ' - Malformed UTF-8 characters, possibly incorrectly encoded';
+        break;
+        default:
+            echo ' - Unknown error';
+        break;
+    }
 	}
 
 }
