@@ -50,7 +50,7 @@ class DashboardController extends Controller
 		$chaptersMapping = CSVHelper::parseWithHeaders('csv/chapter_unit.csv');
 		$chapters = [];
 		foreach ($chaptersMapping as $c) {
-			$chapters [] = ["id" => $c["ChapterNumber"], "title" => $c["Chapter Number"] . " " . $c["Chapter Title Short"]];
+			$chapters [] = ["id" => $c["Chapter Number"], "title" => $c["Chapter Number"] . " " . $c["Chapter Title Short"]];
 		}
 		$this->view->chapters = $chapters;
 
