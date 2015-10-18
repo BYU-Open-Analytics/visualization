@@ -483,8 +483,8 @@ class ContentRecommenderStatsController extends Controller
 		}
 		$masteryHelper = new MasteryHelper();
 		foreach ($concepts as $c) {
-			$score = $masteryHelper::calculateConceptMasteryScore($context->getUserEmail(), $c["concept_number"], $debug);
-			$result []= ["id" => $c["concept_number"], "display" => $c["concept_title"], "score" => $score];
+			$score = $masteryHelper::calculateConceptMasteryScore($context->getUserEmail(), $c["Section Number"], $debug);
+			$result []= ["id" => $c["Section Number"], "display" => $c["Section Title"], "score" => $score];
 		}
 		echo json_encode($result);
 	}
