@@ -51,7 +51,6 @@ class MappingHelper extends Module {
 		return $concepts;
 	}
 
-	// TODO
 	// Returns an array of unique questions (format is {quiz number}.{question number}) for the given concept id
 	static public function questionsInConcept($conceptId) {
 		$videos = CSVHelper::parseWithHeaders('csv/mappings.csv');
@@ -74,16 +73,6 @@ class MappingHelper extends Module {
 				$questionIds [] = $q["Quiz Number"] . "." . $q["Question Number"];
 			}
 		}
-
-		// Filter questions to ones in the selected concept
-		//$questionLists = array_filter($conceptQuestions, function($concept) use ($conceptId) {
-			//return ($concept["concept_number"] == $conceptId);
-		//});
-		//$questionIds = array();
-		//// Combine multiple rows of questions that are with the same concept
-		//array_walk($questionLists, function($concept) use (&$questionIds) {
-			//$questionIds = array_merge($questionIds, explode(",", $concept["questions"]));
-		//});
 
 		// Remove duplicate questions (if question is associated with more than one video in the concept, only show it once)
 		$questionIds = array_unique($questionIds);
