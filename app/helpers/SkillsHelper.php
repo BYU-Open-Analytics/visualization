@@ -1,6 +1,7 @@
 <?php 
 
 use Phalcon\Mvc\User\Module;
+include __DIR__ . "/../library/array_functions.php";
 
 class SkillsHelper extends Module {
 
@@ -246,8 +247,9 @@ class SkillsHelper extends Module {
 
 		// Total number of questions attempted
 		$totalQuestionCount = count($questionCountResults);
-
-		// Now get the number of questions that the answer was viewed on and they had 2 attempts on
+ 
+		// Now get the number of questions that the answer was viewed on and they had 2 attempts on (gamed questions)
+		$gamedQuestionCount = 0;
 		// First get the questions that they viewed the answer on
 		$viewedAnswerAggregation = [
 			['$match' => [
@@ -261,21 +263,40 @@ class SkillsHelper extends Module {
 		$viewedAnswerResults = $collection->aggregate($viewedAnswerAggregation)["result"];
 		// Now go through each of those and see if they had only 2 attempts on that question
 		foreach ($viewedAnswerResults as $viewedAnswerQuestion) {
-
+			$id = $viewedAnswerQuestion["_id"];
+			foreach ($questionCountResults as $q) {
+				// See if it's the same as this question, and if there's two attempts
+				if ($q["count"] == 2 && $q["_id"] == $id) {
+					// TODO put essay question filtering back in later.
+					// Now get the question type (since we don't care about essay)
+					//preg_match('/assessments\/(.*)\.xml#(.*)$/', $id, $matches);
+					//$assessmentId = $matches[0];
+					//$questionNumber = $matches[1];
+					// Load question information mapping
+					//$questionInfo = CSVHelper::parseWithHeaders('csv/questions.csv');
+					//$questionRow = $questionInfo[multi_array_search($questionInfo, ["OA Quiz ID" => $assessmentId, "Question Number" => $questionNumber])[0]];
+					//$questionType = $questionRow["Type"];
+					//if ($questionType != "essay") {
+						// Then we've got a non-essay question with two attempts and a shown answer. Gamed question.
+						$gamedQuestionCount++;
+						if ($debug) { echo "gamed question:"; print_r($viewedAnswerQuestion); }
+					//}
+				}
+			}
 		}
-			
-
-
 
 		if ($debug) {
 			echo "<pre>Total questions attempted count: $totalQuestionCount\n";
 			print_r($questionCountResults);
 			echo "<hr>questions viewed answer on:\n";
 			print_r($viewedAnswerResults);
+			echo "<hr>Gamed answer question count: $gamedQuestionCount\n";
 		}
 
 		// store raw, and then return scaled
-		$rawScore = rand(0,100);
+		$rawScore = $gamedQuestionCount / $totalQuestionCount;
+		// Do 1 - percentage so that more gamed questions gives a lower score
+		$rawScore = 1 - $rawScore;
 		$this->saveRawSkillScore($studentId, "deep_learning", $rawScore);
 		if ($raw) { return $rawScore; }
 		return $this->getScaledSkillScore($studentId, "deep_learning");
