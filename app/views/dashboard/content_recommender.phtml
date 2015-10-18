@@ -39,8 +39,8 @@ if ( $context->valid ) {
           <h3 style="display: inline;"><small><i>Filter recommendations by: </i></small></h3>
             <form>
               <div class="btn-group" style="float: left;" data-toggle="buttons">
-  				<label class="btn btn-default scopeOptionLabel"><input type="radio" name="recommendScopeOption" value="concept"/>Concept: 
-  						<select class="conceptSelector" name="recommendConceptSelector">
+  				<label class="btn btn-default scopeOptionLabel"><input type="radio" name="recommendScopeOption" id="recommendConceptButton" value="concept"/>Concept: 
+  						<select class="conceptSelector" id="recommendConceptSelector" name="recommendConceptSelector">
   						  <?php foreach ($concepts as $concept) { echo '<option value="'.$concept['id'].'">'.$concept['title'].'</option>'; } ?>
   						</select>
   					  </label>

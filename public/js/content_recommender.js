@@ -482,6 +482,21 @@ function showQuadrantInfo(quadrant) {
 	$("#quadrantInfo"+quadrant).removeClass("hidden").show();
 }
 
+function filterRecommendationsToConcept(d,i) {
+	var conceptId = d.id;
+	console.log(conceptId);
+	// Change back to recommendations view
+	// Set Filter for recommendations to this concept
+	// Choose concept radio button
+	$("#recommendConceptButton").click();
+	$("input[name=recommendScopeOption][value='concept']").prop("checked",true);
+	// Choose concept in dropdown list
+	$("#recommendConceptSelector").val(conceptId);
+	loadRecommendations();
+	changeView("simple");
+
+}
+
 // Loads the mastery graph
 function loadMasteryGraph() {
 	// Show the spinner while loading
@@ -540,7 +555,7 @@ function loadMasteryGraph() {
 		y.domain(data.map(function(d) { return d.display; }));
 
 		//Create tooltips
-		var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return d.score; });
+		var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return "Score: " + d.score + ". Click to view recommendations."; });
 		chart.call(tip);
 
 		var bars = chart.selectAll(".bar")
@@ -560,6 +575,7 @@ function loadMasteryGraph() {
 			.attr("data-toggle", "modal")
 			.attr("data-target", "#openAssessmentStatsModal")
 			.attr("data-name", function(d) { return d.id; })
+			.on('click', filterRecommendationsToConcept)
 			.on('mouseover', tip.show)
 			.on('mouseout', tip.hide);
 
