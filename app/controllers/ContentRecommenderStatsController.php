@@ -31,7 +31,7 @@ class ContentRecommenderStatsController extends Controller
 
 		//Get all attempts for the user
 		$attempts = $statementHelper->getStatements("openassessments",[
-			'statement.actor.mbox' => 'mailto:'.$context->getUserEmail(),
+			'statement.actor.name' => $context->getUserName(),
 			'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/answered',
 			], [
 			'statement.object' => true,
@@ -120,7 +120,7 @@ class ContentRecommenderStatsController extends Controller
 
 		//Get all video statements for the user
 		$statements = $statementHelper->getStatements("ayamel",[
-			'statement.actor.mbox' => 'mailto:'.$context->getUserEmail(),
+			'statement.actor.name' => $context->getUserName(),
 			], [
 			'statement.verb.id' => true,
 			'statement.object' => true,
@@ -227,11 +227,11 @@ class ContentRecommenderStatsController extends Controller
 			// Check that it's a valid question
 			if ($question != false) {
 				// Get number of attempts and number of correct attempts
-				$question["attempts"] = MasteryHelper::countAttemptsForQuestion($context->getUserEmail(), $question["assessmentId"], $question["questionNumber"], $debug);
-				$question["correctAttempts"] = MasteryHelper::countCorrectAttemptsForQuestion($context->getUserEmail(), $question["assessmentId"], $question["questionNumber"], $debug);
+				$question["attempts"] = MasteryHelper::countAttemptsForQuestion($context->getUserName(), $question["assessmentId"], $question["questionNumber"], $debug);
+				$question["correctAttempts"] = MasteryHelper::countCorrectAttemptsForQuestion($context->getUserName(), $question["assessmentId"], $question["questionNumber"], $debug);
 				// Get amount of associated videos watched
 				// Note that question ID is being used instead of assessment ID and question number, since we're searching the csv mapping and not dealing with assessment statements here
-				$question["videoPercentage"] = MasteryHelper::calculateVideoPercentageForQuestion($context->getUserEmail(), $questionId);
+				$question["videoPercentage"] = MasteryHelper::calculateVideoPercentageForQuestion($context->getUserName(), $questionId);
 				// Variables used in the display table
 				// This is one place where we're just using correct, not better correct, attempts
 				$question["correct"] = $question["correctAttempts"]["correct"] > 0;
@@ -373,11 +373,11 @@ class ContentRecommenderStatsController extends Controller
 			// Check that it's a valid question
 			if ($question != false) {
 				// Get number of attempts
-				$question["attempts"] = MasteryHelper::countAttemptsForQuestion($context->getUserEmail(), $question["assessmentId"], $question["questionNumber"], $debug);
+				$question["attempts"] = MasteryHelper::countAttemptsForQuestion($context->getUserName(), $question["assessmentId"], $question["questionNumber"], $debug);
 				$question["scaledAttemptScore"] = $classHelper->calculateScaledAttemptScoreForQuestion($question["attempts"], $question["assessmentId"], $question["questionNumber"], $debug);
 				// Get amount of associated videos watched
 				// Note that question ID is being used instead of assessment ID and question number, since we're searching the csv mapping and not dealing with assessment statements here
-				$question["videoPercentage"] = MasteryHelper::calculateVideoPercentageForQuestion($context->getUserEmail(), $questionId);
+				$question["videoPercentage"] = MasteryHelper::calculateVideoPercentageForQuestion($context->getUserName(), $questionId);
 
 				$questionDetails []= $question;
 			}
@@ -502,7 +502,7 @@ class ContentRecommenderStatsController extends Controller
 		}
 		$masteryHelper = new MasteryHelper();
 		foreach ($concepts as $c) {
-			$score = $masteryHelper::calculateConceptMasteryScore($context->getUserEmail(), $c["Section Number"], $debug);
+			$score = $masteryHelper::calculateConceptMasteryScore($context->getUserName(), $c["Section Number"], $debug);
 			//print_r($c);
 			$result []= ["id" => $c["Section Number"], "display" => $c["Section Title"], "score" => $score];
 		}

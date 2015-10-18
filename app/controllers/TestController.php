@@ -24,11 +24,11 @@ class TestController extends Controller
 		echo "<pre>Skill score saving test: ";
 		$sh = new SkillsHelper();
 		for ($i=0; $i<100; $i++) {
-			$sh-> saveRawSkillScore($i."jbaird@uni.ac.uk","consistency",rand(0,100));
-			$sh-> saveRawSkillScore($i."jbaird@uni.ac.uk","activity",rand(0,100));
-			$sh-> saveRawSkillScore($i."jbaird@uni.ac.uk","time",rand(0,100));
-			$sh-> saveRawSkillScore($i."jbaird@uni.ac.uk","persistence_attempts",rand(0,100));
-			$sh-> saveRawSkillScore($i."jbaird@uni.ac.uk","persistence_watched",rand(0,100));
+			$sh-> saveRawSkillScore($i."John Logie Baird","consistency",rand(0,100));
+			$sh-> saveRawSkillScore($i."John Logie Baird","activity",rand(0,100));
+			$sh-> saveRawSkillScore($i."John Logie Baird","time",rand(0,100));
+			$sh-> saveRawSkillScore($i."John Logie Baird","persistence_attempts",rand(0,100));
+			$sh-> saveRawSkillScore($i."John Logie Baird","persistence_watched",rand(0,100));
 		}
 	}
 
@@ -44,14 +44,14 @@ class TestController extends Controller
 		$this->view->disable();
 		$context = $this->getDI()->getShared('ltiContext');
 		$sh = new SkillsHelper();
-		echo $sh->calculateDeepLearningScore($context->getUserEmail(), true, true);
+		echo $sh->calculateDeepLearningScore($context->getUserName(), true, true);
 	}
 
 	public function timeAction() {
 		$this->view->disable();
 		$context = $this->getDI()->getShared('ltiContext');
 		$sh = new SkillsHelper();
-		echo $sh->calculateTimeScore($context->getUserEmail(), true, true);
+		echo $sh->calculateTimeScore($context->getUserName(), true, true);
 	}
 
 	public function mappingsAction() {

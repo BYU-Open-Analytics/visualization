@@ -20,12 +20,12 @@ class StudentSkillsStatsController extends Controller
 
 		$stats = [
 		    'student' => [
-			['id' => 'time', 'score' => $skillsHelper->calculateTimeScore($context->getUserEmail(), $raw, $debug)],
-			['id' => 'activity', 'score' => $skillsHelper->calculateActivityScore($context->getUserEmail(), $raw, $debug)],
-			['id' => 'consistency', 'score' => $skillsHelper->calculateConsistencyScore($context->getUserEmail(), $raw, $debug)],
-			['id' => 'awareness', 'score' => $skillsHelper->calculateAwarenessScore($context->getUserEmail(), $raw, $debug)],
-			['id' => 'deepLearning', 'score' => $skillsHelper->calculateDeepLearningScore($context->getUserEmail(), $raw, $debug)],
-			['id' => 'persistence', 'score' => $skillsHelper->calculatePersistenceScore($context->getUserEmail(), $raw, $debug)],
+			['id' => 'time', 'score' => $skillsHelper->calculateTimeScore($context->getUserName(), $raw, $debug)],
+			['id' => 'activity', 'score' => $skillsHelper->calculateActivityScore($context->getUserName(), $raw, $debug)],
+			['id' => 'consistency', 'score' => $skillsHelper->calculateConsistencyScore($context->getUserName(), $raw, $debug)],
+			['id' => 'awareness', 'score' => $skillsHelper->calculateAwarenessScore($context->getUserName(), $raw, $debug)],
+			['id' => 'deepLearning', 'score' => $skillsHelper->calculateDeepLearningScore($context->getUserName(), $raw, $debug)],
+			['id' => 'persistence', 'score' => $skillsHelper->calculatePersistenceScore($context->getUserName(), $raw, $debug)],
 		    ],
 		    'class' => [
 			['id' => 'time', 'score' => 5],

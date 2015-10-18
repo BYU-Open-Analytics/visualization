@@ -20,7 +20,7 @@ class StatementsController extends Controller
 		$statementHelper = new StatementHelper();
 
 		//Get all user answer attempts
-		$attempts = $statementHelper->getStatements("",['statement.actor.mbox'=>'mailto:'.$context->getUserEmail()],[]);
+		$attempts = $statementHelper->getStatements("",['statement.actor.name'=>$context->getUserName()],[]);
 		// Get most recent statements first, and only get 100. (The query hasn't actually been run on the server yet, so we can add more options)
 		$cursor = $attempts["cursor"]->sort(['statement.timestamp' => -1]);
 		$cursor = $attempts["cursor"]->limit(100);

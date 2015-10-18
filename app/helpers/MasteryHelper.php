@@ -174,7 +174,7 @@ class MasteryHelper extends Module {
 		// Get the count of answered statements for this question for current user
 		// TODO take the verb authority (adlnet/expapi/verbs/) part and put into a global constant
 		$statements = $statementHelper->getStatements("openassessments",[
-			'statement.actor.mbox' => 'mailto:'.$studentId,
+			'statement.actor.name' => $studentId,
 			'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/answered',
 			//'statement.object.id' => $regex,
 			'statement.object.definition.name.en-US' => $questionDescription,
@@ -201,7 +201,7 @@ class MasteryHelper extends Module {
 		// Get the count of answered and showed-answer statements for this question for current user
 		// TODO take the verb authority (adlnet/expapi/verbs/) part and put into a global constant
 		$statements = $statementHelper->getStatements("openassessments",[
-			'statement.actor.mbox' => 'mailto:'.$studentId,
+			'statement.actor.name' => $studentId,
 			'statement.verb.id' => array('$in' => array(
 				'http://adlnet.gov/expapi/verbs/answered',
 				'http://adlnet.gov/expapi/verbs/showed-answer'
@@ -274,7 +274,7 @@ class MasteryHelper extends Module {
 		// This is more efficient by using an $in query for all videos, rather than querying for each individual video as previously done
 		$statementHelper = new StatementHelper();
 		$statements = $statementHelper->getStatements("ayamel",[
-			'statement.actor.mbox' => 'mailto:'.$studentId,
+			'statement.actor.name' => $studentId,
 			'statement.verb.id' => 'https://ayamel.byu.edu/watched',
 			'statement.object.id' => array('$in' => $videoIds),
 		], [

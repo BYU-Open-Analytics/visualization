@@ -6,6 +6,7 @@ include __DIR__ . "/../library/array_functions.php";
 class SkillsHelper extends Module {
 
 	// Perform (or retrieve) calculations for a given skill for a given student. Return a score scaled by class, 0-10.
+	// NOTE that studentId should be name, not email address.
 
 	// Percent of a student's total events between 11pm and 5am (raw percentage, that still needs to be scaled by class)
 	public function calculateTimeScore($studentId, $raw = false, $debug = false) {
@@ -20,7 +21,7 @@ class SkillsHelper extends Module {
 		$aggregation = [
 			['$match' => [
 				'timestamp' => array('$gte' => new MongoDate(strtotime('midnight -2 weeks'))),
-				'statement.actor.mbox' => 'mailto:'.$studentId,
+				'statement.actor.name' => $studentId,
 				'lrs._id' => array('$in' => array( 
 					$config->lrs->openassessments->id, 
 					$config->lrs->ayamel->id,
@@ -96,13 +97,13 @@ class SkillsHelper extends Module {
 		$aggregation = [
 			['$match' => [
 				'timestamp' => array('$gte' => new MongoDate(strtotime('-2 weeks'))),
-				'statement.actor.mbox' => 'mailto:'.$studentId,
+				'statement.actor.name' => $studentId,
 				'lrs._id' => array('$in' => array( 
 					$config->lrs->openassessments->id, 
 					$config->lrs->ayamel->id,
 				)),
 			] ],
-			['$group' => ['_id' => '$statement.actor.mbox', 'count' => ['$sum' => 1] ] ]
+			['$group' => ['_id' => '$statement.actor.name', 'count' => ['$sum' => 1] ] ]
 		];
 
 		$collection = $db->statements;
@@ -126,7 +127,7 @@ class SkillsHelper extends Module {
 		$aggregation = [
 			['$match' => [
 				'timestamp' => array('$gte' => new MongoDate(strtotime('midnight -2 weeks'))),
-				'statement.actor.mbox' => 'mailto:'.$studentId,
+				'statement.actor.name' => $studentId,
 				'lrs._id' => array('$in' => array( 
 					$config->lrs->openassessments->id, 
 					$config->lrs->ayamel->id,
@@ -181,7 +182,7 @@ class SkillsHelper extends Module {
 		// Get the count of answered statements for this question for current user
 		// TODO take the verb authority (adlnet/expapi/verbs/) part and put into a global constant
 		$statements = $statementHelper->getStatements("openassessments",[
-			'statement.actor.mbox' => 'mailto:'.$studentId,
+			'statement.actor.name' => $studentId,
 			'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/answered',
 			// Timeframe of past two weeks
 			'timestamp' => array('$gte' => new MongoDate(strtotime('midnight -2 weeks'))),
@@ -235,7 +236,7 @@ class SkillsHelper extends Module {
 		$questionCountAggregation = [
 			['$match' => [
 				'timestamp' => array('$gte' => new MongoDate(strtotime('-2 weeks'))),
-				'statement.actor.mbox' => 'mailto:'.$studentId,
+				'statement.actor.name' => $studentId,
 				'lrs._id' => $config->lrs->openassessments->id, 
 				'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/answered',
 			] ],
@@ -254,7 +255,7 @@ class SkillsHelper extends Module {
 		$viewedAnswerAggregation = [
 			['$match' => [
 				'timestamp' => array('$gte' => new MongoDate(strtotime('-2 weeks'))),
-				'statement.actor.mbox' => 'mailto:'.$studentId,
+				'statement.actor.name' => $studentId,
 				'lrs._id' => $config->lrs->openassessments->id, 
 				'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/showed-answer'
 			] ],
@@ -309,7 +310,7 @@ class SkillsHelper extends Module {
 
 		// Calculate number of watched statements for student
 		$statements = $statementHelper->getStatements("ayamel",[
-			'statement.actor.mbox' => 'mailto:'.$studentId,
+			'statement.actor.name' => $studentId,
 			'statement.verb.id' => 'https://ayamel.byu.edu/watched',
 			// Timeframe of past two weeks
 			'timestamp' => array('$gte' => new MongoDate(strtotime('midnight -2 weeks'))),
@@ -324,7 +325,7 @@ class SkillsHelper extends Module {
 
 		// Calculate number of question attempt (answered) statements for student
 		$statements = $statementHelper->getStatements("openassessments",[
-			'statement.actor.mbox' => 'mailto:'.$studentId,
+			'statement.actor.name' => $studentId,
 			'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/answered',
 			// Timeframe of past two weeks
 			'timestamp' => array('$gte' => new MongoDate(strtotime('midnight -2 weeks'))),

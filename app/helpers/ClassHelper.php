@@ -19,14 +19,14 @@ class ClassHelper extends Module {
 
 		$questionDescription = "Question #{$questionNumber} of assessment {$assessmentId}";
 
-		// Aggregate, matching the verb, LRS, and object (specific question of a specific assessment), and get a count grouped by student email
+		// Aggregate, matching the verb, LRS, and object (specific question of a specific assessment), and get a count grouped by student name
 		$aggregation = [
 			['$match' => [
 				'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/answered',
 				'lrs._id' => $config->lrs->openassessments->id,
 				'statement.object.definition.name.en-US' => $questionDescription,
 			] ],
-			['$group' => ['_id' => '$statement.actor.mbox', 'count' => ['$sum' => 1] ] ]
+			['$group' => ['_id' => '$statement.actor.name', 'count' => ['$sum' => 1] ] ]
 		];
 
 		$collection = $db->statements;
@@ -49,14 +49,14 @@ class ClassHelper extends Module {
 
 		$questionDescription = "Question #{$questionNumber} of assessment {$assessmentId}";
 
-		// Aggregate, matching the verb, LRS, and object (specific question of a specific assessment), and get a count grouped by student email
+		// Aggregate, matching the verb, LRS, and object (specific question of a specific assessment), and get a count grouped by student name
 		$aggregation = [
 			['$match' => [
 				'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/answered',
 				'lrs._id' => $config->lrs->openassessments->id,
 				'statement.object.definition.name.en-US' => $questionDescription,
 			] ],
-			['$group' => ['_id' => '$statement.actor.mbox', 'count' => ['$sum' => 1] ] ]
+			['$group' => ['_id' => '$statement.actor.name', 'count' => ['$sum' => 1] ] ]
 		];
 
 		$collection = $db->statements;
@@ -90,14 +90,14 @@ class ClassHelper extends Module {
 
 		$questionDescription = "Question #{$questionNumber} of assessment {$assessmentId}";
 
-		// Aggregate, matching the verb, LRS, and object (specific question of a specific assessment), and get a count grouped by student email
+		// Aggregate, matching the verb, LRS, and object (specific question of a specific assessment), and get a count grouped by student name
 		$aggregation = [
 			['$match' => [
 				'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/showed-hint',
 				'lrs._id' => $config->lrs->openassessments->id,
 				'statement.object.definition.name.en-US' => $questionDescription,
 			] ],
-			['$group' => ['_id' => '$statement.actor.mbox', 'count' => ['$sum' => 1] ] ]
+			['$group' => ['_id' => '$statement.actor.name', 'count' => ['$sum' => 1] ] ]
 		];
 
 		$collection = $db->statements;
@@ -125,14 +125,14 @@ class ClassHelper extends Module {
 
 		$questionDescription = "Question #{$questionNumber} of assessment {$assessmentId}";
 
-		// Aggregate, matching the verb, LRS, and object (specific question of a specific assessment), and get a count grouped by student email
+		// Aggregate, matching the verb, LRS, and object (specific question of a specific assessment), and get a count grouped by student name
 		$aggregation = [
 			['$match' => [
 				'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/showed-answer',
 				'lrs._id' => $config->lrs->openassessments->id,
 				'statement.object.definition.name.en-US' => $questionDescription,
 			] ],
-			['$group' => ['_id' => '$statement.actor.mbox', 'count' => ['$sum' => 1] ] ]
+			['$group' => ['_id' => '$statement.actor.name', 'count' => ['$sum' => 1] ] ]
 		];
 
 		$collection = $db->statements;
@@ -150,7 +150,7 @@ class ClassHelper extends Module {
 		return round($percentage * 100);
 	}
 
-	// Returns an array of all students' actor.mbox identifiers
+	// Returns an array of all students' actor.name identifiers
 	public function allStudents() {
 		// Cache 
 		if (self::$cachedStudents != null) {
@@ -163,8 +163,8 @@ class ClassHelper extends Module {
 		$db = $m->{$config->lrs_database->dbname};
 
 		$collection = $db->statements;
-		// Get each distinct email address in the openassessments LRS
-		$results = $collection->distinct('statement.actor.mbox', [
+		// Get each distinct name address in the openassessments LRS
+		$results = $collection->distinct('statement.actor.name', [
 				'lrs._id' => $config->lrs->openassessments->id,
 			]);
 		self::$cachedStudents = $results;
