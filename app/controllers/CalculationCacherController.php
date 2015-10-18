@@ -16,26 +16,28 @@ class CalculationCacherController extends Controller
 		$startTime = microtime(true);
 
 		$config = $this->getDI()->getShared('config');
-		// Connect to database
-		$m = new MongoClient("mongodb://{$config->lrs_database->username}:{$config->lrs_database->password}@{$config->lrs_database->host}/{$config->lrs_database->dbname}");
-		$db = $m->{$config->lrs_database->dbname};
-
-		// Query statements
-		$collection = $db->statements;
-
-		// Get list of unique users, only from the open assessments LRS
-		$userMboxes = $collection->distinct("statement.actor.mbox", ["lrs._id" => $config->lrs->openassessments->id]);
 
 
-		foreach ($userMboxes as $user) {
-			$inefficientCount = 0;
-			// Perform some example query
-			$cursor = $collection->find(["statement.actor.mbox" => $user], []);
-			foreach ($cursor as $statement) {
-				$inefficientCount++;
+		$studentId = "John Logie Baird";
+		$raw = false;
+		$debug = false;
+		$skillsHelper = new SkillsHelper();
+
+			$history = new SkillHistory();
+			$history->email = $studentId;
+			$history->time = $skillsHelper->calculateTimeScore($studentId, $raw, $debug);
+			$history->activity = $skillsHelper->calculateActivityScore($studentId, $raw, $debug);
+			$history->consistency = $skillsHelper->calculateConsistencyScore($studentId, $raw, $debug);
+			$history->awareness = $skillsHelper->calculateAwarenessScore($studentId, $raw, $debug);
+			$history->deep_learning = $skillsHelper->calculateDeepLearningScore($studentId, $raw, $debug);
+			$history->persistence = $skillsHelper->calculatePersistenceScore($studentId, $raw, $debug);
+			print_r($history);
+			
+			if ($history->create() == false) {
+				echo "Error saving history for $studentId";
+			} else {
+				echo "Successfully saved history for $studentId";
 			}
-			echo " : " .$inefficientCount."<br>\n";
-		}
 
 
 		// Print total time taken
