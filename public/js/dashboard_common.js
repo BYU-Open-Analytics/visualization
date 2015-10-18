@@ -6,7 +6,7 @@ function sendStatement(params) {
 
 function currentCourseUnit() {
 	// TODO return the correct unit based on current day
-	return 1;
+	return 3;
 }
 
 // From http://stackoverflow.com/a/14426477

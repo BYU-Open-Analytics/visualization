@@ -28,14 +28,37 @@ if ( $context->valid ) {
               <div class="conceptsList" id="weakestConceptsList"> </div>
           </div>
         </div>
+        <div class="row"><hr><br></div>
       </div>
   
       <!-- Recommendations -->
       <div id="recommendSection" class="advancedSimple advancedAll col-md-12">
-          <h3 class="advancedSimple">Question Recommendations</h3>
-          <h3 class="advancedAll">Question Recommendations for all concepts</h3>
+          <h3 style="float: left;">Question Recommendations</h3>
 
-          <ul class="nav nav-tabs" id="recommendTabs" role="tablist">
+		  <div class="pull-right">
+          <h3 style="display: inline;"><small><i>Filter recommendations by: </i></small></h3>
+            <form>
+              <div class="btn-group" style="float: left;" data-toggle="buttons">
+  				<label class="btn btn-default scopeOptionLabel"><input type="radio" name="recommendScopeOption" value="concept"/>Concept: 
+  						<select class="conceptSelector" name="recommendConceptSelector">
+  						  <?php foreach ($concepts as $concept) { echo '<option value="'.$concept['id'].'">'.$concept['title'].'</option>'; } ?>
+  						</select>
+  					  </label>
+  				<label class="btn btn-default scopeOptionLabel"><input type="radio" name="recommendScopeOption" value="chapter" />Chapter: 
+  						<select class="chapterSelector" name="recommendChapterSelector">
+  						  <?php foreach ($chapters as $chapter) { echo '<option value="'.$chapter['id'].'">'.$chapter['title'].'</option>'; } ?>
+  						</select>
+  					  </label>
+  				<label class="btn btn-default scopeOptionLabel active"><input type="radio" name="recommendScopeOption" value="unit" checked />Unit: 
+  						<select class="unitSelector" name="recommendUnitSelector">
+  						  <?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'"'; if ($unit['id']==3) { echo ' selected="selected"'; } echo '>'.$unit['title'].'</option>'; } ?>
+  						</select>
+  					  </label>
+              </div>
+            </form>
+          </div><br>
+
+          <ul class="nav nav-tabs" style="clear: both;" id="recommendTabs" role="tablist">
 			<li role="presentation" class="active"><a href="#recommend1" aria-controls="recommend1" role="tab" data-toggle="tab"><div class="text-center">Attempt these questions</div></a></li>
 			<li role="presentation"><a href="#recommend2" aria-controls="recommend2" role="tab" data-toggle="tab"><div class="text-center">Watch these videos</div></a></li>
 			<li role="presentation"><a href="#recommend3" aria-controls="recommend3" role="tab" data-toggle="tab"><div class="text-center">Find additional help</div></a></li>
@@ -159,14 +182,14 @@ if ( $context->valid ) {
           <span class="spinner pull-right"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
           <form>
             <div class="btn-group" data-toggle="buttons">
-  	    <label class="btn btn-default scopeOptionLabel active"><input type="radio" name="masteryGraphScopeOption" value="chapter" checked />Chapter: 
+  	    <label class="btn btn-default scopeOptionLabel"><input type="radio" name="masteryGraphScopeOption" value="chapter" />Chapter: 
                 <select class="chapterSelector" name="masteryGraphChapterSelector">
                   <?php foreach ($chapters as $chapter) { echo '<option value="'.$chapter['id'].'">'.$chapter['title'].'</option>'; } ?>
                 </select>
               </label>
-  	    <label class="btn btn-default scopeOptionLabel"><input type="radio" name="masteryGraphScopeOption" value="unit" />Unit: 
+  	    <label class="btn btn-default scopeOptionLabel active"><input type="radio" name="masteryGraphScopeOption" value="unit" checked />Unit: 
                 <select class="unitSelector" name="masteryGraphUnitSelector">
-                  <?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'">'.$unit['title'].'</option>'; } ?>
+                  <?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'"'; if ($unit['id']==3) { echo ' selected="selected"'; } echo '>'.$unit['title'].'</option>'; } ?>
                 </select>
               </label>
               <label class="btn btn-default scopeOptionLabel"><input type="radio" name="masteryGraphScopeOption" value="all" />All</label>

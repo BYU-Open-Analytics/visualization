@@ -216,10 +216,26 @@ function questionElement(d) {
 
 // Loads recommendations
 function loadRecommendations() {
-	d3.json("../content_recommender_stats/recommendations/" + currentCourseUnit(), function(error, data) {
+	$("#recommendSection .spinner").show();
+	// Determine what current scope and grouping id (concept/chapter/unit id) are
+	var scopeOption = $("input[name=recommendScopeOption]:checked").val();
+	var scopeGroupingId = "";
+	switch (scopeOption) {
+		case "concept":
+			scopeGroupingId = $("[name=recommendConceptSelector]").val();
+			break;
+		case "chapter":
+			scopeGroupingId = $("[name=recommendChapterSelector]").val();
+			break;
+		case "unit":
+			scopeGroupingId = $("[name=recommendUnitSelector]").val();
+			break;
+	}
+	console.log("LOADING RECOMMENDATIONS WITH SCOPE AND ID",scopeOption, scopeGroupingId);
+	d3.json("../content_recommender_stats/recommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
 		$("#recommendSection .spinner").hide();
 		for (var i=1; i<5; i++) {
-			//$("#recommend"+i+"List").empty();
+			$("#recommend"+i+"List").empty();
 			d3.select("#recommend"+i+"List")
 				.selectAll("tr")
 				.data(data["group"+i])
@@ -740,6 +756,15 @@ $(function() {
 	});
 	$("[name=scatterplotConceptSelector], [name=scatterplotChapterSelector], [name=scatterplotUnitSelector]").on("change", function() {
 		loadScatterplot();
+		track("clicked",$(this).attr("name")+$(this).val());
+	});
+	// Reload the recommendations when scope changes, and when concept/chapter/unit changes
+	$("input:radio[name=recommendScopeOption]").on("change", function() {
+		loadRecommendations();
+		track("clicked","recommendScope"+$(this).val());
+	});
+	$("[name=recommendConceptSelector], [name=recommendChapterSelector], [name=recommendUnitSelector]").on("change", function() {
+		loadRecommendations();
 		track("clicked",$(this).attr("name")+$(this).val());
 	});
 	// Reload the mastery graph when scope changes, and when chapter/unit changes

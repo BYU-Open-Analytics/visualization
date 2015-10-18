@@ -174,7 +174,7 @@ class ContentRecommenderStatsController extends Controller
 		// Watch these videos before attempting these quiz questions (Group 2)
 		// Find additional help (Group 3)
 		// Practice these questions again (Group 4)
-	public function recommendationsAction($unit, $debug = false) {
+	public function recommendationsAction($scope = 'unit', $groupingId = '3', $debug = false) {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
@@ -182,8 +182,8 @@ class ContentRecommenderStatsController extends Controller
 			echo '[{"error":"Invalid lti context"}]';
 			return;
 		}
-		if (!isset($unit)) {
-			echo '[{"error":"No unit specified"}]';
+		if (!isset($groupingId)) {
+			echo '[{"error":"No scope grouping ID specified"}]';
 			return;
 		}
 
@@ -193,17 +193,31 @@ class ContentRecommenderStatsController extends Controller
 		$group2 = [];
 		$group3 = [];
 		$group4 = [];
-		// Get chapters from this unit (or all units)
-		$chapterNumbers = ($unit == "all") ? MappingHelper::allChapters() : MappingHelper::chaptersInUnit($unit);
-		// Then get concepts that are in those chapters
-		$concepts = MappingHelper::conceptsInChapters($chapterNumbers);
-		// We need just the concept numbers to find questions
-		$conceptNumbers = array_column($concepts, "Section Number");
-		// Finally, get all the question ids in those concepts
-		$questionIds = MappingHelper::questionsInConcepts($conceptNumbers);
+
+		// Get the list of questions associated with concepts for the given scope and grouping ID
+		$questionIds = [];
+		switch ($scope) {
+			case "concept":
+				// Filter based on concept
+				$questionIds = MappingHelper::questionsInConcept($groupingId);
+				break;
+			case "chapter":
+				// Filter based on chapter
+				// conceptsInChapter returns an array with more than just concept number, so get just concept_number column
+				$questionIds = MappingHelper::questionsInConcepts(array_column(MappingHelper::conceptsInChapter($groupingId), "Section Number"));
+				break;
+			case "unit":
+				// Filter based on unit
+				$questionIds = MappingHelper::questionsInConcepts(array_column(MappingHelper::conceptsInChapters(MappingHelper::chaptersInUnit($groupingId)), "Section Number"));
+				break;
+			default:
+				echo '[{"error":"Invalid scope option"}]';
+				return;
+				break;
+		}
 
 		if ($debug) {
-			echo "<pre>Getting information for these questions in unit $unit:\n";
+			echo "<pre>Getting information for these questions in scope $scope and ID $groupingId\n";
 			print_r($questionIds);
 		}
 		$questions = array();
