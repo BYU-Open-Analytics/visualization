@@ -23,6 +23,15 @@ class FeedbackController extends Controller
 			} else {
 				echo "There was an error saving your feedback";
 			}
+      
+			$to = $this->getDI()->getShared('config')->feedback_email;
+			$subject = 'Dashboard Feedback: ' . $_POST["feedback"] . " " . date(DATE_RFC2822);
+			$message = $_POST["feedback"];
+			$headers = 'From: admin@byuopenanalytics-dashboard.com' . "\r\n" .
+				'Reply-To: admin@byuopenanalytics-dashboard.com' . "\r\n" .
+				'X-Mailer: PHP/' . phpversion();
+
+			mail($to, $subject, $message, $headers);
 		} else {
 			echo "You must be signed in to submit feedback";
 		}
