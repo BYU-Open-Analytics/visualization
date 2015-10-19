@@ -290,6 +290,19 @@ function changeView(optionName, optionValue, refreshOnly) {
 	}
 }
 
+// Called when send feedback button is clicked. Feedback is recorded in dashboard database
+function sendFeedback() {
+	var feedbackText = $("#feedbackTextArea").val() + "\n---\n Sent from " + window.location.href + "\n" + navigator.userAgent;
+	var feedbackType = $("#feedbackTypeSelector").val();
+	$("#feedbackSpinner").removeClass("hidden");
+	$("#feedbackForm").slideUp();
+	$.post("../feedback/submit", {"feedbackType":feedbackType,"feedback":feedbackText}, function(data) {
+		$("#feedbackResult").text(data);
+		$("#feedbackSpinner").addClass("hidden");
+	});
+}
+
+
 // Called for basically every click interaction. Sends an xAPI statement with the given verb and object
 // verbName is often "clicked". objectName should be string with no spaces, e.g. "viewSettingMasteryGraph"
 function track(verbName, objectName) {
@@ -357,6 +370,8 @@ $(function() {
 	$(document).on("click", "[data-track]", function() {
 		track("clicked", $(this).attr("data-track"));
 	});
+	// Bind feedback submit button click event
+	$("#feedbackSendButton").click(sendFeedback);
 	
 	// Load data
 	// TODO absolute url ref fix

@@ -107,6 +107,31 @@
 	cursor: not-allowed;
 }
 
+/* Feedback Form */
+#feedbackTypeSelector {
+	margin-bottom: 10px;
+}
+#feedbackTextArea {
+	font-size: 110%;
+	resize: none;
+	border-bottom-right-radius: 0px;
+	border-bottom-left-radius: 0px;
+	margin-bottom: 0px;
+}
+#feedbackSendButton {
+	border-top-right-radius: 0px;
+	border-top-left-radius: 0px;
+	border-top: none;
+	margin-top: 0px;
+}
+#feedbackResult {
+	font-size: 110%;
+}
+#feedbackSpinner {
+	display: block;
+	text-align: center;
+}
+
 /* Showing and hiding certain ones based on toggles */
 .advancedHide {
 	display: none;
