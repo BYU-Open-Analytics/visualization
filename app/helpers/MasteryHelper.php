@@ -218,8 +218,9 @@ class MasteryHelper extends Module {
 		} else {
 			$correctAttempts = 0;
 			$betterCorrectAttempts = 0;
+			$statementsArray = iterator_to_array($statements["cursor"]);
 			// Find the correct answered statements
-			foreach ($statements["cursor"] as $statement) {
+			foreach ($statementsArray as $statement) {
 				if ($statement["statement"]["verb"]["id"] == 'http://adlnet.gov/expapi/verbs/answered' && $statement["statement"]["result"]["success"] == true) {
 					if ($debug) echo "Correct answered statement!<br>";
 					// Have a correct attempt
@@ -227,7 +228,7 @@ class MasteryHelper extends Module {
 					// Now see if there's a shown-answer statement in the preceding minute to check if it's a better-correct
 					// Set this to false if we find a shown-answer statement in the preceding minute
 					$attemptBetterCorrect = true;
-					foreach ($statements["cursor"] as $possibleShowAnswerStatement) {
+					foreach ($statementsArray as $possibleShowAnswerStatement) {
 						if ($possibleShowAnswerStatement["statement"]["verb"]["id"] == 'http://adlnet.gov/expapi/verbs/showed-answer') {
 							// Compare time 
 							$timeDifference = strtotime($statement["statement"]["timestamp"]) - strtotime($possibleShowAnswerStatement["statement"]["timestamp"]);
