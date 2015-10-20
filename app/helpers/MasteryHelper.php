@@ -160,8 +160,8 @@ class MasteryHelper extends Module {
 			print_r($conceptShortAnswerQuestions);
 			print_r($conceptMultipleChoiceQuestions);
 		}
-		// Avoid division by zero
-		return $conceptScore;
+		// Round to 2 decimal places
+		return round($conceptScore * 100) / 100;
 	}
 
 	// Returns the number of attempts (answered statements) a student has made for a particular question
