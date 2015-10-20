@@ -22,8 +22,8 @@ class CalculationCacherController extends Controller
 		$debug = false;
 		$skillsHelper = new SkillsHelper();
 		$classHelper = new ClassHelper();
-		//$studentIds = $classHelper->allStudents();
-		$studentIds = ["John Logie Baird"];
+		$studentIds = $classHelper->allStudents();
+		//$studentIds = ["John Logie Baird"];
 
 		// Update skill scores for every student, and save history
 		foreach ($studentIds as $studentId) {
