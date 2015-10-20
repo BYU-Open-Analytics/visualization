@@ -26,7 +26,7 @@ class FeedbackController extends Controller
       
 			$to = $this->getDI()->getShared('config')->feedback_email;
 			$subject = 'Dashboard Feedback: ' . $feedback->type . " " . date(DATE_RFC2822);
-			$message = $feedback->feedback;
+			$message = $feedback->feedback . "\n Sent by " . $feedback->student_name . ", " . $feedback->student_email;
 			$headers = 'From: admin@byuopenanalytics-dashboard.com' . "\r\n" .
 				'Reply-To: admin@byuopenanalytics-dashboard.com' . "\r\n" .
 				'X-Mailer: PHP/' . phpversion();
