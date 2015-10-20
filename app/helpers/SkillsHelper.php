@@ -80,7 +80,9 @@ class SkillsHelper extends Module {
 		}
 		// store raw, and then return scaled
 		// Do 1 - percentage so that fewer statements in 11pm-5am gives a higher score
-		$rawScore = 1 - ($procrastinatedStatementCount / $totalStatementCount);
+		//
+		// Avoid division by 0
+		$rawScore = ($totalStatementCount != 0) ? (1 - ( $procrastinatedStatementCount / $totalStatementCount) ) : 0;
 		$this->saveRawSkillScore($studentId, "time", $rawScore);
 		if ($raw) { return $rawScore; }
 		return $this->getScaledSkillScore($studentId, "time");
@@ -215,7 +217,8 @@ class SkillsHelper extends Module {
 			if ($debug) { echo "Score for $nonEssayAttemptCount non-essay attempts: $questionAwarenessTotal"; }
 
 			// store raw, and then return scaled
-			$rawScore = $questionAwarenessTotal / $nonEssayAttemptCount;
+			// Avoid division by 0
+			$rawScore = ($nonEssayAttemptCount != 0) ? ( $questionAwarenessTotal / $nonEssayAttemptCount ) : 0;
 			$this->saveRawSkillScore($studentId, "awareness", $rawScore);
 			if ($raw) { return $rawScore; }
 			return $this->getScaledSkillScore($studentId, "awareness");
@@ -295,7 +298,8 @@ class SkillsHelper extends Module {
 		}
 
 		// store raw, and then return scaled
-		$rawScore = $gamedQuestionCount / $totalQuestionCount;
+		// Avoid division by 0
+		$rawScore = ($totalQuestionCount != 0) ? ( $gamedQuestionCount / $totalQuestionCount ) : 0;
 		// Do 1 - percentage so that more gamed questions gives a lower score
 		$rawScore = 1 - $rawScore;
 		$this->saveRawSkillScore($studentId, "deep_learning", $rawScore);
