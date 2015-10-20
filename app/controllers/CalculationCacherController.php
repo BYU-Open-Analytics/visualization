@@ -45,7 +45,7 @@ class CalculationCacherController extends Controller
 			if ($history->create() == false) {
 				echo "*** Error saving history for $studentId\n";
 			} else {
-				echo "    Successfully saved history for $studentId\n";
+				//echo "    Successfully saved history for $studentId\n";
 			}
 		}
 
