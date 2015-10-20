@@ -292,6 +292,11 @@ function changeView(optionName, optionValue, refreshOnly) {
 
 // Called when send feedback button is clicked. Feedback is recorded in dashboard database
 function sendFeedback() {
+	// Make sure there's feedback text first
+	if (!$.trim($("#feedbackTextArea").val())) {
+		$("#feedbackEmptyAlert").removeClass("hidden").hide().slideDown("fast");
+		return;
+	}
 	var feedbackText = $("#feedbackTextArea").val() + "\n---\n Sent from " + window.location.href + "\n" + navigator.userAgent;
 	var feedbackType = $("#feedbackTypeSelector").val();
 	$("#feedbackSpinner").removeClass("hidden");

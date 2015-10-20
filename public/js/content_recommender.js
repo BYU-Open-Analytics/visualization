@@ -231,7 +231,7 @@ function loadRecommendations() {
 			scopeGroupingId = $("[name=recommendUnitSelector]").val();
 			break;
 	}
-	console.log("LOADING RECOMMENDATIONS WITH SCOPE AND ID",scopeOption, scopeGroupingId);
+	//console.log("LOADING RECOMMENDATIONS WITH SCOPE AND ID",scopeOption, scopeGroupingId);
 	d3.json("../content_recommender_stats/recommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
 		$("#recommendSection .spinner").hide();
 		for (var i=1; i<5; i++) {
@@ -655,6 +655,23 @@ function wrap(text, width) {
   });
 }
 
+// Called when send feedback button is clicked. Feedback is recorded in dashboard database
+function sendFeedback() {
+	// Make sure there's feedback text first
+	if (!$.trim($("#feedbackTextArea").val())) {
+		$("#feedbackEmptyAlert").removeClass("hidden").hide().slideDown("fast");
+		return;
+	}
+	var feedbackText = $("#feedbackTextArea").val() + "\n---\n Sent from " + window.location.href + "\n" + navigator.userAgent;
+	var feedbackType = $("#feedbackTypeSelector").val();
+	$("#feedbackSpinner").removeClass("hidden");
+	$("#feedbackForm").slideUp();
+	$.post("../feedback/submit", {"feedbackType":feedbackType,"feedback":feedbackText}, function(data) {
+		$("#feedbackResult").text(data);
+		$("#feedbackSpinner").addClass("hidden");
+	});
+}
+
 // Set up sticky headers for the recommendation tables
 function setupStickyHeaders() {
 	$('table').stickyTableHeaders({fixedOffset: $("nav")});
@@ -822,6 +839,8 @@ $(function() {
 	$(document).on("click", "[data-track]", function() {
 		track("clicked", $(this).attr("data-track"));
 	});
+	// Bind feedback submit button click event
+	$("#feedbackSendButton").click(sendFeedback);
 	
 	// Load data
 	//updateQuestionsTable();
