@@ -248,6 +248,12 @@ function loadRecommendations() {
 		}
 		// Set up sticky table headers
 		setupStickyHeaders();
+		// Set up the show more/show less for the question texts
+		$(".recommendQuestionTextContainer").shorten({
+			moreText: 'See more',
+			lessText: 'See less',
+			showChars: 180
+		});
 	});
 }
 

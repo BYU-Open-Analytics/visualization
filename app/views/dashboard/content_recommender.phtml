@@ -119,7 +119,7 @@ if ( $context->valid ) {
         </thead>
         <!-- Template for recommendation item -->
         <tr class="recommendQuestionDisplay">
-  	  <td>{display}</td>
+  	  <td><span class="recommendQuestionTextContainer">{display}</span></td>
 	  <td style="text-align: center;"><span class="advancedMore correct-{correct}Holder"><span class="glyphicon glyphicon-ok correctIcon"></span><span class="glyphicon glyphicon-remove incorrectIcon"></span></span></td>
 	  <td style="text-align: center;"><span class="advancedMore" style="font-weight: bold;">{attempts}</span></td>
           <td><span class="advancedMoreClass">{classViewedHint}%</span></td>
@@ -297,6 +297,7 @@ if ( $context->valid ) {
 <?php
 echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.knob.min.js");
 echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.stickytableheaders.min.js");
+echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.shorten.js");
 echo Phalcon\Tag::javascriptInclude("js/content_recommender.js");
 echo Phalcon\Tag::stylesheetLink("css/content_recommender.css");
 
