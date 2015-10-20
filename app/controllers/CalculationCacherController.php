@@ -12,6 +12,9 @@ class CalculationCacherController extends Controller
 	}
 
 	public function dailyAction() {
+		if ($_SERVER['REMOTE_ADDR'] != '127.0.0.1' && $_SERVER['REMOTE_ADDR'] != '::1') {
+			die("This script must be run locally");
+		}
 		// We want to time this
 		$startTime = microtime(true);
 
