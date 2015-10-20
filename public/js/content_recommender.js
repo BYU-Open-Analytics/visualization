@@ -494,8 +494,7 @@ function filterRecommendationsToConcept(d,i) {
 	// Choose concept in dropdown list
 	$("#recommendConceptSelector").val(conceptId);
 	loadRecommendations();
-	changeView("simple");
-
+	$("#advancedToggleSimple").click();
 }
 
 // Loads the mastery graph
@@ -674,6 +673,7 @@ function sendFeedback() {
 
 // Set up sticky headers for the recommendation tables
 function setupStickyHeaders() {
+	$('table').stickyTableHeaders('destroy');
 	$('table').stickyTableHeaders({fixedOffset: $("nav")});
 	$(window).trigger('resize.stickyTableHeaders');
 }
