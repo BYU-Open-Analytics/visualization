@@ -80,7 +80,7 @@ class SkillsHelper extends Module {
 		}
 		// store raw, and then return scaled
 		// Do 1 - percentage so that fewer statements in 11pm-5am gives a higher score
-		//
+
 		// Avoid division by 0
 		$rawScore = ($totalStatementCount != 0) ? (1 - ( $procrastinatedStatementCount / $totalStatementCount) ) : 0;
 		$this->saveRawSkillScore($studentId, "time", $rawScore);
@@ -111,7 +111,11 @@ class SkillsHelper extends Module {
 		$collection = $db->statements;
 		$results = $collection->aggregate($aggregation)["result"];
 		// store raw, and then return scaled
-		$rawScore = $results[0]["count"];
+		if (isset($results[0])) {
+			$rawScore = $results[0]["count"];
+		} else {
+			$rawScore = 0;
+		}
 		$this->saveRawSkillScore($studentId, "activity", $rawScore);
 		if ($raw) { return $rawScore; }
 		return $this->getScaledSkillScore($studentId, "activity");
