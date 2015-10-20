@@ -38,15 +38,14 @@ class CalculationCacherController extends Controller
 			$history->persistence = $skillsHelper->calculatePersistenceScore($studentId, $raw, $debug);
 			
 			if ($history->create() == false) {
-				echo "Error saving history for $studentId";
+				echo "*** Error saving history for $studentId\n";
 			} else {
-				echo "Successfully saved history for $studentId";
+				echo "    Successfully saved history for $studentId\n";
 			}
 		}
 
-
 		// Print total time taken
 		$endTime = microtime(true);
-		echo "Execution time: " . ($endTime - $startTime) . " seconds";
+		echo "Execution time: " . ($endTime - $startTime) . " seconds\n";
 	}
 }
