@@ -244,6 +244,7 @@ function loadRecommendations() {
 				.attr("class", "advancedSimple")
 				.html(function(d) { return questionElement(d); });
 			$("#recommend"+i+"List").prepend($("#templates .recommendHeaderTemplate").clone());
+			$("[aria-controls=recommend"+i+"] .countBadge").text(data["group"+i].length);
 		}
 		// Set up sticky table headers
 		setupStickyHeaders();

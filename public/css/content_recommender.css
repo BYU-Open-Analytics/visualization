@@ -76,7 +76,24 @@ td {
 }
 
 #recommendTabs li {
-	max-width: 23%;
+}
+
+.countBadge {
+	display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+	border: solid #ccc 1px;
+    border-radius: 10px;
+}
+
+.countBadge:empty {
+	display: none;
 }
 
 .recommendQuestionDisplay button {
