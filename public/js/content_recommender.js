@@ -679,6 +679,13 @@ function setupStickyHeaders() {
 	$(window).trigger('resize.stickyTableHeaders');
 }
 
+// We have to do this again when we load the new skill box in the radar chart
+function setupBootstrapTooltips() {
+	$('[data-toggle="tooltip"]').tooltip({
+		container: 'body'
+	});
+}
+
 // Sometimes we're just refreshing the current view, if we added advanced elements and need those to show/hide accordingly.
 function refreshView() {
 	changeView(currentView[0], currentView[1], true);
@@ -833,9 +840,8 @@ $(function() {
 		event.preventDefault();
 	});
 	// Set up bootstrap tooltips
-	$('[data-toggle="tooltip"]').tooltip({
-		container: 'body'
-	});
+	setupBootstrapTooltips();
+
 	// Set up event listener for links that we want to track
 	$(document).on("click", "[data-track]", function() {
 		track("clicked", $(this).attr("data-track"));
