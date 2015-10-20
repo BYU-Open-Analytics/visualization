@@ -12,14 +12,16 @@ class CalculationCacherController extends Controller
 	}
 
 	public function dailyAction() {
-		if ($_SERVER['REMOTE_ADDR'] != '127.0.0.1' && $_SERVER['REMOTE_ADDR'] != '::1') {
-			die("This script must be run locally");
+		$config = $this->getDI()->getShared('config');
+		if (!isset($_GET["p"])) {
+			die("No history saver password provided.");
 		}
+		if ($_GET["p"] != $config->historySaverPassword) {
+			die("Invalid history saver password provided.");
+		}
+
 		// We want to time this
 		$startTime = microtime(true);
-
-		$config = $this->getDI()->getShared('config');
-
 
 		$raw = false;
 		$debug = false;
