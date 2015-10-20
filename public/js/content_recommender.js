@@ -541,8 +541,9 @@ function loadMasteryGraph() {
 				.domain([0, 3.3, 6.6, 10])
 				.range(["red", "orange", "yellow", "green"]);
 
-		//Remove old chart
+		//Remove old chart and tooltips
 		$("#masteryGraphSection svg").remove();
+		$(".d3-tip").remove();
 		//Create SVG element with padded container for chart
 		var chart = d3.select("#masteryGraphSection .svgContainer")
 			.append("svg")
