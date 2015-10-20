@@ -68,6 +68,14 @@ td {
 	margin: 10px;
 }
 
+.recommendInfo h4 {
+	line-height: 150%;
+}
+
+.recommendInfo p {
+	margin-left: 45px;
+}
+
 .recommendInfo .glyphicon {
 	font-size: 150%;
 	line-height: 100%;
