@@ -12,28 +12,42 @@ if ( $context->valid ) {
 <!-- Container for concepts, recommendations, and advanced -->
 <div id="mainContainer" class="container hidden">
   <div class="row">
+
+    <!-- Filter Navigation -->
+    <div id="filterSection" class="col-sm-3">
+      <h3 class="capsLabel">Filter Recommendations</h3>
+      <ul>
+        <li>Unit 1</li>
+        <li>Unit 2</li>
+        <li>Unit 3</li>
+        <li>Unit 4</li>
+      </ul>
+    </div>
+
+    <!-- Advanced -->
+    <div id="advancedSection" class="col-sm-3">
+      <!-- Figure out a better way to have advanced bar sticky, but still responsive <div class="affix" style="width: 90%;"> -->
+        <h3>Advanced</h3>
+        <ul class="nav nav-pills nav-stacked">
+	      <li role="presentation" class="advancedToggleLi active">
+	        <a id="advancedToggleSimple" class="advancedToggle" data-option="simple" href="#">See recommendations</a>
+	        <div class="advancedToggleOptional"><input id="advancedToggleMore" class="advancedToggleOptional" data-option="more" type="checkbox" />&nbsp;<label for="advancedToggleMore">See more details</label><br></div>
+	        <div class="advancedToggleOptional"><input id="advancedToggleMoreClass" disabled class="advancedToggleOptional" data-option="moreClass" type="checkbox" />&nbsp;<label for="advancedToggleMoreClass">Compare to class</label></div>
+          </li>
+          <!-- <li role="presentation" class="advancedToggleLi"><a id="advancedToggleScatterplot" class="advancedToggle" data-option="scatterplot" href="#">See scatterplot for these concepts</a><div class="advancedToggleOptional"><input id="advancedToggleScatterplotClass" class="advancedToggleOptional" data-option="scatterplotClass" type="checkbox" />&nbsp;<label for="advancedToggleScatterplotClass">Compare to class</label></div></li> -->
+	      <li role="presentation" class="advancedToggleLi">
+	        <a id="advancedToggleMasteryGraph" class="advancedToggle" data-option="masteryGraph" href="#">See all concept scores</a>
+	        <!-- <div class="advancedToggleOptional"><input id="advancedToggleMore" class="advancedToggleOptional" data-option="more" type="checkbox" />&nbsp;<label for="advancedToggleMore">See more details</label></div> -->
+          </li>
+        </ul>
+      <!--<div>-->
+    </div>
+
     <div class="col-sm-9"><div class="row">
 
-      <!-- Concepts -->
-      <div id="conceptsSection" class="advancedSimple advancedAll col-md-12">
-        <div class="row">
-	  <div class="col-sm-6">
-            <h3>Strongest Concepts</h3>
-            <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
-              <div class="conceptsList" id="strongestConceptsList"> </div>
-          </div>
-	  <div class="col-sm-6">
-            <h3>Weakest Concepts</h3>
-            <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
-              <div class="conceptsList" id="weakestConceptsList"> </div>
-          </div>
-        </div>
-        <div class="row"><hr><br></div>
-      </div>
-  
       <!-- Recommendations -->
       <div id="recommendSection" class="advancedSimple advancedAll col-md-12">
-          <h3 style="float: left;">Question Recommendations</h3>
+          <h3 style="float: left;">Question Recommendations for {SCOPE AND ID}</h3>
 
 		  <div class="pull-right">
           <h3 style="display: inline;"><small><i>Filter recommendations by: </i></small></h3>
@@ -200,24 +214,6 @@ if ( $context->valid ) {
 
     </div></div>
 
-    <!-- Advanced -->
-    <div id="advancedSection" class="col-sm-3">
-      <!-- Figure out a better way to have advanced bar sticky, but still responsive <div class="affix" style="width: 90%;"> -->
-        <h3>Advanced</h3>
-        <ul class="nav nav-pills nav-stacked">
-	      <li role="presentation" class="advancedToggleLi active">
-	        <a id="advancedToggleSimple" class="advancedToggle" data-option="simple" href="#">See recommendations</a>
-	        <div class="advancedToggleOptional"><input id="advancedToggleMore" class="advancedToggleOptional" data-option="more" type="checkbox" />&nbsp;<label for="advancedToggleMore">See more details</label><br></div>
-	        <div class="advancedToggleOptional"><input id="advancedToggleMoreClass" disabled class="advancedToggleOptional" data-option="moreClass" type="checkbox" />&nbsp;<label for="advancedToggleMoreClass">Compare to class</label></div>
-          </li>
-          <!-- <li role="presentation" class="advancedToggleLi"><a id="advancedToggleScatterplot" class="advancedToggle" data-option="scatterplot" href="#">See scatterplot for these concepts</a><div class="advancedToggleOptional"><input id="advancedToggleScatterplotClass" class="advancedToggleOptional" data-option="scatterplotClass" type="checkbox" />&nbsp;<label for="advancedToggleScatterplotClass">Compare to class</label></div></li> -->
-	      <li role="presentation" class="advancedToggleLi">
-	        <a id="advancedToggleMasteryGraph" class="advancedToggle" data-option="masteryGraph" href="#">See all concept scores</a>
-	        <!-- <div class="advancedToggleOptional"><input id="advancedToggleMore" class="advancedToggleOptional" data-option="more" type="checkbox" />&nbsp;<label for="advancedToggleMore">See more details</label></div> -->
-          </li>
-        </ul>
-      <!--<div>-->
-    </div>
 
   </div>
 </div>

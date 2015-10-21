@@ -503,8 +503,8 @@ class ContentRecommenderStatsController extends Controller
 		$masteryHelper = new MasteryHelper();
 		foreach ($concepts as $c) {
 			$score = $masteryHelper::calculateConceptMasteryScore($context->getUserName(), $c["Section Number"], $debug);
-			//print_r($c);
-			$result []= ["id" => $c["Section Number"], "display" => $c["Section Title"], "score" => $score];
+			if ($debug) { echo "Concept mapping info\n"; print_r($c); }
+			$result []= ["id" => $c["Section Number"], "display" => $c["Section Title"], "score" => $score, "unit" => $c["Unit"]];
 		}
 		echo json_encode($result);
 	}
