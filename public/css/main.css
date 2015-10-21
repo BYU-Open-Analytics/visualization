@@ -116,6 +116,15 @@
 	cursor: not-allowed;
 }
 
+.capsLabel {
+    padding-left: 15px;
+    font-size: 85%;
+    font-weight: normal;
+    letter-spacing: 1px;
+    color: #51586a;
+    text-transform: uppercase;
+}
+
 /* Feedback Form */
 #feedbackTypeSelector {
 	margin-bottom: 10px;
