@@ -144,6 +144,86 @@ function loadConcepts() {
 	});
 }
 
+// Loads scores for all concepts, which are used in the filter navigation sidebar
+function loadConceptScores() {
+	// TODO CHANGE TO ALL!
+	d3.json("../content_recommender_stats/masteryGraph/chapter/6", function(error, data) {
+		$("#filterSection .spinner").hide();
+
+		//Color scale
+		var colorScale = d3.scale.linear()
+				.domain([0, 3.3, 6.6, 10])
+				.range(["#d9534f", "#FFCE54", "#D4D84F", "#5cb85c"]);
+		
+		
+		// Remove any existing concepts
+		$("#filterConceptList .filterConceptListItem").remove();
+
+		//Create tooltips
+		var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return "Score: " + d.score + ". Click to view recommendations."; });
+
+		var conceptList = d3.select("#filterConceptList");
+		var concepts = conceptList.selectAll(".filterConceptListItem")
+			.data(data)
+			.enter()
+			.append("a")
+			.attr("class", function(d) { return "filterConceptListItem unit" + d.unit + "Concept"; })
+			.html(function(d) { return d.id + " " + d.display; });
+
+		var rects = concepts.append("span")
+			.attr("class", "conceptProgressBar")
+			.style("width", function(d) { return Math.max(4, d.score * 10) + "%"; })
+			//.style("background-color", function(d) { return d.score >= 6 ? "#5cb85c" : d.score >= 4 ? "#f0ad4e" : "#d9534f"; })
+			.style("background", function(d) { return colorScale(d.score); });
+			
+
+		/*var rects = bars.append("span")
+			//.attr("x", function(d) { return x(d.name); })
+			//x and width are temporary, but must have initial values for transition to work
+			.attr("x", 0 + "px")
+			.attr("width", 0 + "px")
+			.attr("height", y.rangeBand())
+			.attr("fill", function(d) { return colorScale(d.score); })
+			.attr("cursor", "pointer")
+			.attr("data-toggle", "modal")
+			.attr("data-target", "#openAssessmentStatsModal")
+			.attr("data-name", function(d) { return d.id; })
+			.on('click', filterRecommendationsToConcept)
+			.on('mouseover', tip.show)
+			.on('mouseout', tip.hide);
+
+		// Y axis with rotated and wrapped labels
+		chart.append("g")
+			.attr("class", "axis y")
+			//.attr("transform", "translate(" + width + ",0)")
+			.call(yAxis)
+			.selectAll(".tick text")  
+			.attr("dy", "-.3em")
+			.attr("dx", "-1em")
+			.call(wrap, 170);
+		// X axis
+		chart.append("g")
+			.attr("class", "x axis")
+			.call(xAxis)
+		chart.selectAll(".axis.y .tick text")
+			.style("text-anchor", "end")
+			//.attr("transform", function(d) {
+				//return "rotate(-90)" 
+			//})
+			.selectAll("tspan");
+
+		rects.transition()
+			.duration(500)
+			.delay(function(d, i) { return i * 10; })
+			//.attr("x", function(d) { return width - x(d.score); })
+			.attr("width", function(d) { return d.score > 0 ? x(d.score) : 10; });
+		//refreshView();
+		*/
+
+	});
+}
+
+
 // Helper function for recommendation question elements. Contains question/concept display, launch quiz button, and see associated videos button
 function questionElement(d) {
 	// Get the template
@@ -157,10 +237,10 @@ function questionElement(d) {
 }
 
 // Loads recommendations
-function loadRecommendations() {
+function loadRecommendations(scopeOption, scopeGroupingId) {
 	$("#recommendSection .spinner").show();
 	// Determine what current scope and grouping id (concept/chapter/unit id) are
-	var scopeOption = $("input[name=recommendScopeOption]:checked").val();
+	/*var scopeOption = $("input[name=recommendScopeOption]:checked").val();
 	var scopeGroupingId = "";
 	switch (scopeOption) {
 		case "concept":
@@ -172,8 +252,8 @@ function loadRecommendations() {
 		case "unit":
 			scopeGroupingId = $("[name=recommendUnitSelector]").val();
 			break;
-	}
-	//console.log("LOADING RECOMMENDATIONS WITH SCOPE AND ID",scopeOption, scopeGroupingId);
+	}*/
+	console.log("LOADING RECOMMENDATIONS WITH SCOPE AND ID",scopeOption, scopeGroupingId);
 	d3.json("../content_recommender_stats/recommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
 		$("#recommendSection .spinner").hide();
 		for (var i=1; i<5; i++) {
@@ -196,26 +276,6 @@ function loadRecommendations() {
 			lessText: 'See less',
 			showChars: 180
 		});
-	});
-}
-
-// Loads recommendations
-function loadAllRecommendations() {
-	d3.json("../content_recommender_stats/recommendations/all", function(error, data) {
-		$("#recommendSection .spinner").hide();
-		//TODO update this to be new table format like function above
-		for (var i=1; i<5; i++) {
-			//$("#recommend"+i+"List").empty();
-			d3.select("#recommend"+i+"List")
-				.selectAll("tr")
-				.data(data["group"+i])
-				.enter()
-				.append("tr")
-				.attr("class", "advancedAll")
-				.html(function(d) { return questionElement(d); });
-			//$("#recommend"+i+"List").prepend($("#templates .recommendHeaderTemplate").clone());
-		}
-		refreshView();
 	});
 }
 
@@ -807,8 +867,9 @@ $(function() {
 	d3.csv("../csv/mappings.csv", function(error, data) {
 		mappings = data;
 		// Then we can load other things
-		loadConcepts();
-		loadRecommendations();
+		//loadConcepts();
+		//loadRecommendations();
+		loadConceptScores();
 		// Don't load or show scatterplot for now
 		//loadScatterplot();
 	});

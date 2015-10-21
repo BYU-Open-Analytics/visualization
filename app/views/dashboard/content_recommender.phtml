@@ -16,12 +16,8 @@ if ( $context->valid ) {
     <!-- Filter Navigation -->
     <div id="filterSection" class="col-sm-3">
       <h3 class="capsLabel">Filter Recommendations</h3>
-      <ul>
-        <li>Unit 1</li>
-        <li>Unit 2</li>
-        <li>Unit 3</li>
-        <li>Unit 4</li>
-      </ul>
+      <span class="spinner" style="float: right;"><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
+      <div id="filterConceptList"></div>
     </div>
 
     <!-- Advanced -->
