@@ -673,7 +673,7 @@ function sendFeedback() {
 	$("#feedbackSpinner").removeClass("hidden");
 	$("#feedbackForm").slideUp();
 	$.post("../feedback/submit", {"feedbackType":feedbackType,"feedback":feedbackText}, function(data) {
-		$("#feedbackResult").text(data);
+		$("#feedbackResult").removeClass("hidden").text(data);
 		$("#feedbackSpinner").addClass("hidden");
 	});
 }
@@ -852,6 +852,8 @@ $(function() {
 	$(document).on("click", "[data-track]", function() {
 		track("clicked", $(this).attr("data-track"));
 	});
+	// Add feedback button to navbar (we don't want this in the phtml template, since not all pages will have feedback modal or js)
+	$("#navbarButtonHolder").append('<button class="btn btn-primary" data-toggle="modal" data-track="feedbackButton" data-target="#feedbackModal"><span style="top: 3px;" class="glyphicon glyphicon-comment"></span>&nbsp; Send Feedback</button>')
 	// Bind feedback submit button click event
 	$("#feedbackSendButton").click(sendFeedback);
 	

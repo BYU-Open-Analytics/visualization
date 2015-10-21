@@ -216,18 +216,6 @@ if ( $context->valid ) {
 	        <!-- <div class="advancedToggleOptional"><input id="advancedToggleMore" class="advancedToggleOptional" data-option="more" type="checkbox" />&nbsp;<label for="advancedToggleMore">See more details</label></div> -->
           </li>
         </ul>
-        <h3>Feedback</h3>
-        <form action="javascript:void(0);" id="feedbackForm">
-          <select class="form-control" id="feedbackTypeSelector">
-            <option value="problem">Report an issue</option>
-            <option value="suggestion">Give a suggestion</option>
-          </select>
-          <div class="alert alert-danger hidden" id="feedbackEmptyAlert">Enter your feedback here:</div>
-          <textarea class="form-control lead" rows="3" id="feedbackTextArea" placeholder="Have a suggestion? Found an issue? Send us your feedback."></textarea>
-          <button type="submit" class="btn btn-default btn-block" id="feedbackSendButton">Send Feedback</button>
-        </form>
-        <span class="spinner hidden" id="feedbackSpinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?></span>
-	    <p class="lead" id="feedbackResult"></p>
       <!--<div>-->
     </div>
 
@@ -266,6 +254,31 @@ if ( $context->valid ) {
 					<thead><tr><th>&nbsp;</th><th>Video Name</th><!--<th class="advancedMore">% Watched</th>--></tr></thead>
 					<tbody></tbody>
 				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Feedback modal dialog -->
+<div class="modal fade" tabindex="-1" id="feedbackModal">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Send Feedback</h4>
+			</div>
+			<div class="modal-body">
+              <form action="javascript:void(0);" id="feedbackForm">
+                <select class="form-control" id="feedbackTypeSelector">
+                  <option value="problem">Report an issue</option>
+                  <option value="suggestion">Give a suggestion</option>
+                </select>
+                <div class="alert alert-danger hidden" id="feedbackEmptyAlert">Enter your feedback here:</div>
+                <textarea class="form-control lead" rows="3" id="feedbackTextArea" placeholder="Have a suggestion? Found an issue? Send us your feedback."></textarea>
+                <button type="submit" class="btn btn-default btn-block" id="feedbackSendButton">Send Feedback</button>
+              </form>
+	          <p class="lead hidden" id="feedbackResult"></p>
+              <span class="spinner hidden" id="feedbackSpinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?></span>
 			</div>
 		</div>
 	</div>
