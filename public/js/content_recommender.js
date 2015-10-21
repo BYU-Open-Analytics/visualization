@@ -144,10 +144,19 @@ function loadConcepts() {
 	});
 }
 
+// Called when a concept in the left filter sidebar is clicked
+function filterConceptClick(d) {
+
+	$("#filterList .active").removeClass("active");
+	$(d3.event.currentTarget).addClass("active");
+	track("clicked","filterListConcept"+d.id);
+	loadRecommendations("concept", d.id);
+}
+
 // Loads scores for all concepts, which are used in the filter navigation sidebar
 function loadConceptScores() {
 	// TODO CHANGE TO ALL!
-	d3.json("../content_recommender_stats/masteryGraph/chapter/6", function(error, data) {
+	d3.json("../content_recommender_stats/masteryGraph/all/all", function(error, data) {
 		$("#filterSection .spinner").hide();
 
 		//Color scale
@@ -155,74 +164,58 @@ function loadConceptScores() {
 				.domain([0, 3.3, 6.6, 10])
 				.range(["#d9534f", "#FFCE54", "#D4D84F", "#5cb85c"]);
 		
-		
 		// Remove any existing concepts
-		$("#filterConceptList .filterConceptListItem").remove();
+		$("#filterList .filterListConcept").remove();
 
 		//Create tooltips
 		var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return "Score: " + d.score + ". Click to view recommendations."; });
 
-		var conceptList = d3.select("#filterConceptList");
-		var concepts = conceptList.selectAll(".filterConceptListItem")
+		var conceptList = d3.select("#filterList");
+		var concepts = conceptList.selectAll(".filterListConcept")
 			.data(data)
 			.enter()
 			.append("a")
-			.attr("class", function(d) { return "filterConceptListItem unit" + d.unit + "Concept"; })
-			.html(function(d) { return d.id + " " + d.display; });
+			.on("click", filterConceptClick)
+			.attr("data-toggle", "tooltip")
+			.attr("data-placement", "right")
+			.attr("title", function(d) { return "Score: " + d.score; })
+			.attr("class", function(d) { return "filterListConcept unit" + d.unit + "Concept"; });
+		
+		var labels = concepts.append("div")
+			.attr("class", "filterListItemText")
+			.html(function(d) { return d.id + ' ' + d.display; });
 
 		var rects = concepts.append("span")
 			.attr("class", "conceptProgressBar")
-			.style("width", function(d) { return Math.max(4, d.score * 10) + "%"; })
+			.style("width", 0)//function(d) { return Math.max(4, d.score * 10) + "%"; })
 			//.style("background-color", function(d) { return d.score >= 6 ? "#5cb85c" : d.score >= 4 ? "#f0ad4e" : "#d9534f"; })
 			.style("background", function(d) { return colorScale(d.score); });
-			
 
-		/*var rects = bars.append("span")
-			//.attr("x", function(d) { return x(d.name); })
-			//x and width are temporary, but must have initial values for transition to work
-			.attr("x", 0 + "px")
-			.attr("width", 0 + "px")
-			.attr("height", y.rangeBand())
-			.attr("fill", function(d) { return colorScale(d.score); })
-			.attr("cursor", "pointer")
-			.attr("data-toggle", "modal")
-			.attr("data-target", "#openAssessmentStatsModal")
-			.attr("data-name", function(d) { return d.id; })
-			.on('click', filterRecommendationsToConcept)
-			.on('mouseover', tip.show)
-			.on('mouseout', tip.hide);
-
-		// Y axis with rotated and wrapped labels
-		chart.append("g")
-			.attr("class", "axis y")
-			//.attr("transform", "translate(" + width + ",0)")
-			.call(yAxis)
-			.selectAll(".tick text")  
-			.attr("dy", "-.3em")
-			.attr("dx", "-1em")
-			.call(wrap, 170);
-		// X axis
-		chart.append("g")
-			.attr("class", "x axis")
-			.call(xAxis)
-		chart.selectAll(".axis.y .tick text")
-			.style("text-anchor", "end")
-			//.attr("transform", function(d) {
-				//return "rotate(-90)" 
-			//})
-			.selectAll("tspan");
-
-		rects.transition()
-			.duration(500)
-			.delay(function(d, i) { return i * 10; })
-			//.attr("x", function(d) { return width - x(d.score); })
-			.attr("width", function(d) { return d.score > 0 ? x(d.score) : 10; });
-		//refreshView();
-		*/
-
+		// Set up click handler for special unit list item
+		$(".filterListUnit").click(function() {
+			$("#filterList .active").removeClass("active");
+			$(this).addClass("active");
+			var selectedUnit = $("[name=filterUnitSelector]").val();
+			track("clicked","filterListUnit"+selectedUnit+"AllConcepts");
+			loadRecommendations("unit", selectedUnit);
+		});
+					
+		animateConceptScores();
+		setupBootstrapTooltips();
+		// Now we've got all concepts. Filter to current unit by default
+		filterConceptList();
 	});
 }
 
+// Filters concepts in the left sidebar to a given unit
+function filterConceptList() {
+	var selectedUnit = $("[name=filterUnitSelector]").val();
+	$(".filterListConcept").hide();
+	$(".unit" + selectedUnit + "Concept").show();
+	$("#filterListUnitName").text(selectedUnit);
+	// Default to all concepts
+	$(".filterListUnit").click();
+}
 
 // Helper function for recommendation question elements. Contains question/concept display, launch quiz button, and see associated videos button
 function questionElement(d) {
@@ -254,6 +247,7 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 			break;
 	}*/
 	console.log("LOADING RECOMMENDATIONS WITH SCOPE AND ID",scopeOption, scopeGroupingId);
+	$("#recommendationHeaderScopeLabel").text(scopeOption + " " + scopeGroupingId);
 	d3.json("../content_recommender_stats/recommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
 		$("#recommendSection .spinner").hide();
 		for (var i=1; i<5; i++) {
@@ -624,6 +618,15 @@ function loadMasteryGraph() {
 }
 
 // Function to make the mastery graph bar chart animate
+function animateConceptScores() {
+	d3.selectAll(".conceptProgressBar")
+		.attr("width", "1px")
+		.transition()
+		.duration(500)
+		.delay(function(d, i) { return i * 10; })
+		.style("width", function(d) { return Math.max(4, d.score * 10) + "%"; });
+}
+// Function to make the mastery graph bar chart animate
 function animateMasteryGraph() {
 	// TODO 360 is a magic number
 	var x = d3.scale.linear()
@@ -798,6 +801,11 @@ $(function() {
 		$("#"+$(this).attr("data-dismiss")).hide();
 		$("#mainContainer").removeClass("hidden").addClass("show");
 		track("clicked", "continueButton");
+	});
+	// Filter concepts in left sidebar when unit selector changes
+	$("[name=filterUnitSelector]").on("change", function() {
+		filterConceptList();
+		track("clicked","filterListUnit"+$(this).val());
 	});
 	// Reload the scatterplot when scope changes, and when concept/chapter/unit changes
 	$("input:radio[name=scatterplotScopeOption]").on("change", function() {

@@ -200,11 +200,39 @@ td {
 }
 
 /* Concept Filter Navigation */
-.filterConceptListItem {
+#filterList {
+}
+.filterListConcept, .filterListUnit {
 	display: block;
 	position: relative;
-	height: 50px;
-	border: solid lime 1px;
+	height: 60px;
+	border: solid #ccc 1px;
+	border-radius: 3px;
+	padding: 10px;
+	text-indent: -25px;
+	padding-left: 30px;
+	margin: 5px 0px 5px 0px;
+	cursor: pointer;
+	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	transition: background-color 100ms ease-out;
+	transition: transform 100ms ease-out;
+}
+.filterListConcept:hover, .filterListUnit:hover {
+	text-decoration: none;
+	background: #eee;
+}
+.filterListConcept.active, .filterListUnit.active {
+	background: #337ab7;
+	color: #fff;
+	transform: scale(1.05);
+}
+.filterListItemText {
+	position: relative;
+	top: 45%;
+	transform: translateY(-55%);
+	padding: 5px 0px 5px 5px;
 }
 .conceptProgressBar {
 	position: absolute;
@@ -215,6 +243,7 @@ td {
     display: block;
 	height: 10px;
 	margin-top: -10px;
+	border-bottom-left-radius: 2px;
 }
 
 /* Advanced */
