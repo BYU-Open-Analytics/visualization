@@ -12,6 +12,21 @@ if ( $context->valid ) {
 <!-- Container for skills list, time chart, skills graph, and advanced -->
 <div id="mainContainer" class="container hidden">
   <div class="row">
+
+    <!-- Advanced -->
+    <div id="advancedSection" class="col-sm-3">
+      <h3>Change View</h3>
+      <ul class="nav nav-pills nav-stacked">
+        <li role="presentation" class="advancedToggleLi active"><a id="advancedToggleSkillsGraph" class="advancedToggle" data-option="skillsGraph" href="#">See my skills graph</a> <div class="advancedToggleOptional"><input id="advancedToggleSkillsGraphClass" class="advancedToggleOptional" data-option="skillsGraphClass" type="checkbox" />&nbsp;<label for="advancedToggleSkillsGraphClass">Compare to class</label></div></li>
+
+	<li role="presentation" class="advancedToggleLi"><a id="advancedToggleAll" class="advancedToggle" data-option="all" href="#">See all skills</a>
+	  <div class="advancedToggleOptional"><input id="advancedToggleAllScores" class="advancedToggleOptional" data-option="allScores" type="checkbox" />&nbsp;<label for="advancedToggleAllScores">Show skill scores</label><br /></div>
+	  <div class="advancedToggleOptional"><input id="advancedToggleAllScoresClass" class="advancedToggleOptional" data-option="allScoresClass" type="checkbox" />&nbsp;<label for="advancedToggleAllScoresClass">Compare to class</label></div>
+        </li>
+        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleTimeGraph" class="advancedToggle" data-option="timeGraph" href="#">See skills over time</a><div class="advancedToggleOptional"><input id="advancedToggleTimeGraphClass" class="advancedToggleOptional" data-option="timeGraphClass" type="checkbox" />&nbsp;<label for="advancedToggleTimeGraphClass">Compare to class</label></div></li>
+      </ul>
+    </div>
+   
     <div class="col-sm-9"><div class="row">
 
       <!-- Skills List Section -->
@@ -61,34 +76,20 @@ if ( $context->valid ) {
       <div id="skillsGraphSection" class="advancedSkillsGraph col-md-12">
         <h3>My Student Skills</h3>
         <div class="row">
-	  <div class="col-md-4" id="skillsGraphRecommend">
-            <div id="graphDetailBox">
-              <p class="lead" style="text-align; center;">Click on any skill point <br /> to learn more.</p>
-            </div>
-          </div>
             <div class="col-md-8" id="radarContainer">
               <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
               <div id="radarChart"></div>
+            </div>
+	        <div class="col-md-4" id="skillsGraphRecommend">
+              <div id="graphDetailBox">
+                <p class="lead" style="text-align; center;">Click on any skill point <br /> to learn more.</p>
+              </div>
             </div>
         </div>
       </div>
    
     </div></div>
       
-    <!-- Advanced -->
-    <div id="advancedSection" class="col-sm-3">
-      <h3>Change View</h3>
-      <ul class="nav nav-pills nav-stacked">
-        <li role="presentation" class="advancedToggleLi active"><a id="advancedToggleSkillsGraph" class="advancedToggle" data-option="skillsGraph" href="#">See my skills graph</a> <div class="advancedToggleOptional"><input id="advancedToggleSkillsGraphClass" class="advancedToggleOptional" data-option="skillsGraphClass" type="checkbox" />&nbsp;<label for="advancedToggleSkillsGraphClass">Compare to class</label></div></li>
-
-	<li role="presentation" class="advancedToggleLi"><a id="advancedToggleAll" class="advancedToggle" data-option="all" href="#">See all skills</a>
-	  <div class="advancedToggleOptional"><input id="advancedToggleAllScores" class="advancedToggleOptional" data-option="allScores" type="checkbox" />&nbsp;<label for="advancedToggleAllScores">Show skill scores</label><br /></div>
-	  <div class="advancedToggleOptional"><input id="advancedToggleAllScoresClass" class="advancedToggleOptional" data-option="allScoresClass" type="checkbox" />&nbsp;<label for="advancedToggleAllScoresClass">Compare to class</label></div>
-        </li>
-        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleTimeGraph" class="advancedToggle" data-option="timeGraph" href="#">See skills over time</a><div class="advancedToggleOptional"><input id="advancedToggleTimeGraphClass" class="advancedToggleOptional" data-option="timeGraphClass" type="checkbox" />&nbsp;<label for="advancedToggleTimeGraphClass">Compare to class</label></div></li>
-      </ul>
-    </div>
-   
   </div>
 </div>
 
