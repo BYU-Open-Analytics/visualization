@@ -4,49 +4,66 @@ if ( $context->valid ) {
 
 <!-- Welcome jumbotron message -->
 <div class="jumbotron" id="welcomeJumbotron">
-  <h1>Welcome!</h1>
-  <p>This dashboard will display recommendations to you about which student skills should be improved on in order to become a better student based on your online activity.</p>
-  <p><button class="btn btn-primary btn-large" data-dismiss="welcomeJumbotron" id="jumbotronDismiss">Continue to Dashboard</button></p>
+	<h1>Welcome!</h1>
+	<p>This dashboard will display recommendations to you about which student skills should be improved on in order to become a better student based on your online activity.</p>
+	<p>
+		<button class="btn btn-primary btn-large" data-dismiss="welcomeJumbotron" id="jumbotronDismiss">Continue to Dashboard</button>
+	</p>
 </div>
 
 <!-- Container for skills list, time chart, skills graph, and advanced -->
 <div id="mainContainer" class="container hidden">
-  <div class="row vertical-divider">
+	<div class="row vertical-divider">
 
-    <!-- Advanced -->
-    <div id="advancedSection" class="col-sm-3">
-      <h3 class="capsLabel">Change View</h3>
-      <ul class="nav nav-pills nav-stacked">
-        <li role="presentation" class="advancedToggleLi active"><a id="advancedToggleSkillsGraph" class="advancedToggle" data-option="skillsGraph" href="#">See my skills graph</a> </li>
+		<!-- Advanced -->
+		<div id="advancedSection" class="col-sm-3">
+			<h3 class="capsLabel">Change View</h3>
+			<ul class="nav nav-pills nav-stacked">
+				<li role="presentation" class="advancedToggleLi active"><a id="advancedToggleSkillsGraph" class="advancedToggle" data-option="skillsGraph" href="#">See my skills graph</a> </li>
 
-	<li role="presentation" class="advancedToggleLi"><a id="advancedToggleAll" class="advancedToggle" data-option="all" href="#">See all skill recommendations</a>
-        </li>
-        <li role="presentation" class="advancedToggleLi"><a id="advancedToggleTimeGraph" class="advancedToggle" data-option="timeGraph" href="#">See skills over time</a></li>
-      </ul>
-    </div>
-   
-    <div class="col-sm-9"><div class="row">
+				<li role="presentation" class="advancedToggleLi"><a id="advancedToggleAll" class="advancedToggle" data-option="all" href="#">See all skill recommendations</a>
+				</li>
+				<li role="presentation" class="advancedToggleLi"><a id="advancedToggleTimeGraph" class="advancedToggle" data-option="timeGraph" href="#">See skills over time</a>
+				</li>
+			</ul>
+		</div>
 
-      <!-- Skills List Section -->
-      <div id="skillsListSection" class="advancedSimple col-md-12">
-        <div class="row">
-	    <div class="col-sm-12">
-            <h3 style="float: left;">My Skill Recommendations</h3>
-            <div class="pull-right" style="margin-top: 10px;">
-        	  <div class="advancedToggleOptional"><input id="advancedToggleAllScores" class="advancedToggleOptional" data-option="allScores" type="checkbox" />&nbsp;<label for="advancedToggleAllScores">Show skill scores</label><br /></div>
-        	  <div class="advancedToggleOptional"><input id="advancedToggleAllScoresClass" class="advancedToggleOptional" data-option="allScoresClass" type="checkbox" />&nbsp;<label for="advancedToggleAllScoresClass">Compare to class</label></div>
-            </div><br><br><br><hr>
-              <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
-              <div id="skillsList"> </div>
-          </div>
-        </div>
-      </div>
+		<div class="col-sm-9">
+			<div class="row">
 
-      <!-- Time Graph -->
-      <div id="timeGraphSection" class="advancedTimeGraph col-md-12">
-        <h3 style="float: left;">Your Skills Over Time</h3>
-			<p class="lead"><br><br>Check back here in a few days, when more historical skill data is available.</p>
-		<!--
+				<!-- Skills List Section -->
+				<div id="skillsListSection" class="advancedSimple col-md-12">
+					<div class="row">
+						<div class="col-sm-12">
+							<h3 style="float: left;">My Skill Recommendations</h3>
+							<div class="pull-right" style="margin-top: 10px;">
+								<div class="advancedToggleOptional">
+									<input id="advancedToggleAllScores" class="advancedToggleOptional" data-option="allScores" type="checkbox" />&nbsp;
+									<label for="advancedToggleAllScores">Show skill scores</label>
+									<br />
+								</div>
+								<div class="advancedToggleOptional">
+									<input id="advancedToggleAllScoresClass" class="advancedToggleOptional" data-option="allScoresClass" type="checkbox" />&nbsp;
+									<label for="advancedToggleAllScoresClass">Compare to class</label>
+								</div>
+							</div>
+							<br>
+							<br>
+							<br>
+							<hr>
+							<span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
+							<div id="skillsList"> </div>
+						</div>
+					</div>
+				</div>
+
+				<!-- Time Graph -->
+				<div id="timeGraphSection" class="advancedTimeGraph col-md-12">
+					<h3 style="float: left;">Your Skills Over Time</h3>
+					<p class="lead">
+						<br>
+						<br>Check back here in a few days, when more historical skill data is available.</p>
+					<!--
             <div class="pull-right" style="margin-top: 10px;">
 			  <div class="advancedToggleOptional">
 			    <input id="advancedToggleTimeGraphClass" class="advancedToggleOptional" data-option="timeGraphClass" type="checkbox" />&nbsp;
@@ -74,30 +91,39 @@ if ( $context->valid ) {
               <b class="classLine">Class</b>
             </span>
         </div>-->
-      </div>
+				</div>
 
-      <!-- Skills Graph -->
-      <div id="skillsGraphSection" class="advancedSkillsGraph col-md-12">
-		<h3 class="pull-left">My Student Skills</h3>
-		<div class="pull-right"><br>
-          <div class="advancedToggleOptional"><input id="advancedToggleSkillsGraphClass" class="advancedToggleOptional" data-option="skillsGraphClass" type="checkbox" />&nbsp;<label for="advancedToggleSkillsGraphClass">Compare to class</label></div>
-        </div><br><br><hr>
-        <div class="row">
-            <div class="col-md-8" id="radarContainer">
-              <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
-              <div id="radarChart"></div>
-            </div>
-	        <div class="col-md-4" id="skillsGraphRecommend">
-              <div id="graphDetailBox">
-                <p class="lead" style="text-align; center;">Click on any skill point <br /> to learn more.</p>
-              </div>
-            </div>
-        </div>
-      </div>
-   
-    </div></div>
-      
-  </div>
+				<!-- Skills Graph -->
+				<div id="skillsGraphSection" class="advancedSkillsGraph col-md-12">
+					<h3 class="pull-left">My Student Skills</h3>
+					<div class="pull-right">
+						<br>
+						<div class="advancedToggleOptional">
+							<input id="advancedToggleSkillsGraphClass" class="advancedToggleOptional" data-option="skillsGraphClass" type="checkbox" />&nbsp;
+							<label for="advancedToggleSkillsGraphClass">Compare to class</label>
+						</div>
+					</div>
+					<br>
+					<br>
+					<hr>
+					<div class="row">
+						<div class="col-md-8" id="radarContainer">
+							<span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
+							<div id="radarChart"></div>
+						</div>
+						<div class="col-md-4" id="skillsGraphRecommend">
+							<div id="graphDetailBox">
+								<p class="lead" style="text-align; center;">Click on any skill point
+									<br /> to learn more.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
 </div>
 
 <!-- Feedback modal dialog -->
@@ -105,21 +131,22 @@ if ( $context->valid ) {
 	<div class="modal-dialog modal-sm">
 		<div class="modal-content">
 			<div class="modal-header">
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+				</button>
 				<h4 class="modal-title">Send Feedback</h4>
 			</div>
 			<div class="modal-body">
-              <form action="javascript:void(0);" id="feedbackForm">
-                <select class="form-control" id="feedbackTypeSelector">
-                  <option value="problem">Report an issue</option>
-                  <option value="suggestion">Give a suggestion</option>
-                </select>
-                <div class="alert alert-danger hidden" id="feedbackEmptyAlert">Enter your feedback here:</div>
-                <textarea class="form-control lead" rows="3" id="feedbackTextArea" placeholder="Have a suggestion? Found an issue? Send us your feedback."></textarea>
-                <button type="submit" class="btn btn-default btn-block" id="feedbackSendButton">Send Feedback</button>
-              </form>
-	          <p class="lead hidden" id="feedbackResult"></p>
-              <span class="spinner hidden" id="feedbackSpinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?></span>
+				<form action="javascript:void(0);" id="feedbackForm">
+					<select class="form-control" id="feedbackTypeSelector">
+						<option value="problem">Report an issue</option>
+						<option value="suggestion">Give a suggestion</option>
+					</select>
+					<div class="alert alert-danger hidden" id="feedbackEmptyAlert">Enter your feedback here:</div>
+					<textarea class="form-control lead" rows="3" id="feedbackTextArea" placeholder="Have a suggestion? Found an issue? Send us your feedback."></textarea>
+					<button type="submit" class="btn btn-default btn-block" id="feedbackSendButton">Send Feedback</button>
+				</form>
+				<p class="lead hidden" id="feedbackResult"></p>
+				<span class="spinner hidden" id="feedbackSpinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?></span>
 			</div>
 		</div>
 	</div>
@@ -127,122 +154,162 @@ if ( $context->valid ) {
 
 <div id="templates" class="hidden">
 
-  <div class="timeSkillTemplate skillTemplate">
-    <div class="skillScoreBar">
-      <h4>Time Management
+	<div class="timeSkillTemplate skillTemplate">
+		<div class="skillScoreBar">
+			<h4>Time Management
       <span class="skillInfo pull-right" id="timeSkillInfo" data-toggle="tooltip" title="Time management is the ability to use time effectively or productively. This score is calculated based on time spent on online quizzes or videos after 11pm and before 5am."><span class="glyphicon glyphicon-info-sign"></span></span>
       <span class="advancedAllScores pull-right">Your score: <span class="skillScoreLabel"></span>/10</span>
       <span class="advancedAllScoresClass skillPercentileHolder pull-right"><small>Your percentile in class: <span class="skillPercentileLabel"></span>%</small></span>
       </h4>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading" data-score="0"><h5>To increase your time management score, check out the following suggestions and resources:</h5></div>
-      <div class="panel-body">
-        <div class="row">
-      <ol class="list-group">
-        <li class="list-group-item"><a target="_blank" data-track="timeResource1" href="https://www.youtube.com/watch?v=VUk6LXRZMMk">Record, Analyze, Change - 3 steps to build an effective schedule (video)</a></li>
-        <li class="list-group-item"><a target="_blank" data-track="timeResource2" href="https://www.youtube.com/watch?v=6isYeuj5uKY">How to manage your time wisely and get enough sleep (video)  </a></li>
-        <li class="list-group-item"><a target="_blank" data-track="timeResource3" href="https://bigfuture.collegeboard.org/get-started/inside-the-classroom/8-ways-to-take-control-of-your-time">8 simple ways to take control of your time</a></li>
-        <li class="list-group-item"><a target="_blank" data-track="timeResource4" href="http://www.usnews.com/education/blogs/the-college-experience/2011/10/05/learn-to-manage-your-time-in-college">Seek on campus help to manage academic and personal time</a></li>
-        <!--<li class="list-group-item"><a target="_blank" data-track="timeResource5" href="http://www.usnews.com/education/blogs/the-college-experience/2011/10/05/learn-to-manage-your-time-in-college">Have fun while managing your time!</a></li>-->
-      </ol>
-      </div>
-    </div>
-  </div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading" data-score="0">
+				<h5>To increase your time management score:</h5>
+			</div>
+			<ol class="list-group">
+				<li class="list-group-item">1. Try to plan ahead and do your work online before 11pm.</li>
+				<li class="list-group-item">2. Check out these resources</li>
+				<li class="list-group-item"> <a target="_blank" data-track="timeResource1" href="https://www.youtube.com/watch?v=VUk6LXRZMMk">Record, Analyze, Change - 3 steps to build an effective schedule (video)</a> </li>
+				<li class="list-group-item"> <a target="_blank" data-track="timeResource2" href="https://www.youtube.com/watch?v=6isYeuj5uKY">How to manage your time wisely and get enough sleep (video)  </a> </li>
+				<li class="list-group-item"><a target="_blank" data-track="timeResource3" href="https://bigfuture.collegeboard.org/get-started/inside-the-classroom/8-ways-to-take-control-of-your-time">8 simple ways to take control of your time</a> </li>
+				<li class="list-group-item"><a target="_blank" data-track="timeResource4" href="http://www.usnews.com/education/blogs/the-college-experience/2011/10/05/learn-to-manage-your-time-in-college">Seek on campus help to manage academic and personal time</a> </li>
+				<!--<li class="list-group-item"><a target="_blank" data-track="timeResource5" href="http://www.usnews.com/education/blogs/the-college-experience/2011/10/05/learn-to-manage-your-time-in-college">Have fun while managing your time!</a></li>-->
+			</ol>
+		</div>
+	</div>
 
-  <div class="activitySkillTemplate skillTemplate">
-    <div class="skillScoreBar">
-      <h4>Online Activity
+	<div class="activitySkillTemplate skillTemplate">
+		<div class="skillScoreBar">
+			<h4>Online Activity
       <span class="skillInfo pull-right" id="activitySkillInfo" data-toggle="tooltip" title="Online activity is the amount of time spent learning online. This score is calculated based on the amount of time spent online in online quizzes and videos."><span class="glyphicon glyphicon-info-sign"></span></span>
       <span class="advancedAllScores pull-right">Your score: <span class="skillScoreLabel"></span>/10</span>
       <span class="advancedAllScoresClass skillPercentileHolder pull-right"><small>Your percentile in class: <span class="skillPercentileLabel"></span>%</small></span>
       </h4>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading" data-score="0"><h5>To increase your online activity score, check out the following resources:</h5></div>
-      <ol class="list-group">
-        <li class="list-group-item"><a target="_blank" data-track="activityResource1" href="http://www.cornellcollege.edu/academic-support-and-advising/study-tips/time-to-study.shtml">Devoting enough study time to college courses</a></li>
-        <li class="list-group-item"><a target="_blank" data-track="activityResource2" href="http://calnewport.com/blog/2007/07/26/the-straight-a-gospels-pseudo-work-does-not-equal-work/">5 tips for eliminating pseudo-work from your studying</a></li>
-      </ol>
-    </div>
-  </div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading" data-score="0">
+				<h5>To increase your online activity score:</h5>
+			</div>
+			<ol class="list-group">
+				<li class="list-group-item">1. Try spending more time learning the material with the videos and quizzes. </li>
+				<li class="list-group-item">2. Check out these resources </li>
+				<li class="list-group-item"><a target="_blank" data-track="activityResource1" href="http://www.cornellcollege.edu/academic-support-and-advising/study-tips/time-to-study.shtml">Devoting enough study time to college courses</a>
+				</li>
+				<li class="list-group-item"><a target="_blank" data-track="activityResource2" href="http://calnewport.com/blog/2007/07/26/the-straight-a-gospels-pseudo-work-does-not-equal-work/">5 tips for eliminating pseudo-work from your studying</a>
+				</li>
+			</ol>
+		</div>
+	</div>
 
-  <div class="consistencySkillTemplate skillTemplate">
-    <div class="skillScoreBar">
-      <h4>Consistency
+	<div class="consistencySkillTemplate skillTemplate">
+		<div class="skillScoreBar">
+			<h4>Consistency
       <span class="skillInfo pull-right" id="consistencySkillInfo" data-toggle="tooltip" title="Consistency is the achievement of a level of performance that does not vary over time. This score is calculated based on the number of days in the past two weeks that you have had online video or quiz activity online."><span class="glyphicon glyphicon-info-sign"></span></span>
       <span class="advancedAllScores pull-right">Your score: <span class="skillScoreLabel"></span>/10</span>
       <span class="advancedAllScoresClass skillPercentileHolder pull-right"><small>Your percentile in class: <span class="skillPercentileLabel"></span>%</small></span>
       </h4>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading" data-score="0"><h5>To increase your consistency score, check out the following resources:</h5></div>
-      <ol class="list-group">
-        <li class="list-group-item"><a target="_blank" data-track="consistencyResource1" href="http://www.entrepreneur.com/article/234325">Being consistent is not the same as being perfect</a></li>
-        <li class="list-group-item"><a target="_blank" data-track="consistencyResource2" href="http://www.wikihow.com/Be-Consistent">Change your thinking to build and maintain consistency</a></li>
-        <li class="list-group-item"><a target="_blank" data-track="consistencyResource3" href="https://blog.udemy.com/effective-study-habits/">Find a consistent study space</a></li>
-        <li class="list-group-item"><a target="_blank" data-track="consistencyResource4" href="https://www.oxford-royale.co.uk/articles/5-top-tips-everyday-study-success.html">5 tips for everyday success</a></li>
-      </ol>
-    </div>
-  </div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading" data-score="0">
+				<h5>To increase your consistency score:</h5>
+			</div>
+			<ol class="list-group">
+				<li class="list-group-item">1. Study for this class, at least a little bit, every day.  </li>
+				<li class="list-group-item">2. Check out these resources </li>
+				<li class="list-group-item"><a target="_blank" data-track="consistencyResource1" href="http://www.entrepreneur.com/article/234325">Being consistent is not the same as being perfect</a>
+				</li>
+				<li class="list-group-item"><a target="_blank" data-track="consistencyResource2" href="http://www.wikihow.com/Be-Consistent">Change your thinking to build and maintain consistency</a>
+				</li>
+				<li class="list-group-item"><a target="_blank" data-track="consistencyResource3" href="https://blog.udemy.com/effective-study-habits/">Find a consistent study space</a>
+				</li>
+				<li class="list-group-item"><a target="_blank" data-track="consistencyResource4" href="https://www.oxford-royale.co.uk/articles/5-top-tips-everyday-study-success.html">5 tips for everyday success</a>
+				</li>
+			</ol>
+		</div>
+	</div>
 
-  <div class="awarenessSkillTemplate skillTemplate">
-    <div class="skillScoreBar">
-      <h4>Knowledge Awareness
+	<div class="awarenessSkillTemplate skillTemplate">
+		<div class="skillScoreBar">
+			<h4>Knowledge Awareness
       <span class="skillInfo pull-right" id="awarenessSkillInfo" data-toggle="tooltip" title="Knowledge awareness is knowing what you know and knowing what you don't know. This score is calculated based on the extent to which you select an accurate confidence level on quiz questions."><span class="glyphicon glyphicon-info-sign"></span></span>
       <span class="advancedAllScores pull-right">Your score: <span class="skillScoreLabel"></span>/10</span>
       <span class="advancedAllScoresClass skillPercentileHolder pull-right"><small>Your percentile in class: <span class="skillPercentileLabel"></span>%</small></span>
       </h4>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading" data-score="0"><h5>To increase your knowledge awareness score, check out the following resources:</h5></div>
-      <ol class="list-group">
-        <li class="list-group-item"><a target="_blank" data-track="awarenessResource1" href="https://www.youtube.com/watch?v=RH95h36NChI">How good are you at predicting your test scores? (video, start at 3:58)</a></li>
-        <li class="list-group-item"><a target="_blank" data-track="awarenessResource2" href="http://www.pickthebrain.com/blog/learn-to-understand-your-own-intelligence/">The importance of knowing what you know (and what you don’t)</a></li>
-        <li class="list-group-item"><a target="_blank" data-track="awarenessResource3" href="https://openlab.citytech.cuny.edu/theguide/2013/10/30/college-skills-self-awareness/">Increasing your self-awareness</a></li>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading" data-score="0">
+				<h5>To increase your knowledge awareness score:</h5>
+			</div>
+			<ol class="list-group">
+				<li class="list-group-item">1. Try to more accurately rate your confidence level when you answer a quiz question. </li>
+				<li class="list-group-item">2. Check out these resources </li>
+				<li class="list-group-item"><a target="_blank" data-track="awarenessResource1" href="https://www.youtube.com/watch?v=RH95h36NChI">How good are you at predicting your test scores? (video, start at 3:58)</a>
+				</li>
+				<li class="list-group-item"><a target="_blank" data-track="awarenessResource2" href="http://www.pickthebrain.com/blog/learn-to-understand-your-own-intelligence/">The importance of knowing what you know (and what you don’t)</a>
+				</li>
+				<li class="list-group-item"><a target="_blank" data-track="awarenessResource3" href="https://openlab.citytech.cuny.edu/theguide/2013/10/30/college-skills-self-awareness/">Increasing your self-awareness</a>
+				</li>
 
-      </ol>
-    </div>
-  </div>
+			</ol>
+		</div>
+	</div>
 
-  <div class="deepLearningSkillTemplate skillTemplate">
-    <div class="skillScoreBar">
-      <h4>Deep Learning
+	<div class="deepLearningSkillTemplate skillTemplate">
+		<div class="skillScoreBar">
+			<h4>Deep Learning
       <span class="skillInfo pull-right" id="deepLearningSkillInfo" data-toggle="tooltip" title="Deep learning is taking an understanding approach to learning instead of simply trying to get an A. This score is calculated based on the number of times you clicked show answer on a quiz before getting the correct answer."><span class="glyphicon glyphicon-info-sign"></span></span>
       <span class="advancedAllScores pull-right">Your score: <span class="skillScoreLabel"></span>/10</span>
       <span class="advancedAllScoresClass skillPercentileHolder pull-right"><small>Your percentile in class: <span class="skillPercentileLabel"></span>%</small></span>
       </h4>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading" data-score="0"><h5>To increase your deep learning score, check out the following resources:</h5></div>
-      <ol class="list-group">
-        <li class="list-group-item"><a target="_blank" data-track="deepLearningResource1" href="http://thinksimplenow.com/productivity/how-to-learn-without-memorizing/">Creative ways to learn. Don’t just memorize!</a></li>
-        <li class="list-group-item"><a target="_blank" data-track="deepLearningResource2" href="http://www.uwosh.edu/facstaff/gutow/general-study-hints-and-info/how-to-study-for-college-science-classes">How learning science is like learning a foreign language</a></li>
-        <li class="list-group-item"><a target="_blank" data-track="deepLearningResource3" href="http://timemanagementninja.com/2012/08/if-youre-just-going-through-the-motions-youre-wasting-your-time/">7 ways to not just “go through the motions”</a></li>
-      </ol>
-    </div>
-  </div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading" data-score="0">
+				<h5>To increase your deep learning score:</h5>
+			</div>
+			<ol class="list-group">
+				<li class="list-group-item">1. Go back and watch the videos, ask a friend, or get some help if you get stuck on a quiz question instead of clicking show answer </li>
+				<li class="list-group-item">2. Check out these resources </li>
+				<li class="list-group-item"><a target="_blank" data-track="deepLearningResource1" href="http://thinksimplenow.com/productivity/how-to-learn-without-memorizing/">Creative ways to learn. Don’t just memorize!</a>
+				</li>
+				<li class="list-group-item"><a target="_blank" data-track="deepLearningResource2" href="http://www.uwosh.edu/facstaff/gutow/general-study-hints-and-info/how-to-study-for-college-science-classes">How learning science is like learning a foreign language</a>
+				</li>
+				<li class="list-group-item"><a target="_blank" data-track="deepLearningResource3" href="http://timemanagementninja.com/2012/08/if-youre-just-going-through-the-motions-youre-wasting-your-time/">7 ways to not just “go through the motions”</a>
+				</li>
+			</ol>
+		</div>
+	</div>
 
-  <div class="persistenceSkillTemplate skillTemplate">
-    <div class="skillScoreBar">
-      <h4>Persistence
+	<div class="persistenceSkillTemplate skillTemplate">
+		<div class="skillScoreBar">
+			<h4>Persistence
       <span class="skillInfo pull-right" id="persistenceSkillInfo" data-toggle="tooltip" title="Persistence is firm continuance in a course of action in spite of difficulty or opposition. This score is calculated based on the amount of video you have watched and the number of quiz questions you have attempted."><span class="glyphicon glyphicon-info-sign"></span></span>
       <span class="advancedAllScores pull-right">Your score: <span class="skillScoreLabel"></span>/10</span>
       <span class="advancedAllScoresClass skillPercentileHolder pull-right"><small>Your percentile in class: <span class="skillPercentileLabel"></span>%</small></span>
       </h4>
-    </div>
-    <div class="panel panel-default">
-      <div class="panel-heading" data-score="0"><h5>To increase your persistence score, check out the following resources:</h5></div>
-      <ol class="list-group">
-        <li class="list-group-item"><a target="_blank" data-track="persistenceResource1" href="https://www.ted.com/talks/angela_lee_duckworth_the_key_to_success_grit?language=en#t-9276">The key to success...grit! (video)</a></li>
-        <li class="list-group-item"><a target="_blank" data-track="persistenceResource2" href="https://www.youtube.com/watch?v=jlJrH16VQAA">Life is a video game, so how do you win? (video)</a></li>
-        <li class="list-group-item"><a target="_blank" data-track="persistenceResource3" href="http://www.firstgenerationstudent.com/blog/thriving-amidst-difficulty/">4 ways to build up your academic resilience</a></li>
-        <li class="list-group-item"><a target="_blank" data-track="persistenceResource4" href="http://blog.cengage.com/seven-elements-academic-resilience/">Build campus connections to succeed in college</a></li>
-        <li class="list-group-item"><a target="_blank" data-track="persistenceResource5" href="https://www.mindtools.com/pages/article/resilience.htm">The 3 C’s and P’s to grow from setbacks </a></li>
-      </ol>
-    </div>
-  </div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-heading" data-score="0">
+				<h5>To increase your persistence score:</h5>
+			</div>
+			<ol class="list-group">
+				<li class="list-group-item">1. Try a couple more times on each quiz question before you click show answer. </li>
+				<li class="list-group-item">2. Try watching the videos associated with the quiz before you take the quiz </li>
+				<li class="list-group-item">3. Check out these resources </li>
+				<li class="list-group-item"><a target="_blank" data-track="persistenceResource1" href="https://www.ted.com/talks/angela_lee_duckworth_the_key_to_success_grit?language=en#t-9276">The key to success...grit! (video)</a>
+				</li>
+				<li class="list-group-item"><a target="_blank" data-track="persistenceResource2" href="https://www.youtube.com/watch?v=jlJrH16VQAA">Life is a video game, so how do you win? (video)</a>
+				</li>
+				<li class="list-group-item"><a target="_blank" data-track="persistenceResource3" href="http://www.firstgenerationstudent.com/blog/thriving-amidst-difficulty/">4 ways to build up your academic resilience</a>
+				</li>
+				<li class="list-group-item"><a target="_blank" data-track="persistenceResource4" href="http://blog.cengage.com/seven-elements-academic-resilience/">Build campus connections to succeed in college</a>
+				</li>
+				<li class="list-group-item"><a target="_blank" data-track="persistenceResource5" href="https://www.mindtools.com/pages/article/resilience.htm">The 3 C’s and P’s to grow from setbacks </a>
+				</li>
+			</ol>
+		</div>
+	</div>
 
+</div>
 <?php
 echo Phalcon\Tag::javascriptInclude("js/vendor/d3-radar.js");
 echo Phalcon\Tag::javascriptInclude("js/student_skills.js");

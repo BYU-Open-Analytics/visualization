@@ -28,6 +28,11 @@
 .skillPercentileHolder small {
 	color: white;
 }
+.skillTemplate {
+}
+.skillTemplate a {
+	padding-left: 35px;
+}
 
 /* Time Graph */
 .axis path,
