@@ -1,3 +1,4 @@
+// Loads the skill scores into the recommendation templates and puts them in the list
 function loadSkills(data) {
 	// Hide the loading spinner
 	$("#skillsListSection .spinner").hide();
@@ -45,6 +46,7 @@ var skillTitles = {
 	"persistence": "Persistence"
 	};
 
+// When a point on the radar graph is clicked
 function skillsGraphPointClicked(d) {
 	// Find the skill id from the title
 	var skillId = skillIds[d.axis];

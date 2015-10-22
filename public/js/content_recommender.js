@@ -146,11 +146,16 @@ function loadConcepts() {
 
 // Called when a concept in the left filter sidebar is clicked
 function filterConceptClick(d) {
-
+	// Make the currently active concept button not active
 	$("#filterList .active").removeClass("active");
+	// Then make this one active
 	$(d3.event.currentTarget).addClass("active");
+	// Track the click
 	track("clicked","filterListConcept"+d.id);
+	// Then load recommendations for the concept associated with the clicked concept button
 	loadRecommendations("concept", d.id);
+	// Scroll to the top of the page so recommendations are visible
+	$("html, body").animate({ scrollTop: 0 }, "fast");
 }
 
 // Loads scores for all concepts, which are used in the filter navigation sidebar
@@ -879,9 +884,6 @@ $(function() {
 	
 	// Hide this (loadRecommendations will show it when it's done loading)
 	$("#recommendContainer").hide();
-	// Load data
-	//updateQuestionsTable();
-	//updateVideosTable();
 
 	// First, we have to load data mappings for quiz questions/videos/concepts/dates
 	d3.csv("../csv/mappings.csv", function(error, data) {
