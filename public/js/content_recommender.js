@@ -162,6 +162,11 @@ function loadConceptScores() {
 		$("#filterSection .spinner").hide();
 		$("#filterLoadingContainer").show();
 
+		if (!(data && typeof data == 'object') || error) {
+			$("#filterLoadingContainer").html('<p class="lead">There was an error loading concept scores. Try reloading the dashboard.</p>');
+			return;
+		}
+
 		//Color scale
 		var colorScale = d3.scale.linear()
 				.domain([0, 3.3, 6.6, 10])
@@ -257,6 +262,10 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 	d3.json("../content_recommender_stats/recommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
 		$("#recommendSection .spinner").hide();
 		$("#recommendContainer").show();
+		if (!(data && typeof data == 'object' && "group1" in data) || error) {
+			$("#recommendContainer").html('<br><br><p class="lead">There was an error loading recommendations. Try reloading the dashboard.</p>');
+			return;
+		}
 		for (var i=1; i<5; i++) {
 			$("#recommend"+i+"List").empty();
 			d3.select("#recommend"+i+"List")

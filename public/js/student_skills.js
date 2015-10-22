@@ -1,34 +1,18 @@
 function loadSkills(data) {
 	// Hide the loading spinner
 	$("#skillsListSection .spinner").hide();
+
 	var skills = data.student;
 	// Sort skills weakest to strongest
 	skills.sort(function(a,b) {
 		return a.score - b.score;
 	});
 
-	// Get three weakest skills
-	for (var i=0; i<3; i++) {
-		var s = $("." + skills[i].id + "SkillTemplate").appendTo("#weakestSkillsList");
-		$("." + skills[i].id + "SkillTemplate .skillScoreLabel").text(skills[i].score);
-		// Only show the first one by default
-		if (i>0) {
-			s.addClass("advancedAll");
-		}
-	}
-
-	// Get three strongest skills
-	for (var i=5; i>2; i--) {
-		var s = $("." + skills[i].id + "SkillTemplate").appendTo("#strongestSkillsList");
-		$("." + skills[i].id + "SkillTemplate .skillScoreLabel").text(skills[i].score);
-		// Only show the first one by default
-		if (i<5) {
-			s.addClass("advancedAll");
-		}
-	}
-	
-	// Put score in each skill
 	for (var i=0; i<6; i++) {
+		// Get template for each skill
+		var s = $("." + skills[i].id + "SkillTemplate").appendTo("#skillsList");
+		$("." + skills[i].id + "SkillTemplate .skillScoreLabel").text(skills[i].score);
+		// Put score in each skill
 		$("." + skills[i].id + "SkillTemplate .skillScoreLabel").text(skills[i].score);
 		$("." + skills[i].id + "SkillTemplate .skillPercentileLabel").text(skills[i].score * 10);
 	}
@@ -394,6 +378,11 @@ $(function() {
 	// Load data
 	// TODO absolute url ref fix
 	d3.json("../student_skills_stats/skills", function(error, data) {
+		if (!(data && data.student)) {
+			$(".spinner").hide();
+			$("#radarContainer").html('<p class="lead">There was an error loading skills data. Try reloading the dashboard.</p>');
+			return;
+		}
 		loadSkills(data);
 		loadSkillsGraph(data);
 	});
