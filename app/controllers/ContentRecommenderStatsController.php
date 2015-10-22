@@ -342,7 +342,7 @@ class ContentRecommenderStatsController extends Controller
 		}
 		$masteryHelper = new MasteryHelper();
 		foreach ($concepts as $c) {
-			$score = rand(0,10);//$masteryHelper::calculateConceptMasteryScore($context->getUserName(), $c["Section Number"], $debug);
+			$score = $masteryHelper::calculateConceptMasteryScore($context->getUserName(), $c["Section Number"], $debug);
 			if ($debug) { echo "Concept mapping info\n"; print_r($c); }
 			$result []= ["id" => $c["Section Number"], "display" => $c["Section Title"], "score" => $score, "unit" => $c["Unit"]];
 		}

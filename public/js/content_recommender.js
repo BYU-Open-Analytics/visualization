@@ -156,8 +156,11 @@ function filterConceptClick(d) {
 // Loads scores for all concepts, which are used in the filter navigation sidebar
 function loadConceptScores() {
 	// TODO CHANGE TO ALL!
+	$("#filterSection .spinner").show();
+	$("#filterLoadingContainer").hide();
 	d3.json("../content_recommender_stats/masteryGraph/all/all", function(error, data) {
 		$("#filterSection .spinner").hide();
+		$("#filterLoadingContainer").show();
 
 		//Color scale
 		var colorScale = d3.scale.linear()
@@ -191,8 +194,8 @@ function loadConceptScores() {
 			//.style("background-color", function(d) { return d.score >= 6 ? "#5cb85c" : d.score >= 4 ? "#f0ad4e" : "#d9534f"; })
 			.style("background", function(d) { return colorScale(d.score); });
 
-		// Set up click handler for special unit list item
-		$(".filterListUnit").click(function() {
+		// Set up click handler for special unit list item (and show it, since it's hidden for load)
+		$(".filterListUnit").removeClass("hidden").click(function() {
 			$("#filterList .active").removeClass("active");
 			$(this).addClass("active");
 			var selectedUnit = $("[name=filterUnitSelector]").val();
@@ -871,6 +874,8 @@ $(function() {
 	// Bind feedback submit button click event
 	$("#feedbackSendButton").click(sendFeedback);
 	
+	// Hide this (loadRecommendations will show it when it's done loading)
+	$("#recommendContainer").hide();
 	// Load data
 	//updateQuestionsTable();
 	//updateVideosTable();

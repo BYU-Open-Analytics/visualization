@@ -16,12 +16,14 @@ if ( $context->valid ) {
     <!-- Filter Navigation -->
     <div id="filterSection" class="col-sm-3">
       <h3 class="capsLabel">Filter Recommendations</h3>
-	  <label for="filterUnitSelector">Select Unit: &nbsp;</label><select class="unitSelector" name="filterUnitSelector">
-	    <?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'"'; if ($unit['id']==3) { echo ' selected="selected"'; } echo '>'.$unit['title'].'</option>'; } ?>
-	  </select>
-      <span class="spinner" style="float: right;"><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
-	  <div id="filterList">
-        <a class="filterListUnit"><div class="filterListItemText">&nbsp;&nbsp;&nbsp;&nbsp; View recommendations for all concepts in Unit <span id="filterListUnitName"></span></div></a>
+      <span class="spinner"><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
+      <div id="filterLoadingContainer">
+	    <label for="filterUnitSelector">Select Unit: &nbsp;</label><select class="unitSelector" name="filterUnitSelector">
+	      <?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'"'; if ($unit['id']==3) { echo ' selected="selected"'; } echo '>'.$unit['title'].'</option>'; } ?>
+	    </select>
+  	    <div id="filterList">
+          <a class="filterListUnit"><div class="filterListItemText">&nbsp;&nbsp;&nbsp;&nbsp; View recommendations for all concepts in Unit <span id="filterListUnitName"></span></div></a>
+        </div>
       </div>
     </div>
 
@@ -29,7 +31,7 @@ if ( $context->valid ) {
 
       <!-- Recommendations -->
       <div id="recommendSection" class="advancedSimple advancedAll col-md-12">
-          <h3 style="float: left;">Question Recommendations for <span id="recommendationHeaderScopeLabel">...</span></h3>
+          <h3 style="float: left; margin-top: 10px;">Question Recommendations for <span id="recommendationHeaderScopeLabel">...</span></h3>
 
 		  <div class="pull-right">
 	        <div class="advancedToggleOptional"><input id="advancedToggleMore" class="advancedToggleOptional" data-option="more" type="checkbox" />&nbsp;<label for="advancedToggleMore">See more details</label><br></div>
