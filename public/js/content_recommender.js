@@ -213,6 +213,7 @@ function filterConceptList() {
 	$(".filterListConcept").hide();
 	$(".unit" + selectedUnit + "Concept").show();
 	$("#filterListUnitName").text(selectedUnit);
+	animateConceptScores();
 	// Default to all concepts
 	$(".filterListUnit").click();
 }
@@ -232,6 +233,7 @@ function questionElement(d) {
 // Loads recommendations
 function loadRecommendations(scopeOption, scopeGroupingId) {
 	$("#recommendSection .spinner").show();
+	$("#recommendContainer").hide();
 	// Determine what current scope and grouping id (concept/chapter/unit id) are
 	/*var scopeOption = $("input[name=recommendScopeOption]:checked").val();
 	var scopeGroupingId = "";
@@ -247,9 +249,11 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 			break;
 	}*/
 	console.log("LOADING RECOMMENDATIONS WITH SCOPE AND ID",scopeOption, scopeGroupingId);
-	$("#recommendationHeaderScopeLabel").text(scopeOption + " " + scopeGroupingId);
+	var scopeOptionName = scopeOption.charAt(0).toUpperCase() + scopeOption.slice(1);
+	$("#recommendationHeaderScopeLabel").text(scopeOptionName + " " + scopeGroupingId);
 	d3.json("../content_recommender_stats/recommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
 		$("#recommendSection .spinner").hide();
+		$("#recommendContainer").show();
 		for (var i=1; i<5; i++) {
 			$("#recommend"+i+"List").empty();
 			d3.select("#recommend"+i+"List")
@@ -619,11 +623,11 @@ function loadMasteryGraph() {
 
 // Function to make the mastery graph bar chart animate
 function animateConceptScores() {
+	$(".conceptProgressBar").css("width","0px");
 	d3.selectAll(".conceptProgressBar")
-		.attr("width", "1px")
 		.transition()
 		.duration(500)
-		.delay(function(d, i) { return i * 10; })
+		//.delay(function(d, i) { return i * 10; })
 		.style("width", function(d) { return Math.max(4, d.score * 10) + "%"; });
 }
 // Function to make the mastery graph bar chart animate

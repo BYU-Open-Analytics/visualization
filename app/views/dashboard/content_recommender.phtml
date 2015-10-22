@@ -32,11 +32,12 @@ if ( $context->valid ) {
           <h3 style="float: left;">Question Recommendations for <span id="recommendationHeaderScopeLabel">...</span></h3>
 
 		  <div class="pull-right">
-	        <div class=""><input id="advancedToggleMore" class="" data-option="more" type="checkbox" />&nbsp;<label for="advancedToggleMore">See more details</label><br></div>
-	        <div class=""><input id="advancedToggleMoreClass" disabled class="" data-option="moreClass" type="checkbox" />&nbsp;<label for="advancedToggleMoreClass">Compare to class</label></div>
+	        <div class="advancedToggleOptional"><input id="advancedToggleMore" class="advancedToggleOptional" data-option="more" type="checkbox" />&nbsp;<label for="advancedToggleMore">See more details</label><br></div>
+	        <div class="advancedToggleOptional"><input id="advancedToggleMoreClass" disabled class="advancedToggleOptional" data-option="moreClass" type="checkbox" />&nbsp;<label for="advancedToggleMoreClass">Compare to class</label></div>
 		    <span class="spinner" style="float: right;"><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
           </div><br>
 
+          <div id="recommendContainer">
           <ul class="nav nav-tabs" style="clear: both;" id="recommendTabs" role="tablist">
 			<li role="presentation" class="active"><a href="#recommend1" aria-controls="recommend1" role="tab" data-toggle="tab"><div class="text-center">Attempt these questions <span class="countBadge"></span></div></a></li>
 			<li role="presentation"><a href="#recommend2" aria-controls="recommend2" role="tab" data-toggle="tab"><div class="text-center">Watch these videos <span class="countBadge"></span></div></a></li>
@@ -70,6 +71,8 @@ if ( $context->valid ) {
               </div>
 
             </div>
+
+          </div>
 
       </div>
   

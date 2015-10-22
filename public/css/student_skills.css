@@ -55,6 +55,17 @@
 }
 
 /* Advanced */
+.advancedToggle {
+	transition: background-color 100ms ease-out;
+}
+.advancedToggleOptional {
+	display: none;
+}
+.advancedToggleLi.active .advancedToggleOptional {
+	display: inline!important;
+	margin: 10px 0px 0px 20px;
+}
+
 /* Classes to hide certain elements until the corresponding option is toggled on */
 /*.advancedMore, .advancedMoreClass, .advancedScatterplot, .advancedScatterplotClass, .advancedMasteryGraph, .advancedAll {
 	display: none;

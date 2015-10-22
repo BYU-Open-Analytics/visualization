@@ -200,6 +200,9 @@ td {
 }
 
 /* Concept Filter Navigation */
+#filterSection {
+	border-right: solid #ddd 2px;
+}
 #filterList {
 }
 .filterListConcept, .filterListUnit {
