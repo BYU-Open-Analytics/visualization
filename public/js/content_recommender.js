@@ -732,7 +732,11 @@ function changeView(optionName, optionValue, refreshOnly) {
 			break;
 		case "more":
 			//console.log("Changing to more view");
-			$(".advancedSimple, .advancedMore").removeClass(h).addClass(s);
+			if (optionValue == true) {
+				$(".advancedSimple, .advancedMore").removeClass(h).addClass(s);
+			} else {
+				$(".advancedSimple").removeClass(h).addClass(s);
+			}
 			// The More Class checkbox is dependent on this checkbox
 			$("#advancedToggleMoreClass").prop("disabled", !optionValue).prop("checked", false);
 			break;
