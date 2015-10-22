@@ -48,8 +48,10 @@ var skillTitles = {
 
 // When a point on the radar graph is clicked
 function skillsGraphPointClicked(d) {
+	console.log(d);
+	var title = (d && typeof d == "object") ? d.axis : d;
 	// Find the skill id from the title
-	var skillId = skillIds[d.axis];
+	var skillId = skillIds[title];
 	if (!skillId) { return; }
 	$("#skillsGraphRecommend").html($("#skillsListSection ." + skillId + "SkillTemplate").clone().addClass("advancedSkillsGraph"));
 	refreshView();
