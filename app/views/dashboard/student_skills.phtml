@@ -31,9 +31,11 @@ if ( $context->valid ) {
       <div id="skillsListSection" class="advancedSimple col-md-12">
         <div class="row">
 	    <div class="col-sm-12">
-            <h3>My Skill Recommendations</h3>
+            <h3 style="float: left;">My Skill Recommendations</h3>
+            <div class="pull-right" style="margin-top: 10px;">
         	  <div class="advancedToggleOptional"><input id="advancedToggleAllScores" class="advancedToggleOptional" data-option="allScores" type="checkbox" />&nbsp;<label for="advancedToggleAllScores">Show skill scores</label><br /></div>
         	  <div class="advancedToggleOptional"><input id="advancedToggleAllScoresClass" class="advancedToggleOptional" data-option="allScoresClass" type="checkbox" />&nbsp;<label for="advancedToggleAllScoresClass">Compare to class</label></div>
+            </div><br><br><br><hr>
               <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
               <div id="skillsList"> </div>
           </div>
@@ -42,12 +44,15 @@ if ( $context->valid ) {
 
       <!-- Time Graph -->
       <div id="timeGraphSection" class="advancedTimeGraph col-md-12">
-        <h3>Your Skills Over Time</h3>
-			<p class="lead"><br>Check back here in a few days, when more historical skill data is available.</p>
+        <h3 style="float: left;">Your Skills Over Time</h3>
+			<p class="lead"><br><br>Check back here in a few days, when more historical skill data is available.</p>
 		<!--
-			<div class="advancedToggleOptional">
-			  <input id="advancedToggleTimeGraphClass" class="advancedToggleOptional" data-option="timeGraphClass" type="checkbox" />&nbsp;
-              <label for="advancedToggleTimeGraphClass">Compare to class</label></div>
+            <div class="pull-right" style="margin-top: 10px;">
+			  <div class="advancedToggleOptional">
+			    <input id="advancedToggleTimeGraphClass" class="advancedToggleOptional" data-option="timeGraphClass" type="checkbox" />&nbsp;
+				<label for="advancedToggleTimeGraphClass">Compare to class</label>
+              </div>
+            </div><br><hr>
             <div id="visualizationContainer" class="container">
             <div id="timeGraphContainer">
               <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
@@ -73,7 +78,10 @@ if ( $context->valid ) {
 
       <!-- Skills Graph -->
       <div id="skillsGraphSection" class="advancedSkillsGraph col-md-12">
-        <h3>My Student Skills</h3><div class="advancedToggleOptional"><input id="advancedToggleSkillsGraphClass" class="advancedToggleOptional" data-option="skillsGraphClass" type="checkbox" />&nbsp;<label for="advancedToggleSkillsGraphClass">Compare to class</label></div>
+		<h3 class="pull-left">My Student Skills</h3>
+		<div class="pull-right"><br>
+          <div class="advancedToggleOptional"><input id="advancedToggleSkillsGraphClass" class="advancedToggleOptional" data-option="skillsGraphClass" type="checkbox" />&nbsp;<label for="advancedToggleSkillsGraphClass">Compare to class</label></div>
+        </div><br><br><hr>
         <div class="row">
             <div class="col-md-8" id="radarContainer">
               <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
