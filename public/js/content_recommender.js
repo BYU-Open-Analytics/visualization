@@ -155,13 +155,14 @@ function filterConceptClick(d) {
 
 // Loads scores for all concepts, which are used in the filter navigation sidebar
 function loadConceptScores() {
-	// TODO CHANGE TO ALL!
 	$("#filterSection .spinner").show();
 	$("#filterLoadingContainer").hide();
+	// Get the list of all concepts and their scores
 	d3.json("../content_recommender_stats/masteryGraph/all/all", function(error, data) {
 		$("#filterSection .spinner").hide();
 		$("#filterLoadingContainer").show();
 
+		// Some basic error handling
 		if (!(data && typeof data == 'object') || error) {
 			$("#filterLoadingContainer").html('<p class="lead">There was an error loading concept scores. Try reloading the dashboard.</p>');
 			return;
@@ -178,6 +179,7 @@ function loadConceptScores() {
 		//Create tooltips
 		var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return "Score: " + d.score + ". Click to view recommendations."; });
 
+		// Create element for each concept
 		var conceptList = d3.select("#filterList");
 		var concepts = conceptList.selectAll(".filterListConcept")
 			.data(data)
@@ -193,6 +195,7 @@ function loadConceptScores() {
 			.attr("class", "filterListItemText")
 			.html(function(d) { return d.id + ' ' + d.display; });
 
+		// Progress bar-like display at bottom of each concept that shows mastery score
 		var rects = concepts.append("span")
 			.attr("class", "conceptProgressBar")
 			.style("width", 0)//function(d) { return Math.max(4, d.score * 10) + "%"; })
@@ -218,8 +221,11 @@ function loadConceptScores() {
 // Filters concepts in the left sidebar to a given unit
 function filterConceptList() {
 	var selectedUnit = $("[name=filterUnitSelector]").val();
+	// Hide all concepts
 	$(".filterListConcept").hide();
+	// And then show the ones for the selected unit
 	$(".unit" + selectedUnit + "Concept").show();
+	// Change the "All concepts for this unit" item to have the current unit number
 	$("#filterListUnitName").text(selectedUnit);
 	animateConceptScores();
 	// Default to all concepts
@@ -242,23 +248,11 @@ function questionElement(d) {
 function loadRecommendations(scopeOption, scopeGroupingId) {
 	$("#recommendSection .spinner").show();
 	$("#recommendContainer").hide();
-	// Determine what current scope and grouping id (concept/chapter/unit id) are
-	/*var scopeOption = $("input[name=recommendScopeOption]:checked").val();
-	var scopeGroupingId = "";
-	switch (scopeOption) {
-		case "concept":
-			scopeGroupingId = $("[name=recommendConceptSelector]").val();
-			break;
-		case "chapter":
-			scopeGroupingId = $("[name=recommendChapterSelector]").val();
-			break;
-		case "unit":
-			scopeGroupingId = $("[name=recommendUnitSelector]").val();
-			break;
-	}*/
-	console.log("LOADING RECOMMENDATIONS WITH SCOPE AND ID",scopeOption, scopeGroupingId);
+	// Get scope with capital first letter for displaying
 	var scopeOptionName = scopeOption.charAt(0).toUpperCase() + scopeOption.slice(1);
 	$("#recommendationHeaderScopeLabel").text(scopeOptionName + " " + scopeGroupingId);
+
+	// Get question recommendations for our scope and grouping ID (either unit number or concept number)
 	d3.json("../content_recommender_stats/recommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
 		$("#recommendSection .spinner").hide();
 		$("#recommendContainer").show();
