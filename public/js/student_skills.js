@@ -130,14 +130,14 @@ function loadTimeGraph(skillId) {
 	$("#timeGraph").empty();
 
 	// Largely from http://bl.ocks.org/mbostock/3883245
-	var margin = {top: 20, right: 20, bottom: 50, left: 10},
+	var margin = {top: 20, right: 20, bottom: 50, left: 30},
 	    width = 800 - margin.left - margin.right,
-	    height = 400 - margin.top - margin.bottom;
+	    height = 300 - margin.top - margin.bottom;
 
 	var parseDate = d3.time.format("%Y-%m-%d").parse;
 
-	var x = d3.time.scale()
-	    .range([0, width]);
+	var x = d3.scale.ordinal()
+		.rangeRoundBands([0, width], 0.1);
 
 	var y = d3.scale.linear()
 	    .range([height, 0]);
@@ -148,12 +148,7 @@ function loadTimeGraph(skillId) {
 
 	var yAxis = d3.svg.axis()
 	    .scale(y)
-	    .tickFormat("")
 	    .orient("left");
-
-	var line = d3.svg.line()
-	    .x(function(d) { return x(d.date); })
-	    .y(function(d) { return y(d.score); });
 
 	var svg = d3.select("#timeGraph").append("svg")
 	    .attr("width", width + margin.left + margin.right)
@@ -162,17 +157,28 @@ function loadTimeGraph(skillId) {
 	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 	d3.csv("../student_skills_stats/time_graph/" + skillId, function(error, data) {
-	  if (error) throw error;
 
 	  // Hide the loading spinner
 	  $("#timeGraphSection .spinner").hide();
+
+	  // TODO error handling with friendly text and no infinite spinner
+	  if (error) throw error;
+
+
 	  data.forEach(function(d) {
-	    d.date = parseDate(d.date);
-	    d.score = +d.score;
+	    //d.date = parseDate(d.date);
+		d.time = +d.time;
+		d.activity = +d.activity;
+		d.consistency = +d.consistency;
+		d.awareness = +d.awareness;
+		d.deepLearning = +d.deepLearning;
+		d.persistence = +d.persistence;
 	  });
 
-	  x.domain(d3.extent(data, function(d) { return d.date; }));
-	  y.domain(d3.extent(data, function(d) { return d.score; }));
+	  console.log(data);
+
+	  x.domain(data.map(function(d) { return d.date; }));
+	  y.domain([0, 10]);
 
 	  svg.append("g")
 	      .attr("class", "x axis")
@@ -182,7 +188,7 @@ function loadTimeGraph(skillId) {
 	      .attr("dy", "3em")
 	      .attr("x", width / 2)
 	      .style("text-anchor", "middle")
-	      .text("Time");
+	      .text("Date");
 
 	  svg.append("g")
 	      .attr("class", "y axis")
@@ -194,19 +200,25 @@ function loadTimeGraph(skillId) {
 	      .style("text-anchor", "end")
 	      .text("Score");
 
+	  var line = d3.svg.line()
+		.x(function(d) {return x(d.date); })
+		.y(function(d) {return y(d[skillId]); });
+
+
 	  var studentData = $.grep(data, function(d,i) {
 		  return d.scope == "student";
 	  });
 	  svg.append("path")
-	      .datum(studentData)
+	      .datum(data)
 	      .attr("class", "line studentLine")
 	      .attr("d", line);
 
-	  var classData = $.grep(data, function(d,i) {
-		  return d.scope == "class";
+	  var classData = data.map(function(d) {
+		  d[skillId] = 5;
+		  return d;
 	  });
 	  svg.append("path")
-	      .datum(classData)
+	      .datum(data)
 	      .attr("class", "line classLine")
 	      .attr("d", line);
 

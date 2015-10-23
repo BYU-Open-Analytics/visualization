@@ -60,37 +60,34 @@ if ( $context->valid ) {
 				<!-- Time Graph -->
 				<div id="timeGraphSection" class="advancedTimeGraph col-md-12">
 					<h3 style="float: left;">Your Skills Over Time</h3>
-					<p class="lead">
-						<br>
-						<br>Check back here in a few days, when more historical skill data is available.</p>
-					<!--
-            <div class="pull-right" style="margin-top: 10px;">
-			  <div class="advancedToggleOptional">
-			    <input id="advancedToggleTimeGraphClass" class="advancedToggleOptional" data-option="timeGraphClass" type="checkbox" />&nbsp;
-				<label for="advancedToggleTimeGraphClass">Compare to class</label>
-              </div>
-            </div><br><hr>
-            <div id="visualizationContainer" class="container">
-            <div id="timeGraphContainer">
-              <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
-              <div id="timeGraph"></div>
-            </div>
-            <h5>Select a skill:</h5>
-            <form>
-              <div class="btn-group" data-toggle="buttons">
-                <label class="btn btn-default active"><input type="radio" name="timeGraphSkillOption" value="time" checked />Time Management</label>
-                <label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="activity" />Online Activity</label>
-                <label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="consistency" />Consistency</label>
-                <label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="awareness" />Knowledge Awareness</label>
-                <label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="deepLearning" />Deep Learning</label>
-                <label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="persistence" />Persistence</label>
-              </div>
-            </form>
-            <span class="legend advancedTimeGraphClass">
-              <b class="studentLine">Student</b><br />
-              <b class="classLine">Class</b>
-            </span>
-        </div>-->
+					<!--<p class="lead"> <br> <br>Check back here in a few days, when more historical skill data is available.</p>-->
+						<div class="pull-right" style="margin-top: 10px;">
+						  <div class="advancedToggleOptional">
+							<input id="advancedToggleTimeGraphClass" class="advancedToggleOptional" data-option="timeGraphClass" type="checkbox" />&nbsp;
+							<label for="advancedToggleTimeGraphClass">Compare to class</label>
+						  </div>
+						</div><br><hr>
+						<div id="visualizationContainer" class="container">
+						<div id="timeGraphContainer">
+						  <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
+						  <div id="timeGraph"></div>
+						</div>
+						<h5>Select a skill:</h5>
+						<form>
+						  <div class="btn-group" data-toggle="buttons">
+							<label class="btn btn-default active"><input type="radio" name="timeGraphSkillOption" value="time" checked />Time Management</label>
+							<label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="activity" />Online Activity</label>
+							<label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="consistency" />Consistency</label>
+							<label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="awareness" />Knowledge Awareness</label>
+							<label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="deepLearning" />Deep Learning</label>
+							<label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="persistence" />Persistence</label>
+						  </div>
+						</form>
+						<span class="legend advancedTimeGraphClass">
+						  <b class="studentLine">Student</b><br />
+						  <b class="classLine">Class</b>
+						</span>
+					</div>
 				</div>
 
 				<!-- Skills Graph -->

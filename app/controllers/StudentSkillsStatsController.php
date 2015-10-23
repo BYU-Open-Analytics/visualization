@@ -52,31 +52,51 @@ class StudentSkillsStatsController extends Controller
 			return;
 		}
 
+		// We want to show points (0 if no data for that day), for the past 2 weeks
+		$historyPoints = [];
+		for ($i=14; $i>=1; $i--) {
+			$formattedDate = date('M j', strtotime("-$i days"));
+			// Array to hold 6 scores
+			$historyPoints[$formattedDate] = [$formattedDate, 0, 0, 0, 0, 0, 0];
+		}
+			
 		$email = $context->getUserName();
 		// Fetch skill history items for the current student
-		$history = SkillHistory::find([
+		$historyResults = SkillHistory::find([
 			"email = '$email'",
 			"order" => 'time_stored ASC'
 		]);
-		foreach ($history as $day) {
-			echo $day->time."\n";
-			echo $day->activity."\n";
-			echo $day->consistency."\n";
-			echo $day->awareness."\n";
-			echo $day->deep_learning."\n";
-			echo $day->persistence."\n";
-			echo $day->time_stored."\n";
-			$friendlyDate = date('M j', strtotime($day->time_stored));
-			echo $friendlyDate."\n";
-			echo $day->email."\n";
+		// Go through each, and if it's in our historyPoints array, set the score.
+		// Doing it this way avoids duplicate data points (if historical skill saver ran twice in a day), or empty points, since all are initialized above
+		foreach ($historyResults as $day) {
+			// Scores are saved at 3am, so they actually correspond to the previous day
+			$formattedDate = date('M j', strtotime('-1 day', strtotime($day->time_stored)));
+			if (isset($historyPoints[$formattedDate])) {
+				$historyPoints[$formattedDate] = [
+					$formattedDate,
+					$day->time,
+					$day->activity,
+					$day->consistency,
+					$day->awareness,
+					$day->deep_learning,
+					$day->persistence,
+				];
+			}
+
+			if ($debug) {
+				echo $day->time."\n";
+				echo $day->activity."\n";
+				echo $day->consistency."\n";
+				echo $day->awareness."\n";
+				echo $day->deep_learning."\n";
+				echo $day->persistence."\n";
+				echo $day->time_stored."\n";
+				echo $formattedDate."\n";
+				echo $day->email."\n";
+			}
 		}
-		die();
-		$result = [];
-		for ($i=0; $i<50; $i++) {
-			$result []= ['student', date('Y-m-d', mktime(0, 0, 0, date("m") , date("d") - $i, date("Y"))), rand(1,100) / 10];
-		}
-		for ($i=0; $i<50; $i++) {
-			$result []= ['class', date('Y-m-d', mktime(0, 0, 0, date("m") , date("d") - $i, date("Y"))), rand(20,80) / 10];
+		if ($debug) {
+			print_r($historyPoints);
 		}
 
 		// Output data as csv so that we only have to send header information once
@@ -84,8 +104,9 @@ class StudentSkillsStatsController extends Controller
 			header("Content-Type: text/csv");
 		}
 		$output = fopen("php://output", "w");
-		fputcsv($output, ["scope", "date", "score"]);
-		foreach ($result as $row) {
+		// Header row
+		fputcsv($output, ["date", "time", "activity", "consistency", "awareness", "deepLearning", "persistence"]);
+		foreach ($historyPoints as $row) {
 			fputcsv($output, $row); // here you can change delimiter/enclosure
 		}
 		fclose($output);
