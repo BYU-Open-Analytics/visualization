@@ -9,7 +9,7 @@ class SkillHistory extends Model {
 	public $awareness;
 	public $deep_learning;
 	public $persistence;
-	public $timestamp;
+	public $time_stored;
 	public $email;
 
 	function getSource() {
