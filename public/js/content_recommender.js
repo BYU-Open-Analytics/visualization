@@ -811,8 +811,8 @@ $(function() {
 	window.onbeforeunload = function() { sendStatement({
 		statementName: 'dashboardExited',
 		duration: centisecsToISODuration( (Date.now() - loadTime) / 10),
-		dashboardID: 'student_skills_dashboard',
-		dashboardName: 'Student Skills Dashboard'
+		dashboardID: 'content_recommender_dashboard',
+		dashboardName: 'Content Recommender Dashboard'
 	}); }
 
 	// Set up event listeneres
