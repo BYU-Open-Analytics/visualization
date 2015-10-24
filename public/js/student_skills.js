@@ -137,7 +137,7 @@ function loadTimeGraph(skillId) {
 	var parseDate = d3.time.format("%Y-%m-%d").parse;
 
 	var x = d3.scale.ordinal()
-		.rangeRoundBands([0, width], 0.1);
+		.rangeBands([0, width], 1.1);
 
 	var y = d3.scale.linear()
 	    .range([height, 0]);
@@ -214,14 +214,14 @@ function loadTimeGraph(skillId) {
 	      .attr("d", line);
 
 	  var classData = data.map(function(d) {
-		  d[skillId] = 5;
-		  return d;
+		  var newD = d;
+		  newD[skillId] = 5;
+		  return newD;
 	  });
 	  svg.append("path")
-	      .datum(data)
+	      .datum(classData)
 	      .attr("class", "line classLine")
 	      .attr("d", line);
-
 	});
 }
 

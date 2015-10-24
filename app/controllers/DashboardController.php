@@ -67,6 +67,14 @@ class DashboardController extends Controller
 		}
 		$this->view->units = $units;
 	}
+	public function scatterplot_recommenderAction() {
+		$this->tag->setTitle('Content Recommender Dashboard');
+		$this->view->pageTitle ='Content Recommender Dashboard';
+		// Get our context (this takes care of starting the session, too)
+		$context = $this->getDI()->getShared('ltiContext');
+		$this->view->context = $context;
+		$this->view->feedbackEmail = $this->getDI()->getShared('config')->feedback_email;
+	}
 	public function student_skillsAction() {
 		$this->tag->setTitle('Student Skills Dashboard');
 		$this->view->pageTitle ='Student Skills Dashboard';

@@ -1,0 +1,251 @@
+/* Styles specific to content recommender dashboard */
+.colWatched {
+	width: 120px;
+}
+th:last-child, td:last-child {
+	text-align: center;
+}
+
+table {
+	width: 100%;
+}
+table img, td img {
+	max-width: 100%;
+}
+
+thead, th {
+	background-color: #fff;
+}
+
+td {
+	word-wrap: break-word;
+	/* Have to override bootstrap */
+	vertical-align: middle!important;
+}
+
+.videoProgressCell, .questionCorrectCell, .questionAttemptsCell {
+	text-align: center;
+}
+
+.questionNumberCell, .videoRefCell {
+	text-align: right;
+}
+
+.questionTextCell img {
+	/* Don't let images in questions break the table layout */
+	max-width: 150px;
+}
+
+.questionLaunchCell {
+	font-size: 150%;
+}
+
+.progressCircle {
+	border: none;
+	background: transparent;
+}
+
+/* Concepts */
+.conceptsList div {
+	padding: 10px;
+	color: #222;
+	border-bottom: solid rgba(255, 255, 255, 0.7) 1px;
+}
+.conceptsList div:first-child {
+	border-top-left-radius: 6px;
+	border-top-right-radius: 6px;
+}
+
+.conceptsList div:last-child {
+	border-bottom-left-radius: 6px;
+	border-bottom-right-radius: 6px;
+	border-bottom: none;
+}
+
+/* Recommendations */
+.recommendInfo {
+	font-style: italic;
+	margin: 10px;
+}
+
+.recommendInfo h4 {
+	line-height: 150%;
+}
+
+.recommendInfo p {
+	margin-left: 45px;
+}
+
+.recommendInfo .glyphicon {
+	font-size: 150%;
+	line-height: 100%;
+	float: left;
+	margin: 5px 15px 10px 10px;
+}
+
+#recommendTabs li {
+}
+
+.countBadge {
+	display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+	border: solid #ccc 1px;
+    border-radius: 10px;
+}
+
+.countBadge:empty {
+	display: none;
+}
+
+.recommendQuestionDisplay button {
+	margin: 5px;
+}
+.recommendQuestionDisplay .label {
+	margin-left: 5px;
+}
+
+.recommendQuestionInfoTable span span:first-child {
+	text-align: right;
+	width: 100px;
+	padding-right: 5px;
+}
+
+#recommendSection tr {
+	border-bottom: 1px solid #ddd!important;
+}
+
+#recommendSection td {
+	padding: 5px;
+	max-width: 40%!important;
+}
+.correctIcon {
+	color: #5cb85c;
+}
+.incorrectIcon {
+	color: #d9534f;
+}
+.correct-falseHolder .correctIcon {
+	display: none;
+}
+.correct-trueHolder .incorrectIcon {
+	display: none;
+}
+
+/* Scatterplot */
+.axis path, .axis line {
+	fill: none;
+	stroke: black;
+	shape-rendering: crispEdges;
+}
+
+.axis text {
+	font-family: sans-serif;
+	font-size: 11px;
+}
+
+.quadrantLine {
+	fill: none;
+	stroke:gray;
+	shape-rendering: crispEdges;
+}
+
+.quadrant {
+	fill: transparent;
+}
+.activeQuadrant {
+	fill: #ddd;
+}
+
+.quadrantInfo {
+	float: right;
+	padding-right: 50px;
+}
+
+.studentPoint:hover {
+	r: 10px;
+}
+
+.classPoint {
+	pointer-events: none;
+}
+.classPoint:hover {
+	r: 6px;
+}
+
+.scopeOptionLabel select {
+	display: none;
+	background: transparent;
+	border: solid white 1px;
+	height: 100%;
+	text-shadow: 0 1px 0 #fff;
+}
+.scopeOptionLabel.active select {
+	display: inline!important;
+}
+
+/* Mastery Graph */
+.svgContainer {
+	max-width: 100%;
+	max-height: 100%;
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+}
+
+/* Concept Filter Navigation */
+#filterSection {
+	border-right: solid #ddd 2px;
+}
+#filterList {
+}
+.filterListConcept, .filterListUnit {
+	display: block;
+	position: relative;
+	height: 60px;
+	border: solid #ccc 1px;
+	border-radius: 3px;
+	padding: 10px;
+	text-indent: -25px;
+	padding-left: 30px;
+	margin: 5px 0px 5px 0px;
+	cursor: pointer;
+	-webkit-transform-style: preserve-3d;
+	-moz-transform-style: preserve-3d;
+	transform-style: preserve-3d;
+	transition: background-color 100ms ease-out;
+	transition: transform 100ms ease-out;
+}
+.filterListConcept:hover, .filterListUnit:hover {
+	text-decoration: none;
+	background: #eee;
+}
+.filterListConcept.active, .filterListUnit.active {
+	background: #337ab7;
+	color: #fff;
+	transform: scale(1.05);
+}
+.filterListItemText {
+	position: relative;
+	top: 45%;
+	transform: translateY(-55%);
+	padding: 5px 0px 5px 5px;
+}
+.conceptProgressBar {
+	position: absolute;
+    top: 100%;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    display: block;
+	height: 10px;
+	margin-top: -10px;
+	border-bottom-left-radius: 2px;
+}
+
