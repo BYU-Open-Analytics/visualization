@@ -137,7 +137,7 @@ function loadTimeGraph(skillId) {
 	var parseDate = d3.time.format("%Y-%m-%d").parse;
 
 	var x = d3.scale.ordinal()
-		.rangeBands([0, width], 1.1);
+		.rangeRoundBands([0, width], 0.1);
 
 	var y = d3.scale.linear()
 	    .range([height, 0]);
@@ -214,14 +214,15 @@ function loadTimeGraph(skillId) {
 	      .attr("d", line);
 
 	  var classData = data.map(function(d) {
-		  var newD = d;
-		  newD[skillId] = 5;
-		  return newD;
+		  d[skillId] = 5;
+		  return d;
 	  });
 	  svg.append("path")
-	      .datum(classData)
+	      .datum(data)
 	      .attr("class", "line classLine")
 	      .attr("d", line);
+
+	  refreshView();
 	});
 }
 
@@ -279,7 +280,7 @@ function changeView(optionName, optionValue, refreshOnly) {
 				$("#timeGraphSection .classLine").fadeIn();
 			} else {
 				$(".advancedTimeGraph").removeClass(h).addClass(s);
-				$("#timeGraphSection .classLine").fadeOut();
+				$("#timeGraphSection .classLine").hide();
 			}
 			break;
 		case "skillsGraph":
