@@ -222,6 +222,7 @@ function loadTimeGraph(skillId) {
 	      .attr("class", "line classLine")
 	      .attr("d", line);
 
+	  refreshView();
 	});
 }
 
@@ -279,7 +280,7 @@ function changeView(optionName, optionValue, refreshOnly) {
 				$("#timeGraphSection .classLine").fadeIn();
 			} else {
 				$(".advancedTimeGraph").removeClass(h).addClass(s);
-				$("#timeGraphSection .classLine").fadeOut();
+				$("#timeGraphSection .classLine").hide();
 			}
 			break;
 		case "skillsGraph":
