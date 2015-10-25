@@ -11,7 +11,17 @@
 
 <!-- Container for concepts, recommendations, and advanced -->
 <div id="mainContainer" class="container hidden">
-	<div class="row">
+	<div class="row vertical-divider">
+		
+		<!-- Scatterplot container -->
+		<div class="col-sm-7">
+			<p class="lead">Scatterplot here</p>
+		</div>
+
+		<!-- Recommendations container -->
+		<div class="col-sm-5">
+			<p class="lead">Recommendations here</p>
+		</div>
 
 	</div>
 </div>
@@ -46,8 +56,8 @@
 	echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.knob.min.js");
 	echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.stickytableheaders.min.js");
 	echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.shorten.js");
-	echo Phalcon\Tag::javascriptInclude("js/content_recommender.js");
-	echo Phalcon\Tag::stylesheetLink("css/content_recommender.css");
+	echo Phalcon\Tag::javascriptInclude("js/scatterplot_recommender.js");
+	echo Phalcon\Tag::stylesheetLink("css/scatterplot_recommender.css");
 } else {
 	echo "<p class='alert alert-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";
 }

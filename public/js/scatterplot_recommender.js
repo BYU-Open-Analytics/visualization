@@ -65,7 +65,7 @@ function loadConceptScores() {
 	$("#filterSection .spinner").show();
 	$("#filterLoadingContainer").hide();
 	// Get the list of all concepts and their scores
-	d3.json("../content_recommender_stats/masteryGraph/all/all", function(error, data) {
+	d3.json("../scatterplot_recommender_stats/masteryGraph/all/all", function(error, data) {
 		$("#filterSection .spinner").hide();
 		$("#filterLoadingContainer").show();
 
@@ -146,7 +146,7 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 	$("#recommendationHeaderScopeLabel").text(scopeOptionName + " " + scopeGroupingId);
 
 	// Get question recommendations for our scope and grouping ID (either unit number or concept number)
-	d3.json("../content_recommender_stats/recommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
+	d3.json("../scatterplot_recommender_stats/recommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
 		$("#recommendSection .spinner").hide();
 		$("#recommendContainer").show();
 		if (!(data && typeof data == 'object' && "group1" in data) || error) {
@@ -195,7 +195,7 @@ function loadScatterplot() {
 			break;
 	}
 
-	d3.csv("../content_recommender_stats/scatterplot/" + scopeOption + "/" + scopeGroupingId, coerceTypes, function(error, data) {
+	d3.csv("../scatterplot_recommender_stats/scatterplot/" + scopeOption + "/" + scopeGroupingId, coerceTypes, function(error, data) {
 		$("#scatterplotSection .spinner").hide();
 		if (error != null) {
 			console.log("Scatterplot ERROR: ", error);
@@ -243,7 +243,7 @@ function loadScatterplot() {
 			.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-		//Data elements are as follows (from ContentRecommenderStatsController.php, in scatterplotAction())
+		//Data elements are as follows (from ScatterplotRecommenderStatsController.php, in scatterplotAction())
 		//$headerRow = ["group", "quiz_number", "question_number", "x", "y"];
 
 		//Create tooltips
