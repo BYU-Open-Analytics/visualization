@@ -164,7 +164,13 @@ function filterConceptClick(d) {
 	loadRecommendations("concept", d.id);
 	//$("#recommendSection").appendTo($(d3.event.currentTarget));
 	$("#recommendSection").removeClass("inList").hide();
-	$("#recommendSection").insertAfter($(d3.event.currentTarget)).delay(150).removeClass("hidden").slideDown("fast").addClass("inList");
+	$("#recommendSection").insertAfter($(d3.event.currentTarget));
+	setTimeout(function() {
+		$("#recommendSection").removeClass("hidden").slideDown("fast");
+		setTimeout(function() {
+			$("#recommendSection").addClass("inList");
+		}, 140);
+	}, 400);
 	// Scroll to the top of the clicked element so recommendations are visible
 	$("html, body").animate({ scrollTop: $(d3.event.currentTarget).offset().top - 55 }, "fast");
 }
@@ -245,7 +251,9 @@ function filterConceptList() {
 	$("#filterListUnitName").text(selectedUnit);
 	animateConceptScores();
 	// Default to all concepts
-	$(".filterListUnit").click();
+	//$(".filterListUnit").click();
+	// Hide recommendations
+	$("#recommendSection").hide();
 }
 
 // Helper function for recommendation question elements. Contains question/concept display, launch quiz button, and see associated videos button

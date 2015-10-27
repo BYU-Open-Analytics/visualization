@@ -15,16 +15,17 @@ if ( $context->valid ) {
 
     <!-- Filter Navigation -->
     <div id="filterSection" class="col-sm-12">
-      <h3 class="capsLabel">Filter Recommendations by Unit: </h3>
-      <span class="spinner"><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
+      <p class="lead">Click on a concept to see recommendations on how to improve your mastery score.</p>
       <div id="filterLoadingContainer">
-	    <label for="filterUnitSelector">Select Unit: &nbsp;</label><select class="unitSelector" name="filterUnitSelector">
+		<h3 class="capsLabel" style="display: inline;">Filter Recommendations by Unit: </h3>
+	    <label for="filterUnitSelector">&nbsp;</label><select class="unitSelector" name="filterUnitSelector">
 	      <?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'"'; if ($unit['id']==3) { echo ' selected="selected"'; } echo '>'.$unit['title'].'</option>'; } ?>
 	    </select>
   	    <div id="filterList">
           <!--<a class="filterListUnit"><div class="filterListItemText">&nbsp;&nbsp;&nbsp;&nbsp; View recommendations for all concepts in Unit <span id="filterListUnitName"></span></div></a>-->
         </div>
       </div>
+      <span class="spinner"><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
     </div>
 
     <div class="col-sm-9"><div class="row">
@@ -91,8 +92,8 @@ if ( $context->valid ) {
           </tr>
           <tr>
             <th>Quiz Question</th>
-            <th style="text-align: center;"><span class="advancedMore">Correct</span></th>
-            <th style="text-align: center;"><span class="advancedMore">Attempts</span></th>
+            <th style="text-align: center;"><span>Correct</span></th>
+            <th style="text-align: center;"><span>Attempts</span></th>
             <th><span class="advancedMoreClass">Viewed<br>Hint</span></th>
             <th><span class="advancedMoreClass">Viewed<br>Answer</span></th>
             <th><span class="advancedMoreClass">Average<br>Attempts</span></th>
@@ -103,8 +104,8 @@ if ( $context->valid ) {
         <!-- Template for recommendation item -->
         <tr class="recommendQuestionDisplay">
   	  <td><span class="recommendQuestionTextContainer">{display}</span></td>
-	  <td style="text-align: center;"><span class="advancedMore correct-{correct}Holder"><span class="glyphicon glyphicon-ok correctIcon"></span><span class="glyphicon glyphicon-remove incorrectIcon"></span></span></td>
-	  <td style="text-align: center;"><span class="advancedMore" style="font-weight: bold;">{attempts}</span></td>
+	  <td style="text-align: center;"><span class="correct-{correct}Holder"><span class="glyphicon glyphicon-ok correctIcon"></span><span class="glyphicon glyphicon-remove incorrectIcon"></span></span></td>
+	  <td style="text-align: center;"><span class="" style="font-weight: bold;">{attempts}</span></td>
           <td><span class="advancedMoreClass">{classViewedHint}%</span></td>
           <td><span class="advancedMoreClass">{classViewedAnswer}%</span></td>
           <td><span class="advancedMoreClass">{classAverageAttempts}</span></td>

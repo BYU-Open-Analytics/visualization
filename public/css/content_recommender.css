@@ -123,6 +123,7 @@ td {
     padding: 10px;
     border-top: none;
     margin-top: -5px;
+	margin-bottom: 10px;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
@@ -243,13 +244,26 @@ td {
 	color: #fff;
 	width: 100%;
 	transform: scale(1.05);
+	margin-top: 10px;
 }
 .filterListItemText {
-	position: relative;
+	/*position: relative;
 	top: 45%;
-	transform: translateY(-55%);
+	transform: translateY(-55%);*/
 	padding: 5px 0px 5px 5px;
 }
+.filterListItemText:after {
+	content: "\e114";
+    font-family: "Glyphicons Halflings";
+    line-height: 1;
+    margin: 8px 0px 0px 0px;
+    display: inline-block;
+    float: right;
+}
+.filterListConcept.active .filterListItemText:after {
+	content: "\e113";
+}
+
 .conceptProgressBar {
 	position: absolute;
     top: 100%;
@@ -262,8 +276,8 @@ td {
 	border-bottom-left-radius: 2px;
 }
 .filterListConcept.active .conceptProgressBar {
-	opacity: 0;
-	transition: opacity 100ms ease-out;
+	background-color: white;
+	transition: background 100ms ease-out;
 }
 
 /* Advanced */
