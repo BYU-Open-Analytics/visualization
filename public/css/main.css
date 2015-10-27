@@ -170,4 +170,6 @@ table.advancedShow tr td, tr.advancedShow td, td.advancedShow {
 /* Footer */
 footer {
 	margin-left: 3em;
+	margin-bottom: 0px;
+	padding-bottom: 0px;
 }

@@ -176,40 +176,33 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 	});
 }
 
-// Loads the scatterplot
-function loadScatterplot() {
+// Loads the concept scatterplot
+function loadConceptScatterplot() {
 	// Show the spinner while loading
 	$("#scatterplotSection .spinner").show();
-	// Determine what current scope and grouping id (concept/chapter/unit id) are
-	var scopeOption = $("input[name=scatterplotScopeOption]:checked").val();
-	var scopeGroupingId = "";
-	switch (scopeOption) {
-		case "concept":
-			scopeGroupingId = $("[name=scatterplotConceptSelector]").val();
-			break;
-		case "chapter":
-			scopeGroupingId = $("[name=scatterplotChapterSelector]").val();
-			break;
-		case "unit":
-			scopeGroupingId = $("[name=scatterplotUnitSelector]").val();
-			break;
-	}
 
-	d3.csv("../scatterplot_recommender_stats/scatterplot/" + scopeOption + "/" + scopeGroupingId, coerceTypes, function(error, data) {
+	var scopeOption = "all";//"unit";
+	var scopeGroupingId = $("[name=scatterplotUnitSelector]").val();
+
+	d3.json("../scatterplot_recommender_stats/concepts/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
 		$("#scatterplotSection .spinner").hide();
 		if (error != null) {
 			console.log("Scatterplot ERROR: ", error);
 		}
-
+		// Some basic error handling
+		if (!(data && typeof data == 'object') || error) {
+			$("#scatterplotSection").html('<p class="lead">There was an error loading concept scores. Try reloading the dashboard.</p>');
+			return;
+		}
 		//Width and height
 		var margin = {top: 10, right: 10, bottom: 50, left: 55},
 		    height = 450 - margin.top - margin.bottom,
 		    width = 500 - margin.left - margin.right;
 
-		var xMax = 100;//d3.max(data, function(d) { return d.x; });
-		var yMax = 10;//d3.max(data, function(d) { return d.y; });
-		var xMin = 0;//d3.min(data, function(d) { return d.x; });
-		var yMin = 0;//d3.min(data, function(d) { return d.y; });
+		var xMax = 100;
+		var yMax = 10;
+		var xMin = 0;
+		var yMin = 0;
 
 		//Create scale functions
 		// Don't want dots overlapping axis, so add in buffer to data domain
@@ -219,7 +212,10 @@ function loadScatterplot() {
 		var yScale = d3.scale.linear()
 			 .domain([0, 10])
 			 .range([height, 0]);
-
+		//Color scale
+		var colorScale = d3.scale.linear()
+				.domain([0, 6.6, 13.2, 20])
+				.range(["#d9534f", "#FFCE54", "#D4D84F", "#5cb85c"]);
 		//Define X axis
 		var xAxis = d3.svg.axis()
 			  .scale(xScale)
@@ -232,7 +228,6 @@ function loadScatterplot() {
 			  .orient("left")
 			  .tickFormat("")
 			  .ticks(0);
-
 		//Remove old chart
 		$("#scatterplotSection svg").remove();
 		//Create SVG element
@@ -242,41 +237,6 @@ function loadScatterplot() {
 			.attr("width", width+margin.left+margin.right)
 			.append("g")
 			.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-		//Data elements are as follows (from ScatterplotRecommenderStatsController.php, in scatterplotAction())
-		//$headerRow = ["group", "quiz_number", "question_number", "x", "y"];
-
-		//Create tooltips
-		//var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return d.assessment_id + "." + d.question_id; });
-		var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return d.group == "student" ? "Question " + d.quiz_number + "." + d.question_number : ""; });
-		svg.call(tip);
-
-		//Create circles
-		var dots = svg.selectAll("circle")
-		   .data(data);
-
-		dots.enter()
-		   .append("circle")
-		   .attr("cx", function(d) {
-				return xScale(d.x);
-		   })
-		   .attr("cy", function(d) {
-				return yScale(d.y);
-		   })
-		   .attr("r", function(d) {
-			   	return d.group == "student" ? "6px" : "2px";
-		   })
-		   .attr("fill", function(d) {
-			   	return d.group == "student" ? "#337ab7" : "gray";
-		   })
-		   .attr("class", function(d) {
-			   	return d.group + "Point";
-		   })
-		   .on('mouseover', tip.show)
-		   .on('mouseout', tip.hide);
-
-		dots.exit()
-		    .remove();
 
 		//Create X axis
 		svg.append("g")
@@ -304,9 +264,6 @@ function loadScatterplot() {
 			.attr("x2", xScale((xMin + xMax) / 2))
 			.attr("class", "quadrantLine");
 
-		// Make sure that student points show over class points and quadrant lines
-		svg.selectAll(".studentPoint").moveToFront();
-
 		//Create custom x axis labels
 		svg.append("text")
 			.attr("x", xScale(xMin) + "px")
@@ -323,6 +280,7 @@ function loadScatterplot() {
 			.attr("y", (height + 20) + "px")
 			.attr("text-anchor", "end")
 			.text("High");
+
 		//Create custom y axis labels
 		svg.append("text")
 			.attr("text-anchor", "start")
@@ -336,6 +294,46 @@ function loadScatterplot() {
 			.attr("text-anchor", "end")
 			.attr("transform", "translate(-20, " + yScale(yMax) + ")rotate(270)")
 			.text("High");
+		//Create circles
+		var dots = svg.selectAll("circle")
+		   .data(data);
+
+		dots.enter()
+			.append("circle")
+			.attr("cx", function(d) {
+				return xScale(d.videoPercentage);
+			})
+			.attr("cy", function(d) {
+				return yScale(d.masteryScore);
+			})
+			.attr("r", "6px")
+			.attr("fill", function(d) {
+				return colorScale(d.masteryScore  + (d.videoPercentage / 10));
+			})
+
+		dots.exit()
+			.remove();
+
+	});
+}
+
+
+function oldstuff() {
+		//Create tooltips
+		var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return d.group == "student" ? "Question " + d.quiz_number + "." + d.question_number : ""; });
+		svg.call(tip);
+
+
+		   tip.attr("class", function(d) {
+			   	return d.group + "Point";
+		   })
+		   .on('mouseover', tip.show)
+		   .on('mouseout', tip.hide);
+
+
+		// Make sure that student points show over class points and quadrant lines
+		svg.selectAll(".studentPoint").moveToFront();
+
 
 		//Create quadrants
 		var q1 = svg.append("rect")
@@ -369,7 +367,6 @@ function loadScatterplot() {
 			.moveToBack();
 
 		refreshView();
-	});
 
 	function coerceTypes(d) {
 		d.x = +d.x;
@@ -605,6 +602,7 @@ $(function() {
 		//loadConceptScores();
 		// Don't load or show scatterplot for now
 		//loadScatterplot();
+		loadConceptScatterplot();
 	});
 	// Go to simple view first
 	changeView("simple");
