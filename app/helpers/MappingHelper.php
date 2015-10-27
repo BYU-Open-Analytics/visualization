@@ -89,6 +89,19 @@ class MappingHelper extends Module {
 		return $questions;
 	}
 
+	// Returns an array of videos for a given conceptId
+	static public function videosForConcept($conceptId) {
+		$videos = CSVHelper::parseWithHeaders('csv/mappings.csv');
+		$relatedVideos = array();
+		// Find all videos in this concept
+		foreach ($videos as $video) {
+			if ($video['Section Number'] == $conceptId) {
+				$relatedVideos []= $video;
+			}
+		}
+		return $relatedVideos;
+	}
+
 	// Returns an array of videos for a given questionId
 	static public function videosForQuestion($questionId) {
 		$videos = CSVHelper::parseWithHeaders('csv/mappings.csv');
