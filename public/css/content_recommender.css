@@ -17,6 +17,10 @@ thead, th {
 	background-color: #fff;
 }
 
+.table>thead>tr>th {
+	border-top: none;
+}
+
 td {
 	word-wrap: break-word;
 	/* Have to override bootstrap */
@@ -86,6 +90,10 @@ td {
 #recommendTabs li {
 }
 
+.nav-tabs>li.active>a {
+	cursor: pointer;
+}
+
 .countBadge {
 	display: inline-block;
     min-width: 10px;
@@ -115,6 +123,21 @@ td {
 	text-align: right;
 	width: 100px;
 	padding-right: 5px;
+}
+
+#recommendSection {
+	width: 100%;
+    border: solid #ccc 1px;
+    padding: 10px;
+    border-top: none;
+    margin-top: -5px;
+	margin-bottom: 10px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+	min-height: 1px;
+}
+#recommendSection.inList {
+	min-height: 150px;
 }
 
 #recommendSection tr {
@@ -200,27 +223,33 @@ td {
 }
 
 /* Concept Filter Navigation */
+#conceptListHeader {
+	font-weight: bold;
+}
+#conceptListHeader hr {
+	margin: 15px 0px 5px 0px;
+}
 #filterSection {
-	border-right: solid #ddd 2px;
 }
 #filterList {
 }
 .filterListConcept, .filterListUnit {
 	display: block;
+	width: 95%;
 	position: relative;
-	height: 60px;
+	min-height: 70px;
 	border: solid #ccc 1px;
 	border-radius: 3px;
 	padding: 10px;
 	text-indent: -25px;
-	padding-left: 30px;
-	margin: 5px 0px 5px 0px;
+	padding-left: 35px;
+	margin: 5px auto 5px auto;
 	cursor: pointer;
 	-webkit-transform-style: preserve-3d;
 	-moz-transform-style: preserve-3d;
 	transform-style: preserve-3d;
-	transition: background-color 100ms ease-out;
-	transition: transform 100ms ease-out;
+	transition: all 150ms ease-out;
+	font-size: 125%;
 }
 .filterListConcept:hover, .filterListUnit:hover {
 	text-decoration: none;
@@ -229,14 +258,36 @@ td {
 .filterListConcept.active, .filterListUnit.active {
 	background: #337ab7;
 	color: #fff;
+	width: 100%;
 	transform: scale(1.05);
+	margin-top: 10px;
+	border: none;
 }
 .filterListItemText {
-	position: relative;
+	/*position: relative;
 	top: 45%;
-	transform: translateY(-55%);
-	padding: 5px 0px 5px 5px;
+	transform: translateY(-55%);*/
+	padding: 8px 0px 5px 5px;
 }
+.filterListItemText:after {
+	content: "\e114";
+    font-family: "Glyphicons Halflings";
+    line-height: 1;
+    margin: 8px 0px 0px 0px;
+    display: inline-block;
+    float: right;
+}
+.filterListConcept.active .filterListItemText:after {
+	content: "\e113";
+}
+.filterListItemScore {
+	float: right;
+	margin: -26px 50px 0px 0px;
+}
+.filterListConcept.active .filterListItemScore {
+	color: white;
+}
+
 .conceptProgressBar {
 	position: absolute;
     top: 100%;
@@ -247,6 +298,17 @@ td {
 	height: 10px;
 	margin-top: -10px;
 	border-bottom-left-radius: 2px;
+}
+.filterListConcept.active .conceptProgressBar {
+	background-color: white;
+	transition: background 100ms ease-out;
+}
+
+.tooltip-inner {
+    max-width: 350px;
+	font-size: 120%;
+    /* If max-width does not work, try using width instead 
+    width: 350px; */
 }
 
 /* Advanced */

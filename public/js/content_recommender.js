@@ -144,8 +144,16 @@ function loadConcepts() {
 	});
 }
 
-// Called when a concept in the left filter sidebar is clicked
+// Called when a concept is clicked
 function filterConceptClick(d) {
+	// See if it was already active when clicked, and hide the recommendations if it is
+	if ($(d3.event.currentTarget).hasClass("active")) {
+		$("#recommendSection").removeClass("inList").slideUp("fast");
+		setTimeout(function() {
+			$("#filterList .active").removeClass("active");
+		}, 200);
+		return;
+	}
 	// Make the currently active concept button not active
 	$("#filterList .active").removeClass("active");
 	// Then make this one active
@@ -154,8 +162,17 @@ function filterConceptClick(d) {
 	track("clicked","filterListConcept"+d.id);
 	// Then load recommendations for the concept associated with the clicked concept button
 	loadRecommendations("concept", d.id);
-	// Scroll to the top of the page so recommendations are visible
-	$("html, body").animate({ scrollTop: 0 }, "fast");
+	//$("#recommendSection").appendTo($(d3.event.currentTarget));
+	$("#recommendSection").removeClass("inList").hide();
+	$("#recommendSection").insertAfter($(d3.event.currentTarget));
+	setTimeout(function() {
+		$("#recommendSection").removeClass("hidden").slideDown("fast");
+		setTimeout(function() {
+			$("#recommendSection").addClass("inList");
+		}, 140);
+	}, 300);
+	// Scroll to the top of the clicked element so recommendations are visible
+	$("html, body").animate({ scrollTop: $(d3.event.currentTarget).offset().top - 55 }, "fast");
 }
 
 // Loads scores for all concepts, which are used in the filter navigation sidebar
@@ -191,14 +208,18 @@ function loadConceptScores() {
 			.enter()
 			.append("a")
 			.on("click", filterConceptClick)
-			.attr("data-toggle", "tooltip")
-			.attr("data-placement", "right")
-			.attr("title", function(d) { return "Score: " + d.score; })
+			//.attr("data-toggle", "tooltip")
+			//.attr("data-placement", "right")
+			//.attr("title", function(d) { return "Score: " + d.score; })
 			.attr("class", function(d) { return "filterListConcept unit" + d.unit + "Concept"; });
 		
 		var labels = concepts.append("div")
 			.attr("class", "filterListItemText")
-			.html(function(d) { return d.id + ' ' + d.display; });
+			.html(function(d) { return d.id + ' &nbsp;' + d.display; });
+
+		var scoreLabels = concepts.append("div")
+			.attr("class", "filterListItemScore")
+			.html(function(d) { return d.score + ' <small>/ 10</small>'; });
 
 		// Progress bar-like display at bottom of each concept that shows mastery score
 		var rects = concepts.append("span")
@@ -208,13 +229,13 @@ function loadConceptScores() {
 			.style("background", function(d) { return colorScale(d.score); });
 
 		// Set up click handler for special unit list item (and show it, since it's hidden for load)
-		$(".filterListUnit").removeClass("hidden").click(function() {
+		/*$(".filterListUnit").removeClass("hidden").click(function() {
 			$("#filterList .active").removeClass("active");
 			$(this).addClass("active");
 			var selectedUnit = $("[name=filterUnitSelector]").val();
 			track("clicked","filterListUnit"+selectedUnit+"AllConcepts");
 			loadRecommendations("unit", selectedUnit);
-		});
+		});*/
 					
 		animateConceptScores();
 		setupBootstrapTooltips();
@@ -234,7 +255,9 @@ function filterConceptList() {
 	$("#filterListUnitName").text(selectedUnit);
 	animateConceptScores();
 	// Default to all concepts
-	$(".filterListUnit").click();
+	//$(".filterListUnit").click();
+	// Hide recommendations
+	$("#recommendSection").hide();
 }
 
 // Helper function for recommendation question elements. Contains question/concept display, launch quiz button, and see associated videos button
@@ -265,6 +288,9 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 			$("#recommendContainer").html('<br><br><p class="lead">There was an error loading recommendations. Try reloading the dashboard.</p>');
 			return;
 		}
+		// Flag to see if we've found the first question group with questions
+		var nonemptyGroupFound = false
+		// For each question group, go through and load the tables and do some formatting
 		for (var i=1; i<5; i++) {
 			$("#recommend"+i+"List").empty();
 			d3.select("#recommend"+i+"List")
@@ -276,6 +302,18 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 				.html(function(d) { return questionElement(d); });
 			$("#recommend"+i+"List").prepend($("#templates .recommendHeaderTemplate").clone());
 			$("[aria-controls=recommend"+i+"] .countBadge").text(data["group"+i].length);
+			// Hide this tab if there aren't any questions
+			if (data["group"+i].length == 0) {
+				$("#recommend"+i+"Tab").hide();
+			} else {
+				$("#recommend"+i+"Tab").show();
+				// Otherwise select this group, if we haven't selected a previous nonempty group
+				if (!nonemptyGroupFound) {
+					console.log("SHOWING", i);
+					$("[href=#recommend"+i+"]").tab("show");
+					nonemptyGroupFound = true;
+				}
+			}
 		}
 		// Set up sticky table headers
 		setupStickyHeaders();
@@ -285,6 +323,8 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 			lessText: 'See less',
 			showChars: 180
 		});
+		// Go to the first visible question group
+
 	});
 }
 
@@ -820,6 +860,7 @@ $(function() {
 		$("#"+$(this).attr("data-dismiss")).hide();
 		$("#mainContainer").removeClass("hidden").addClass("show");
 		track("clicked", "continueButton");
+		animateConceptScores();
 	});
 	// Filter concepts in left sidebar when unit selector changes
 	$("[name=filterUnitSelector]").on("change", function() {
