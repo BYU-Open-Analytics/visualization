@@ -90,6 +90,10 @@ td {
 #recommendTabs li {
 }
 
+.nav-tabs>li.active>a {
+	cursor: pointer;
+}
+
 .countBadge {
 	display: inline-block;
     min-width: 10px;
