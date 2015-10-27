@@ -117,6 +117,19 @@ td {
 	padding-right: 5px;
 }
 
+#recommendSection {
+	width: 100%;
+    border: solid #ccc 1px;
+    padding: 10px;
+    border-top: none;
+    margin-top: -5px;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+#recommendSection.inList {
+	min-height: 150px;
+}
+
 #recommendSection tr {
 	border-bottom: 1px solid #ddd!important;
 }
@@ -201,26 +214,25 @@ td {
 
 /* Concept Filter Navigation */
 #filterSection {
-	border-right: solid #ddd 2px;
 }
 #filterList {
 }
 .filterListConcept, .filterListUnit {
 	display: block;
+	width: 95%;
 	position: relative;
-	height: 60px;
+	min-height: 60px;
 	border: solid #ccc 1px;
 	border-radius: 3px;
 	padding: 10px;
 	text-indent: -25px;
 	padding-left: 30px;
-	margin: 5px 0px 5px 0px;
+	margin: 5px auto 5px auto;
 	cursor: pointer;
 	-webkit-transform-style: preserve-3d;
 	-moz-transform-style: preserve-3d;
 	transform-style: preserve-3d;
-	transition: background-color 100ms ease-out;
-	transition: transform 100ms ease-out;
+	transition: all 150ms ease-out;
 }
 .filterListConcept:hover, .filterListUnit:hover {
 	text-decoration: none;
@@ -229,6 +241,7 @@ td {
 .filterListConcept.active, .filterListUnit.active {
 	background: #337ab7;
 	color: #fff;
+	width: 100%;
 	transform: scale(1.05);
 }
 .filterListItemText {
@@ -247,6 +260,10 @@ td {
 	height: 10px;
 	margin-top: -10px;
 	border-bottom-left-radius: 2px;
+}
+.filterListConcept.active .conceptProgressBar {
+	opacity: 0;
+	transition: opacity 100ms ease-out;
 }
 
 /* Advanced */

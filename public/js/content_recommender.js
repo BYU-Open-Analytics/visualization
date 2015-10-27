@@ -144,8 +144,16 @@ function loadConcepts() {
 	});
 }
 
-// Called when a concept in the left filter sidebar is clicked
+// Called when a concept is clicked
 function filterConceptClick(d) {
+	// See if it was already active when clicked, and hide the recommendations if it is
+	if ($(d3.event.currentTarget).hasClass("active")) {
+		$("#recommendSection").removeClass("inList").slideUp("fast");
+		setTimeout(function() {
+			$("#filterList .active").removeClass("active");
+		}, 200);
+		return;
+	}
 	// Make the currently active concept button not active
 	$("#filterList .active").removeClass("active");
 	// Then make this one active
@@ -154,8 +162,11 @@ function filterConceptClick(d) {
 	track("clicked","filterListConcept"+d.id);
 	// Then load recommendations for the concept associated with the clicked concept button
 	loadRecommendations("concept", d.id);
-	// Scroll to the top of the page so recommendations are visible
-	$("html, body").animate({ scrollTop: 0 }, "fast");
+	//$("#recommendSection").appendTo($(d3.event.currentTarget));
+	$("#recommendSection").removeClass("inList").hide();
+	$("#recommendSection").insertAfter($(d3.event.currentTarget)).delay(150).removeClass("hidden").slideDown("fast").addClass("inList");
+	// Scroll to the top of the clicked element so recommendations are visible
+	$("html, body").animate({ scrollTop: $(d3.event.currentTarget).offset().top - 55 }, "fast");
 }
 
 // Loads scores for all concepts, which are used in the filter navigation sidebar
@@ -208,13 +219,13 @@ function loadConceptScores() {
 			.style("background", function(d) { return colorScale(d.score); });
 
 		// Set up click handler for special unit list item (and show it, since it's hidden for load)
-		$(".filterListUnit").removeClass("hidden").click(function() {
+		/*$(".filterListUnit").removeClass("hidden").click(function() {
 			$("#filterList .active").removeClass("active");
 			$(this).addClass("active");
 			var selectedUnit = $("[name=filterUnitSelector]").val();
 			track("clicked","filterListUnit"+selectedUnit+"AllConcepts");
 			loadRecommendations("unit", selectedUnit);
-		});
+		});*/
 					
 		animateConceptScores();
 		setupBootstrapTooltips();
@@ -820,6 +831,7 @@ $(function() {
 		$("#"+$(this).attr("data-dismiss")).hide();
 		$("#mainContainer").removeClass("hidden").addClass("show");
 		track("clicked", "continueButton");
+		animateConceptScores();
 	});
 	// Filter concepts in left sidebar when unit selector changes
 	$("[name=filterUnitSelector]").on("change", function() {
