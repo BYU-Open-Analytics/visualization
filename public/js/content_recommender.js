@@ -288,6 +288,9 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 			$("#recommendContainer").html('<br><br><p class="lead">There was an error loading recommendations. Try reloading the dashboard.</p>');
 			return;
 		}
+		// Flag to see if we've found the first question group with questions
+		var nonemptyGroupFound = false
+		// For each question group, go through and load the tables and do some formatting
 		for (var i=1; i<5; i++) {
 			$("#recommend"+i+"List").empty();
 			d3.select("#recommend"+i+"List")
@@ -299,6 +302,18 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 				.html(function(d) { return questionElement(d); });
 			$("#recommend"+i+"List").prepend($("#templates .recommendHeaderTemplate").clone());
 			$("[aria-controls=recommend"+i+"] .countBadge").text(data["group"+i].length);
+			// Hide this tab if there aren't any questions
+			if (data["group"+i].length == 0) {
+				$("#recommend"+i+"Tab").hide();
+			} else {
+				$("#recommend"+i+"Tab").show();
+				// Otherwise select this group, if we haven't selected a previous nonempty group
+				if (!nonemptyGroupFound) {
+					console.log("SHOWING", i);
+					$("[href=#recommend"+i+"]").tab("show");
+					nonemptyGroupFound = true;
+				}
+			}
 		}
 		// Set up sticky table headers
 		setupStickyHeaders();
@@ -308,6 +323,8 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 			lessText: 'See less',
 			showChars: 180
 		});
+		// Go to the first visible question group
+
 	});
 }
 
