@@ -130,6 +130,7 @@ td {
 	margin-bottom: 10px;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
+	min-height: 1px;
 }
 #recommendSection.inList {
 	min-height: 150px;
@@ -218,6 +219,12 @@ td {
 }
 
 /* Concept Filter Navigation */
+#conceptListHeader {
+	font-weight: bold;
+}
+#conceptListHeader hr {
+	margin: 15px 0px 5px 0px;
+}
 #filterSection {
 }
 #filterList {

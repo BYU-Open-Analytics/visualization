@@ -17,11 +17,12 @@ if ( $context->valid ) {
     <div id="filterSection" class="col-sm-12">
       <p class="lead">Click on a concept to see recommendations on how to improve your mastery score.</p>
       <div id="filterLoadingContainer">
-		<h3 class="capsLabel" style="display: inline;">Filter Recommendations by Unit: </h3>
+		<h3 class="capsLabel" style="display: inline;">See concepts from unit: </h3>
 	    <label for="filterUnitSelector">&nbsp;</label><select class="unitSelector" name="filterUnitSelector">
 	      <?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'"'; if ($unit['id']==3) { echo ' selected="selected"'; } echo '>'.$unit['title'].'</option>'; } ?>
 	    </select>
   	    <div id="filterList">
+          <span class="" id="conceptListHeader"><hr><div style="margin: 15px 0px 0px 80px;">Concept name </div><div style="margin-top: -20px;" class="filterListItemScore">Your mastery score</div><hr></span>
           <!--<a class="filterListUnit"><div class="filterListItemText">&nbsp;&nbsp;&nbsp;&nbsp; View recommendations for all concepts in Unit <span id="filterListUnitName"></span></div></a>-->
         </div>
       </div>
@@ -32,14 +33,12 @@ if ( $context->valid ) {
 
       <!-- Recommendations -->
       <div id="recommendSection" class="hidden">
-          <h3 style="float: left; margin-top: 10px;">Question Recommendations for <span id="recommendationHeaderScopeLabel">...</span></h3>
-
-		  <div class="pull-right" style="min-height: 100px">
-	        <div class="advancedToggleOptional"><input id="advancedToggleMore" class="advancedToggleOptional" data-option="more" type="checkbox" />&nbsp;<label for="advancedToggleMore">See more details</label><br></div>
-	        <div class="advancedToggleOptional"><input id="advancedToggleMoreClass" disabled class="advancedToggleOptional" data-option="moreClass" type="checkbox" />&nbsp;<label for="advancedToggleMoreClass">Compare to class</label></div>
-		    <span class="spinner" style="float: right;"><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
-          </div><br>
-
+          <h3 style="float: left; margin-top: 8px;" class="capsLabel">Question Recommendations for <span id="recommendationHeaderScopeLabel">...</span></h3>
+		  <span class="pull-right" style="margin-top: 4px;">
+	        <!-- <div class="advancedToggleOptional"><input id="advancedToggleMore" class="advancedToggleOptional" data-option="more" type="checkbox" />&nbsp;<label for="advancedToggleMore">See more details</label><br></div> -->
+	        <span class="advancedToggleOptional"><input id="advancedToggleMoreClass" class="advancedToggleOptional" data-option="moreClass" type="checkbox" />&nbsp;<label for="advancedToggleMoreClass">Compare to class</label></span>
+          </span>
+		  <span class="spinner" style="margin: 20px;"><br /><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
           <div id="recommendContainer">
           <ul class="nav nav-tabs" style="clear: both;" id="recommendTabs" role="tablist">
 			<li id="recommend1Tab" role="presentation" class="active" data-toggle="tooltip" data-placement="top" data-html="true" title="<h4>You did not attempt these questions</h4> These questions were selected because you have not attempted them yet. This material will likely be on an upcoming exam, so to improve your score, it is recommended that you practice these questions."><a href="#recommend1" aria-controls="recommend1" role="tab" data-toggle="tab"><div class="text-center">Attempt these questions <span class="countBadge"></span></div></a></li>
@@ -96,8 +95,8 @@ if ( $context->valid ) {
           </tr>
           <tr>
             <th>Quiz Question</th>
-            <th style="text-align: center;"><span>Correct</span></th>
-            <th style="text-align: center;"><span>Attempts</span></th>
+            <th style="text-align: center;">Correct</th>
+            <th style="text-align: center;">Attempts</th>
             <th><span class="advancedMoreClass">Viewed<br>Hint</span></th>
             <th><span class="advancedMoreClass">Viewed<br>Answer</span></th>
             <th><span class="advancedMoreClass">Average<br>Attempts</span></th>

@@ -170,7 +170,7 @@ function filterConceptClick(d) {
 		setTimeout(function() {
 			$("#recommendSection").addClass("inList");
 		}, 140);
-	}, 400);
+	}, 300);
 	// Scroll to the top of the clicked element so recommendations are visible
 	$("html, body").animate({ scrollTop: $(d3.event.currentTarget).offset().top - 55 }, "fast");
 }
@@ -208,9 +208,9 @@ function loadConceptScores() {
 			.enter()
 			.append("a")
 			.on("click", filterConceptClick)
-			.attr("data-toggle", "tooltip")
-			.attr("data-placement", "right")
-			.attr("title", function(d) { return "Score: " + d.score; })
+			//.attr("data-toggle", "tooltip")
+			//.attr("data-placement", "right")
+			//.attr("title", function(d) { return "Score: " + d.score; })
 			.attr("class", function(d) { return "filterListConcept unit" + d.unit + "Concept"; });
 		
 		var labels = concepts.append("div")
