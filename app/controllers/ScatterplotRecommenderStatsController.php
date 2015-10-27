@@ -160,7 +160,7 @@ class ScatterplotRecommenderStatsController extends Controller
 		echo json_encode($result);
 	}
 
-	public function masteryGraphAction($scope = 'all', $groupingId = '', $debug = false) {
+	public function conceptsAction($scope = 'all', $groupingId = '', $debug = false) {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
@@ -190,8 +190,15 @@ class ScatterplotRecommenderStatsController extends Controller
 		$masteryHelper = new MasteryHelper();
 		foreach ($concepts as $c) {
 			$score = $masteryHelper::calculateConceptMasteryScore($context->getUserName(), $c["Section Number"], $debug);
+			$videoPercentage = $masteryHelper::calculateVideoPercentageForConcept($context->getUserName(), $c["Section Number"], $debug);
 			if ($debug) { echo "Concept mapping info\n"; print_r($c); }
-			$result []= ["id" => $c["Section Number"], "display" => $c["Section Title"], "score" => $score, "unit" => $c["Unit"]];
+			$result []= [
+				"id" => $c["Section Number"],
+				"title" => $c["Section Title"],
+				"masteryScore" => $score,
+				"videoPercentage" => $videoPercentage,
+				"unit" => $c["Unit"]
+			];
 		}
 		echo json_encode($result);
 	}
