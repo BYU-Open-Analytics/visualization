@@ -215,7 +215,11 @@ function loadConceptScores() {
 		
 		var labels = concepts.append("div")
 			.attr("class", "filterListItemText")
-			.html(function(d) { return d.id + ' ' + d.display; });
+			.html(function(d) { return d.id + ' &nbsp;' + d.display; });
+
+		var scoreLabels = concepts.append("div")
+			.attr("class", "filterListItemScore")
+			.html(function(d) { return d.score + ' <small>/ 10</small>'; });
 
 		// Progress bar-like display at bottom of each concept that shows mastery score
 		var rects = concepts.append("span")

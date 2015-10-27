@@ -17,6 +17,10 @@ thead, th {
 	background-color: #fff;
 }
 
+.table>thead>tr>th {
+	border-top: none;
+}
+
 td {
 	word-wrap: break-word;
 	/* Have to override bootstrap */
@@ -222,18 +226,19 @@ td {
 	display: block;
 	width: 95%;
 	position: relative;
-	min-height: 60px;
+	min-height: 70px;
 	border: solid #ccc 1px;
 	border-radius: 3px;
 	padding: 10px;
 	text-indent: -25px;
-	padding-left: 30px;
+	padding-left: 35px;
 	margin: 5px auto 5px auto;
 	cursor: pointer;
 	-webkit-transform-style: preserve-3d;
 	-moz-transform-style: preserve-3d;
 	transform-style: preserve-3d;
 	transition: all 150ms ease-out;
+	font-size: 125%;
 }
 .filterListConcept:hover, .filterListUnit:hover {
 	text-decoration: none;
@@ -250,7 +255,7 @@ td {
 	/*position: relative;
 	top: 45%;
 	transform: translateY(-55%);*/
-	padding: 5px 0px 5px 5px;
+	padding: 8px 0px 5px 5px;
 }
 .filterListItemText:after {
 	content: "\e114";
@@ -262,6 +267,13 @@ td {
 }
 .filterListConcept.active .filterListItemText:after {
 	content: "\e113";
+}
+.filterListItemScore {
+	float: right;
+	margin: -26px 50px 0px 0px;
+}
+.filterListConcept.active .filterListItemScore {
+	color: white;
 }
 
 .conceptProgressBar {
@@ -278,6 +290,13 @@ td {
 .filterListConcept.active .conceptProgressBar {
 	background-color: white;
 	transition: background 100ms ease-out;
+}
+
+.tooltip-inner {
+    max-width: 350px;
+	font-size: 120%;
+    /* If max-width does not work, try using width instead 
+    width: 350px; */
 }
 
 /* Advanced */
