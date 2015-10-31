@@ -57,24 +57,10 @@ td {
 	background: transparent;
 }
 
-/* Concepts */
-.conceptsList div {
-	padding: 10px;
-	color: #222;
-	border-bottom: solid rgba(255, 255, 255, 0.7) 1px;
-}
-.conceptsList div:first-child {
-	border-top-left-radius: 6px;
-	border-top-right-radius: 6px;
-}
-
-.conceptsList div:last-child {
-	border-bottom-left-radius: 6px;
-	border-bottom-right-radius: 6px;
-	border-bottom: none;
-}
-
 /* Recommendations */
+#recommendSection .panel-heading {
+	cursor: pointer;
+}
 .recommendInfo {
 	font-style: italic;
 	margin: 10px;
@@ -150,6 +136,11 @@ td {
 	display: none;
 }
 
+#recommendSectionHolder {
+	max-height: 90%;
+	overflow: auto;
+}
+
 /* Scatterplot */
 .axis path, .axis line {
 	fill: none;
@@ -180,6 +171,23 @@ td {
 	padding-right: 50px;
 }
 
+.conceptPoint {
+	r: 6px;
+	cursor: pointer;
+	transition: all 150ms ease-out;
+	stroke: #337ab7;
+	stroke-width: 0;
+}
+
+.conceptPoint:hover {
+	r: 9px;
+}
+
+.selectedConceptPoint, .selectedConceptPoint:hover {
+	stroke-width: 2;
+	r: 10px;
+}
+
 .studentPoint:hover {
 	r: 10px;
 }
@@ -202,62 +210,55 @@ td {
 	display: inline!important;
 }
 
-/* Mastery Graph */
-.svgContainer {
-	max-width: 100%;
-	max-height: 100%;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
+
+.tooltip-inner {
+	max-width: 300px !important;
 }
 
-/* Concept Filter Navigation */
-#filterSection {
-	border-right: solid #ddd 2px;
-}
-#filterList {
-}
-.filterListConcept, .filterListUnit {
-	display: block;
-	position: relative;
-	height: 60px;
-	border: solid #ccc 1px;
-	border-radius: 3px;
-	padding: 10px;
-	text-indent: -25px;
-	padding-left: 30px;
-	margin: 5px 0px 5px 0px;
-	cursor: pointer;
-	-webkit-transform-style: preserve-3d;
-	-moz-transform-style: preserve-3d;
-	transform-style: preserve-3d;
-	transition: background-color 100ms ease-out;
-	transition: transform 100ms ease-out;
-}
-.filterListConcept:hover, .filterListUnit:hover {
-	text-decoration: none;
-	background: #eee;
-}
-.filterListConcept.active, .filterListUnit.active {
-	background: #337ab7;
-	color: #fff;
-	transform: scale(1.05);
-}
-.filterListItemText {
-	position: relative;
-	top: 45%;
-	transform: translateY(-55%);
-	padding: 5px 0px 5px 5px;
-}
-.conceptProgressBar {
-	position: absolute;
-    top: 100%;
-    bottom: 0;
-    left: 0;
-    z-index: -1;
-    display: block;
-	height: 10px;
-	margin-top: -10px;
-	border-bottom-left-radius: 2px;
-}
+
+
+
+
+
+
+
+/*! jQuery UI - v1.9.2 - 2015-10-31
+* http://jqueryui.com
+* Includes: jquery.ui.core.css, jquery.ui.accordion.css
+* Copyright jQuery Foundation and other contributors; Licensed MIT */
+
+/* Layout helpers
+----------------------------------*/
+.ui-helper-hidden { display: none; }
+.ui-helper-hidden-accessible { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px; }
+.ui-helper-reset { margin: 0; padding: 0; border: 0; outline: 0; line-height: 1.3; text-decoration: none; font-size: 100%; list-style: none; }
+.ui-helper-clearfix:before, .ui-helper-clearfix:after { content: ""; display: table; }
+.ui-helper-clearfix:after { clear: both; }
+.ui-helper-clearfix { zoom: 1; }
+.ui-helper-zfix { width: 100%; height: 100%; top: 0; left: 0; position: absolute; opacity: 0; filter:Alpha(Opacity=0); }
+
+
+/* Interaction Cues
+----------------------------------*/
+.ui-state-disabled { cursor: default !important; }
+
+
+/* Icons
+----------------------------------*/
+
+/* states and images */
+.ui-icon { display: block; text-indent: -99999px; overflow: hidden; background-repeat: no-repeat; }
+
+
+/* Misc visuals
+----------------------------------*/
+
+/* Overlays */
+.ui-widget-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.ui-accordion .ui-accordion-header { display: block; cursor: pointer; position: relative; margin-top: 2px; padding: .5em .5em .5em .7em; zoom: 1; }
+.ui-accordion .ui-accordion-icons { padding-left: 2.2em; }
+.ui-accordion .ui-accordion-noicons { padding-left: .7em; }
+.ui-accordion .ui-accordion-icons .ui-accordion-icons { padding-left: 2.2em; }
+.ui-accordion .ui-accordion-header .ui-accordion-header-icon { position: absolute; left: .5em; top: 50%; margin-top: -8px; }
+.ui-accordion .ui-accordion-content { padding: 1em 2.2em; border-top: 0; overflow: auto; zoom: 1; }
 

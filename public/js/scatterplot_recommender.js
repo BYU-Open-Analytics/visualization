@@ -46,85 +46,6 @@ function getRelatedVideos(assessmentId, questionId) {
 	return relatedVideos;
 }
 
-// Called when a concept in the left filter sidebar is clicked
-function filterConceptClick(d) {
-	// Make the currently active concept button not active
-	$("#filterList .active").removeClass("active");
-	// Then make this one active
-	$(d3.event.currentTarget).addClass("active");
-	// Track the click
-	track("clicked","filterListConcept"+d.id);
-	// Then load recommendations for the concept associated with the clicked concept button
-	loadRecommendations("concept", d.id);
-	// Scroll to the top of the page so recommendations are visible
-	$("html, body").animate({ scrollTop: 0 }, "fast");
-}
-
-// Loads scores for all concepts, which are used in the filter navigation sidebar
-function loadConceptScores() {
-	$("#filterSection .spinner").show();
-	$("#filterLoadingContainer").hide();
-	// Get the list of all concepts and their scores
-	d3.json("../scatterplot_recommender_stats/masteryGraph/all/all", function(error, data) {
-		$("#filterSection .spinner").hide();
-		$("#filterLoadingContainer").show();
-
-		// Some basic error handling
-		if (!(data && typeof data == 'object') || error) {
-			$("#filterLoadingContainer").html('<p class="lead">There was an error loading concept scores. Try reloading the dashboard.</p>');
-			return;
-		}
-
-		//Color scale
-		var colorScale = d3.scale.linear()
-				.domain([0, 3.3, 6.6, 10])
-				.range(["#d9534f", "#FFCE54", "#D4D84F", "#5cb85c"]);
-		
-		// Remove any existing concepts
-		$("#filterList .filterListConcept").remove();
-
-		//Create tooltips
-		var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return "Score: " + d.score + ". Click to view recommendations."; });
-
-		// Create element for each concept
-		var conceptList = d3.select("#filterList");
-		var concepts = conceptList.selectAll(".filterListConcept")
-			.data(data)
-			.enter()
-			.append("a")
-			.on("click", filterConceptClick)
-			.attr("data-toggle", "tooltip")
-			.attr("data-placement", "right")
-			.attr("title", function(d) { return "Score: " + d.score; })
-			.attr("class", function(d) { return "filterListConcept unit" + d.unit + "Concept"; });
-		
-		var labels = concepts.append("div")
-			.attr("class", "filterListItemText")
-			.html(function(d) { return d.id + ' ' + d.display; });
-
-		// Progress bar-like display at bottom of each concept that shows mastery score
-		var rects = concepts.append("span")
-			.attr("class", "conceptProgressBar")
-			.style("width", 0)//function(d) { return Math.max(4, d.score * 10) + "%"; })
-			//.style("background-color", function(d) { return d.score >= 6 ? "#5cb85c" : d.score >= 4 ? "#f0ad4e" : "#d9534f"; })
-			.style("background", function(d) { return colorScale(d.score); });
-
-		// Set up click handler for special unit list item (and show it, since it's hidden for load)
-		$(".filterListUnit").removeClass("hidden").click(function() {
-			$("#filterList .active").removeClass("active");
-			$(this).addClass("active");
-			var selectedUnit = $("[name=filterUnitSelector]").val();
-			track("clicked","filterListUnit"+selectedUnit+"AllConcepts");
-			loadRecommendations("unit", selectedUnit);
-		});
-					
-		animateConceptScores();
-		setupBootstrapTooltips();
-		// Now we've got all concepts. Filter to current unit by default
-		filterConceptList();
-	});
-}
-
 // Helper function for recommendation question elements. Contains question/concept display, launch quiz button, and see associated videos button
 function questionElement(d) {
 	// Get the template
@@ -137,10 +58,32 @@ function questionElement(d) {
 	return element;
 }
 
+// Sets up the 4 question groups from a template
+function setupQuestionGroups() {
+	var groups = [
+	{"id": 1, "title":"Try these quiz questions", "tooltip":"<h4>You did not attempt these questions</h4> These questions were selected because you have not attempted them yet. This material will likely be on an upcoming exam, so to improve your score, it is recommended that you practice these questions."},
+	{"id": 2, "title":"Watch videos before attempting these quiz questions", "tooltip":"<h4>You did not watch the videos for these questions</h4> These questions were selected because, based on your online activity, it seems you did not watch the videos before you attempted the quiz. To better learn the material, it is recommended that you watch the videos associated with these quiz questions."},
+	{"id": 3, "title":"Find additional help", "tooltip":"<h4>You tried but did not succeed</h4> These questions were selected because you have spent time watching the videos, but for some reason, the quiz was still difficult for you. To learn this material, you may want to email the instructor, go into the TA lab, or ask a friend to help you."},
+	{"id": 4, "title":"Practice these questions again", "tooltip":"<h4>You eventually got it right</h4> These questions were selected because even though you eventually answered it correctly, you missed them multiple times at first. These questions are recommended you to re-do to help you solidify your understanding."}
+	];
+
+	for (var i=0; i<groups.length; i++) {
+		// Get the template
+		var element = $("#templates #groupTemplate")[0].outerHTML;
+		// Put our data values into it (this is a basic template idea from http://stackoverflow.com/a/14062431 )
+		$.each(groups[i], function(k, v) {
+			var regex = new RegExp("{" + k + "}", "g");
+			element = element.replace(regex, v);
+		});
+		$("#recommendationsAccordion").append(element);
+	}
+}
+
 // Loads recommendations
 function loadRecommendations(scopeOption, scopeGroupingId) {
 	$("#recommendSection .spinner").show();
-	$("#recommendContainer").hide();
+	$("#recommendSection").appendTo("#recommendSectionHolder");
+	$("#recommendSection").removeClass("hidden").show();
 	// Get scope with capital first letter for displaying
 	var scopeOptionName = scopeOption.charAt(0).toUpperCase() + scopeOption.slice(1);
 	$("#recommendationHeaderScopeLabel").text(scopeOptionName + " " + scopeGroupingId);
@@ -148,9 +91,8 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 	// Get question recommendations for our scope and grouping ID (either unit number or concept number)
 	d3.json("../scatterplot_recommender_stats/recommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
 		$("#recommendSection .spinner").hide();
-		$("#recommendContainer").show();
 		if (!(data && typeof data == 'object' && "group1" in data) || error) {
-			$("#recommendContainer").html('<br><br><p class="lead">There was an error loading recommendations. Try reloading the dashboard.</p>');
+			$("#recommendSection").html('<br><br><p class="lead">There was an error loading recommendations. Try reloading the dashboard.</p>');
 			return;
 		}
 		for (var i=1; i<5; i++) {
@@ -174,6 +116,17 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 			showChars: 180
 		});
 	});
+}
+
+// Called when a concept point in the scatterplot is clicked
+function showConceptRecommendations(d) {
+	// Deslect other points, and select this one and move it to the front of the view hierarchy
+	$(".selectedConceptPoint").attr("class", "conceptPoint");
+	$(d3.event.currentTarget).attr("class", "conceptPoint selectedConceptPoint");
+	d3.select(d3.event.currentTarget).moveToFront();
+	// Load recommendations for this concept
+	var conceptId = d.id;
+	loadRecommendations("concept", conceptId);
 }
 
 // Loads the concept scatterplot
@@ -214,7 +167,7 @@ function loadConceptScatterplot() {
 			 .range([height, 0]);
 		//Color scale
 		var colorScale = d3.scale.linear()
-				.domain([0, 6.6, 13.2, 20])
+				.domain([0, 12, 16, 20])
 				.range(["#d9534f", "#FFCE54", "#D4D84F", "#5cb85c"]);
 		//Define X axis
 		var xAxis = d3.svg.axis()
@@ -289,7 +242,7 @@ function loadConceptScatterplot() {
 		svg.append("text")
 			.attr("text-anchor", "middle")
 			.attr("transform", "translate(-40, " + yScale((yMin + yMax) / 2) + ")rotate(270)")
-			.text("Quiz Question Attempts");
+			.text("Mastery Score");
 		svg.append("text")
 			.attr("text-anchor", "end")
 			.attr("transform", "translate(-20, " + yScale(yMax) + ")rotate(270)")
@@ -300,19 +253,29 @@ function loadConceptScatterplot() {
 
 		dots.enter()
 			.append("circle")
+			.attr("class", "conceptPoint")
+			.attr("title", function(d) {
+				return d.id + " " + d.title;
+			})
 			.attr("cx", function(d) {
 				return xScale(d.videoPercentage);
 			})
 			.attr("cy", function(d) {
 				return yScale(d.masteryScore);
 			})
-			.attr("r", "6px")
 			.attr("fill", function(d) {
 				return colorScale(d.masteryScore  + (d.videoPercentage / 10));
 			})
+			.on('click', showConceptRecommendations)
+			;
 
 		dots.exit()
 			.remove();
+		// Setup tooltips
+		setupBootstrapTooltips();
+		//$('.conceptPoint').tooltip({
+			//animation: true,
+			//container:'body'});
 
 	});
 }
@@ -367,12 +330,6 @@ function oldstuff() {
 			.moveToBack();
 
 		refreshView();
-
-	function coerceTypes(d) {
-		d.x = +d.x;
-		d.y = +d.y;
-		return d;
-	}
 }
 
 // Shows description for each quadrant of the scatterplot when hovered over, and give that quadrant a background
@@ -411,7 +368,7 @@ function setupStickyHeaders() {
 
 // We have to do this again when we dynamically load something with tooltips
 function setupBootstrapTooltips() {
-	$('[data-toggle="tooltip"]').tooltip({
+	$('[data-toggle="tooltip"], .conceptPoint, #recommendSection .panel-heading').tooltip({
 		container: 'body'
 	});
 }
@@ -581,6 +538,10 @@ $(function() {
 	// Set up bootstrap tooltips
 	setupBootstrapTooltips();
 
+	//$( "#recommendAccordion" ).accordion({
+      //heightStyle: "fill"
+    //});
+
 	// Set up event listener for links that we want to track
 	$(document).on("click", "[data-track]", function() {
 		track("clicked", $(this).attr("data-track"));
@@ -589,6 +550,9 @@ $(function() {
 	$("#navbarButtonHolder").append('<button class="btn btn-primary" data-toggle="modal" data-track="feedbackButton" data-target="#feedbackModal"><span style="top: 3px;" class="glyphicon glyphicon-comment"></span>&nbsp; Send Feedback</button>')
 	// Bind feedback submit button click event
 	$("#feedbackSendButton").click(sendFeedback);
+
+	// Set up recommendation question groups
+	setupQuestionGroups();
 	
 	// Hide this (loadRecommendations will show it when it's done loading)
 	$("#recommendContainer").hide();
