@@ -35,7 +35,7 @@ td {
 	vertical-align: middle!important;
 }
 
-.videoProgressCell, .questionCorrectCell, .questionAttemptsCell {
+/* .videoProgressCell, .questionCorrectCell, .questionAttemptsCell {
 	text-align: center;
 }
 
@@ -44,7 +44,6 @@ td {
 }
 
 .questionTextCell img {
-	/* Don't let images in questions break the table layout */
 	max-width: 150px;
 }
 
@@ -55,12 +54,23 @@ td {
 .progressCircle {
 	border: none;
 	background: transparent;
-}
+}*/
 
 /* Recommendations */
 #recommendSection .panel-heading {
 	cursor: pointer;
 }
+
+#recommendSection .btn {
+	margin: 5px;
+}
+
+.recommendPanelBody {
+	max-height: 400px;
+	height: 100%;
+	overflow-y: scroll;
+}
+
 .recommendInfo {
 	font-style: italic;
 	margin: 10px;
@@ -96,6 +106,7 @@ td {
     vertical-align: baseline;
 	border: solid #ccc 1px;
     border-radius: 10px;
+	float: right;
 }
 
 .countBadge:empty {
@@ -106,7 +117,7 @@ td {
 	margin: 5px;
 }
 .recommendQuestionDisplay .label {
-	margin-left: 5px;
+	/*margin-left: 5px;*/
 }
 
 .recommendQuestionInfoTable span span:first-child {

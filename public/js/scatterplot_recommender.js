@@ -75,6 +75,7 @@ function setupQuestionGroups() {
 			var regex = new RegExp("{" + k + "}", "g");
 			element = element.replace(regex, v);
 		});
+		element = element.replace("groupTemplate", "recommend"+groups[i].id+"Group");
 		$("#recommendationsAccordion").append(element);
 	}
 }
@@ -82,11 +83,15 @@ function setupQuestionGroups() {
 // Loads recommendations
 function loadRecommendations(scopeOption, scopeGroupingId) {
 	$("#recommendSection .spinner").show();
+	$("#recommendSectionHolder p.lead, .recommendGroup").hide();
 	$("#recommendSection").appendTo("#recommendSectionHolder");
 	$("#recommendSection").removeClass("hidden").show();
 	// Get scope with capital first letter for displaying
 	var scopeOptionName = scopeOption.charAt(0).toUpperCase() + scopeOption.slice(1);
 	$("#recommendationHeaderScopeLabel").text(scopeOptionName + " " + scopeGroupingId);
+
+	// Scroll to the top of the section so recommendations are visible
+	$("html, body").animate({ scrollTop: $("#recommendSectionHolder").offset().top - 55 }, "fast");
 
 	// Get question recommendations for our scope and grouping ID (either unit number or concept number)
 	d3.json("../scatterplot_recommender_stats/recommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
@@ -95,6 +100,9 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 			$("#recommendSection").html('<br><br><p class="lead">There was an error loading recommendations. Try reloading the dashboard.</p>');
 			return;
 		}
+		// Flag to see if we've found the first question group with questions
+		var nonemptyGroupFound = false
+		// For each question group, go through and load the tables and do some formatting
 		for (var i=1; i<5; i++) {
 			$("#recommend"+i+"List").empty();
 			d3.select("#recommend"+i+"List")
@@ -105,7 +113,19 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 				.attr("class", "advancedSimple")
 				.html(function(d) { return questionElement(d); });
 			$("#recommend"+i+"List").prepend($("#templates .recommendHeaderTemplate").clone());
-			$("[aria-controls=recommend"+i+"] .countBadge").text(data["group"+i].length);
+			$("#recommend"+i+"CountBadge").text(data["group"+i].length);
+			// Hide this group if there aren't any questions
+			if (data["group"+i].length == 0) {
+				$("#recommend"+i+"Group").hide();
+			} else {
+				$("#recommend"+i+"Group").show();
+				// Otherwise select this group, if we haven't selected a previous nonempty group
+				if (!nonemptyGroupFound) {
+					//console.log("SHOWING", i);
+					$("#recommend"+i).collapse('show');
+					nonemptyGroupFound = true;
+				}
+			}
 		}
 		// Set up sticky table headers
 		setupStickyHeaders();
@@ -113,8 +133,11 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 		$(".recommendQuestionTextContainer").shorten({
 			moreText: 'See more',
 			lessText: 'See less',
-			showChars: 180
+			showChars: 100
 		});
+		setupBootstrapTooltips();
+		// Scroll to the top of the section so recommendations are visible (Again, since page layout changed)
+		setTimeout(function() { $("html, body").animate({ scrollTop: $("#recommendSectionHolder").offset().top - 55 }, "fast"); }, 200);
 	});
 }
 
@@ -368,7 +391,7 @@ function setupStickyHeaders() {
 
 // We have to do this again when we dynamically load something with tooltips
 function setupBootstrapTooltips() {
-	$('[data-toggle="tooltip"], .conceptPoint, #recommendSection .panel-heading').tooltip({
+	$('[data-toggle="tooltip"], .conceptPoint, #recommendSection .panel-heading, .btn-info').tooltip({
 		container: 'body'
 	});
 }

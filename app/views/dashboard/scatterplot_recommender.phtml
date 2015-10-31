@@ -15,7 +15,6 @@
 		
 		<!-- Scatterplot container -->
 		<div id="scatterplotSection" class="col-sm-7">
-			<p class="lead">Scatterplot here</p>
 		</div>
 
 		<!-- Recommendations container -->
@@ -29,24 +28,6 @@
 					<!-- Question groups dynamically inserted -->
 				</div>
 			</div>
-			<!--<div id="recommendAccordion" style="height: 100%!important;">
-				<h3>Group 1</h3>
-				<div>
-					<img src="http://placehold.it/350x150">
-				</div>
-				<h3>Group 2</h3>
-				<div>
-					<img src="http://placehold.it/350x850">
-				</div>
-				<h3>Group 3</h3>
-				<div>
-					<img src="http://placehold.it/750x150">
-				</div>
-				<h3>Group 4</h3>
-				<div>
-					<img src="http://placehold.it/350x150">
-				</div>
-			</div>-->
 		</div>
 
 	</div>
@@ -57,7 +38,7 @@
 <!-- Templates for recommendations -->
 <div id="templates" class="hidden">
 	<!-- Group Template -->
-	<div id="groupTemplate" class="panel panel-default">
+	<div id="groupTemplate" class="panel panel-default recommendGroup">
 		<div class="panel-heading" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend{id}" data-placement="top" data-html="true" title="{tooltip}">
 			<h4 class="panel-title">
 				<a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend{id}">{title} <span id="recommend{id}CountBadge" class="countBadge"></span></a>
@@ -82,23 +63,18 @@
 		<th>Quiz Question</th>
 		<th style="text-align: center;">Correct</th>
 		<th style="text-align: center;">Attempts</th>
-		<th><span class="advancedMoreClass">Viewed<br>Hint</span></th>
-		<th><span class="advancedMoreClass">Viewed<br>Answer</span></th>
-		<th><span class="advancedMoreClass">Average<br>Attempts</span></th>
-		<th><!--Launch Quiz--></th>
-		<th><!--See Related Videos--></th>
+		<th><!--Launch Quiz and related videos--></th>
 	  </tr>
 	</thead>
 	<!-- Template for recommendation item -->
 	<tr class="recommendQuestionDisplay">
-  <td><span class="recommendQuestionTextContainer">{display}</span></td>
-  <td style="text-align: center;"><span class="correct-{correct}Holder"><span class="glyphicon glyphicon-ok correctIcon"></span><span class="glyphicon glyphicon-remove incorrectIcon"></span></span></td>
-  <td style="text-align: center;"><span class="" style="font-weight: bold;">{attempts}</span></td>
-	  <td><span class="advancedMoreClass">{classViewedHint}%</span></td>
-	  <td><span class="advancedMoreClass">{classViewedAnswer}%</span></td>
-	  <td><span class="advancedMoreClass">{classAverageAttempts}</span></td>
-	  <td><a role="button" href="http://openanalytics-dashboard.com/consumer.php?app=openassessments&assessment_id={assessmentId}&question_id={questionNumber}" data-track="question{assessmentId}.{questionNumber}Launch" class="btn btn-info btn-xs" target="_blank"> <span class="glyphicon glyphicon-log-in"></span> &nbsp; Quiz &nbsp;</a></td>
-  <td><button class="btn btn-info btn-xs" data-toggle="modal" data-target="#relatedVideosModal" data-assessment="{assessmentId}" data-question="{questionNumber}"> <span class="glyphicon glyphicon-film"></span> &nbsp; Videos &nbsp;</button></td>
+		<td><span class="recommendQuestionTextContainer">{display}</span></td>
+		<td style="text-align: center;"><span class="correct-{correct}Holder"><span class="glyphicon glyphicon-ok correctIcon"></span><span class="glyphicon glyphicon-remove incorrectIcon"></span></span></td>
+		<td style="text-align: center;"><span class="" style="font-weight: bold;">{attempts}</span></td>
+		<td>
+			<a role="button" href="http://openanalytics-dashboard.com/consumer.php?app=openassessments&assessment_id={assessmentId}&question_id={questionNumber}" data-track="question{assessmentId}.{questionNumber}Launch" class="btn btn-info btn-xs" title="Launch Quiz" target="_blank"> <span class="glyphicon glyphicon-log-in"></span></a>
+			<button class="btn btn-info btn-xs" title="See Related Videos" data-toggle="modal" data-target="#relatedVideosModal" data-assessment="{assessmentId}" data-question="{questionNumber}"> <span class="glyphicon glyphicon-film"></span></button>
+		</td>
 	</tr>
 	</table>
 </div>
