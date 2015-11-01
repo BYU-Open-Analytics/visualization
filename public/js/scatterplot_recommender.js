@@ -294,32 +294,6 @@ function loadConceptScatterplot() {
 
 		dots.exit()
 			.remove();
-		// Setup tooltips
-		setupBootstrapTooltips();
-		//$('.conceptPoint').tooltip({
-			//animation: true,
-			//container:'body'});
-
-	});
-}
-
-
-function oldstuff() {
-		//Create tooltips
-		var tip = d3.tip().attr('class', 'd3-tip').offset([-10,0]).html(function(d) { return d.group == "student" ? "Question " + d.quiz_number + "." + d.question_number : ""; });
-		svg.call(tip);
-
-
-		   tip.attr("class", function(d) {
-			   	return d.group + "Point";
-		   })
-		   .on('mouseover', tip.show)
-		   .on('mouseout', tip.hide);
-
-
-		// Make sure that student points show over class points and quadrant lines
-		svg.selectAll(".studentPoint").moveToFront();
-
 
 		//Create quadrants
 		var q1 = svg.append("rect")
@@ -352,7 +326,45 @@ function oldstuff() {
 			.attr("height", height / 2 + "px")
 			.moveToBack();
 
-		refreshView();
+		// Quadrant labels
+		svg.append("text")
+			.attr("x", xScale(3*((xMin + xMax) / 4)) + "px")
+			.attr("y", yScale(3*((yMin + yMax) / 4)) + "px")
+			.attr("class", "quadrantLabel hidden")
+			.attr("id", "quadrant1Label")
+			.text("You Learned It");
+		svg.append("text")
+			.attr("x", xScale(1*((xMin + xMax) / 4)) + "px")
+			.attr("y", yScale(3*((yMin + yMax) / 4)) + "px")
+			.attr("class", "quadrantLabel hidden")
+			.attr("id", "quadrant2Label")
+			.text("You Already Knew It");
+		svg.append("text")
+			.attr("x", xScale(1*((xMin + xMax) / 4)) + "px")
+			.attr("y", yScale(1*((yMin + yMax) / 4)) + "px")
+			.attr("class", "quadrantLabel hidden")
+			.attr("id", "quadrant3Label")
+			.text("Watch the Videos");
+		svg.append("text")
+			.attr("x", xScale(3*((xMin + xMax) / 4)) + "px")
+			.attr("y", yScale(1*((yMin + yMax) / 4)) + "px")
+			.attr("class", "quadrantLabel hidden")
+			.attr("id", "quadrant4Label")
+			.text("Get Additional Help");
+
+		svg.selectAll(".quadrantLabel")
+			.attr("text-anchor", "middle")
+			.attr("font-size", "20px")
+			.attr("font-weight", "300")
+			.moveToBack();
+
+		// Setup tooltips
+		setupBootstrapTooltips();
+		//$('.conceptPoint').tooltip({
+			//animation: true,
+			//container:'body'});
+
+	});
 }
 
 // Shows description for each quadrant of the scatterplot when hovered over, and give that quadrant a background
@@ -363,6 +375,8 @@ function showQuadrantInfo(quadrant) {
 
 	$(".quadrantInfo").addClass("hidden");
 	$("#quadrantInfo"+quadrant).removeClass("hidden").show();
+	$(".quadrantLabel").attr("class", "quadrantLabel hidden");
+	$("#quadrant"+quadrant+"Label").attr("class", "quadrantLabel");
 }
 
 // Called when send feedback button is clicked. Feedback is recorded in dashboard database
