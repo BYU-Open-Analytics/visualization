@@ -122,7 +122,7 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 				// Otherwise select this group, if we haven't selected a previous nonempty group
 				if (!nonemptyGroupFound) {
 					//console.log("SHOWING", i);
-					$("#recommend"+i).collapse('show');
+					$("[href=#recommend"+i+"]").click();//collapse('show');
 					nonemptyGroupFound = true;
 				}
 			}
