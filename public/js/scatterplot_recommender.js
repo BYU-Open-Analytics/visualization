@@ -121,7 +121,6 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 				$("#recommend"+i+"Group").show();
 				// Otherwise select this group, if we haven't selected a previous nonempty group
 				if (!nonemptyGroupFound) {
-					//console.log("SHOWING", i);
 					$("[href=#recommend"+i+"]").click();//collapse('show');
 					nonemptyGroupFound = true;
 				}
@@ -142,7 +141,21 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 }
 
 // Called when a concept point in the scatterplot is clicked
-function showConceptRecommendations(d) {
+function showPointConceptRecommendations(d) {
+	console.log(d);
+	// Deslect other points, and select this one and move it to the front of the view hierarchy
+	$(".selectedConceptPoint").attr("class", "conceptPoint");
+	$(d3.event.currentTarget).attr("class", "conceptPoint selectedConceptPoint");
+	d3.select(d3.event.currentTarget).moveToFront();
+	// Load recommendations for this concept
+	var conceptId = d.id;
+	loadRecommendations("concept", conceptId);
+}
+
+// Called when a concept from the low concepts list is clicked
+function showLowConceptRecommendations(e) {
+	console.log(e);
+	return;
 	// Deslect other points, and select this one and move it to the front of the view hierarchy
 	$(".selectedConceptPoint").attr("class", "conceptPoint");
 	$(d3.event.currentTarget).attr("class", "conceptPoint selectedConceptPoint");
@@ -157,8 +170,8 @@ function loadConceptScatterplot() {
 	// Show the spinner while loading
 	$("#scatterplotSection .spinner").show();
 
-	var scopeOption = "all";//"unit";
-	var scopeGroupingId = $("[name=scatterplotUnitSelector]").val();
+	var scopeOption = "unit";
+	var scopeGroupingId = 3;//$("[name=scatterplotUnitSelector]").val();
 
 	d3.json("../scatterplot_recommender_stats/concepts/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
 		$("#scatterplotSection .spinner").hide();
@@ -241,11 +254,11 @@ function loadConceptScatterplot() {
 			.attr("class", "quadrantLine");
 
 		//Create custom x axis labels
-		svg.append("text")
-			.attr("x", xScale(xMin) + "px")
-			.attr("y", (height + 20) + "px")
-			.attr("text-anchor", "start")
-			.text("Low");
+		//svg.append("text")
+			//.attr("x", xScale(xMin) + "px")
+			//.attr("y", (height + 20) + "px")
+			//.attr("text-anchor", "start")
+			//.text("Low");
 		svg.append("text")
 			.attr("x", xScale((xMin + xMax) / 2) + "px")
 			.attr("y", (height + 40) + "px")
@@ -261,10 +274,10 @@ function loadConceptScatterplot() {
 			.text("High");
 
 		//Create custom y axis labels
-		svg.append("text")
-			.attr("text-anchor", "start")
-			.attr("transform", "translate(-20, " + yScale(yMin) + ")rotate(270)")
-			.text("Low");
+		//svg.append("text")
+			//.attr("text-anchor", "start")
+			//.attr("transform", "translate(-20, " + yScale(yMin) + ")rotate(270)")
+			//.text("Low");
 		svg.append("text")
 			.attr("text-anchor", "middle")
 			.attr("transform", "translate(-40, " + yScale((yMin + yMax) / 2) + ")rotate(270)")
@@ -295,11 +308,46 @@ function loadConceptScatterplot() {
 			.attr("fill", function(d) {
 				return colorScale(d.masteryScore  + (d.videoPercentage / 10));
 			})
-			.on('click', showConceptRecommendations)
+			.on('click', showPointConceptRecommendations)
 			;
 
 		dots.exit()
 			.remove();
+
+		// Get all the concepts that would be overlapping in the bottom corner
+		var lowConcepts = [];
+		for (var i=0; i < data.length; i++) {
+			if ((data[i].masteryScore < 0.6 && data[i].videoPercentage < 6) || true) {
+				lowConcepts.push(data[i]);
+			}
+		}
+
+		if (lowConcepts.length > 0) {
+			// Box in bottom-left corner that will contain all concepts with scores of (0,0)
+			var box = svg.append("g")
+				.attr("transform", "translate(0, " + yScale(yMin) + ")");
+			box.append("rect")
+				.attr("id", "lowConceptBox");
+
+
+			var lowConceptItems = d3.select(".lowConceptsList").selectAll("li").data(lowConcepts);
+			lowConceptItems.enter()
+				.append("li")
+				.attr("class", "list-group-item")
+				.text(function(d) { return d.title; })
+				.attr("data-concept", function(d) { return d.id; });
+
+			$("#lowConceptBox").popover({
+				html: true, 
+				container: "body",
+				content: function() {
+					return $('.lowConceptsList')[0].outerHTML;
+				}
+			});
+			// Now bind the event listeners
+			$(".lowConceptsList li").click(showLowConceptRecommendations);
+
+		}
 
 		//Create quadrants
 		var q1 = svg.append("rect")
