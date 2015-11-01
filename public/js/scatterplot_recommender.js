@@ -250,6 +250,9 @@ function loadConceptScatterplot() {
 			.attr("x", xScale((xMin + xMax) / 2) + "px")
 			.attr("y", (height + 40) + "px")
 			.attr("text-anchor", "middle")
+			.attr("cursor", "default")
+			.attr("data-toggle", "tooltip")
+			.attr("title", "Video calculation explanation here!")
 			.text("Video Time");
 		svg.append("text")
 			.attr("x", xScale(xMax) + "px")
@@ -265,6 +268,9 @@ function loadConceptScatterplot() {
 		svg.append("text")
 			.attr("text-anchor", "middle")
 			.attr("transform", "translate(-40, " + yScale((yMin + yMax) / 2) + ")rotate(270)")
+			.attr("data-toggle", "tooltip")
+			.attr("cursor", "default")
+			.attr("title", "Mastery score calculation explanation here!")
 			.text("Mastery Score");
 		svg.append("text")
 			.attr("text-anchor", "end")
