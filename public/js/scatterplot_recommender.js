@@ -278,7 +278,7 @@ function loadConceptScatterplot() {
 			.append("circle")
 			.attr("class", "conceptPoint")
 			.attr("title", function(d) {
-				return d.id + " " + d.title;
+				return "<b>" + d.id + " " + d.title + "</b><br>Video percentage: " + d.videoPercentage + "%<br>Mastery score: " + d.masteryScore;
 			})
 			.attr("cx", function(d) {
 				return xScale(d.videoPercentage);
@@ -406,7 +406,8 @@ function setupStickyHeaders() {
 // We have to do this again when we dynamically load something with tooltips
 function setupBootstrapTooltips() {
 	$('[data-toggle="tooltip"], .conceptPoint, #recommendSection .panel-heading, .btn-info').tooltip({
-		container: 'body'
+		container: 'body',
+		html: true
 	});
 }
 
