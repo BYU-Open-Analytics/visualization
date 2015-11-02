@@ -11,7 +11,7 @@ $("#relatedVideosModal").on("show.bs.modal", function(e) {
 		.attr("id", function(d) { return "videoRow"+d["Video ID"]; });
 
 	tr.append("td")
-		.html(function(d) { return d.chapter + "." + d.section + "." + d.group + "." + d.video; })
+		.html(function(d) { var label = d.chapter + "." + d.section + "." + d.group + "." + d.video; return label.replace(/\.*$/, "a"); })
 		.attr("class","videoRefCell");
 	tr.append("td")
 		// TODO absolute URL ref fix
@@ -30,7 +30,7 @@ $("#relatedVideosModal").on("show.bs.modal", function(e) {
 	track("clicked", "relatedVideos" + $(e.relatedTarget).attr('data-assessment') + '.' + $(e.relatedTarget).attr('data-question'));
 
 	// Don't stall the UI waiting for all these to finish drawing
-	setTimeout(updateVideoProgressCircles, 1);
+	//setTimeout(updateVideoProgressCircles, 1);
 	refreshView();
 });
 
