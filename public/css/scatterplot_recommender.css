@@ -214,15 +214,32 @@ td {
 	height: 40px;
 	x: -20;
 	y: -20;
-	fill: red;
-	stroke: blue;
-	stroke-width: 2;
-}
-
-#lowConceptsList li {
+	fill: white;
+	stroke: black;
+	stroke-width: 1;
 	cursor: pointer;
 }
-#lowConceptsList li:hover {
+
+#lowConceptPoint {
+	r: 10;
+	x: -5;
+	y: -5;
+	fill: #d9534f;
+	pointer-events: none;
+}
+
+.lowConceptsList {
+	max-height: 300px;
+	overflow: auto;
+	position: relative;
+    bottom: -30px;
+    margin-top: -39px;
+    padding-top: 10px;
+}
+.lowConceptsList li {
+	cursor: pointer;
+}
+.lowConceptsList li:hover {
 	background: #ddd;
 }
 
@@ -243,11 +260,9 @@ td {
 }
 
 
-
-
-
-
-
+.panel-heading ~ .collapse.in {
+	/*background: lime!important;*/
+}
 
 /*! jQuery UI - v1.9.2 - 2015-10-31
 * http://jqueryui.com

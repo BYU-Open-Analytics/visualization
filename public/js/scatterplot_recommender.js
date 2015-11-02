@@ -121,7 +121,7 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 				$("#recommend"+i+"Group").show();
 				// Otherwise select this group, if we haven't selected a previous nonempty group
 				if (!nonemptyGroupFound) {
-					$("[href=#recommend"+i+"]").click();//collapse('show');
+					$("#recommend"+i).collapse("show");
 					nonemptyGroupFound = true;
 				}
 			}
@@ -154,14 +154,14 @@ function showPointConceptRecommendations(d) {
 
 // Called when a concept from the low concepts list is clicked
 function showLowConceptRecommendations(e) {
-	console.log(e);
-	return;
+	console.log($(this).attr("data-concept"));
 	// Deslect other points, and select this one and move it to the front of the view hierarchy
 	$(".selectedConceptPoint").attr("class", "conceptPoint");
-	$(d3.event.currentTarget).attr("class", "conceptPoint selectedConceptPoint");
-	d3.select(d3.event.currentTarget).moveToFront();
+	// Deselect any other concept in the low concepts list
+	$(".lowConceptsList li").removeClass("active");
+	$(this).addClass("active");
 	// Load recommendations for this concept
-	var conceptId = d.id;
+	var conceptId = $(this).attr("data-concept");
 	loadRecommendations("concept", conceptId);
 }
 
@@ -317,35 +317,49 @@ function loadConceptScatterplot() {
 		// Get all the concepts that would be overlapping in the bottom corner
 		var lowConcepts = [];
 		for (var i=0; i < data.length; i++) {
-			if ((data[i].masteryScore < 0.6 && data[i].videoPercentage < 6) || true) {
+			if ((data[i].masteryScore < 0.6 && data[i].videoPercentage < 6)) {
 				lowConcepts.push(data[i]);
 			}
 		}
 
-		if (lowConcepts.length > 0) {
+		// Only show the box if there's more than 1 low concept
+		if (lowConcepts.length > 1) {
 			// Box in bottom-left corner that will contain all concepts with scores of (0,0)
 			var box = svg.append("g")
 				.attr("transform", "translate(0, " + yScale(yMin) + ")");
 			box.append("rect")
+				.attr("data-toggle", "tooltip")
+				.attr("title", "Click to see unattempted concepts")
 				.attr("id", "lowConceptBox");
+			box.append("circle")
+				.attr("id", "lowConceptPoint");
 
 
 			var lowConceptItems = d3.select(".lowConceptsList").selectAll("li").data(lowConcepts);
 			lowConceptItems.enter()
 				.append("li")
 				.attr("class", "list-group-item")
-				.text(function(d) { return d.title; })
+				.text(function(d) { return d.id + " " + d.title; })
 				.attr("data-concept", function(d) { return d.id; });
 
 			$("#lowConceptBox").popover({
 				html: true, 
 				container: "body",
+				trigger: "manual",
+				title: "Unattempted Concepts",
 				content: function() {
 					return $('.lowConceptsList')[0].outerHTML;
 				}
+			}).click(function(e) {
+				$(this).popover('show');
+				$('.popover-title').html('Unattempted Concepts <button type="button" onclick="$(\'#lowConceptBox\').popover(\'hide\');" class="close">&times;</button>');
+				clickedAway = false
+				isVisible = true
+				e.preventDefault()
 			});
+			
 			// Now bind the event listeners
-			$(".lowConceptsList li").click(showLowConceptRecommendations);
+			$(document).on("click", ".lowConceptsList li", showLowConceptRecommendations);
 
 		}
 
