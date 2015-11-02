@@ -143,6 +143,10 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 // Called when a concept point in the scatterplot is clicked
 function showPointConceptRecommendations(d) {
 	console.log(d);
+	// Hide low concepts list
+	$("#lowConceptBox").popover("hide");
+	// Deselect any concept in the low concepts list
+	$(".lowConceptsList li").removeClass("active");
 	// Deslect other points, and select this one and move it to the front of the view hierarchy
 	$(".selectedConceptPoint").attr("class", "conceptPoint");
 	$(d3.event.currentTarget).attr("class", "conceptPoint selectedConceptPoint");
@@ -317,7 +321,7 @@ function loadConceptScatterplot() {
 		// Get all the concepts that would be overlapping in the bottom corner
 		var lowConcepts = [];
 		for (var i=0; i < data.length; i++) {
-			if ((data[i].masteryScore < 0.6 && data[i].videoPercentage < 6)) {
+			if ((data[i].masteryScore < 0.6 && data[i].videoPercentage < 6) || true) {
 				lowConcepts.push(data[i]);
 			}
 		}
