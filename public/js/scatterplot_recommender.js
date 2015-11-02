@@ -338,6 +338,9 @@ function loadConceptScatterplot() {
 				.attr("id", "lowConceptBox");
 			box.append("circle")
 				.attr("id", "lowConceptPoint")
+				.attr("r", "10")
+				.attr("fill", "#d9534f")
+				.style("pointer-events", "none")
 				.attr("cx", "20")
 				.attr("cy", "20");
 
