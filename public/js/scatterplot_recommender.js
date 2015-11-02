@@ -118,7 +118,8 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 			if (data["group"+i].length == 0) {
 				$("#recommend"+i+"Group").hide();
 			} else {
-				$("#recommend"+i+"Group").show();
+				// Show non-empty groups, but collapsed by default
+				$("#recommend"+i+"Group").show().collapse("hide");
 				// Otherwise select this group, if we haven't selected a previous nonempty group
 				if (!nonemptyGroupFound) {
 					$("#recommend"+i).collapse("show");
@@ -330,13 +331,15 @@ function loadConceptScatterplot() {
 		if (lowConcepts.length > 1) {
 			// Box in bottom-left corner that will contain all concepts with scores of (0,0)
 			var box = svg.append("g")
-				.attr("transform", "translate(0, " + yScale(yMin) + ")");
+				.attr("transform", "translate(-20, " + (yScale(yMin) - 20) + ")");
 			box.append("rect")
 				.attr("data-toggle", "tooltip")
 				.attr("title", "Click to see unattempted concepts")
 				.attr("id", "lowConceptBox");
 			box.append("circle")
-				.attr("id", "lowConceptPoint");
+				.attr("id", "lowConceptPoint")
+				.attr("cx", "20")
+				.attr("cy", "20");
 
 
 			var lowConceptItems = d3.select(".lowConceptsList").selectAll("li").data(lowConcepts);

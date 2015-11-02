@@ -212,8 +212,6 @@ td {
 #lowConceptBox {
 	width: 40px;
 	height: 40px;
-	x: -20;
-	y: -20;
 	fill: white;
 	stroke: black;
 	stroke-width: 1;
@@ -222,8 +220,6 @@ td {
 
 #lowConceptPoint {
 	r: 10;
-	x: -5;
-	y: -5;
 	fill: #d9534f;
 	pointer-events: none;
 }
