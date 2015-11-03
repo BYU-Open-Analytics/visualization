@@ -15,13 +15,18 @@
 		
 		<!-- Scatterplot container -->
 		<div id="scatterplotSection" class="col-sm-7">
+				<span class="spinner" style=""><br /><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
+				<h3 class="capsLabel" style="display: inline; padding-left: 0px;">See concepts from unit: </h3>
+				<label for="unitSelector">&nbsp;</label><select class="unitSelector" name="unitSelector">
+					<?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'"'; if ($unit['id']==3) { echo ' selected="selected"'; } echo '>'.$unit['title'].'</option>'; } ?>
+				</select>
 		</div>
 
 		<!-- Recommendations container -->
 		<div id="recommendSectionHolder" class="col-sm-5">
 			<p class="lead">Click on a concept in the scatterplot to see recommendations on how to improve your mastery score. </p>
 			<!-- Recommendation groups -->
-			<div id="recommendSection" class="hidden">
+			<div id="recommendSection">
 				<h3 style="margin-top: 8px;" class="capsLabel">Question Recommendations for <span id="recommendationHeaderScopeLabel">...</span></h3>
 				<span class="spinner" style=""><br /><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
 				<div class="panel-group" id="recommendationsAccordion" role="tablist">

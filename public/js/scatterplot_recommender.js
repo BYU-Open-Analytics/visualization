@@ -175,9 +175,11 @@ function showLowConceptRecommendations(e) {
 function loadConceptScatterplot() {
 	// Show the spinner while loading
 	$("#scatterplotSection .spinner").show();
+	$("#recommendSectionHolder p.lead").show();
+	$("#recommendSection").hide();
 
 	var scopeOption = "unit";
-	var scopeGroupingId = 3;//$("[name=scatterplotUnitSelector]").val();
+	var scopeGroupingId = $("[name=unitSelector]").val();
 
 	d3.json("../scatterplot_recommender_stats/concepts/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
 		$("#scatterplotSection .spinner").hide();
@@ -324,7 +326,7 @@ function loadConceptScatterplot() {
 		// Get all the concepts that would be overlapping in the bottom corner
 		var lowConcepts = [];
 		for (var i=0; i < data.length; i++) {
-			if ((data[i].masteryScore < 0.6 && data[i].videoPercentage < 6) || true) {
+			if ((data[i].masteryScore < 0.6 && data[i].videoPercentage < 6)) {
 				lowConcepts.push(data[i]);
 			}
 		}
@@ -603,37 +605,10 @@ $(function() {
 		$("#mainContainer").removeClass("hidden").addClass("show");
 		track("clicked", "continueButton");
 	});
-	// Filter concepts in left sidebar when unit selector changes
-	$("[name=filterUnitSelector]").on("change", function() {
-		filterConceptList();
-		track("clicked","filterListUnit"+$(this).val());
-	});
-	// Reload the scatterplot when scope changes, and when concept/chapter/unit changes
-	$("input:radio[name=scatterplotScopeOption]").on("change", function() {
-		loadScatterplot();
-		track("clicked","scatterplotScope"+$(this).val());
-	});
-	$("[name=scatterplotConceptSelector], [name=scatterplotChapterSelector], [name=scatterplotUnitSelector]").on("change", function() {
-		loadScatterplot();
-		track("clicked",$(this).attr("name")+$(this).val());
-	});
-	// Reload the recommendations when scope changes, and when concept/chapter/unit changes
-	$("input:radio[name=recommendScopeOption]").on("change", function() {
-		loadRecommendations();
-		track("clicked","recommendScope"+$(this).val());
-	});
-	$("[name=recommendConceptSelector], [name=recommendChapterSelector], [name=recommendUnitSelector]").on("change", function() {
-		loadRecommendations();
-		track("clicked",$(this).attr("name")+$(this).val());
-	});
-	// Reload the mastery graph when scope changes, and when chapter/unit changes
-	$("input:radio[name=masteryGraphScopeOption]").on("change", function() {
-		loadMasteryGraph($(this).val());
-		track("clicked","masteryGraphScope"+$(this).val());
-	});
-	$("[name=masteryGraphChapterSelector], [name=masteryGraphUnitSelector]").on("change", function() {
-		loadMasteryGraph();
-		track("clicked",$(this).attr("name")+$(this).val());
+	// Filter concepts in scatterplot when unit selector changes
+	$("[name=unitSelector]").on("change", function() {
+		loadConceptScatterplot();
+		track("clicked","scatterplotUnitSelector"+$(this).val());
 	});
 	// Track when recommendation tabs are switched, and udpate table sticky headers
 	$("#recommendTabs").on('shown.bs.tab', function(e) {
