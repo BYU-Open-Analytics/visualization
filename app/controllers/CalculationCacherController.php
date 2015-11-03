@@ -65,6 +65,8 @@ class CalculationCacherController extends Controller
 			die("Invalid history saver password provided.");
 		}
 
+		ini_set('max_execution_time', 300);
+		set_time_limit(300);
 		// We want to time this
 		$startTime = microtime(true);
 
