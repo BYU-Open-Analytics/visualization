@@ -53,4 +53,48 @@ class CalculationCacherController extends Controller
 		$endTime = microtime(true);
 		echo "Execution time: " . ($endTime - $startTime) . " seconds\n";
 	}
+
+
+	// Stores the unit 3 and 4 mastery scores for every student
+	public function dailyMasteryAction() {
+		$config = $this->getDI()->getShared('config');
+		if (!isset($_GET["p"])) {
+			die("No history saver password provided.");
+		}
+		if ($_GET["p"] != $config->historySaverPassword) {
+			die("Invalid history saver password provided.");
+		}
+
+		// We want to time this
+		$startTime = microtime(true);
+
+		$debug = false;
+		$classHelper = new ClassHelper();
+		$masteryHelper = new MasteryHelper();
+		//$studentIds = $classHelper->allStudents();
+		$studentIds = ["John Logie Baird"];
+		
+		$units = ["3", "4"];
+		// Go through each student and calculate unit mastery scores
+		foreach ($studentIds as $studentId) {
+			$scores = [];
+			foreach ($units as $unit) {
+				$concepts = MappingHelper::conceptsInChapters(MappingHelper::chaptersInUnit($unit));
+				$unitScore = 0;
+				foreach ($concepts as $c) {
+					$unitScore += $masteryHelper::calculateConceptMasteryScore($studentId, $c["Section Number"], $debug);
+				}
+				$unitScore = $unitScore / count($concepts);
+				$scores[$unit] = $unitScore;
+			}
+			if ($debug) {
+				echo "Scores for student $studentId \n";
+				print_r($scores);
+			}
+		}
+
+		// Print total time taken
+		$endTime = microtime(true);
+		echo "Execution time: " . ($endTime - $startTime) . " seconds\n";
+	}
 }
