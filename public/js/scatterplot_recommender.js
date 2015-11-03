@@ -178,6 +178,8 @@ function loadConceptScatterplot() {
 	$("#recommendSectionHolder p.lead").show();
 	$("#recommendSection").hide();
 
+	$("#lowConceptBox").popover("hide");
+
 	var scopeOption = "unit";
 	var scopeGroupingId = $("[name=unitSelector]").val();
 
