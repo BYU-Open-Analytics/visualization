@@ -120,11 +120,12 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 			} else {
 				// Show non-empty groups, but collapsed by default
 				$("#recommend"+i+"Group").show()
-				$("#recommend"+i).collapse("hide");
 				// Otherwise select this group, if we haven't selected a previous nonempty group
 				if (!nonemptyGroupFound) {
 					$("#recommend"+i).collapse("show");
 					nonemptyGroupFound = true;
+				} else {
+					$("#recommend"+i).collapse("hide");
 				}
 			}
 		}
