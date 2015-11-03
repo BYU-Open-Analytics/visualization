@@ -119,7 +119,8 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 				$("#recommend"+i+"Group").hide();
 			} else {
 				// Show non-empty groups, but collapsed by default
-				$("#recommend"+i+"Group").show().collapse("hide");
+				$("#recommend"+i+"Group").show()
+				$("#recommend"+i).collapse("hide");
 				// Otherwise select this group, if we haven't selected a previous nonempty group
 				if (!nonemptyGroupFound) {
 					$("#recommend"+i).collapse("show");
@@ -301,6 +302,7 @@ function loadConceptScatterplot() {
 		dots.enter()
 			.append("circle")
 			.attr("class", "conceptPoint")
+			.attr("r", "6px")
 			.attr("title", function(d) {
 				return "<b>" + d.id + " " + d.title + "</b><br>Video percentage: " + d.videoPercentage + "%<br>Mastery score: " + d.masteryScore;
 			})
@@ -335,6 +337,9 @@ function loadConceptScatterplot() {
 			box.append("rect")
 				.attr("data-toggle", "tooltip")
 				.attr("title", "Click to see unattempted concepts")
+				.attr("width", "40px")
+				.attr("height", "40px")
+
 				.attr("id", "lowConceptBox");
 			box.append("circle")
 				.attr("id", "lowConceptPoint")

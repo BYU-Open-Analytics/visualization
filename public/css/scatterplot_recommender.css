@@ -149,7 +149,7 @@ td {
 
 #recommendSectionHolder {
 	max-height: 90%;
-	overflow: auto;
+	/*overflow: auto;*/
 }
 
 /* Scatterplot */
