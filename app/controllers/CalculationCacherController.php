@@ -71,8 +71,8 @@ class CalculationCacherController extends Controller
 		$debug = false;
 		$classHelper = new ClassHelper();
 		$masteryHelper = new MasteryHelper();
-		//$studentIds = $classHelper->allStudents();
-		$studentIds = ["John Logie Baird"];
+		$studentIds = $classHelper->allStudents();
+		//$studentIds = ["John Logie Baird"];
 		
 		$units = ["3", "4"];
 		// Go through each student and calculate unit mastery scores
@@ -90,6 +90,18 @@ class CalculationCacherController extends Controller
 			if ($debug) {
 				echo "Scores for student $studentId \n";
 				print_r($scores);
+			}
+			$history = new MasteryHistory();
+			$history->email = $studentId;
+			$history->unit3 = $scores["3"];
+			$history->unit4 = $scores["4"];
+
+			if ($history->create() == false) {
+				echo "*** Error saving mastery history for $studentId\n";
+			} else {
+				if ($debug) {
+					echo "    Successfully saved history for $studentId\n";
+				}
 			}
 		}
 
