@@ -467,6 +467,31 @@ function showQuadrantInfo(quadrant) {
 	$("#quadrant"+quadrant+"Label").attr("class", "quadrantLabel");
 }
 
+// Loads the mastery over time graph
+function loadTimeGraph() {
+	var timeGraph = c3.generate({
+		bindto: "#timeGraph",
+		data: {
+			x : 'date',
+			url: '../scatterplot_recommender_stats/time_graph',
+			groups: [
+				['Unit 3', 'Unit 4']
+			],
+			type: 'line'
+		},
+		axis: {
+			x: {
+				type: 'category'
+			},
+			y: {
+				max: 10,
+				min: 0
+			}
+		}
+	});
+	setTimeout(function() { $("#timeGraphSection .spinner").hide(); }, 2000);
+}
+
 // Called when send feedback button is clicked. Feedback is recorded in dashboard database
 function sendFeedback() {
 	// Make sure there's feedback text first
@@ -660,12 +685,8 @@ $(function() {
 	d3.csv("../csv/mappings.csv", function(error, data) {
 		mappings = data;
 		// Then we can load other things
-		//loadConcepts();
-		//loadRecommendations();
-		//loadConceptScores();
-		// Don't load or show scatterplot for now
-		//loadScatterplot();
 		loadConceptScatterplot();
+		loadTimeGraph();
 	});
 	// Go to simple view first
 	changeView("simple");

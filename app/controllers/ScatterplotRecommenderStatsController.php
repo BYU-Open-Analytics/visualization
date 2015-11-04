@@ -213,22 +213,15 @@ class ScatterplotRecommenderStatsController extends Controller
 			return;
 		}
 
-		$historyPoints = [];
-		// We want to show points (0 if no data for that day), for the past 2 weeks
-		//for ($i=14; $i>=1; $i--) {
-			//$formattedDate = date('M j', strtotime("-$i days"));
-			// Array to hold 6 scores
-			//$historyPoints[$formattedDate] = [$formattedDate, 0, 0, 0, 0, 0, 0];
-		//}
-			
+
 		$email = $context->getUserName();
 		// Fetch skill history items for the current student
 		$historyResults = MasteryHistory::find([
 			"email = '$email'",
 			"order" => 'time_stored ASC'
 		]);
-		// Go through each, and if it's in our historyPoints array, set the score.
-		// Doing it this way avoids duplicate data points (if historical skill saver ran twice in a day), or empty points, since all are initialized above
+
+		$historyPoints = [];
 		foreach ($historyResults as $day) {
 			// Scores are saved at 3am, so they actually correspond to the previous day
 			$formattedDate = date('M j', strtotime('-1 day', strtotime($day->time_stored)));
@@ -244,7 +237,7 @@ class ScatterplotRecommenderStatsController extends Controller
 		}
 		$output = fopen("php://output", "w");
 		// Header row
-		fputcsv($output, ["date", "unit3", "unit4"]);
+		fputcsv($output, ["date", "Unit 3", "Unit 4"]);
 		foreach ($historyPoints as $row) {
 			fputcsv($output, $row); // here you can change delimiter/enclosure
 		}
