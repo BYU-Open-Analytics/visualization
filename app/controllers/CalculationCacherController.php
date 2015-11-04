@@ -85,7 +85,7 @@ class CalculationCacherController extends Controller
 					"order" => "time_stored DESC"
 				]);
 			if (date("Y-m-d") == date("Y-m-d", strtotime($lastHistory->time_stored))) {
-				echo "History already saved today for $studentId";
+				echo "    History already saved today for $studentId\n";
 				continue;
 			}
 			$scores = [];
@@ -110,9 +110,7 @@ class CalculationCacherController extends Controller
 			if ($history->create() == false) {
 				echo "*** Error saving mastery history for $studentId\n";
 			} else {
-				//if ($debug) {
 					echo "    Successfully saved history for $studentId\n";
-				//}
 			}
 		}
 
