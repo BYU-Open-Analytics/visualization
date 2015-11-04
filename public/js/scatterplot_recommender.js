@@ -31,7 +31,6 @@ $("#relatedVideosModal").on("show.bs.modal", function(e) {
 
 	// Don't stall the UI waiting for all these to finish drawing
 	//setTimeout(updateVideoProgressCircles, 1);
-	refreshView();
 });
 
 // Returns videos for a given question
@@ -524,78 +523,6 @@ function setupBootstrapTooltips() {
 	});
 }
 
-// Sometimes we're just refreshing the current view, if we added advanced elements and need those to show/hide accordingly.
-function refreshView() {
-	changeView(currentView[0], currentView[1], true);
-}
-
-// Toggles on right of page to change what we're showing
-function changeView(optionName, optionValue, refreshOnly) {
-	currentView = [optionName, optionValue];
-
-	var h = "advancedHide";
-	var s = "advancedShow";
-	// Hide all advanced things first
-	$(".advancedSimple, .advancedMore, .advancedMoreClass, .advancedScatterplot, .advancedScatterplotClass, .advancedMasteryGraph, .advancedAll").removeClass(s).addClass(h);
-	switch (optionName) {
-		case "simple":
-			//console.log("Changing to simple view");
-			$(".advancedSimple").removeClass(h).addClass(s);
-			break;
-		case "more":
-			//console.log("Changing to more view");
-			if (optionValue == true) {
-				$(".advancedSimple, .advancedMore").removeClass(h).addClass(s);
-			} else {
-				$(".advancedSimple").removeClass(h).addClass(s);
-			}
-			// The More Class checkbox is dependent on this checkbox
-			$("#advancedToggleMoreClass").prop("disabled", !optionValue).prop("checked", false);
-			break;
-		case "scatterplot":
-			//console.log("Changing to scatterplot view");
-			$(".advancedScatterplot").removeClass(h).addClass(s);
-			// Have to manually do things in the svg chart
-			$("#scatterplotSection .classPoint").hide();
-			break;
-		case "masteryGraph":
-			//console.log("Changing to mastery graph view");
-			$(".advancedMasteryGraph").removeClass(h).addClass(s);
-			if (!refreshOnly) {
-				loadMasteryGraph();
-			}
-			animateMasteryGraph();
-			break;
-		case "all":
-			//console.log("Changing to all view");
-			$(".advancedAll").removeClass(h).addClass(s);
-			if (!refreshOnly) {
-				loadAllRecommendations();
-			}
-			break;
-		case "moreClass":
-			if (optionValue == true) {
-				//console.log("Changing to more + class compare view");
-				$(".advancedSimple, .advancedMore, .advancedMoreClass").removeClass(h).addClass(s);
-			} else {
-				//console.log("Changing to more view");
-				$(".advancedSimple, .advancedMore").removeClass(h).addClass(s);
-			}
-			break;
-		case "scatterplotClass":
-			if (optionValue == true) {
-				//console.log("Changing to scatterplot + class compare view");
-				$(".advancedScatterplot, .advancedScatterplotClass").removeClass(h).addClass(s);
-				$("#scatterplotSection .classPoint").fadeIn();
-			} else {
-				//console.log("Changing to scatterplot view");
-				$(".advancedScatterplot").removeClass(h).addClass(s);
-				$("#scatterplotSection .classPoint").fadeOut();
-			}
-			break;
-	}
-}
-
 // Called for basically every click interaction. Sends an xAPI statement with the given verb and object
 // verbName is often "clicked". objectName should be string with no spaces, e.g. "viewSettingMasteryGraph"
 function track(verbName, objectName) {
@@ -643,22 +570,33 @@ $(function() {
 		track("clicked", $('#recommendSection .tab-pane.active').attr("id") + "Section");
 		$(window).trigger('resize.stickyTableHeaders');
 	});
-	$(".advancedToggle").click(function() {
+	// Top navigation pills
+	$("[href=#scatterplot]").click(function() {
+		$("#recommendSectionHolder, #scatterplotSection").show();
+		$("#timeGraphSection").hide();
 		// Deselect other options
-		$(".advancedToggleLi").removeClass("active");
-		$(".advancedToggleOptional").prop("checked", false);
+		$("#pillNavigation li").removeClass("active");
 		// Select this option
-		$(this).parent(".advancedToggleLi").addClass("active");
+		$(this).parent("li").addClass("active");
 		changeView($(this).attr("data-option"));
 		track("clicked","viewSetting"+$(this).attr("data-option"));
 		return false;
 	});
-	$(".advancedToggleOptional").change(function(event) {
-		changeView($(this).attr("data-option"), this.checked);
+	$("[href=#timeGraph]").click(function() {
+		$("#recommendSectionHolder, #scatterplotSection").hide();
+		$("#timeGraphSection").show();
+		// Deselect other options
+		$("#pillNavigation li").removeClass("active");
+		// Select this option
+		$(this).parent("li").addClass("active");
+		changeView($(this).attr("data-option"));
 		track("clicked","viewSetting"+$(this).attr("data-option"));
-		event.stopPropagation();
-		event.preventDefault();
+		return false;
 	});
+
+	// Hide time graph by default
+	$("#timeGraphSection").hide();
+
 	// Set up bootstrap tooltips
 	setupBootstrapTooltips();
 
