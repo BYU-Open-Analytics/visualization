@@ -73,8 +73,8 @@ class CalculationCacherController extends Controller
 		$debug = false;
 		$classHelper = new ClassHelper();
 		$masteryHelper = new MasteryHelper();
-		//$studentIds = $classHelper->allStudents();
-		$studentIds = ["John Logie Baird"];
+		$studentIds = $classHelper->allStudents();
+		//$studentIds = ["John Logie Baird"];
 		
 		$units = ["3", "4"];
 		// Go through each student and calculate unit mastery scores
