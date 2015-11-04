@@ -73,12 +73,21 @@ class CalculationCacherController extends Controller
 		$debug = false;
 		$classHelper = new ClassHelper();
 		$masteryHelper = new MasteryHelper();
-		$studentIds = $classHelper->allStudents();
-		//$studentIds = ["John Logie Baird"];
+		//$studentIds = $classHelper->allStudents();
+		$studentIds = ["John Logie Baird"];
 		
 		$units = ["3", "4"];
 		// Go through each student and calculate unit mastery scores
 		foreach ($studentIds as $studentId) {
+			// See if we've already scored mastery scores for this student on the current day (this script just runs multiple times, until a better method to get around 60 second execution time limit is devised)
+			$lastHistory = MasteryHistory::findFirst([
+					"email = '$studentId'",
+					"order" => "time_stored DESC"
+				]);
+			if (date("Y-m-d") == date("Y-m-d", strtotime($lastHistory->time_stored))) {
+				echo "History already saved today for $studentId";
+				continue;
+			}
 			$scores = [];
 			foreach ($units as $unit) {
 				$concepts = MappingHelper::conceptsInChapters(MappingHelper::chaptersInUnit($unit));
@@ -101,9 +110,9 @@ class CalculationCacherController extends Controller
 			if ($history->create() == false) {
 				echo "*** Error saving mastery history for $studentId\n";
 			} else {
-				if ($debug) {
+				//if ($debug) {
 					echo "    Successfully saved history for $studentId\n";
-				}
+				//}
 			}
 		}
 
