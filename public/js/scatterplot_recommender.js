@@ -483,8 +483,8 @@ function loadTimeGraph() {
 				type: 'category'
 			},
 			y: {
-				max: 10,
-				min: 0
+				max: 9.99,
+				min: 0.01
 			}
 		}
 	});
