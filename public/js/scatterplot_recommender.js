@@ -109,7 +109,6 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 				.data(data["group"+i])
 				.enter()
 				.append("tr")
-				.attr("class", "advancedSimple")
 				.html(function(d) { return questionElement(d); });
 			$("#recommend"+i+"List").prepend($("#templates .recommendHeaderTemplate").clone());
 			$("#recommend"+i+"CountBadge").text(data["group"+i].length);
@@ -578,7 +577,6 @@ $(function() {
 		$("#pillNavigation li").removeClass("active");
 		// Select this option
 		$(this).parent("li").addClass("active");
-		changeView($(this).attr("data-option"));
 		track("clicked","viewSetting"+$(this).attr("data-option"));
 		return false;
 	});
@@ -589,7 +587,6 @@ $(function() {
 		$("#pillNavigation li").removeClass("active");
 		// Select this option
 		$(this).parent("li").addClass("active");
-		changeView($(this).attr("data-option"));
 		track("clicked","viewSetting"+$(this).attr("data-option"));
 		return false;
 	});
@@ -626,6 +623,4 @@ $(function() {
 		loadConceptScatterplot();
 		loadTimeGraph();
 	});
-	// Go to simple view first
-	changeView("simple");
 });
