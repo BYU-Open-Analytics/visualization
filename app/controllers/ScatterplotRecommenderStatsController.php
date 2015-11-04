@@ -203,6 +203,53 @@ class ScatterplotRecommenderStatsController extends Controller
 		echo json_encode($result);
 	}
 
+	// Mastery over time
+	public function time_graphAction($debug = false) {
+		$this->view->disable();
+		// Get our context (this takes care of starting the session, too)
+		$context = $this->getDI()->getShared('ltiContext');
+		if (!$context->valid) {
+			echo '[{"error":"Invalid lti context"}]';
+			return;
+		}
+
+		$historyPoints = [];
+		// We want to show points (0 if no data for that day), for the past 2 weeks
+		//for ($i=14; $i>=1; $i--) {
+			//$formattedDate = date('M j', strtotime("-$i days"));
+			// Array to hold 6 scores
+			//$historyPoints[$formattedDate] = [$formattedDate, 0, 0, 0, 0, 0, 0];
+		//}
+			
+		$email = $context->getUserName();
+		// Fetch skill history items for the current student
+		$historyResults = MasteryHistory::find([
+			"email = '$email'",
+			"order" => 'time_stored ASC'
+		]);
+		// Go through each, and if it's in our historyPoints array, set the score.
+		// Doing it this way avoids duplicate data points (if historical skill saver ran twice in a day), or empty points, since all are initialized above
+		foreach ($historyResults as $day) {
+			// Scores are saved at 3am, so they actually correspond to the previous day
+			$formattedDate = date('M j', strtotime('-1 day', strtotime($day->time_stored)));
+			$historyPoints []= [$formattedDate, $day->unit3, $day->unit4];
+		}
+		if ($debug) {
+			print_r($historyPoints);
+		}
+
+		// Output data as csv so that we only have to send header information once
+		if (!$debug) {
+			header("Content-Type: text/csv");
+		}
+		$output = fopen("php://output", "w");
+		// Header row
+		fputcsv($output, ["date", "unit3", "unit4"]);
+		foreach ($historyPoints as $row) {
+			fputcsv($output, $row); // here you can change delimiter/enclosure
+		}
+		fclose($output);
+	}
 }
 
 
