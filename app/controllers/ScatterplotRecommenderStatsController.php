@@ -225,7 +225,7 @@ class ScatterplotRecommenderStatsController extends Controller
 		foreach ($historyResults as $day) {
 			// Scores are saved at 3am, so they actually correspond to the previous day
 			$formattedDate = date('M j', strtotime('-1 day', strtotime($day->time_stored)));
-			$historyPoints []= [$formattedDate, $day->unit3, $day->unit4];
+			$historyPoints []= [$formattedDate, round($day->unit3 * 100) / 100, round($day->unit4 * 100) / 100];
 		}
 		if ($debug) {
 			print_r($historyPoints);
