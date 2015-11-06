@@ -310,7 +310,9 @@ if ( $context->valid ) {
 <?php
 echo Phalcon\Tag::javascriptInclude("js/vendor/d3-radar.js");
 echo Phalcon\Tag::javascriptInclude("js/student_skills.js");
+echo Phalcon\Tag::javascriptInclude("js/vendor/c3.min.js");
 echo Phalcon\Tag::stylesheetLink("css/student_skills.css");
+echo Phalcon\Tag::stylesheetLink("css/c3.min.css");
 
 } else {
 	echo "<p class='alert alert-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";

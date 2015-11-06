@@ -39,16 +39,12 @@ class StudentSkillsStatsController extends Controller
 		echo json_encode($stats);
 	}
 
-	public function time_graphAction($skill = "", $debug = false) {
+	public function time_graphAction($debug = false) {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
 		if (!$context->valid) {
 			echo '[{"error":"Invalid lti context"}]';
-			return;
-		}
-		if (empty($skill)) {
-			echo '[{"error":"No skill specified"}]';
 			return;
 		}
 
@@ -106,6 +102,8 @@ class StudentSkillsStatsController extends Controller
 		$output = fopen("php://output", "w");
 		// Header row
 		fputcsv($output, ["date", "time", "activity", "consistency", "awareness", "deepLearning", "persistence"]);
+		// Change to this when new time graph is implemented
+		//fputcsv($output, ["date", "Time Management", "Online Activity", "Consistency", "Knowledge Awareness", "Deep Learning", "Persistence"]);
 		foreach ($historyPoints as $row) {
 			fputcsv($output, $row); // here you can change delimiter/enclosure
 		}

@@ -120,6 +120,44 @@ function loadSkillsGraph(data) {
 	refreshView();
 }
 
+function loadNewTimeGraph() {
+	timeGraph = c3.generate({
+		bindto: "#timeGraph",
+		data: {
+			x : 'date',
+			url: '../student_skills_stats/time_graph',
+			//groups: [
+				//['Unit 3', 'Unit 4']
+			//],
+			type: 'line'
+		},
+		axis: {
+			x: {
+				type: 'category'
+			},
+			y: {
+				max: 9.99,
+				min: 0.01
+			}
+		}
+	});
+	setTimeout(function() { $("#timeGraphContainer .spinner").hide(); }, 2000);
+}
+
+function showClassOnTimeGraph(visible) {
+	if (visible) {
+		timeGraph.load({
+			columns: [
+				["Class Median", 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
+				]
+		});
+	} else {
+		timeGraph.unload({
+			ids: "Class Median"
+		});
+	}
+}
+
 function loadTimeGraph(skillId) {
 	// Default skill is time management
 	skillId = skillId != null ? skillId : "time";
@@ -156,7 +194,7 @@ function loadTimeGraph(skillId) {
 	  .append("g")
 	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-	d3.csv("../student_skills_stats/time_graph/" + skillId, function(error, data) {
+	d3.csv("../student_skills_stats/time_graph", function(error, data) {
 
 	  // Hide the loading spinner
 	  $("#timeGraphSection .spinner").hide();
@@ -404,6 +442,8 @@ $(function() {
 		loadSkillsGraph(data);
 	});
 	loadTimeGraph();
+	// Change to this when approved
+	//loadNewTimeGraph();
 
 	// Go to the skills graph first
 	changeView("skillsGraph");

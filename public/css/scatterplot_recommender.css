@@ -260,6 +260,14 @@ td {
 	/*background: lime!important;*/
 }
 
+#pillNavigation li {
+	transition: all 100ms ease-out;
+	margin-right: 5px;
+}
+#pillNavigation li.active {
+	transform: scale(1.05);
+}
+
 /* Get rid of some extra padding to make the page fit vertically without scrolling, at least for 800px screen height */
 body {
 	padding-bottom: 5px!important;
