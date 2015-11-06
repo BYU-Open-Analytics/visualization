@@ -347,4 +347,80 @@ class MasteryHelper extends Module {
 		$percentage = ($totalVideoTime != 0) ? ($totalVideoTimeWatched / $totalVideoTime) : 0;
 		return round($percentage * 100);
 	}
+
+
+
+	// Calculates the percentage (0-100) of unique video time watched for all videos associated with a given concept ID
+	public static function calculateUniqueVideoPercentageForConcept($studentId, $conceptId, $debug = false) {
+		// Length of each statement in video seconds
+		$watchedStatementLength = 10;
+		// Find the videos related to this concept
+		$relatedVideos = MappingHelper::videosForConcept($conceptId);
+		$possibleWatchedStatementCount = 0;
+		$userWatchedStatementCount = 0;
+		$videoIds = array();
+
+		foreach ($relatedVideos as $video) {
+			// Length of video divided by 10 rounded down will be the total number of possible unique watched statements for that video
+			$possibleWatchedStatementCount += floor($video["length"] / $watchedStatementLength);
+			// Add its ID to a list that we'll fetch watched statements for
+			$videoIds []= 'https://ayamel.byu.edu/content/'.$video["Video ID"];
+		}
+
+		// Calculate how much time these videos were watched
+		// This is more efficient by using an $in query for all videos, rather than querying for each individual video as previously done
+		$statementHelper = new StatementHelper();
+		$statements = $statementHelper->getStatements("ayamel",[
+			'statement.actor.name' => $studentId,
+			'statement.verb.id' => 'https://ayamel.byu.edu/watched',
+			'statement.object.id' => array('$in' => $videoIds),
+		], [
+			'statement.object.id' => true,
+			'statement.object.definition.extensions' => true,
+		]);
+		if ($statements["error"]) {
+			$userWatchedStatementCount = 0;
+			if ($debug) {
+				echo "Error in fetching watched statements for concept $conceptId and videos: \n";
+				print_r($videoIds);
+			}
+		} else {
+			// We need to track unique statements, so student can't get 100% video watched by watching the first half twice
+			$videoTrackers = [];
+
+			$watchStatementCount = $statements["cursor"]->count();
+			foreach ($statements["cursor"] as $statement) {
+				// We need to get rid of encoded "."s in extension names
+				$statement = StatementHelper::replaceHtmlEntity($statement["statement"], true);
+				// Set a flag for each rounded timestamp for each video
+				$videoId = $statement["object"]["id"];
+				$roundedTime = round($statement["object"]["definition"]["extensions"]["https://ayamel.byu.edu/playerTime"] / $watchedStatementLength);
+				if (!isset($videoTrackers[$videoId])) {
+					$videoTrackers[$videoId] = [];
+				}
+				// See if a statement with the same rounded timestamp was already tracked
+				if (isset($videoTrackers[$videoId][$roundedTime]) && $videoTrackers[$videoId][$roundedTime] == true) {
+					$isUnique = false;
+				} else {
+					$isUnique = true;
+					$userWatchedStatementCount++;
+					// Track this statement
+					$videoTrackers[$videoId][$roundedTime] = true;
+				}
+
+				if ($debug) {
+					print_r($statement);
+					echo "Video id: $videoId, rounded time: $roundedTime, unique: $isUnique \n<hr>";
+				}
+			}
+		}
+
+		if ($debug) {
+			echo "Videos for concept $conceptId : $userWatchedStatementCount unique watched statements out of $possibleWatchedStatementCount possible for the following videos: \n";
+			print_r($videoIds);
+		}
+		// Return percentage (0-100) of videos watched, avoiding division by 0
+		$percentage = ($possibleWatchedStatementCount != 0) ? ($userWatchedStatementCount / $possibleWatchedStatementCount) : 0;
+		return round($percentage * 100);
+	}
 }

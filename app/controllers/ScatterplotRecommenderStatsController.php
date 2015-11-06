@@ -71,7 +71,7 @@ class ScatterplotRecommenderStatsController extends Controller
 				$question["correctAttempts"] = MasteryHelper::countCorrectAttemptsForQuestion($context->getUserName(), $question["assessmentId"], $question["questionNumber"], $debug);
 				// Get amount of associated videos watched
 				// Note that question ID is being used instead of assessment ID and question number, since we're searching the csv mapping and not dealing with assessment statements here
-				$question["videoPercentage"] = MasteryHelper::calculateVideoPercentageForQuestion($context->getUserName(), $questionId);
+				$question["videoPercentage"] = MasteryHelper::calculateUniqueVideoPercentageForQuestion($context->getUserName(), $questionId);
 				// Variables used in the display table
 				// This is one place where we're just using correct, not better correct, attempts
 				$question["correct"] = $question["correctAttempts"]["correct"] > 0;
@@ -190,7 +190,7 @@ class ScatterplotRecommenderStatsController extends Controller
 		$masteryHelper = new MasteryHelper();
 		foreach ($concepts as $c) {
 			$score = $masteryHelper::calculateConceptMasteryScore($context->getUserName(), $c["Section Number"], $debug);
-			$videoPercentage = $masteryHelper::calculateVideoPercentageForConcept($context->getUserName(), $c["Section Number"], $debug);
+			$videoPercentage = $masteryHelper::calculateUniqueVideoPercentageForConcept($context->getUserName(), $c["Section Number"], $debug);
 			if ($debug) { echo "Concept mapping info\n"; print_r($c); }
 			$result []= [
 				"id" => $c["Section Number"],

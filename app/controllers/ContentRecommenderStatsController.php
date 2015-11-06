@@ -71,7 +71,7 @@ class ContentRecommenderStatsController extends Controller
 				$question["correctAttempts"] = MasteryHelper::countCorrectAttemptsForQuestion($context->getUserName(), $question["assessmentId"], $question["questionNumber"], $debug);
 				// Get amount of associated videos watched
 				// Note that question ID is being used instead of assessment ID and question number, since we're searching the csv mapping and not dealing with assessment statements here
-				$question["videoPercentage"] = MasteryHelper::calculateVideoPercentageForQuestion($context->getUserName(), $questionId);
+				$question["videoPercentage"] = MasteryHelper::calculateUniqueVideoPercentageForQuestion($context->getUserName(), $questionId);
 				// Variables used in the display table
 				// This is one place where we're just using correct, not better correct, attempts
 				$question["correct"] = $question["correctAttempts"]["correct"] > 0;

@@ -72,4 +72,12 @@ class TestController extends Controller
 		print_r(MappingHelper::videosForConcept("2.1"));
 	}
 
+	public function newVideoAction() {
+		$context = $this->getDI()->getShared('ltiContext');
+		echo "<pre>";
+		echo "Calculating video percentage for concept 6.2\n";
+		$masteryHelper = new MasteryHelper();
+		echo $masteryHelper::calculateUniqueVideoPercentageForConcept($context->getUserName(), "6.2", true);
+	}
+
 }
