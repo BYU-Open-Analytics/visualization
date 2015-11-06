@@ -421,6 +421,7 @@ class MasteryHelper extends Module {
 		}
 		// Return percentage (0-100) of videos watched, avoiding division by 0
 		$percentage = ($possibleWatchedStatementCount != 0) ? ($userWatchedStatementCount / $possibleWatchedStatementCount) : 0;
-		return round($percentage * 100);
+		$percentage = round($percentage * 100);
+		return min($percentage, 100);
 	}
 }
