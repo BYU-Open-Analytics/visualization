@@ -5,12 +5,25 @@ use Phalcon\Mvc\Controller;
 class InfoController extends Controller
 {
 	public function controlAction() {
-		$this->tag->setTitle('Consent Required');
+		$this->tag->setTitle('Check Back Later');
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
 		$this->view->ltiContext = $context;
 		$this->view->userAuthorized = $context->valid;
 		$this->view->consentEmail = $this->getDI()->getShared('config')->consent_email;
+
+		// Figure out the date that the student will be able to access the dashboard
+		$current = Date('Y-m-d');
+		$period1Start = Date('Y-m-d', strtotime("October 22"));
+		$period2Start = Date('Y-m-d', strtotime("November 14"));
+		$period3Start = Date('Y-m-d', strtotime("December 5"));
+		if ($current >= $period2Start) {
+			// Period 2
+			$this->view->accessDate = "December&nbsp;5th";
+		} else {
+			// Period 1
+			$this->view->accessDate = "November&nbsp;14th";
+		}
 
 		// Send a statement tracking that they viewed this page
 		$statementHelper = new StatementHelper();
@@ -26,7 +39,7 @@ class InfoController extends Controller
 		}
 	}
 	public function consentAction() {
-		$this->tag->setTitle('Check Back Later');
+		$this->tag->setTitle('Consent Required');
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
 		$this->view->ltiContext = $context;
