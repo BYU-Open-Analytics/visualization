@@ -145,7 +145,8 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 
 // Called when a concept point in the scatterplot is clicked
 function showPointConceptRecommendations(d) {
-	console.log(d);
+	// Track that the student clicked this
+	track("clicked","conceptPoint"+d.id);
 	// Hide low concepts list
 	$("#lowConceptBox").popover("hide");
 	// Deselect any concept in the low concepts list
@@ -162,6 +163,8 @@ function showPointConceptRecommendations(d) {
 // Called when a concept from the low concepts list is clicked
 function showLowConceptRecommendations(e) {
 	console.log($(this).attr("data-concept"));
+	// Track that the student clicked this
+	track("clicked","conceptPoint"+$(this).attr("data-concept"));
 	// Deslect other points, and select this one and move it to the front of the view hierarchy
 	$(".selectedConceptPoint").attr("class", "conceptPoint");
 	// Deselect any other concept in the low concepts list
@@ -342,6 +345,7 @@ function loadConceptScatterplot() {
 			box.append("rect")
 				.attr("data-toggle", "tooltip")
 				.attr("data-placement", "top")
+				.attr("data-track", "unattemptedConceptsBox")
 				.attr("title", "Click to see unattempted concepts")
 				.attr("width", "40px")
 				.attr("height", "40px")
