@@ -477,10 +477,12 @@ function loadTimeGraph() {
 	var timeGraph = c3.generate({
 		bindto: "#timeGraph",
 		data: {
-			x : 'date',
-			url: '../scatterplot_recommender_stats/time_graph',
+			x: 'date',
 			groups: [
 				['Unit 3', 'Unit 4']
+			],
+			columns: [
+				["date", "Unit 3", "Unit 4"],
 			],
 			type: 'line'
 		},
@@ -494,7 +496,28 @@ function loadTimeGraph() {
 			}
 		}
 	});
-	setTimeout(function() { $("#timeGraphSection .spinner").hide(); }, 2000);
+
+	// Have to load the data separately so we can get a callback to hide the loading spinner
+	timeGraph.load(
+		{
+			x : 'date',
+			url: '../scatterplot_recommender_stats/time_graph',
+			groups: [
+				['Unit 3', 'Unit 4']
+			],
+			type: 'line',
+			done: function() {
+				// Hide the spinner
+				$("#timeGraphSection .spinner").hide();
+				// Track legend interactions
+				d3.selectAll("#timeGraph .c3-legend-item-event")
+					.on("click", function(d) {
+						track("clicked", "timeGraphToggle" + d.replace(/\s+/, ""));
+					});
+			}
+		}
+	);
+
 }
 
 // Called when send feedback button is clicked. Feedback is recorded in dashboard database
