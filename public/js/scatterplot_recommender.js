@@ -1,5 +1,7 @@
 // Related videos modal
 $("#relatedVideosModal").on("show.bs.modal", function(e) {
+	// Hide low concepts list (it appears over this modal's backdrop and looks bad)
+	$("#lowConceptBox").popover("hide");
 	//$(this).find(".modal-body").html('<table class="table" id="relatedVideosModalTable"><tbody></tbody></table>');
 	var data = getRelatedVideos($(e.relatedTarget).attr("data-assessment"), $(e.relatedTarget).attr("data-question"));
 	$("#relatedVideosModalTable tbody").empty();
@@ -507,6 +509,12 @@ function sendFeedback() {
 	});
 }
 
+// When feedback modal is shown
+$("#feedbackModal").on("show.bs.modal", function(e) {
+	// Hide low concepts list (it appears over this modal's backdrop and looks bad)
+	$("#lowConceptBox").popover("hide");
+});
+
 // Set up sticky headers for the recommendation tables
 function setupStickyHeaders() {
 	$('table').stickyTableHeaders('destroy');
@@ -581,6 +589,8 @@ $(function() {
 		return false;
 	});
 	$("[href=#timeGraph]").click(function() {
+		// Hide low concepts list
+		$("#lowConceptBox").popover("hide");
 		$("#recommendSectionHolder, #scatterplotSection").hide();
 		$("#timeGraphSection").show();
 		// Deselect other options
@@ -596,10 +606,6 @@ $(function() {
 
 	// Set up bootstrap tooltips
 	setupBootstrapTooltips();
-
-	//$( "#recommendAccordion" ).accordion({
-      //heightStyle: "fill"
-    //});
 
 	// Set up event listener for links that we want to track
 	$(document).on("click", "[data-track]", function() {
