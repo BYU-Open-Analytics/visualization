@@ -341,6 +341,7 @@ function loadConceptScatterplot() {
 				.attr("transform", "translate(-20, " + (yScale(yMin) - 20) + ")");
 			box.append("rect")
 				.attr("data-toggle", "tooltip")
+				.attr("data-placement", "top")
 				.attr("title", "Click to see unattempted concepts")
 				.attr("width", "40px")
 				.attr("height", "40px")
