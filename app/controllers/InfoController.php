@@ -59,4 +59,7 @@ class InfoController extends Controller
 			$statementHelper->sendStatements("visualization", [$statement]);
 		}
 	}
+	public function privacyAction() {
+		$this->tag->setTitle("Privacy Policy");
+	}
 }
