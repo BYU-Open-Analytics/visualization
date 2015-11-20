@@ -44,6 +44,9 @@ $context = new BLTI($config["lti"]["launch"], true, false);
 <html>
 <head>
   <title>Tool Launch</title>
+  <style type="text/css">
+    #displayText { display: none; }
+  </style>
 </head>
 <body style="font-family:sans-serif">
 <?php
