@@ -7,7 +7,13 @@ require_once '../app/library/ims_lti/blti.php';
 $config = require('../app/config/config.php');
 $context = new BLTI($config["lti"]["launch"], true, true);
 if ( $context->valid ) {
-	Header("Location: ./");
+	// If a dashboard is specified, go specifically to that one.
+	if (isset($_GET["dashboard"])) {
+		Header("Location: ./dashboard/".$_GET["dashboard"]);
+	} else {
+		// Otherwise go to the index page, which will determine the dashboard to load based on the research groups
+		Header("Location: ./");
+	}
 }
 ?>
 <html>
