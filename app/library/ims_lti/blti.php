@@ -222,7 +222,7 @@ class BLTI {
     }
 
     function getUserShortName() {
-        $email = isset($this->getUserEmail()) ? $this->getUserEmail() : "";
+        $email = $this->getUserEmail();
         $givenname = isset($this->info['lis_person_name_given']) ? $this->info['lis_person_name_given'] : "";
         $familyname = isset($this->info['lis_person_name_family']) ? $this->info['lis_person_name_family'] : "";
         $fullname = isset($this->info['lis_person_name_full']) ? $this->info['lis_person_name_full'] : "";
