@@ -222,10 +222,10 @@ class BLTI {
     }
 
     function getUserShortName() {
-        $email = $this->getUserEmail();
-        $givenname = $this->info['lis_person_name_given'];
-        $familyname = $this->info['lis_person_name_family'];
-        $fullname = $this->info['lis_person_name_full'];
+        $email = isset($this->getUserEmail()) ? $this->getUserEmail() : "";
+        $givenname = isset($this->info['lis_person_name_given']) ? $this->info['lis_person_name_given'] : "";
+        $familyname = isset($this->info['lis_person_name_family']) ? $this->info['lis_person_name_family'] : "";
+        $fullname = isset($this->info['lis_person_name_full']) ? $this->info['lis_person_name_full'] : "";
         if ( strlen($email) > 0 ) return $email;
         if ( strlen($givenname) > 0 ) return $givenname;
         if ( strlen($familyname) > 0 ) return $familyname;
@@ -233,9 +233,9 @@ class BLTI {
     }
   
     function getUserName() {
-        $givenname = $this->info['lis_person_name_given'];
-        $familyname = $this->info['lis_person_name_family'];
-        $fullname = $this->info['lis_person_name_full'];
+        $givenname = isset($this->info['lis_person_name_given']) ? $this->info['lis_person_name_given'] : "";
+        $familyname = isset($this->info['lis_person_name_family']) ? $this->info['lis_person_name_family'] : "";
+        $fullname = isset($this->info['lis_person_name_full']) ? $this->info['lis_person_name_full'] : "";
         if ( strlen($fullname) > 0 ) return $fullname;
         if ( strlen($familyname) > 0 and strlen($givenname) > 0 ) return $givenname + $familyname;
         if ( strlen($givenname) > 0 ) return $givenname;
