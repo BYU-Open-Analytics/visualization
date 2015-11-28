@@ -78,8 +78,8 @@ class IndexController extends Controller
 		} else if ($_SESSION["group"] == "recommender") {
 			$this->response->redirect("./dashboard/content_recommender");
 		} else {
-			// TODO redirect to menu choice for both?
-			$this->response->redirect("./dashboard/content_recommender");
+			// Redirect to menu choice for both
+			$this->response->redirect("./dashboard/select");
 		}
 	}
 }

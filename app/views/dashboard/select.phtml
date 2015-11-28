@@ -1,0 +1,30 @@
+<?php
+if ( $context->valid ) {
+?>
+
+<div class="container center">
+	<div class="row">
+		<div class="dashboardOption">
+			<?php echo Phalcon\Tag::linkTo(array("dashboard/content_recommender", $this->tag->image("img/content_recommender.png"))); ?>
+			<hr>
+			<p class="lead">
+				View recommendations about which videos and quizzes you should review.
+			</p>
+			<?php echo Phalcon\Tag::linkTo(array("dashboard/content_recommender", "Launch Content Recommender", "class" => "btn btn-primary")); ?>
+		</div>
+		<div class="dashboardOption">
+			<?php echo Phalcon\Tag::linkTo(array("dashboard/student_skills", $this->tag->image("img/student_skills.png"))); ?>
+			<hr>
+			<p class="lead">
+				View recommendations about which student skills you should improve.
+			</p>
+			<?php echo Phalcon\Tag::linkTo(array("dashboard/student_skills", "Launch Student Skills", "class" => "btn btn-primary")); ?>
+		</div>
+	</div>
+</div>
+
+<?php
+echo Phalcon\Tag::javascriptInclude("js/dashboard.js");
+} else {
+	echo "<p class='alert alert-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";
+}

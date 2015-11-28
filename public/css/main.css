@@ -26,6 +26,35 @@
 	background-color: #ddd;
 }
 
+/* Dashboard Selector */
+.dashboardOption {
+	width: 326px;
+	border: solid #ccc 1px;
+	border-radius: 10px;
+	padding: 13px;
+	float: left;
+	margin: 10px;
+}
+
+.dashboardOption p {
+	margin-bottom: 10px!important;
+}
+
+.dashboardOption .btn-primary {
+	width: 100%;
+}
+
+@media (max-width: 768px) {
+	.dashboardOption {
+		width: 216px;
+	}
+	.dashboardOption img {
+		width: 150px;
+		height: auto;
+	}
+}
+
+
 /* Dashboard */
 .visualization {
 	border: solid gray 1px;
