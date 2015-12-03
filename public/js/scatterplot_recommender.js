@@ -377,7 +377,7 @@ function loadConceptScatterplot() {
 				}
 			}).click(function(e) {
 				$(this).popover('show');
-				$('.popover-title').html('Unattempted Concepts <button type="button" onclick="$(\'#lowConceptBox\').popover(\'hide\');" class="close">&times;</button>');
+				$('.popover-title').html('Unattempted Concepts <button type="button" onclick="$(\'#lowConceptBox\').popover(\'hide\');" class="close" style="margin-top: -4px;">&times;</button>');
 				clickedAway = false
 				isVisible = true
 				e.preventDefault()
