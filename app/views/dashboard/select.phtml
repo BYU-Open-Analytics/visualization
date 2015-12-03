@@ -20,6 +20,14 @@ if ( $context->valid ) {
 			</p>
 			<?php echo Phalcon\Tag::linkTo(array("dashboard/student_skills", "Launch Student Skills", "class" => "btn btn-primary")); ?>
 		</div>
+		<div class="dashboardOption">
+			<?php echo Phalcon\Tag::linkTo(array("dashboard/scatterplot_recommender", $this->tag->image("img/scatterplot_recommender.png"))); ?>
+			<hr>
+			<p class="lead">
+				View recommendations about which videos and quizzes you should review. (Beta test) 
+			</p>
+			<?php echo Phalcon\Tag::linkTo(array("dashboard/scatterplot_recommender", "Launch Beta Content Recommender", "class" => "btn btn-primary")); ?>
+		</div>
 	</div>
 </div>
 

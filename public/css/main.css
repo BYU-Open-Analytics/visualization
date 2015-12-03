@@ -47,6 +47,7 @@
 @media (max-width: 768px) {
 	.dashboardOption {
 		width: 216px;
+		margin-left: 50px;
 	}
 	.dashboardOption img {
 		width: 150px;
