@@ -99,7 +99,16 @@ class DashboardController extends Controller
 		$this->view->pageTitle ='Dashboard Selection';
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
-		$this->view->context = $context;
-		$this->view->feedbackEmail = $this->getDI()->getShared('config')->feedback_email;
+		// Send a statement tracking that they viewed this page
+		$statementHelper = new StatementHelper();
+		$statement = $statementHelper->buildStatement([
+			"statementName" => "dashboardLaunched",
+			"dashboardID" => "dashboard_select",
+			"dashboardName" => "Dashboard Selector",
+			"verbName" => "launched",
+		], $context);
+		if ($statement) {
+			$statementHelper->sendStatements("visualization", [$statement]);
+		}
 	}
 }
