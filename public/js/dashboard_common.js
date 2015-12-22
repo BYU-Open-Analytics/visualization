@@ -1,3 +1,8 @@
+// Highlight current page in navbar
+$(function() {
+	$('nav a[href^="' + location.pathname + '"]').parent().addClass('active');
+});
+
 function sendStatement(params) {
 	params.timestamp = new Date().toISOString();
 	// TODO absolute url ref fix
