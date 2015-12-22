@@ -94,6 +94,12 @@ class DashboardController extends Controller
 		$this->view->feedbackEmail = $this->getDI()->getShared('config')->feedback_email;
 	}
 
+	public function resourcesAction() {
+		$this->tag->setTitle('Course Resources');
+		$this->view->pageTitle ='Course Resources';
+		// Get our context (this takes care of starting the session, too)
+		$context = $this->getDI()->getShared('ltiContext');
+	}
 	public function selectAction() {
 		$this->tag->setTitle('Dashboard Selection');
 		$this->view->pageTitle ='Dashboard Selection';

@@ -1,0 +1,16 @@
+<?php
+if ( $context->valid ) {
+?>
+
+<div class="container center">
+	<div class="row">
+		<h2>Course Resources</h2>
+		<hr>
+		<p class="lead">Under construction.</p>
+	</div>
+</div>
+
+<?php
+} else {
+	echo "<p class='alert alert-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";
+}
