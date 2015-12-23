@@ -197,6 +197,17 @@ table.advancedShow tr td, tr.advancedShow td, td.advancedShow {
 	display: table-cell;
 }*/
 
+/* Resource lists */
+.resource-list li a {
+	display: block;
+	width: 100%;
+}
+.resource-list span.glyphicon {
+	float: left;
+	display: block;
+	width: 30px;
+}
+
 /* Footer */
 footer {
 	margin-left: 3em;

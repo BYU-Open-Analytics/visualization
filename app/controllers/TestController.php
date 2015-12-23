@@ -70,6 +70,8 @@ class TestController extends Controller
 		print_r(MappingHelper::questionInformation("3.8"));
 		echo "<hr>Videos for concept 2.1\n";
 		print_r(MappingHelper::videosForConcept("2.1"));
+		echo "<hr>Resources for concept 1.5\n";
+		print_r(MappingHelper::resourcesForConcept("1.5"));
 	}
 
 	public function newVideoAction() {

@@ -102,11 +102,15 @@ class DashboardController extends Controller
 		// Get list of conceptes (quizzes)
 		$conceptsMapping = MappingHelper::conceptsInChapters(MappingHelper::allChapters());
 		$concepts = [];
-		// Make each hierarchical content category have consistent structure for view
+		$resources = [];
 		foreach ($conceptsMapping as $c) {
 			$concepts [] = ["id" => $c["Section Number"], "title" => $c["Section Number"] . " " . $c["Section Title"]];
+			$conceptId = $c["Section Number"];
+			// Get resources for each of the concepts
+			$resources[$conceptId] = MappingHelper::resourcesForConcept($conceptId);
 		}
 		$this->view->concepts = $concepts;
+		$this->view->resources = $resources;
 	}
 	public function selectAction() {
 		$this->tag->setTitle('Dashboard Selection');

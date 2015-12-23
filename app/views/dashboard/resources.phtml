@@ -7,7 +7,22 @@ if ( $context->valid ) {
 		<hr>
 		<?php
 		foreach ($concepts as $concept) {
+			// Print title for each concept
 			echo "<h3 name=\"{$concept['id']}\" id=\"section{$concept['id']}\">{$concept['title']}</h3>";
+			echo '<ul class="list-group resource-list">';
+			// Print each resource for this concept
+			foreach ($resources[$concept["id"]] as $resource) {
+				echo "<li class=\"list-group-item resource-{$resource["Type"]}\">";
+				if ($resource["Type"] == "web") {
+					echo '<span class="glyphicon glyphicon-globe" aria-hidden="true">&nbsp;</span>';
+					echo "<a href=\"{$resource["Link"]}\" target=\"_blank\">{$resource["Title"]}</a>";
+				} else if ($resource["Type"] == "ayamel") {
+					echo '<span class="glyphicon glyphicon-film" aria-hidden="true">&nbsp;</span>';
+					echo "<a href=\"../consumer.php?app=ayamel&video_id={$resource["Link"]}\" target=\"_blank\">{$resource["Title"]}</a>";
+				}
+				echo '</li>';
+			}
+			echo '</ul>';
 		}
 		?>
 	</div>

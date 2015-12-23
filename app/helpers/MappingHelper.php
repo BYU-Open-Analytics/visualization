@@ -116,6 +116,19 @@ class MappingHelper extends Module {
 		return $relatedVideos;
 	}
 
+	// Returns an array of resources for a given conceptId
+	static public function resourcesForConcept($conceptId) {
+		$resources = CSVHelper::parseWithHeaders('csv/resources.csv');
+		$relatedResources = array();
+		// Find all resources for this concept
+		foreach ($resources as $resource) {
+			if ($resource['Section Number'] == $conceptId) {
+				$relatedResources []= $resource;
+			}
+		}
+		return $relatedResources;
+	}
+
 	// Returns an array of information about a given question ID with format {quiz number}.{question number}
 		// Array with quizNumber, questionNumber, assessmentId, and questionType (and options if multiple_choice)
 		// If given questionId is not valid, it returns false
