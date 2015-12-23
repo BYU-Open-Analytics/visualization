@@ -99,6 +99,14 @@ class DashboardController extends Controller
 		$this->view->pageTitle ='Course Resources';
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
+		// Get list of conceptes (quizzes)
+		$conceptsMapping = MappingHelper::conceptsInChapters(MappingHelper::allChapters());
+		$concepts = [];
+		// Make each hierarchical content category have consistent structure for view
+		foreach ($conceptsMapping as $c) {
+			$concepts [] = ["id" => $c["Section Number"], "title" => $c["Section Number"] . " " . $c["Section Title"]];
+		}
+		$this->view->concepts = $concepts;
 	}
 	public function selectAction() {
 		$this->tag->setTitle('Dashboard Selection');

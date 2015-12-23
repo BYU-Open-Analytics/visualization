@@ -1,12 +1,15 @@
 <?php
 if ( $context->valid ) {
 ?>
-
 <div class="container center">
 	<div class="row">
 		<h2>Course Resources</h2>
 		<hr>
-		<p class="lead">Under construction.</p>
+		<?php
+		foreach ($concepts as $concept) {
+			echo "<h3 name=\"{$concept['id']}\" id=\"section{$concept['id']}\">{$concept['title']}</h3>";
+		}
+		?>
 	</div>
 </div>
 
