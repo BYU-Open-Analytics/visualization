@@ -41,9 +41,23 @@ class ScatterplotRecommenderStatsController extends Controller
 				break;
 			default:
 				// All videos
-				print_r(MappingHelper::allConcepts());
 				$videos = MappingHelper::videosForConcepts(array_column(MappingHelper::allConcepts(), "Section Number"));
 				break;
+		}
+
+		// Find percentage watched for each video
+		foreach ($videos as $key => $video) {
+			$percentageWatched = MasteryHelper::calculateUniqueVideoPercentageForVideo($context->getUserName(), $video, $debug);
+			// Add the percentage to the video
+			$video["percentageWatched"] = $percentageWatched;
+			// Add the modified video back to the original array
+			$videos[$key] = $video;
+		}
+
+		// Format each video for the frontend
+		$formatted = [];
+		foreach ($videos as $video) {
+			$formatted []= $video;
 		}
 
 		if ($debug) {
@@ -53,6 +67,7 @@ class ScatterplotRecommenderStatsController extends Controller
 			}
 		}
 
+		echo json_encode($formatted);
 	}
 
 	// Returns scatterplot recommendations in 4 groups:
@@ -275,6 +290,7 @@ class ScatterplotRecommenderStatsController extends Controller
 			// Scores are saved at 3am, so they actually correspond to the previous day
 			$formattedDate = date('M j', strtotime('-1 day', strtotime($day->time_stored)));
 			$historyPoints []= [$formattedDate, round($day->unit3 * 100) / 100, round($day->unit4 * 100) / 100];
+			//$historyPoints []= [$formattedDate, rand(0,100) / 10, rand(0,100) / 10];
 		}
 		if ($debug) {
 			print_r($historyPoints);
