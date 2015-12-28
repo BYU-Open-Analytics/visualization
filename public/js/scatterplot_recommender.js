@@ -476,7 +476,7 @@ function loadTimeGraph() {
 		bindto: "#timeGraph",
 		data: {
 			x: 'date',
-			groups: [
+			rows: [
 				['Unit 3', 'Unit 4']
 			],
 			columns: [
