@@ -9,6 +9,52 @@ class ScatterplotRecommenderStatsController extends Controller
 		$this->tag->setTitle('Scatterplot Recommender Stats');
 	}
 
+	// Returns videos and their unique percentage watched for a given content grouping (all, unit, chapter, or concept)
+	public function videosAction($scope = 'all', $groupingId = 'all', $debug = false) {
+		$this->view->disable();
+		// Get our context (this takes care of starting the session, too)
+		$context = $this->getDI()->getShared('ltiContext');
+		if (!$context->valid) {
+			echo '[{"error":"Invalid lti context"}]';
+			return;
+		}
+		if (!isset($groupingId)) {
+			echo '[{"error":"No scope grouping ID specified"}]';
+			return;
+		}
+
+		// Get the list of videos associated with concepts for the given scope and grouping ID
+		$videos = [];
+		switch ($scope) {
+			case "concept":
+				// Filter based on concept
+				$videos = MappingHelper::videosForConcept($groupingId);
+				break;
+			case "chapter":
+				// Filter based on chapter
+				// conceptsInChapter returns an array with more than just concept number, so get just concept_number column
+				$videos = MappingHelper::videosForConcepts(array_column(MappingHelper::conceptsInChapter($groupingId), "Section Number"));
+				break;
+			case "unit":
+				// Filter based on unit
+				$videos = MappingHelper::videosForConcepts(array_column(MappingHelper::conceptsInChapters(MappingHelper::chaptersInUnit($groupingId)), "Section Number"));
+				break;
+			default:
+				// All videos
+				print_r(MappingHelper::allConcepts());
+				$videos = MappingHelper::videosForConcepts(array_column(MappingHelper::allConcepts(), "Section Number"));
+				break;
+		}
+
+		if ($debug) {
+			echo "<pre>Getting information for these video IDs in scope $scope and ID $groupingId\n";
+			foreach ($videos as $video) {
+				echo $video["Video ID"]."\n";
+			}
+		}
+
+	}
+
 	// Returns scatterplot recommendations in 4 groups:
 		// Try these quiz questions (Group 1)
 		// Watch these videos before attempting these quiz questions (Group 2)
@@ -51,6 +97,7 @@ class ScatterplotRecommenderStatsController extends Controller
 				$questionIds = MappingHelper::questionsInConcepts(array_column(MappingHelper::conceptsInChapters(MappingHelper::chaptersInUnit($groupingId)), "Section Number"));
 				break;
 			default:
+				// Allowing all would take too long
 				echo '[{"error":"Invalid scope option"}]';
 				return;
 				break;
@@ -184,13 +231,15 @@ class ScatterplotRecommenderStatsController extends Controller
 				break;
 			default:
 				// All concepts
-				$concepts = MappingHelper::conceptsInChapters(MappingHelper::allChapters());
+				$concepts = MappingHelper::allConcepts();
 				break;
 		}
 		$masteryHelper = new MasteryHelper();
 		foreach ($concepts as $c) {
-			$score = $masteryHelper::calculateConceptMasteryScore($context->getUserName(), $c["Section Number"], $debug);
-			$videoPercentage = $masteryHelper::calculateUniqueVideoPercentageForConcept($context->getUserName(), $c["Section Number"], $debug);
+			//$score = $masteryHelper::calculateConceptMasteryScore($context->getUserName(), $c["Section Number"], $debug);
+			//$videoPercentage = $masteryHelper::calculateUniqueVideoPercentageForConcept($context->getUserName(), $c["Section Number"], $debug);
+			$score = rand(0,100) / 10;
+			$videoPercentage = rand(0,100);
 			if ($debug) { echo "Concept mapping info\n"; print_r($c); }
 			$result []= [
 				"id" => $c["Section Number"],
