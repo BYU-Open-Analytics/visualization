@@ -3,49 +3,47 @@ $("#relatedVideosModal").on("show.bs.modal", function(e) {
 	// Hide low concepts list (it appears over this modal's backdrop and looks bad)
 	$("#lowConceptBox").popover("hide");
 	//$(this).find(".modal-body").html('<table class="table" id="relatedVideosModalTable"><tbody></tbody></table>');
-	var data = getRelatedVideos($(e.relatedTarget).attr("data-assessment"), $(e.relatedTarget).attr("data-question"));
-	$("#relatedVideosModalTable tbody").empty();
-	var tbody = d3.select("#relatedVideosModalTable tbody");
-	var tr = tbody.selectAll("tr")
-		.data(data)
-		.enter()
-		.append("tr")
-		.attr("id", function(d) { return "videoRow"+d["Video ID"]; });
+	d3.json("../scatterplot_recommender_stats/videos/" + "concept" + "/" + "2.1", function(error, data) {
+		$("#relatedVideosModalTable tbody").empty();
+		var tbody = d3.select("#relatedVideosModalTable tbody");
+		var tr = tbody.selectAll("tr")
+			.data(data)
+			.enter()
+			.append("tr")
+			.attr("id", function(d) { return "videoRow"+d["Video ID"]; });
 
-	tr.append("td")
-		.html(function(d) { var label = d.chapter + "." + d.section + "." + d.group + "." + d.video; return label.replace(/\.*$/, "a"); })
-		.attr("class","videoRefCell");
-	tr.append("td")
-		// TODO absolute URL ref fix
-		.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d["Video ID"] + '" data-track="ayamelLaunch' + d["Video ID"] + '" target="_blank">' + d.title + '</a>'; })
-		.attr("class","videoTitleCell");
-	// TODO put back in percentage watched, with actual data
-	tr.append("td")
-		.attr("class", "videoProgressCell advancedMore");
-		//.append("input")
-		//.attr("type", "text")
-		//.attr("class", "progressCircle")
-		//.attr("disabled", "disabled")
-		//.attr("value", function() { return Math.ceil(Math.random() * 100); }); // TODO put actual percentage here
-		
-	// Track that the modal was shown
-	track("clicked", "relatedVideos" + $(e.relatedTarget).attr('data-assessment') + '.' + $(e.relatedTarget).attr('data-question'));
+		tr.append("td")
+			.html(function(d) { var label = d.chapter + "." + d.section + "." + d.group + "." + d.video; return label.replace(/\.*$/, ""); })
+			.attr("class","videoRefCell");
+		tr.append("td")
+			// TODO absolute URL ref fix
+			.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d["Video ID"] + '" data-track="ayamelLaunch' + d["Video ID"] + '" target="_blank">' + d.title + '</a>'; })
+			.attr("class","videoTitleCell");
+		// Add the percentage watched progress circle
+		tr.append("td")
+			.attr("class", "videoProgressCell advancedMore")
+			.append("input")
+			.attr("type", "text")
+			.attr("class", "progressCircle")
+			.attr("disabled", "disabled")
+			.attr("value", function(d) { return d.percentageWatched; });
+			
+		// Track that the modal was shown
+		track("clicked", "relatedVideos" + $(e.relatedTarget).attr('data-assessment') + '.' + $(e.relatedTarget).attr('data-question'));
 
-	// Don't stall the UI waiting for all these to finish drawing
-	//setTimeout(updateVideoProgressCircles, 1);
+		// Don't stall the UI waiting for all these to finish drawing
+		setTimeout(function() {
+			$(".progressCircle").knob({
+				'readOnly': true,
+				'width': '45',
+				'height': '45',
+				'thickness': '.25',
+				'fgColor': '#444',
+				'format': function(v) { return v+"%"; }
+			});
+		}, 1);
+	});
 });
-
-// Returns videos for a given question
-function getRelatedVideos(assessmentId, questionId) {
-	var relatedVideos = [];
-	for (var i=0; i<mappings.length; i++) {
-		// See if this question's quiz is associated with this video
-		if (mappings[i]["Open Assessments ID"] == assessmentId) {
-			relatedVideos.push(mappings[i]);
-		}
-	}
-	return relatedVideos;
-}
 
 // Helper function for recommendation question elements. Contains question/concept display, launch quiz button, and see associated videos button
 function questionElement(d) {
