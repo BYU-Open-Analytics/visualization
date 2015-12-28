@@ -23,11 +23,11 @@
 		
 		<!-- Scatterplot container -->
 		<div id="scatterplotSection" class="col-sm-7">
+				<span class="spinner" style=""><br /><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
 				<h3 class="capsLabel" style="display: inline; padding-left: 0px;">See concepts from unit: </h3>
 				<label for="unitSelector">&nbsp;</label><select class="unitSelector" name="unitSelector">
 					<?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'"'; if ($unit['id']==3) { echo ' selected="selected"'; } echo '>'.$unit['title'].'</option>'; } ?>
 				</select>
-				<span class="spinner" style=""><br /><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
 		</div>
 
 		<!-- Recommendations container -->
@@ -35,10 +35,10 @@
 			<p class="lead">Click on a concept dot to see recommendations on how to improve your mastery score. </p>
 			<!-- Recommendation groups -->
 			<div id="recommendSection">
-				<h3 style="margin-top: 3px;" class="capsLabel">Question Recommendations for <span id="recommendationHeaderScopeLabel">...</span></h3>
+				<h3 style="margin-top: 8px;" class="capsLabel">Recommendations for <span id="recommendHeaderScopeLabel">...</span></h3>
 				<span class="spinner" style=""><br /><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
-				<div class="panel-group" id="recommendationsAccordion" role="tablist">
-					<!-- Question groups dynamically inserted -->
+				<div class="panel-group" id="recommendAccordion" role="tablist">
+					<!-- Video, question, and resource groups dynamically inserted, based on #recommendGroupTemplate template below -->
 				</div>
 			</div>
 		</div>
@@ -57,15 +57,15 @@
 <!-- Templates for recommendations -->
 <div id="templates" class="hidden">
 	<!-- Group Template -->
-	<div id="groupTemplate" class="panel panel-default recommendGroup">
-		<div class="panel-heading" role="tab" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend{id}" data-placement="top" data-html="true" title="{tooltip}" data-track="recommendationsGroup{id}">
+	<div id="recommendGroupTemplate" class="panel panel-default recommendGroup">
+		<div class="panel-heading" role="tab" data-toggle="collapse" data-parent="#recommendAccordion" href="#recommend{id}" data-placement="top" data-html="true" title="{tooltip}">
 			<h4 class="panel-title">
-				<a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend{id}">{title} <span id="recommend{id}CountBadge" class="countBadge" data-track="recommendationsGroup{id}"></span></a>
+				<a role="button" data-toggle="collapse" data-parent="#recommendAccordion" href="#recommend{id}">{title} <span id="recommend{id}CountBadge" class="countBadge"></span></a>
 			</h4>
 		</div>
 		<div id="recommend{id}" class="panel-collapse collapse">
 			<div class="panel-body recommendPanelBody">
-				<table class="table table-hover table-striped sticky-header" id="recommend{id}List"> </table>
+				{table}
 			</div>
 		</div>
 	</div>

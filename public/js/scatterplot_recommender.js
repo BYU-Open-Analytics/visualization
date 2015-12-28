@@ -60,70 +60,170 @@ function questionElement(d) {
 // Sets up the 4 question groups from a template
 function setupQuestionGroups() {
 	var groups = [
-	{"id": 1, "title":"Try these quiz questions", "tooltip":"<h4>You did not attempt these questions</h4> These questions were selected because you have not attempted them yet. This material will likely be on an upcoming exam, so to improve your score, it is recommended that you practice these questions."},
-	{"id": 2, "title":"Watch videos before attempting these quiz questions", "tooltip":"<h4>You did not watch the videos for these questions</h4> These questions were selected because, based on your online activity, it seems you did not watch the videos before you attempted the quiz. To better learn the material, it is recommended that you watch the videos associated with these quiz questions."},
-	{"id": 3, "title":"Find additional help", "tooltip":"<h4>You tried but did not succeed</h4> These questions were selected because you have spent time watching the videos, but for some reason, the quiz was still difficult for you. To learn this material, you may want to email the instructor, go into the TA lab, or ask a friend to help you."},
-	{"id": 4, "title":"Practice these questions again", "tooltip":"<h4>You eventually got it right</h4> These questions were selected because even though you eventually answered it correctly, you missed them multiple times at first. These questions are recommended you to re-do to help you solidify your understanding."}
+		{
+			"id":"Videos",
+			"title":"Videos",
+			"tooltip":"<h4>Videos related to this concept</h4> Further explanation here.",
+			"table":'<table class="table table-hover sticky-header" id="recommendVideosTable"> <thead><tr><th>&nbsp;</th><th>Video Name</th><th class="advancedMore">% Watched</th></tr></thead> <tbody></tbody> </table>'
+		},
+		{
+			"id":"Questions1",
+			"title":"Try these quiz questions",
+			"tooltip":"<h4>You did not attempt these questions</h4> These questions were selected because you have not attempted them yet. This material will likely be on an upcoming exam, so to improve your score, it is recommended that you practice these questions.",
+			"table":'<table class="table table-hover table-striped sticky-header recommendQuestionsTable" id="recommendQuestions1Table"> </table>'
+		},
+		{
+			"id":"Questions2",
+			"title":"Watch videos before attempting these quiz questions",
+			"tooltip":"<h4>You did not watch the videos for these questions</h4> These questions were selected because, based on your online activity, it seems you did not watch the videos before you attempted the quiz. To better learn the material, it is recommended that you watch the videos associated with these quiz questions.",
+			"table":'<table class="table table-hover table-striped sticky-header recommendQuestionsTable" id="recommendQuestions2Table"> </table>'
+		},
+		{
+			"id":"Questions3",
+			"title":"Find additional help",
+			"tooltip":"<h4>You tried but did not succeed</h4> These questions were selected because you have spent time watching the videos, but for some reason, the quiz was still difficult for you. To learn this material, you may want to email the instructor, go into the TA lab, or ask a friend to help you.",
+			"table":'<table class="table table-hover table-striped sticky-header recommendQuestionsTable" id="recommendQuestions3Table"> </table>'
+		},
+		{
+			"id":"Questions4",
+			"title":"Practice these questions again",
+			"tooltip":"<h4>You eventually got it right</h4> These questions were selected because even though you eventually answered it correctly, you missed them multiple times at first. It is recommended that you re-do these questions to help you solidify your understanding.",
+			"table":'<table class="table table-hover table-striped sticky-header recommendQuestionsTable" id="recommendQuestions4Table"> </table>'
+		},
+		{
+			"id":"Resources",
+			"title":"Resources",
+			"tooltip":"<h4>Resources related to this concept</h4> Further explanation here.",
+			"table":'<table class="table table-hover table-striped sticky-header" id="recommendResourcesTable"> </table>'
+		}
 	];
 
 	for (var i=0; i<groups.length; i++) {
 		// Get the template
-		var element = $("#templates #groupTemplate")[0].outerHTML;
+		var element = $("#templates #recommendGroupTemplate")[0].outerHTML;
 		// Put our data values into it (this is a basic template idea from http://stackoverflow.com/a/14062431 )
 		$.each(groups[i], function(k, v) {
 			var regex = new RegExp("{" + k + "}", "g");
 			element = element.replace(regex, v);
 		});
-		element = element.replace("groupTemplate", "recommend"+groups[i].id+"Group");
-		$("#recommendationsAccordion").append(element);
+		element = element.replace("recommendGroupTemplate", "recommend"+groups[i].id+"Group" );
+		$("#recommendAccordion").append(element);
 	}
 }
 
 // Loads recommendations
 function loadRecommendations(scopeOption, scopeGroupingId) {
+	// Hide recommendations, show spinner, etc.
 	$("#recommendSection .spinner").show();
 	$("#recommendSectionHolder p.lead, .recommendGroup").hide();
 	$("#recommendSection").appendTo("#recommendSectionHolder");
 	$("#recommendSection").removeClass("hidden").show();
 	// Get scope with capital first letter for displaying
 	var scopeOptionName = scopeOption.charAt(0).toUpperCase() + scopeOption.slice(1);
-	$("#recommendationHeaderScopeLabel").text(scopeOptionName + " " + scopeGroupingId);
+	$("#recommendHeaderScopeLabel").text(scopeOptionName + " " + scopeGroupingId);
 
 	// Scroll to the top of the section so recommendations are visible
 	$("html, body").animate({ scrollTop: $("#recommendSectionHolder").offset().top - 55 }, "fast");
+	
+	// Recommendations are split into 3 groups
+	loadVideoRecommendations(scopeOption, scopeGroupingId);
+	loadQuestionRecommendations(scopeOption, scopeGroupingId); // This one takes the longest, so it will hide the spinner
+	loadResourceRecommendations(scopeOption, scopeGroupingId);
 
+}
+
+// Loads video recommendations
+function loadVideoRecommendations(scopeOption, scopeGroupingId) {
+	d3.json("../scatterplot_recommender_stats/videos/" + scopeOption + "/" + "2.1", function(error, data) {
+		// TODO similar error checking like for recommendations
+
+		// Clear the previous video list
+		$("#recommendVideosTable tbody").empty();
+		// Set the badge to the number of videos
+		$("#recommendVideosCountBadge").text(data.length);
+
+		// Show the list
+		$("#recommendVideosGroup").show();
+
+		console.log(data);
+
+		var tbody = d3.select("#recommendVideosTable tbody");
+		var tr = tbody.selectAll("tr")
+			.data(data)
+			.enter()
+			.append("tr")
+			.attr("id", function(d) { return "videoRow"+d["Video ID"]; });
+
+		tr.append("td")
+			.html(function(d) { var label = d.chapter + "." + d.section + "." + d.group + "." + d.video; return label.replace(/\.*$/, ""); })
+			.attr("class","videoRefCell");
+		tr.append("td")
+			// TODO absolute URL ref fix
+			.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d["Video ID"] + '" data-track="ayamelLaunch' + d["Video ID"] + '" target="_blank">' + d.title + '</a>'; })
+			.attr("class","videoTitleCell");
+		// Add the percentage watched progress circle
+		tr.append("td")
+			.attr("class", "videoProgressCell advancedMore")
+			.append("input")
+			.attr("type", "text")
+			.attr("class", "progressCircle")
+			.attr("disabled", "disabled")
+			.attr("value", function(d) { return d.percentageWatched; });
+			
+		// Don't stall the UI waiting for all these to finish drawing
+		setTimeout(function() {
+			$(".progressCircle").knob({
+				'readOnly': true,
+				'width': '45',
+				'height': '45',
+				'thickness': '.25',
+				'fgColor': '#444',
+				'format': function(v) { return v+"%"; }
+			});
+		}, 1);
+	});
+	
+}
+
+// Loads additional resource recommendations
+function loadResourceRecommendations(scopeOption, scopeGroupingId) {
+	
+}
+
+// Loads question recommendations
+function loadQuestionRecommendations(scopeOption, scopeGroupingId) {
 	// Get question recommendations for our scope and grouping ID (either unit number or concept number)
 	d3.json("../scatterplot_recommender_stats/recommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
 		$("#recommendSection .spinner").hide();
 		if (!(data && typeof data == 'object' && "group1" in data) || error) {
-			$("#recommendSection").html('<br><br><p class="lead">There was an error loading recommendations. Try reloading the dashboard.</p>');
+			$("#recommendSection").html('<br><br><p class="lead">There was an error loading question recommendations. Try reloading the dashboard.</p>');
 			return;
 		}
 		// Flag to see if we've found the first question group with questions
 		var nonemptyGroupFound = false
 		// For each question group, go through and load the tables and do some formatting
 		for (var i=1; i<5; i++) {
-			$("#recommend"+i+"List").empty();
-			d3.select("#recommend"+i+"List")
+			$("#recommendQuestions"+i+"Table").empty();
+			d3.select("#recommendQuestions"+i+"Table")
 				.selectAll("tr")
 				.data(data["group"+i])
 				.enter()
 				.append("tr")
 				.html(function(d) { return questionElement(d); });
-			$("#recommend"+i+"List").prepend($("#templates .recommendHeaderTemplate").clone());
-			$("#recommend"+i+"CountBadge").text(data["group"+i].length);
+			$("#recommendQuestions"+i+"Table").prepend($("#templates .recommendHeaderTemplate").clone());
+			$("#recommendQuestions"+i+"CountBadge").text(data["group"+i].length);
 			// Hide this group if there aren't any questions
 			if (data["group"+i].length == 0) {
-				$("#recommend"+i+"Group").hide();
+				$("#recommendQuestions"+i+"Group").hide();
 			} else {
 				// Show non-empty groups, but collapsed by default
-				$("#recommend"+i+"Group").show()
+				$("#recommendQuestions"+i+"Group").show();
 				// Otherwise select this group, if we haven't selected a previous nonempty group
 				if (!nonemptyGroupFound) {
-					$("#recommend"+i).collapse("show");
+					$("#recommendQuestions"+i).collapse("show");
 					nonemptyGroupFound = true;
 				} else {
-					$("#recommend"+i).collapse("hide");
+					$("#recommendQuestions"+i).collapse("hide");
 				}
 			}
 		}
