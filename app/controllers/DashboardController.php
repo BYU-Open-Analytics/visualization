@@ -29,8 +29,8 @@ class DashboardController extends Controller
 		//$setting->save();
 	}
 	public function content_recommenderAction() {
-		$this->tag->setTitle('Content Recommender Dashboard');
-		$this->view->pageTitle = 'Content Recommender Dashboard';
+		$this->tag->setTitle('Test Help | Student Dashboard');
+		$this->view->pageTitle = 'Test Help | Student Dashboard';
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
 		$this->view->context = $context;
@@ -68,8 +68,8 @@ class DashboardController extends Controller
 		$this->view->units = $units;
 	}
 	public function scatterplot_recommenderAction() {
-		$this->tag->setTitle('Content Recommender Dashboard');
-		$this->view->pageTitle ='Content Recommender Dashboard';
+		$this->tag->setTitle('Test Help | Student Dashboard');
+		$this->view->pageTitle ='Test Help | Student Dashboard';
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
 		$this->view->context = $context;
@@ -86,8 +86,8 @@ class DashboardController extends Controller
 		$this->view->units = $units;
 	}
 	public function student_skillsAction() {
-		$this->tag->setTitle('Student Skills Dashboard');
-		$this->view->pageTitle ='Student Skills Dashboard';
+		$this->tag->setTitle('Improve my Learning | Student Dashboard');
+		$this->view->pageTitle ='Improve my Learning Dashboard';
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
 		$this->view->context = $context;
@@ -95,8 +95,8 @@ class DashboardController extends Controller
 	}
 
 	public function resourcesAction() {
-		$this->tag->setTitle('Course Resources');
-		$this->view->pageTitle ='Course Resources';
+		$this->tag->setTitle('Course Resources | Student Dashboard');
+		$this->view->pageTitle ='Course Resources | Student Dashboard';
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
 		// Get list of conceptes (quizzes)
