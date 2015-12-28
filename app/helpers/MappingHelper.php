@@ -21,9 +21,16 @@ class MappingHelper extends Module {
 		$units = CSVHelper::parseWithHeaders('csv/unit_chapter.csv');
 		$chapters = [];
 		foreach ($units as $unit) {
+			// Split the comma-separated list of chapters for each unit and merge it with the other chapters
 			$chapters = array_merge($chapters, explode(",", $unit["chapters"]));
 		}
 		return $chapters;
+	}
+
+	// Returns an array of all concepts
+	static public function allConcepts() {
+		$allConcepts = CSVHelper::parseWithHeaders('csv/concept_chapter.csv');
+		return $allConcepts;
 	}
 
 	// Returns an array of chapter numbers for a given unit
@@ -100,6 +107,16 @@ class MappingHelper extends Module {
 			}
 		}
 		return $relatedVideos;
+	}
+
+	// Returns an array of videos for the given array of concept IDs
+	static public function videosForConcepts($conceptIds) {
+		$videos = array();
+		foreach ($conceptIds as $conceptId) {
+			$videos = array_merge($videos, self::videosForConcept($conceptId));
+		}
+		$videos = array_unique($videos, SORT_REGULAR);
+		return $videos;
 	}
 
 	// Returns an array of videos for a given questionId

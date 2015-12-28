@@ -72,6 +72,7 @@ class TestController extends Controller
 		print_r(MappingHelper::videosForConcept("2.1"));
 		echo "<hr>Resources for concept 1.5\n";
 		print_r(MappingHelper::resourcesForConcept("1.5"));
+		echo "New all concepts function the same as going through chapters: " . (MappingHelper::allConcepts() == MappingHelper::conceptsInChapters(MappingHelper::allChapters()));
 	}
 
 	public function newVideoAction() {
