@@ -36,7 +36,7 @@
 			<!-- Recommendation groups -->
 			<div id="recommendSection">
 				<h3 style="margin-top: 8px;" class="capsLabel">Recommendations for <span id="recommendHeaderScopeLabel">...</span></h3>
-				<span class="spinner" style=""><br /><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
+				<span class="spinner" style=""><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
 				<div class="panel-group" id="recommendAccordion" role="tablist">
 					<!-- Video, question, and resource groups dynamically inserted, based on #recommendGroupTemplate template below -->
 				</div>
@@ -86,7 +86,9 @@
 		<td style="text-align: center;"><span class="correct-{correct}Holder"><span class="glyphicon glyphicon-ok correctIcon"></span><span class="glyphicon glyphicon-remove incorrectIcon"></span></span></td>
 		<td style="text-align: center;"><span class="" style="font-weight: bold;">{attempts}</span></td>
 		<td>
-			<a role="button" href="http://openanalytics-dashboard.com/consumer.php?app=openassessments&assessment_id={assessmentId}&question_id={questionNumber}" data-track="question{assessmentId}.{questionNumber}Launch" class="btn btn-info btn-xs" title="Launch Quiz" target="_blank"> <span class="glyphicon glyphicon-log-in"></span></a>
+			<a role="button" class="btn btn-info btn-xs" title="Launch Quiz" data-toggle="modal" data-target="#questionLaunchModal" data-assessment="{assessmentId}" data-question="{questionNumber}" href="#"><span class="glyphicon glyphicon-log-in"></span></a>
+			<!-- Direct launch; no practice confirmation dialog -->
+			<!--<a role="button" href="http://openanalytics-dashboard.com/consumer.php?app=openassessments&assessment_id={assessmentId}&question_id={questionNumber}" data-track="launchQuiz{assessmentId}.{questionNumber}" class="btn btn-info btn-xs" title="Launch Quiz" target="_blank"> <span class="glyphicon glyphicon-log-in"></span></a>-->
 			<button class="btn btn-info btn-xs" title="See Related Videos" data-toggle="modal" data-target="#relatedVideosModal" data-assessment="{assessmentId}" data-question="{questionNumber}"> <span class="glyphicon glyphicon-film"></span></button>
 		</td>
 	</tr>
@@ -95,6 +97,25 @@
 	<!-- List shown when low concepts box in bottom-left corner shown -->
 	<ul class="list-group lowConceptsList">
 	</ul>
+</div>
+
+<!-- Quiz launch modal dialog -->
+<div class="modal fade" tabindex="-1" id="questionLaunchModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">This quiz is for practice only.</h4>
+			</div>
+			<div class="modal-body">
+				To have this quiz count for your grade, launch this quiz through Learning Suite.
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Do not launch</button>
+				<a href="#" target="_blank" id="questionLaunchContinueButton" type="button" class="btn btn-primary">Continue to practice</a>
+			</div>
+		</div>
+	</div>
 </div>
 
 <!-- Related videos modal dialog -->

@@ -47,6 +47,20 @@ function getRelatedVideos(assessmentId, questionId) {
 	return relatedVideos;
 }
 
+// Question Launch Modal
+$("#questionLaunchModal").on("show.bs.modal", function(e) {
+	// Set URL of button to launc the quiz from visualization LTI tool consumer
+	$(this).find(".btn-primary").attr('href','../consumer.php?app=openassessments&assessment_id=' + $(e.relatedTarget).attr('data-assessment') + '&question_id=' + $(e.relatedTarget).attr('data-question'));
+	// Set the question/assessment id in the button so the button can send an interaction statement
+	$(this).find(".btn-primary").attr("data-assessment",$(e.relatedTarget).attr('data-assessment')).attr("data-question", $(e.relatedTarget).attr('data-question'));
+	// Track that the modal was shown
+	track("clicked", "confirmLaunchQuiz" + $(e.relatedTarget).attr('data-assessment') + '.' + $(e.relatedTarget).attr('data-question'));
+});
+$("#questionLaunchContinueButton").click(function(e) {
+	$("#questionLaunchModal").modal("hide");
+	track("clicked", "launchQuiz" + $(this).attr('data-assessment') + '.' + $(this).attr('data-question'));
+});
+
 // Helper function for recommendation question elements. Contains question/concept display, launch quiz button, and see associated videos button
 function questionElement(d) {
 	// Get the template
