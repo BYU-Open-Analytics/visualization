@@ -96,7 +96,7 @@ function setupQuestionGroups() {
 			"id":"Resources",
 			"title":"Resources",
 			"tooltip":"<h4>Resources related to this concept</h4> Further explanation here.",
-			"table":'<table class="table table-hover table-striped sticky-header" id="recommendResourcesTable"> </table>'
+			"table":'Resources related to this concept</div><ul class="list-group resource-list" id="recommendResourcesTable"></ul><div style="display: none;">'
 		}
 	];
 
@@ -128,24 +128,32 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 	$("html, body").animate({ scrollTop: $("#recommendSectionHolder").offset().top - 55 }, "fast");
 	
 	// Recommendations are split into 3 groups
+	loadResourceRecommendations(scopeOption, scopeGroupingId);
 	loadVideoRecommendations(scopeOption, scopeGroupingId);
 	loadQuestionRecommendations(scopeOption, scopeGroupingId); // This one takes the longest, so it will hide the spinner
-	loadResourceRecommendations(scopeOption, scopeGroupingId);
 
 }
 
 // Loads video recommendations
 function loadVideoRecommendations(scopeOption, scopeGroupingId) {
-	d3.json("../scatterplot_recommender_stats/videos/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
+	d3.json("../scatterplot_recommender_stats/videoRecommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
 		// TODO similar error checking like for recommendations
+		if (!(data && typeof data == 'object' && data.length > 0) || error) {
+			//$("#recommendSection").html('<br><br><p class="lead">There was an error loading video recommendations. Try reloading the dashboard.</p>');
+			return;
+		}
 
 		// Clear the previous video list
 		$("#recommendVideosTable tbody").empty();
 		// Set the badge to the number of videos
 		$("#recommendVideosCountBadge").text(data.length);
 
-		// Show the list
-		$("#recommendVideosGroup").show();
+		// Show the list if there are videos
+		if (data.length > 0) {
+			$("#recommendVideosGroup").show();
+			// Expand the videos accordion group if it's not already expanded
+			$("a[href=#recommendVideos][aria-expanded!=true]").click();
+		}
 
 		console.log(data);
 
@@ -189,13 +197,48 @@ function loadVideoRecommendations(scopeOption, scopeGroupingId) {
 
 // Loads additional resource recommendations
 function loadResourceRecommendations(scopeOption, scopeGroupingId) {
-	
+	d3.json("../scatterplot_recommender_stats/resourceRecommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
+		// TODO similar error checking like for recommendations
+
+		if (!(data && typeof data == 'object' && data.length > 0) || error) {
+			return;
+		}
+		// Clear the previous resource list
+		$("#recommendResourcesTable tbody").empty();
+		// Set the badge to the number of videos
+		$("#recommendResourcesCountBadge").text(data.length);
+
+		// Show the list if there are resources for this concept
+		if (data.length > 0) {
+			$("#recommendResourcesGroup").show();
+		}
+
+		console.log(data);
+		// Format different resource types accordingly (web link and ayamel video launch)
+		d3.select("#recommendResourcesTable")
+			.selectAll("li")
+			.data(data)
+			.enter()
+			.append("li")
+			.attr("class", function(d) { return "list-group-item resource-" + d.Type; })
+			.html(function(d) {
+				if (d.Type == "web") {
+					return '<span class="glyphicon glyphicon-globe" aria-hidden="true">&nbsp;</span>' +
+					'<a href="' + d.Link + '" target="_blank">' + d.Title + '</a>';
+				} else if (d.Type == "ayamel") {
+					return '<span class="glyphicon glyphicon-film" aria-hidden="true">&nbsp;</span>' + 
+					'<a href="../consumer.php?app=ayamel&video_id=' + d.Link + '" target="_blank">' + d.Title + '</a>';
+				} else {
+					return "";
+				}
+			});
+	});
 }
 
 // Loads question recommendations
 function loadQuestionRecommendations(scopeOption, scopeGroupingId) {
 	// Get question recommendations for our scope and grouping ID (either unit number or concept number)
-	d3.json("../scatterplot_recommender_stats/recommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
+	d3.json("../scatterplot_recommender_stats/questionRecommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
 		$("#recommendSection .spinner").hide();
 		if (!(data && typeof data == 'object' && "group1" in data) || error) {
 			$("#recommendSection").html('<br><br><p class="lead">There was an error loading question recommendations. Try reloading the dashboard.</p>');
@@ -222,7 +265,7 @@ function loadQuestionRecommendations(scopeOption, scopeGroupingId) {
 				$("#recommendQuestions"+i+"Group").show();
 				// Otherwise select this group, if we haven't selected a previous nonempty group
 				if (!nonemptyGroupFound) {
-					$("#recommendQuestions"+i).collapse("show");
+					//$("#recommendQuestions"+i).collapse("show");
 					nonemptyGroupFound = true;
 				} else {
 					$("#recommendQuestions"+i).collapse("hide");

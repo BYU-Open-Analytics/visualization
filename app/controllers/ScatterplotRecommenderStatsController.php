@@ -10,7 +10,7 @@ class ScatterplotRecommenderStatsController extends Controller
 	}
 
 	// Returns videos and their unique percentage watched for a given content grouping (all, unit, chapter, or concept)
-	public function videosAction($scope = 'all', $groupingId = 'all', $debug = false) {
+	public function videoRecommendationsAction($scope = 'all', $groupingId = 'all', $debug = false) {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
@@ -70,12 +70,46 @@ class ScatterplotRecommenderStatsController extends Controller
 		echo json_encode($formatted);
 	}
 
+
+	// Returns the additional resources recommendations for the given scope and grouping ID (only concept is currently supported)
+	public function resourceRecommendationsAction($scope, $groupingId, $debug = false) {
+		$this->view->disable();
+		// Get our context (this takes care of starting the session, too)
+		$context = $this->getDI()->getShared('ltiContext');
+		if (!$context->valid) {
+			echo '[{"error":"Invalid lti context"}]';
+			return;
+		}
+		if (!isset($groupingId)) {
+			echo '[{"error":"No scope grouping ID specified"}]';
+			return;
+		}
+
+		// Get the list of resources associated with concepts for the given scope and grouping ID
+		$resources = [];
+		switch ($scope) {
+			case "concept":
+				// Filter based on concept
+				$resources = MappingHelper::resourcesForConcept($groupingId);
+				break;
+			default:
+				// We currently only need resources for a selected concept
+				echo '[{"error":"Invalid scope option"}]';
+				return;
+				break;
+		}
+
+		echo json_encode($resources);
+	}
+
+	
+
 	// Returns scatterplot recommendations in 4 groups:
 		// Try these quiz questions (Group 1)
 		// Watch these videos before attempting these quiz questions (Group 2)
 		// Find additional help (Group 3)
 		// Practice these questions again (Group 4)
-	public function recommendationsAction($scope = 'unit', $groupingId = '3', $debug = false) {
+	public function questionRecommendationsAction($scope = 'unit', $groupingId = '3', $debug = false) {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
