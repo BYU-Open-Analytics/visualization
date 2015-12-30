@@ -341,8 +341,21 @@ function loadConceptScatterplot() {
 
 	$("#lowConceptBox").popover("hide");
 
-	var scopeOption = "unit";
-	var scopeGroupingId = $("[name=unitSelector]").val();
+	// Get what scope we're filtering by (unit, chapter, or concept)
+	var scopeOption = $("input[name=scatterplotScopeOption]:checked").val();
+	var scopeGroupingId = "";
+	// Then get which unit, chapter, or concept we're filtering by
+	switch (scopeOption) {
+		case "concept":
+			scopeGroupingId = $("[name=scatterplotConceptSelector]").val();
+			break;
+		case "chapter":
+			scopeGroupingId = $("[name=scatterplotChapterSelector]").val();
+			break;
+		case "unit":
+			scopeGroupingId = $("[name=scatterplotUnitSelector]").val();
+			break;
+	}
 
 	d3.json("../scatterplot_recommender_stats/concepts/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
 		$("#scatterplotSection .spinner").hide();
@@ -756,6 +769,15 @@ $(function() {
 	$("[name=unitSelector]").on("change", function() {
 		loadConceptScatterplot();
 		track("clicked","scatterplotUnitSelector"+$(this).val());
+	});
+	// Reload the scatterplot when scope changes, and when concept/chapter/unit changes
+	$("input:radio[name=scatterplotScopeOption]").on("change", function() {
+		loadScatterplot();
+		track("clicked","scatterplotScope"+$(this).val());
+	});
+	$("[name=scatterplotConceptSelector], [name=scatterplotChapterSelector], [name=scatterplotUnitSelector]").on("change", function() {
+		loadScatterplot();
+		track("clicked",$(this).attr("name")+$(this).val());
 	});
 	// Track when recommendation tabs are switched, and udpate table sticky headers
 	$("#recommendTabs").on('shown.bs.tab', function(e) {

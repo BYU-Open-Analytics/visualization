@@ -244,6 +244,7 @@ td {
 	background: transparent;
 	border: solid white 1px;
 	height: 100%;
+	max-width: 300px;
 	text-shadow: 0 1px 0 #fff;
 }
 .scopeOptionLabel.active select {

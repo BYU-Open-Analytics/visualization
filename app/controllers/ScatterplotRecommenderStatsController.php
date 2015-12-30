@@ -270,6 +270,13 @@ class ScatterplotRecommenderStatsController extends Controller
 		// Get the list of concepts for the given scope and grouping ID
 		$concepts = [];
 		switch ($scope) {
+			case "concept":
+				// Get a specific concept
+				$conceptId = $groupingId;
+				$concepts = array_filter(MappingHelper::allConcepts(), function($concept) use ($conceptId) {
+					return ($concept["Section Number"] == $conceptId);
+				});
+				break;
 			case "chapter":
 				// Filter based on chapter
 				$concepts = MappingHelper::conceptsInChapter($groupingId);
