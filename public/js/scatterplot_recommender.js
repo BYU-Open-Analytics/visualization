@@ -236,12 +236,10 @@ function loadResourceRecommendations(scopeOption, scopeGroupingId) {
 			.append("li")
 			.attr("class", function(d) { return "list-group-item resource-" + d.Type; })
 			.html(function(d) {
+				// We only want to show web links, since ayamel resources will show up in the Videos recommendation accordion group
 				if (d.Type == "web") {
 					return '<span class="glyphicon glyphicon-globe" aria-hidden="true">&nbsp;</span>' +
 					'<a href="' + d.Link + '" target="_blank">' + d.Title + '</a>';
-				} else if (d.Type == "ayamel") {
-					return '<span class="glyphicon glyphicon-film" aria-hidden="true">&nbsp;</span>' + 
-					'<a href="../consumer.php?app=ayamel&video_id=' + d.Link + '" target="_blank">' + d.Title + '</a>';
 				} else {
 					return "";
 				}
