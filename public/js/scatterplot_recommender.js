@@ -219,16 +219,20 @@ function loadResourceRecommendations(scopeOption, scopeGroupingId) {
 		}
 		// Clear the previous resource list
 		$("#recommendResourcesTable tbody").empty();
-		// Set the badge to the number of videos
+
+		// We only want to show web links, since ayamel resources will show up in the Videos recommendation accordion group
+		data = data.filter(function(r) {
+			return r.Type == "web";
+		});
+
+		// Set the badge to the number of resources
 		$("#recommendResourcesCountBadge").text(data.length);
 
-		// Show the list if there are resources for this concept
+		// Show the accordion group item if there are resources for this concept
 		if (data.length > 0) {
 			$("#recommendResourcesGroup").show();
 		}
 
-		console.log(data);
-		// Format different resource types accordingly (web link and ayamel video launch)
 		d3.select("#recommendResourcesTable")
 			.selectAll("li")
 			.data(data)
@@ -236,7 +240,6 @@ function loadResourceRecommendations(scopeOption, scopeGroupingId) {
 			.append("li")
 			.attr("class", function(d) { return "list-group-item resource-" + d.Type; })
 			.html(function(d) {
-				// We only want to show web links, since ayamel resources will show up in the Videos recommendation accordion group
 				if (d.Type == "web") {
 					return '<span class="glyphicon glyphicon-globe" aria-hidden="true">&nbsp;</span>' +
 					'<a href="' + d.Link + '" target="_blank">' + d.Title + '</a>';
