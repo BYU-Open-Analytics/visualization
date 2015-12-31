@@ -251,6 +251,10 @@ td {
 	display: inline!important;
 }
 
+.filterBarContainerForm {
+	display: inline-block;
+}
+
 .tooltip-inner {
 	max-width: 300px !important;
 }
