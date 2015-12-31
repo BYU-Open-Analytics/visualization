@@ -765,18 +765,13 @@ $(function() {
 		$("#mainContainer").removeClass("hidden").addClass("show");
 		track("clicked", "continueButton");
 	});
-	// Filter concepts in scatterplot when unit selector changes
-	$("[name=unitSelector]").on("change", function() {
-		loadConceptScatterplot();
-		track("clicked","scatterplotUnitSelector"+$(this).val());
-	});
 	// Reload the scatterplot when scope changes, and when concept/chapter/unit changes
 	$("input:radio[name=scatterplotScopeOption]").on("change", function() {
-		loadScatterplot();
+		loadConceptScatterplot();
 		track("clicked","scatterplotScope"+$(this).val());
 	});
 	$("[name=scatterplotConceptSelector], [name=scatterplotChapterSelector], [name=scatterplotUnitSelector]").on("change", function() {
-		loadScatterplot();
+		loadConceptScatterplot();
 		track("clicked",$(this).attr("name")+$(this).val());
 	});
 	// Track when recommendation tabs are switched, and udpate table sticky headers

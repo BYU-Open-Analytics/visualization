@@ -29,21 +29,21 @@
 				<form>
 					<div class="btn-group filterBar" data-toggle="buttons">
 						<label class="btn btn-default active scopeOptionLabel">
-							<input type="radio" name="scatterplotScopeOption" value="concept" checked />Concept: 
-							<select class="conceptSelector" name="scatterplotConceptSelector">
-								<?php foreach ($concepts as $concept) { echo '<option value="'.$concept['id'].'">'.$concept['title'].'</option>'; } ?>
+							<input type="radio" name="scatterplotScopeOption" value="unit" />Unit: 
+							<select class="unitSelector" name="scatterplotUnitSelector">
+								<?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'">'.$unit['title'].'</option>'; } ?>
 							</select>
 						</label>
-						<label class="btn btn-default scopeOptionLabel">
+						<!--<label class="btn btn-default scopeOptionLabel">
 							<input type="radio" name="scatterplotScopeOption" value="chapter" />Chapter: 
 							<select class="chapterSelector" name="scatterplotChapterSelector">
 								<?php foreach ($chapters as $chapter) { echo '<option value="'.$chapter['id'].'">'.$chapter['title'].'</option>'; } ?>
 							</select>
-						</label>
+						</label>-->
 						<label class="btn btn-default scopeOptionLabel">
-							<input type="radio" name="scatterplotScopeOption" value="unit" />Unit: 
-							<select class="unitSelector" name="scatterplotUnitSelector">
-								<?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'">'.$unit['title'].'</option>'; } ?>
+							<input type="radio" name="scatterplotScopeOption" value="concept" checked />Concept: 
+							<select class="conceptSelector" name="scatterplotConceptSelector">
+								<?php foreach ($concepts as $concept) { echo '<option value="'.$concept['id'].'">'.$concept['title'].'</option>'; } ?>
 							</select>
 						</label>
 					</div>
