@@ -247,6 +247,22 @@ td {
 	r: 6px;
 }
 
+/* Scatterplot is scaled down on small screens, so make points larger */
+@media (max-width: 992px) {
+	.conceptPoint {
+		r: 9px;
+	}
+
+	.conceptPoint:hover {
+		r: 13px;
+	}
+
+	.selectedConceptPoint, .selectedConceptPoint:hover {
+		r: 14px;
+	}
+}
+
+
 #lowConceptBox {
 	width: 40px;
 	height: 40px;
