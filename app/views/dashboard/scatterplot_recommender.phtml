@@ -19,7 +19,7 @@
 		<hr>
 	</div>
 
-	<div class="row vertical-divider">
+	<div class="row vertical-divider" id="contentRow">
 		
 		<!-- Scatterplot container -->
 		<div id="scatterplotSection" class="col-sm-7">
@@ -29,7 +29,7 @@
 				<form class="filterBarContainerForm">
 					<div class="btn-group filterBar" data-toggle="buttons">
 						<label class="btn btn-default active scopeOptionLabel">
-							<input type="radio" name="scatterplotScopeOption" value="unit" />Unit: 
+							<input type="radio" name="scatterplotScopeOption" value="unit" checked />Unit: 
 							<select class="unitSelector" name="scatterplotUnitSelector">
 								<?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'">'.$unit['title'].'</option>'; } ?>
 							</select>
@@ -41,7 +41,7 @@
 							</select>
 						</label>-->
 						<label class="btn btn-default scopeOptionLabel">
-							<input type="radio" name="scatterplotScopeOption" value="concept" checked />Concept: 
+							<input type="radio" name="scatterplotScopeOption" value="concept" />Concept: 
 							<select class="conceptSelector" name="scatterplotConceptSelector">
 								<?php foreach ($concepts as $concept) { echo '<option value="'.$concept['id'].'">'.$concept['title'].'</option>'; } ?>
 							</select>

@@ -11,6 +11,44 @@
 .row.vertical-divider div[class^="col-"]:last-child {
   border-right: none;
 }
+
+/* Layout */
+@media (min-width: 768px) {
+	/*#pillNavigation {
+		position: fixed;
+		width: 100%;
+	}
+	#contentRow {
+		margin-top: 80px;
+	}
+	#scatterplotSection {
+		position: fixed;
+	}
+	#recommendSectionHolder {
+		left: 58.334%;
+		min-height: 500px;
+	}
+	footer {
+		position: fixed;
+		bottom: 10px;
+	}*/
+	#recommendSectionHolder {
+		min-height: 490px;
+	}
+}
+
+/* Scale down scatterplot on small screens */
+@media (max-width: 992px) {
+	#scatterplotSection {
+		max-height: 370px;
+		overflow: hidden;
+	}
+	#scatterplotSection svg {
+		transform: scale(0.7);
+		transform-origin: top left;
+	}
+}
+
 .colWatched {
 	width: 120px;
 }
@@ -66,9 +104,9 @@ td {
 }
 
 .recommendPanelBody {
-	max-height: 400px;
+	/*max-height: 400px;
 	height: 100%;
-	overflow-y: scroll;
+	overflow-y: scroll;*/
 }
 
 .recommendInfo {
