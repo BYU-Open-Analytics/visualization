@@ -60,10 +60,7 @@ class DashboardController extends Controller
 		$unitsMapping = CSVHelper::parseWithHeaders('csv/unit_chapter.csv');
 		$units = [];
 		foreach ($unitsMapping as $u) {
-			// Only show units 3 and 4 in selector
-			if ($u["unit_number"] == "3" || $u["unit_number"] == "4") {
-				$units [] = ["id" => $u["unit_number"], "title" => $u["unit_title"]];
-			}
+			$units [] = ["id" => $u["unit_number"], "title" => $u["unit_title"]];
 		}
 		$this->view->units = $units;
 	}

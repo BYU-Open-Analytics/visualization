@@ -19,7 +19,7 @@ if ( $context->valid ) {
       <div id="filterLoadingContainer">
 		<h3 class="capsLabel" style="display: inline; padding-left: 0px;">See concepts from unit: </h3>
 	    <label for="filterUnitSelector">&nbsp;</label><select class="unitSelector" name="filterUnitSelector">
-	      <?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'"'; if ($unit['id']==3) { echo ' selected="selected"'; } echo '>'.$unit['title'].'</option>'; } ?>
+	      <?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'">'.$unit['title'].'</option>'; } ?>
 	    </select>
   	    <div id="filterList">
           <span class="" id="conceptListHeader"><hr><div style="margin: 15px 0px 0px 80px;">Concept name </div><div style="margin-top: -20px;" class="filterListItemScore">Your mastery score</div><hr></span>
@@ -176,7 +176,7 @@ if ( $context->valid ) {
               </label>
   	    <label class="btn btn-default scopeOptionLabel active"><input type="radio" name="masteryGraphScopeOption" value="unit" checked />Unit: 
                 <select class="unitSelector" name="masteryGraphUnitSelector">
-                  <?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'"'; if ($unit['id']==3) { echo ' selected="selected"'; } echo '>'.$unit['title'].'</option>'; } ?>
+                  <?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'">'.$unit['title'].'</option>'; } ?>
                 </select>
               </label>
               <!--<label class="btn btn-default scopeOptionLabel"><input type="radio" name="masteryGraphScopeOption" value="all" />All</label>-->
