@@ -13,7 +13,7 @@ $("#relatedVideosModal").on("show.bs.modal", function(e) {
 		.attr("id", function(d) { return "videoRow"+d["Video ID"]; });
 
 	tr.append("td")
-		.html(function(d) { var label = d.chapter + "." + d.section + "." + d.group + "." + d.video; return label.replace(/\.*$/, "a"); })
+		.html(function(d) { var label = d.chapter + "." + d.section + "." + d.group + "." + d.video; return label.replace(/\.*$/, ""); })
 		.attr("class","videoRefCell");
 	tr.append("td")
 		// TODO absolute URL ref fix
