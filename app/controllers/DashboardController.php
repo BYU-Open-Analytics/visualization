@@ -121,10 +121,30 @@ class DashboardController extends Controller
 			$concepts [] = ["id" => $c["Section Number"], "title" => $c["Section Number"] . " " . $c["Section Title"]];
 			$conceptId = $c["Section Number"];
 			// Get resources for each of the concepts
-			$resources[$conceptId] = MappingHelper::resourcesForConcept($conceptId);
+			$resourceLists[$conceptId] = MappingHelper::resourcesForConcept($conceptId);
+		}
+		// Figure out which concept to position the list at (based on the current day)
+		$currentConceptID = "";
+		// This is assuming that the first resource for every concept has a date, and that they are listed in the CSV in chronological non-descending order
+		// Find the first resource that's past today, and then use the concept of the previous resource
+		$today = strtotime("today");
+		foreach ($resourceLists as $resourceList) {
+			if (count($resourceList) > 0) {
+				if (strtotime($resourceList[0]["Date"]) > $today) {
+					break;
+				} else {
+					$currentConceptID = $resourceList[0]["Section Number"];
+					// If this resource has a date of today, then stop
+					if (strtotime($resourceList[0]["Date"]) == $today) {
+						break;
+					}
+				}
+			}
 		}
 		$this->view->concepts = $concepts;
-		$this->view->resources = $resources;
+		$this->view->resources = $resourceLists;
+		$this->view->currentConceptID = $currentConceptID;
+
 	}
 	public function selectAction() {
 		$this->tag->setTitle('Dashboard Selection');

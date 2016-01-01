@@ -210,6 +210,11 @@ table.advancedShow tr td, tr.advancedShow td, td.advancedShow {
 	width: 30px;
 }
 
+.resource-date-badge {
+	margin-top: -18px;
+	background: silver;
+}
+
 /* Footer */
 footer {
 	margin-left: 3em;
