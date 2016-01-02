@@ -391,11 +391,20 @@ $(function() {
 		dashboardName: 'Student Skills Dashboard'
 	}); }
 
-	// Set up event listeneres
+	// Determine if we need to show the jumbotron welcome (only show once for each dashboard, save shown state in localStorage)
+	if (localStorage.getItem("student_skills_welcome_shown") == "yes") {
+		$("#mainContainer").removeClass("hidden").addClass("show");
+	} else {
+		$("#welcomeJumbotron").removeClass("hidden").addClass("show");
+	}
+
+	// Set up event listeners
 	$("#jumbotronDismiss").click(function() {
-		$("#"+$(this).attr("data-dismiss")).hide();
+		$("#"+$(this).attr("data-dismiss")).removeClass("show").hide();
 		$("#mainContainer").removeClass("hidden").addClass("show");
 		track("clicked", "continueButton");
+		// Booleans don't store properly in all localStorage implementations
+		localStorage.setItem("student_skills_welcome_shown", "yes");
 	});
 	$(".advancedToggle").click(function() {
 		// Deselect other options
