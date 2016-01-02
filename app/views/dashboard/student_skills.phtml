@@ -65,10 +65,6 @@ if ( $context->valid ) {
 						  <div class="advancedToggleOptional">
 							<input id="advancedToggleTimeGraphClass" class="advancedToggleOptional" data-option="timeGraphClass" type="checkbox" />&nbsp;
 							<label for="advancedToggleTimeGraphClass">Compare to class</label>
-							<span class="legend advancedTimeGraphClass">
-							  <b class="studentLine">Student</b><br />
-							  <b class="classLine">Class</b>
-							</span>
 						  </div>
 						</div><br><hr>
 						<div id="visualizationContainer" class="container">
@@ -76,16 +72,9 @@ if ( $context->valid ) {
 						  <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
 						  <div id="timeGraph"></div>
 						</div>
-						<h5>Select a skill:</h5>
+						<h5>Select skills:</h5>
 						<form>
-						  <div class="btn-group" data-toggle="buttons">
-							<label class="btn btn-default active"><input type="radio" name="timeGraphSkillOption" value="time" checked />Time Management</label>
-							<label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="activity" />Online Activity</label>
-							<label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="consistency" />Consistency</label>
-							<label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="awareness" />Knowledge Awareness</label>
-							<label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="deepLearning" />Deep Learning</label>
-							<label class="btn btn-default"><input type="radio" name="timeGraphSkillOption" value="persistence" />Persistence</label>
-						  </div>
+						  <div class="btn-group" data-toggle="buttons" id="timeGraphLegendButtons"></div>
 						</form>
 					</div>
 				</div>

@@ -120,16 +120,19 @@ function loadSkillsGraph(data) {
 	refreshView();
 }
 
-function loadNewTimeGraph() {
+function loadTimeGraph() {
 	timeGraph = c3.generate({
 		bindto: "#timeGraph",
+		size: {
+			width: $("#timeGraphSection").width() - 50
+		},
 		data: {
 			x : 'date',
 			url: '../student_skills_stats/time_graph',
-			//groups: [
-				//['Unit 3', 'Unit 4']
-			//],
 			type: 'line'
+		},
+		legend: {
+			show: false
 		},
 		axis: {
 			x: {
@@ -142,10 +145,29 @@ function loadNewTimeGraph() {
 		}
 	});
 	setTimeout(function() { $("#timeGraphContainer .spinner").hide(); }, 2000);
+	d3.select("#timeGraphLegendButtons").selectAll('label')
+		.data(["Time Management", "Online Activity", "Consistency", "Knowledge Awareness", "Deep Learning", "Persistence"])
+	  .enter().append('label')
+		.attr('data-id', function (id) { return id; })
+		.attr('class', 'btn btn-default active')
+		.html(function (id) { return id; })
+		.on('mouseover', function (id) {
+			timeGraph.focus(id);
+		})
+		.on('mouseout', function (id) {
+			timeGraph.revert();
+		})
+		.on('click', function (id) {
+			timeGraph.toggle(id);
+		})
+		.append('span')
+		.attr('class', 'timeGraphLegendColor')
+		.style('background-color', function(id) { return timeGraph.color(id); })
+		;
 }
 
 function showClassOnTimeGraph(visible) {
-	if (visible) {
+	if (visible == true) {
 		timeGraph.load({
 			columns: [
 				["Class Median", 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5]
@@ -156,112 +178,6 @@ function showClassOnTimeGraph(visible) {
 			ids: "Class Median"
 		});
 	}
-}
-
-function loadTimeGraph(skillId) {
-	// Default skill is time management
-	skillId = skillId != null ? skillId : "time";
-
-	// Show the loading spinner
-	$("#timeGraphSection .spinner").show();
-	// Remove existing graph
-	$("#timeGraph").empty();
-
-	// Largely from http://bl.ocks.org/mbostock/3883245
-	var margin = {top: 20, right: 20, bottom: 50, left: 30},
-	    width = 800 - margin.left - margin.right,
-	    height = 300 - margin.top - margin.bottom;
-
-	var parseDate = d3.time.format("%Y-%m-%d").parse;
-
-	var x = d3.scale.ordinal()
-		.rangeRoundBands([0, width], 0.1);
-
-	var y = d3.scale.linear()
-	    .range([height, 0]);
-
-	var xAxis = d3.svg.axis()
-	    .scale(x)
-	    .orient("bottom");
-
-	var yAxis = d3.svg.axis()
-	    .scale(y)
-	    .orient("left");
-
-	var svg = d3.select("#timeGraph").append("svg")
-	    .attr("width", width + margin.left + margin.right)
-	    .attr("height", height + margin.top + margin.bottom)
-	  .append("g")
-	    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-	d3.csv("../student_skills_stats/time_graph", function(error, data) {
-
-	  // Hide the loading spinner
-	  $("#timeGraphSection .spinner").hide();
-
-	  // TODO error handling with friendly text and no infinite spinner
-	  if (error) throw error;
-
-
-	  data.forEach(function(d) {
-	    //d.date = parseDate(d.date);
-		d.time = +d.time;
-		d.activity = +d.activity;
-		d.consistency = +d.consistency;
-		d.awareness = +d.awareness;
-		d.deepLearning = +d.deepLearning;
-		d.persistence = +d.persistence;
-	  });
-
-	  console.log(data);
-
-	  x.domain(data.map(function(d) { return d.date; }));
-	  y.domain([0, 10]);
-
-	  svg.append("g")
-	      .attr("class", "x axis")
-	      .attr("transform", "translate(0," + height + ")")
-	      .call(xAxis)
-	    .append("text")
-	      .attr("dy", "3em")
-	      .attr("x", width / 2)
-	      .style("text-anchor", "middle")
-	      .text("Date");
-
-	  svg.append("g")
-	      .attr("class", "y axis")
-	      .call(yAxis)
-	    .append("text")
-	      .attr("transform", "rotate(-90)")
-	      .attr("y", 6)
-	      .attr("dy", ".71em")
-	      .style("text-anchor", "end")
-	      .text("Score");
-
-	  var line = d3.svg.line()
-		.x(function(d) {return x(d.date); })
-		.y(function(d) {return y(d[skillId]); });
-
-
-	  var studentData = $.grep(data, function(d,i) {
-		  return d.scope == "student";
-	  });
-	  svg.append("path")
-	      .datum(data)
-	      .attr("class", "line studentLine")
-	      .attr("d", line);
-
-	  var classData = data.map(function(d) {
-		  d[skillId] = 5;
-		  return d;
-	  });
-	  svg.append("path")
-	      .datum(data)
-	      .attr("class", "line classLine")
-	      .attr("d", line);
-
-	  refreshView();
-	});
 }
 
 // We have to do this again when we load the new skill box in the radar chart
@@ -309,17 +225,10 @@ function changeView(optionName, optionValue, refreshOnly) {
 			break;
 		case "timeGraph":
 			$(".advancedTimeGraph").removeClass(h).addClass(s);
-			// Have to manually do things in the svg chart
-			$("#timeGraphSection .classLine").hide();
 			break;
 		case "timeGraphClass":
-			if (optionValue == true) {
-				$(".advancedTimeGraph, .advancedTimeGraphClass").removeClass(h).addClass(s);
-				$("#timeGraphSection .classLine").fadeIn();
-			} else {
-				$(".advancedTimeGraph").removeClass(h).addClass(s);
-				$("#timeGraphSection .classLine").hide();
-			}
+			$(".advancedTimeGraph").removeClass(h).addClass(s);
+			showClassOnTimeGraph(optionValue);
 			break;
 		case "skillsGraph":
 			$(".advancedSkillsGraph").removeClass(h).addClass(s);
@@ -422,11 +331,7 @@ $(function() {
 		event.stopPropagation();
 		event.preventDefault();
 	});
-	// Reload the time graph when skill selection changes
-	$("input:radio[name=timeGraphSkillOption]").on("change", function() {
-		loadTimeGraph($(this).val());
-		track("clicked","timeGraphSkillOption"+$(this).val());
-	});
+
 	// Set up bootstrap tooltips
 	setupBootstrapTooltips();
 
@@ -451,8 +356,6 @@ $(function() {
 		loadSkillsGraph(data);
 	});
 	loadTimeGraph();
-	// Change to this when approved
-	//loadNewTimeGraph();
 
 	// Go to the skills graph first
 	changeView("skillsGraph");

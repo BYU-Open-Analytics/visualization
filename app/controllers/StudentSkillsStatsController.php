@@ -101,9 +101,7 @@ class StudentSkillsStatsController extends Controller
 		}
 		$output = fopen("php://output", "w");
 		// Header row
-		fputcsv($output, ["date", "time", "activity", "consistency", "awareness", "deepLearning", "persistence"]);
-		// Change to this when new time graph is implemented
-		//fputcsv($output, ["date", "Time Management", "Online Activity", "Consistency", "Knowledge Awareness", "Deep Learning", "Persistence"]);
+		fputcsv($output, ["date", "Time Management", "Online Activity", "Consistency", "Knowledge Awareness", "Deep Learning", "Persistence"]);
 		foreach ($historyPoints as $row) {
 			fputcsv($output, $row); // here you can change delimiter/enclosure
 		}

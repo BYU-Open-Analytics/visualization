@@ -60,6 +60,15 @@
 	color: rgb(31, 119, 180);
 }
 
+.timeGraphLegendColor {
+	display: inline-block;
+	float: left;
+	width: 12px;
+	height: 12px;
+	border-radius: 3px;
+	margin: 4px 4px 0px 0px;
+}
+
 /* Advanced */
 .advancedToggle {
 	transition: background-color 100ms ease-out;
