@@ -66,12 +66,12 @@ function loadSkillsGraph(data) {
 
 	var colorScale = d3.scale.category10();
 	var radarConfig = {
-		w: 400,
-		h: 400,
-		labelFactor: 1.15,
+		w: 350,
+		h: 350,
+		labelFactor: 1.25,
 		maxValue: 10,
 		levels: 5,
-		margin: {top: 40, right: 100, bottom: 100, left: 100},
+		margin: {top: 60, right: 100, bottom: 100, left: 100},
 		color: colorScale,
 		clickHandler: skillsGraphPointClicked
 	};
@@ -123,9 +123,6 @@ function loadSkillsGraph(data) {
 function loadTimeGraph() {
 	timeGraph = c3.generate({
 		bindto: "#timeGraph",
-		size: {
-			width: $("#timeGraphSection").width() - 50
-		},
 		data: {
 			x : 'date',
 			url: '../student_skills_stats/time_graph',
@@ -150,7 +147,7 @@ function loadTimeGraph() {
 	  .enter().append('label')
 		.attr('data-id', function (id) { return id; })
 		.attr('class', 'btn btn-default active')
-		.html(function (id) { return id; })
+		.html(function (id) { return '<span style="background-color: ' + timeGraph.color(id) + ';" class="timeGraphLegendColor"></span>' + id; })
 		.on('mouseover', function (id) {
 			timeGraph.focus(id);
 		})
@@ -160,9 +157,9 @@ function loadTimeGraph() {
 		.on('click', function (id) {
 			timeGraph.toggle(id);
 		})
-		.append('span')
-		.attr('class', 'timeGraphLegendColor')
-		.style('background-color', function(id) { return timeGraph.color(id); })
+		//.append('span')
+		//.attr('class', 'timeGraphLegendColor')
+		//.style('background-color', function(id) { return timeGraph.color(id); })
 		;
 }
 
