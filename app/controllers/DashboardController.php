@@ -122,6 +122,12 @@ class DashboardController extends Controller
 			$conceptId = $c["Section Number"];
 			// Get resources for each of the concepts
 			$resourceLists[$conceptId] = MappingHelper::resourcesForConcept($conceptId);
+			// Get videos for each of the concepts
+			$videos = MappingHelper::videosForConcept($conceptId);
+			// Format videos to be the same format as ayamel links from the resources.csv mapping
+			foreach ($videos as $video) {
+				$resourceLists[$conceptId] []= ["Section Number" => $video["Section Number"], "Type" => "ayamel", "Title" => $video["title"], "Link" => $video["Video ID"], "Date" => $video["date"]];
+			}
 		}
 		// Figure out which concept to position the list at (based on the current day)
 		$currentConceptID = "";
