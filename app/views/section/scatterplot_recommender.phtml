@@ -1,0 +1,155 @@
+<?php
+	if ( $context->valid ) {
+?>
+
+<!-- Welcome jumbotron message -->
+<div class="jumbotron" id="welcomeJumbotron">
+	<h1>Welcome!</h1>
+	<p>This dashboard will display recommendations to you about which videos and quizzes should be reviewed, based on your online activity.</p>
+	<p><button class="btn btn-primary btn-large" data-dismiss="welcomeJumbotron" id="jumbotronDismiss">Continue to Dashboard</button></p>
+</div>
+
+<!-- Container for concepts, recommendations, and advanced -->
+<div id="mainContainer" class="container hidden">
+	<div class="row" id="pillNavigation">
+		<ul class="nav nav-pills">
+			<li role="presentation" class="active"><a href="#scatterplot" data-option="MasteryGraph">Mastery Graph</a></li>
+			<li role="presentation"><a href="#timeGraph" data-option="MasteryOverTime">Total Mastery Over Time</a></li>
+		</ul>
+		<hr>
+	</div>
+
+	<div class="row vertical-divider">
+		
+		<!-- Scatterplot container -->
+		<div id="scatterplotSection" class="col-sm-7">
+				<span class="spinner" style=""><br /><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
+				<h3 class="capsLabel" style="display: inline; padding-left: 0px;">See concepts from unit: </h3>
+				<label for="unitSelector">&nbsp;</label><select class="unitSelector" name="unitSelector">
+					<?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'"'; if ($unit['id']==3) { echo ' selected="selected"'; } echo '>'.$unit['title'].'</option>'; } ?>
+				</select>
+		</div>
+
+		<!-- Recommendations container -->
+		<div id="recommendSectionHolder" class="col-sm-5">
+			<p class="lead">Click on a concept dot to see recommendations on how to improve your mastery score. </p>
+			<!-- Recommendation groups -->
+			<div id="recommendSection">
+				<h3 style="margin-top: 8px;" class="capsLabel">Question Recommendations for <span id="recommendationHeaderScopeLabel">...</span></h3>
+				<span class="spinner" style=""><br /><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
+				<div class="panel-group" id="recommendationsAccordion" role="tablist">
+					<!-- Question groups dynamically inserted -->
+				</div>
+			</div>
+		</div>
+
+		<!-- Mastery over time graph container -->
+		<div id="timeGraphSection" class="col-sm-12">
+			<span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
+			<div id="timeGraph"></div>
+		</div>
+
+	</div>
+</div>
+
+
+
+<!-- Templates for recommendations -->
+<div id="templates" class="hidden">
+	<!-- Group Template -->
+	<div id="groupTemplate" class="panel panel-default recommendGroup">
+		<div class="panel-heading" role="tab" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend{id}" data-placement="top" data-html="true" title="{tooltip}">
+			<h4 class="panel-title">
+				<a role="button" data-toggle="collapse" data-parent="#recommendationsAccordion" href="#recommend{id}">{title} <span id="recommend{id}CountBadge" class="countBadge"></span></a>
+			</h4>
+		</div>
+		<div id="recommend{id}" class="panel-collapse collapse">
+			<div class="panel-body recommendPanelBody">
+				<table class="table table-hover table-striped sticky-header" id="recommend{id}List"> </table>
+			</div>
+		</div>
+	</div>
+
+	<table id="recommendTemplates">
+	<!-- Template for recommendation table header -->
+	<thead class="recommendHeaderTemplate">
+	  <tr>
+		<th>Quiz Question</th>
+		<th style="text-align: center;">Correct</th>
+		<th style="text-align: center;">Attempts</th>
+		<th><!--Launch Quiz and related videos--></th>
+	  </tr>
+	</thead>
+	<!-- Template for recommendation item -->
+	<tr class="recommendQuestionDisplay">
+		<td><span class="recommendQuestionTextContainer">{display}</span></td>
+		<td style="text-align: center;"><span class="correct-{correct}Holder"><span class="glyphicon glyphicon-ok correctIcon"></span><span class="glyphicon glyphicon-remove incorrectIcon"></span></span></td>
+		<td style="text-align: center;"><span class="" style="font-weight: bold;">{attempts}</span></td>
+		<td>
+			<a role="button" href="http://openanalytics-dashboard.com/consumer.php?app=openassessments&assessment_id={assessmentId}&question_id={questionNumber}" data-track="question{assessmentId}.{questionNumber}Launch" class="btn btn-info btn-xs" title="Launch Quiz" target="_blank"> <span class="glyphicon glyphicon-log-in"></span></a>
+			<button class="btn btn-info btn-xs" title="See Related Videos" data-toggle="modal" data-target="#relatedVideosModal" data-assessment="{assessmentId}" data-question="{questionNumber}"> <span class="glyphicon glyphicon-film"></span></button>
+		</td>
+	</tr>
+	</table>
+
+	<!-- List shown when low concepts box in bottom-left corner shown -->
+	<ul class="list-group lowConceptsList">
+	</ul>
+</div>
+
+<!-- Related videos modal dialog -->
+<div class="modal fade" tabindex="-1" id="relatedVideosModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Videos related to this question</h4>
+			</div>
+			<div class="modal-body">
+				<table class="table" id="relatedVideosModalTable">
+					<thead><tr><th>&nbsp;</th><th>Video Name</th><!--<th class="advancedMore">% Watched</th>--></tr></thead>
+					<tbody></tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Feedback modal dialog -->
+<div class="modal fade" tabindex="-1" id="feedbackModal">
+	<div class="modal-dialog modal-sm">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Send Feedback</h4>
+			</div>
+			<div class="modal-body">
+				<form action="javascript:void(0);" id="feedbackForm">
+					<select class="form-control" id="feedbackTypeSelector">
+						<option value="problem">Report an issue</option>
+						<option value="suggestion">Give a suggestion</option>
+					</select>
+					<div class="alert alert-danger hidden" id="feedbackEmptyAlert">Enter your feedback here:</div>
+					<textarea class="form-control lead" rows="3" id="feedbackTextArea" placeholder="Have a suggestion? Found an issue? Send us your feedback."></textarea>
+					<button type="submit" class="btn btn-default btn-block" id="feedbackSendButton">Send Feedback</button>
+				</form>
+				<p class="lead hidden" id="feedbackResult"></p>
+				<span class="spinner hidden" id="feedbackSpinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?></span>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<?php
+	echo Phalcon\Tag::javascriptInclude("js/vendor/jquery-ui-1.9.2.accordion.min.js");
+	echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.knob.min.js");
+	echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.stickytableheaders.min.js");
+	echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.shorten.js");
+	echo Phalcon\Tag::javascriptInclude("js/vendor/c3.min.js");
+	echo Phalcon\Tag::javascriptInclude("js/scatterplot_recommender.js");
+	echo Phalcon\Tag::stylesheetLink("css/c3.min.css");
+	echo Phalcon\Tag::stylesheetLink("css/scatterplot_recommender.css");
+} else {
+	echo "<p class='alert alert-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";
+}

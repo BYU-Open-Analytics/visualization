@@ -1,0 +1,79 @@
+<h2>Visualization Dashboard</h2>
+<?php
+if ( $context->valid ) {
+?>
+<div id="visualizationContainer">
+
+<div class="visualization" id="openAssessmentStats" style="width: 450px; height: 390px;">
+	<h3>Open Assessments User Statistics</h3>
+	<span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
+	<svg width="0" height="0">
+	</svg>
+</div>
+<div class="modal fade" tabindex="-1" id="openAssessmentStatsModal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title">Dialog Title</h4>
+			</div>
+			<div class="modal-body">
+				Load more related content here
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="visualization" id="ayamelStats" style="width: 650px; height: 405px;">
+	<h3>Ayamel Global Verb Counts<br /><small>Only verbs with >4% of statements included</small></h3>
+	<span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
+	<svg width="0" height="0">
+	</svg>
+</div>
+
+<div class="visualization" id="confidencePie" style="width: 620px; height: 550px;">
+	<h3>User Answer Confidence Count</h3>
+	<span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
+	<div id="confidencePieContainer"></div>
+</div>
+
+<div class="visualization" id="confidenceAverage" style="width: 450px; height: 200px;">
+	<h3>Answer Confidence Average</h3>
+	<form>
+		<div class="btn-group" data-toggle="buttons">
+			<label class="btn btn-default active"><input type="radio" name="confidenceAverageOption" value="overall" checked />Overall</label>
+			<label class="btn btn-default"><input type="radio" name="confidenceAverageOption" value="correct" />Correct</label>
+			<label class="btn btn-default"><input type="radio" name="confidenceAverageOption" value="incorrect" />Incorrect</label>
+		</div>
+	</form>
+	<span class="spinner"><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
+	<svg width="0" height="0">
+	<linearGradient id="confidenceGradient" x1="0%" y1="100%" x2="100%" y2="100%" gradientUnits="objectBoundingBox">
+		<stop offset="0%" style="stop-color:#CF0000; stop-opacity:1"></stop>
+		<stop offset="50%" style="stop-color:#71B889; stop-opacity:1"></stop>
+		<stop offset="100%" style="stop-color:#3299BB; stop-opacity:1"></stop>
+	</linearGradient>
+	</svg>
+</div>
+
+<div class="visualization" id="circleFun">
+	<h3>Circle transitions</h3>
+	<input id="circleDataSize" type="range" min="0" max="20" value="5" />
+	<label id="cirlceDataSizeLabel"></label>
+	<svg width="100%" height="100">
+	</svg>
+</div>
+
+<div class="visualization" id="barGraph">
+	<h3>Basic Static Bar Graph</h3>
+	<svg width="500" height="300">
+	</svg>
+</div>
+
+</div>
+
+<?php
+echo Phalcon\Tag::javascriptInclude("js/instructor.js");
+} else {
+	echo "<p class='alert alert-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";
+}
