@@ -129,11 +129,6 @@ if ( $context->valid ) {
                   <?php foreach ($concepts as $concept) { echo '<option value="'.$concept['id'].'">'.$concept['title'].'</option>'; } ?>
                 </select>
               </label>
-  	    <label class="btn btn-default scopeOptionLabel"><input type="radio" name="scatterplotScopeOption" value="chapter" />Chapter: 
-                <select class="chapterSelector" name="scatterplotChapterSelector">
-                  <?php foreach ($chapters as $chapter) { echo '<option value="'.$chapter['id'].'">'.$chapter['title'].'</option>'; } ?>
-                </select>
-              </label>
   	    <label class="btn btn-default scopeOptionLabel"><input type="radio" name="scatterplotScopeOption" value="unit" />Unit: 
                 <select class="unitSelector" name="scatterplotUnitSelector">
                   <?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'">'.$unit['title'].'</option>'; } ?>
@@ -169,11 +164,6 @@ if ( $context->valid ) {
           <span class="spinner pull-right"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
           <form>
             <div class="btn-group" data-toggle="buttons">
-  	    <label class="btn btn-default scopeOptionLabel"><input type="radio" name="masteryGraphScopeOption" value="chapter" />Chapter: 
-                <select class="chapterSelector" name="masteryGraphChapterSelector">
-                  <?php foreach ($chapters as $chapter) { echo '<option value="'.$chapter['id'].'">'.$chapter['title'].'</option>'; } ?>
-                </select>
-              </label>
   	    <label class="btn btn-default scopeOptionLabel active"><input type="radio" name="masteryGraphScopeOption" value="unit" checked />Unit: 
                 <select class="unitSelector" name="masteryGraphUnitSelector">
                   <?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'">'.$unit['title'].'</option>'; } ?>

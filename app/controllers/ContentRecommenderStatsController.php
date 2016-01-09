@@ -35,22 +35,18 @@ class ContentRecommenderStatsController extends Controller
 		$group4 = [];
 
 		// Get the list of questions associated with concepts for the given scope and grouping ID
-		$questionIds = [];
+		$questionRows = [];
 		switch ($scope) {
 			case "concept":
 				// Filter based on concept
-				$questionIds = MappingHelper::questionsInConcept($groupingId);
-				break;
-			case "chapter":
-				// Filter based on chapter
-				// conceptsInChapter returns an array with more than just concept number, so get just concept_number column
-				$questionIds = MappingHelper::questionsInConcepts(array_column(MappingHelper::conceptsInChapter($groupingId), "Section Number"));
+				$questionRows  = MappingHelper::questionsInConcept($groupingId);
 				break;
 			case "unit":
 				// Filter based on unit
-				$questionIds = MappingHelper::questionsInConcepts(array_column(MappingHelper::conceptsInChapters(MappingHelper::chaptersInUnit($groupingId)), "Section Number"));
+				$questionRows = MappingHelper::questionsInConcepts(MappingHelper::conceptsInUnit($groupingId));
 				break;
 			default:
+				// Allowing all would take too long
 				echo '[{"error":"Invalid scope option"}]';
 				return;
 				break;
@@ -58,47 +54,44 @@ class ContentRecommenderStatsController extends Controller
 
 		if ($debug) {
 			echo "<pre>Getting information for these questions in scope $scope and ID $groupingId\n";
-			print_r($questionIds);
+			print_r($questionRows);
 		}
-		$questions = array();
+		$questions = [];
 		// Get some info about each question
-		foreach ($questionIds as $questionId) {
-			$question = MappingHelper::questionInformation($questionId);
-			// Check that it's a valid question
-			if ($question != false) {
-				// Get number of attempts and number of correct attempts
-				$question["attempts"] = MasteryHelper::countAttemptsForQuestion($context->getUserName(), $question["assessmentId"], $question["questionNumber"], $debug);
-				$question["correctAttempts"] = MasteryHelper::countCorrectAttemptsForQuestion($context->getUserName(), $question["assessmentId"], $question["questionNumber"], $debug);
-				// Get amount of associated videos watched
-				// Note that question ID is being used instead of assessment ID and question number, since we're searching the csv mapping and not dealing with assessment statements here
-				$question["videoPercentage"] = MasteryHelper::calculateUniqueVideoPercentageForQuestion($context->getUserName(), $questionId);
-				// Variables used in the display table
-				// This is one place where we're just using correct, not better correct, attempts
-				$question["correct"] = $question["correctAttempts"]["correct"] > 0;
-				$question["classAverageAttempts"] = $classHelper->calculateAverageAttemptsForQuestion($question["assessmentId"], $question["questionNumber"], $debug);
-				$question["classViewedHint"] = $classHelper->calculateViewedHintPercentageForQuestion($question["assessmentId"], $question["questionNumber"], $debug);
-				$question["classViewedAnswer"] = $classHelper->calculateViewedAnswerPercentageForQuestion($question["assessmentId"], $question["questionNumber"], $debug);
-				$questions []= $question;
-			}
+		foreach ($questionRows as $question) {
+			// Get number of attempts and number of correct attempts
+			$question["attempts"] = MasteryHelper::countAttemptsForQuestion($context->getUserName(), $question["OA Quiz ID"], $question["Question Number"], $debug);
+			$question["correctAttempts"] = MasteryHelper::countCorrectAttemptsForQuestion($context->getUserName(), $question["OA Quiz ID"], $question["Question Number"], $debug);
+			// Get amount of associated videos watched
+			// Note that question ID is being used instead of assessment ID and question number, since we're searching the csv mapping and not dealing with assessment statements here
+			$question["videoPercentage"] = MasteryHelper::calculateUniqueVideoPercentageForQuestion($context->getUserName(), $questionId);
+			// Variables used in the display table
+			// This is one place where we're just using correct, not better correct, attempts
+			$question["correct"] = $question["correctAttempts"]["correct"] > 0;
+			$question["classAverageAttempts"] = $classHelper->calculateAverageAttemptsForQuestion($question["OA Quiz ID"], $question["Question Number"], $debug);
+			$question["classViewedHint"] = $classHelper->calculateViewedHintPercentageForQuestion($question["OA Quiz ID"], $question["Question Number"], $debug);
+			$question["classViewedAnswer"] = $classHelper->calculateViewedAnswerPercentageForQuestion($question["OA Quiz ID"], $question["Question Number"], $debug);
+			$questions []= $question;
 		}
 
 
 		// Fetch question texts for all questions in these assessments
 			// Get the Open Assessments API endpoint from config
 			$assessmentsEndpoint = $this->getDI()->getShared('config')->openassessments_endpoint;
-			$assessmentIds = ["assessment_ids" => array_values(array_unique(array_column($questions, "assessmentId")))];
+			// Extract a list of assessment IDs from our list of questions. We'll get question texts for these.
+			$assessmentIDs = ["assessment_ids" => array_values(array_unique(array_column($questions, "OA Quiz ID")))];
 
 			$request = $assessmentsEndpoint."api/question_text";
 			if ($debug) {
 				echo "Fetching question texts for these assessment IDs:\n";
-				print_r(array_column($questions, "assessmentId"));
-				print_r($assessmentIds);
+				print_r(array_column($questions, "OA Quiz ID"));
+				print_r($assessmentIDs);
 				echo $request;
 			}
 			$session = curl_init($request);
 			curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($session, CURLOPT_POST, 1);
-			curl_setopt($session, CURLOPT_POSTFIELDS, json_encode($assessmentIds));
+			curl_setopt($session, CURLOPT_POSTFIELDS, json_encode($assessmentIDs));
 
 			$response = curl_exec($session);
 
@@ -115,7 +108,7 @@ class ContentRecommenderStatsController extends Controller
 			foreach ($questions as $key => $q) {
 				// Make sure the question text exists before setting it
 				// Avoid off-by-one error. The question id from statement object id will be 1 to n+1
-				$questions[$key]["display"] = isset($questionTexts[$q["assessmentId"]][$q["questionNumber"]-1]) ? $questionTexts[$q["assessmentId"]][$q["questionNumber"]-1] : "Error getting question text for #{$q["assessmentId"]} # #{$q["questionNumber"]}-1";
+				$questions[$key]["display"] = isset($questionTexts[$q["OA Quiz ID"]][$q["Question Number"]-1]) ? $questionTexts[$q["OA Quiz ID"]][$q["Question Number"]-1] : "Error getting question text for #{$q["OA Quiz ID"]} # #{$q["Question Number"]}-1";
 				//$q["questionText"] = $questionText;
 			}
 
@@ -162,6 +155,7 @@ class ContentRecommenderStatsController extends Controller
 
 
 	// Returns an array of points for the concept mastery scatterplot
+	// NOTE: currently not updated to current mapping structure. Proceed with caution.
 	public function scatterplotAction($scope = 'concept', $groupingId = '', $debug = false) {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
@@ -171,8 +165,6 @@ class ContentRecommenderStatsController extends Controller
 			return;
 		}
 
-		// TODO default to current concept?
-
 		// Get the list of questions associated with concepts for the given scope and grouping ID
 		$questions = [];
 		switch ($scope) {
@@ -180,14 +172,9 @@ class ContentRecommenderStatsController extends Controller
 				// Filter based on concept
 				$questions = MappingHelper::questionsInConcept($groupingId);
 				break;
-			case "chapter":
-				// Filter based on chapter
-				// conceptsInChapter returns an array with more than just concept number, so get just concept_number column
-				$questions = MappingHelper::questionsInConcepts(array_column(MappingHelper::conceptsInChapter($groupingId), "Section Number"));
-				break;
 			case "unit":
 				// Filter based on unit
-				$questions = MappingHelper::questionsInConcepts(array_column(MappingHelper::conceptsInChapters(MappingHelper::chaptersInUnit($groupingId)), "Section Number"));
+				$questions = MappingHelper::questionsInConcepts(MappingHelper::conceptsInUnit($groupingId));
 				break;
 			default:
 				echo '[{"error":"Invalid scope option"}]';
@@ -199,22 +186,18 @@ class ContentRecommenderStatsController extends Controller
 			print_r($questions);
 		}
 
-		// Remove duplicate questions (if question is associated with more than one video, only show it once)
-		$uniqueQuestions = array_unique($questions);
-
 		$classHelper = new ClassHelper();
 
 		// Array of questions with more details about each
 		$questionDetails = array();
 
 		// Get some info about each question
-		foreach ($questions as $questionId) {
-			$question = MappingHelper::questionInformation($questionId);
+		foreach ($questions as $question) {
 			// Check that it's a valid question
 			if ($question != false) {
 				// Get number of attempts
-				$question["attempts"] = MasteryHelper::countAttemptsForQuestion($context->getUserName(), $question["assessmentId"], $question["questionNumber"], $debug);
-				$question["scaledAttemptScore"] = $classHelper->calculateScaledAttemptScoreForQuestion($question["attempts"], $question["assessmentId"], $question["questionNumber"], $debug);
+				$question["attempts"] = MasteryHelper::countAttemptsForQuestion($context->getUserName(), $question["OA Quiz ID"], $question["Question Number"], $debug);
+				$question["scaledAttemptScore"] = $classHelper->calculateScaledAttemptScoreForQuestion($question["attempts"], $question["OA Quiz ID"], $question["Question Number"], $debug);
 				// Get amount of associated videos watched
 				// Note that question ID is being used instead of assessment ID and question number, since we're searching the csv mapping and not dealing with assessment statements here
 				$question["videoPercentage"] = MasteryHelper::calculateVideoPercentageForQuestion($context->getUserName(), $questionId);
@@ -327,24 +310,20 @@ class ContentRecommenderStatsController extends Controller
 		// Get the list of concepts for the given scope and grouping ID
 		$concepts = [];
 		switch ($scope) {
-			case "chapter":
-				// Filter based on chapter
-				$concepts = MappingHelper::conceptsInChapter($groupingId);
-				break;
 			case "unit":
 				// Filter based on unit
-				$concepts = MappingHelper::conceptsInChapters(MappingHelper::chaptersInUnit($groupingId));
+				$concepts = MappingHelper::conceptsInUnit($groupingId);
 				break;
 			default:
 				// All concepts
-				$concepts = MappingHelper::conceptsInChapters(MappingHelper::allChapters());
+				$concepts = MappingHelper::allConcepts();
 				break;
 		}
 		$masteryHelper = new MasteryHelper();
 		foreach ($concepts as $c) {
-			$score = $masteryHelper::calculateConceptMasteryScore($context->getUserName(), $c["Section Number"], $debug);
+			$score = $masteryHelper::calculateConceptMasteryScore($context->getUserName(), $c["Lecture Number"], $debug);
 			if ($debug) { echo "Concept mapping info\n"; print_r($c); }
-			$result []= ["id" => $c["Section Number"], "display" => $c["Section Title"], "score" => $score, "unit" => $c["Unit"]];
+			$result []= ["id" => $c["Lecture Number"], "display" => $c["Concept Title"], "score" => $score, "unit" => $c["Unit Number"]];
 		}
 		echo json_encode($result);
 	}

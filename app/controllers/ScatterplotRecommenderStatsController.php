@@ -9,7 +9,7 @@ class ScatterplotRecommenderStatsController extends Controller
 		$this->tag->setTitle('Scatterplot Recommender Stats');
 	}
 
-	// Returns videos and their unique percentage watched for a given content grouping (all, unit, chapter, or concept)
+	// Returns videos and their unique percentage watched for a given content grouping (all, unit, or concept)
 	public function videoRecommendationsAction($scope = 'all', $groupingId = 'all', $debug = false) {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
@@ -30,18 +30,13 @@ class ScatterplotRecommenderStatsController extends Controller
 				// Filter based on concept
 				$videos = MappingHelper::videosForConcept($groupingId);
 				break;
-			case "chapter":
-				// Filter based on chapter
-				// conceptsInChapter returns an array with more than just concept number, so get just concept_number column
-				$videos = MappingHelper::videosForConcepts(array_column(MappingHelper::conceptsInChapter($groupingId), "Section Number"));
-				break;
 			case "unit":
 				// Filter based on unit
-				$videos = MappingHelper::videosForConcepts(array_column(MappingHelper::conceptsInChapters(MappingHelper::chaptersInUnit($groupingId)), "Section Number"));
+				$videos = MappingHelper::videosForConcepts(MappingHelper:conceptsInUnit($groupingId));
 				break;
 			default:
 				// All videos
-				$videos = MappingHelper::videosForConcepts(array_column(MappingHelper::allConcepts(), "Section Number"));
+				$videos = MappingHelper::videosForConcepts(MappingHelper::allConcepts());
 				break;
 		}
 
@@ -102,8 +97,6 @@ class ScatterplotRecommenderStatsController extends Controller
 		echo json_encode($resources);
 	}
 
-	
-
 	// Returns scatterplot recommendations in 4 groups:
 		// Try these quiz questions (Group 1)
 		// Watch these videos before attempting these quiz questions (Group 2)
@@ -130,20 +123,15 @@ class ScatterplotRecommenderStatsController extends Controller
 		$group4 = [];
 
 		// Get the list of questions associated with concepts for the given scope and grouping ID
-		$questionIds = [];
+		$questionRows = [];
 		switch ($scope) {
 			case "concept":
 				// Filter based on concept
-				$questionIds = MappingHelper::questionsInConcept($groupingId);
-				break;
-			case "chapter":
-				// Filter based on chapter
-				// conceptsInChapter returns an array with more than just concept number, so get just concept_number column
-				$questionIds = MappingHelper::questionsInConcepts(array_column(MappingHelper::conceptsInChapter($groupingId), "Section Number"));
+				$questionRows  = MappingHelper::questionsInConcept($groupingId);
 				break;
 			case "unit":
 				// Filter based on unit
-				$questionIds = MappingHelper::questionsInConcepts(array_column(MappingHelper::conceptsInChapters(MappingHelper::chaptersInUnit($groupingId)), "Section Number"));
+				$questionRows = MappingHelper::questionsInConcepts(MappingHelper::conceptsInUnit($groupingId));
 				break;
 			default:
 				// Allowing all would take too long
@@ -154,47 +142,44 @@ class ScatterplotRecommenderStatsController extends Controller
 
 		if ($debug) {
 			echo "<pre>Getting information for these questions in scope $scope and ID $groupingId\n";
-			print_r($questionIds);
+			print_r($questionRows);
 		}
-		$questions = array();
+		$questions = [];
 		// Get some info about each question
-		foreach ($questionIds as $questionId) {
-			$question = MappingHelper::questionInformation($questionId);
-			// Check that it's a valid question
-			if ($question != false) {
-				// Get number of attempts and number of correct attempts
-				$question["attempts"] = MasteryHelper::countAttemptsForQuestion($context->getUserName(), $question["assessmentId"], $question["questionNumber"], $debug);
-				$question["correctAttempts"] = MasteryHelper::countCorrectAttemptsForQuestion($context->getUserName(), $question["assessmentId"], $question["questionNumber"], $debug);
-				// Get amount of associated videos watched
-				// Note that question ID is being used instead of assessment ID and question number, since we're searching the csv mapping and not dealing with assessment statements here
-				$question["videoPercentage"] = MasteryHelper::calculateUniqueVideoPercentageForQuestion($context->getUserName(), $questionId);
-				// Variables used in the display table
-				// This is one place where we're just using correct, not better correct, attempts
-				$question["correct"] = $question["correctAttempts"]["correct"] > 0;
-				$question["classAverageAttempts"] = $classHelper->calculateAverageAttemptsForQuestion($question["assessmentId"], $question["questionNumber"], $debug);
-				$question["classViewedHint"] = $classHelper->calculateViewedHintPercentageForQuestion($question["assessmentId"], $question["questionNumber"], $debug);
-				$question["classViewedAnswer"] = $classHelper->calculateViewedAnswerPercentageForQuestion($question["assessmentId"], $question["questionNumber"], $debug);
-				$questions []= $question;
-			}
+		foreach ($questionRows as $question) {
+			// Get number of attempts and number of correct attempts
+			$question["attempts"] = MasteryHelper::countAttemptsForQuestion($context->getUserName(), $question["OA Quiz ID"], $question["Question Number"], $debug);
+			$question["correctAttempts"] = MasteryHelper::countCorrectAttemptsForQuestion($context->getUserName(), $question["OA Quiz ID"], $question["Question Number"], $debug);
+			// Get amount of associated videos watched
+			// Note that question ID is being used instead of assessment ID and question number, since we're searching the csv mapping and not dealing with assessment statements here
+			$question["videoPercentage"] = MasteryHelper::calculateUniqueVideoPercentageForQuestion($context->getUserName(), $questionId);
+			// Variables used in the display table
+			// This is one place where we're just using correct, not better correct, attempts
+			$question["correct"] = $question["correctAttempts"]["correct"] > 0;
+			$question["classAverageAttempts"] = $classHelper->calculateAverageAttemptsForQuestion($question["OA Quiz ID"], $question["Question Number"], $debug);
+			$question["classViewedHint"] = $classHelper->calculateViewedHintPercentageForQuestion($question["OA Quiz ID"], $question["Question Number"], $debug);
+			$question["classViewedAnswer"] = $classHelper->calculateViewedAnswerPercentageForQuestion($question["OA Quiz ID"], $question["Question Number"], $debug);
+			$questions []= $question;
 		}
 
 
 		// Fetch question texts for all questions in these assessments
 			// Get the Open Assessments API endpoint from config
 			$assessmentsEndpoint = $this->getDI()->getShared('config')->openassessments_endpoint;
-			$assessmentIds = ["assessment_ids" => array_values(array_unique(array_column($questions, "assessmentId")))];
+			// Extract a list of assessment IDs from our list of questions. We'll get question texts for these.
+			$assessmentIDs = ["assessment_ids" => array_values(array_unique(array_column($questions, "OA Quiz ID")))];
 
 			$request = $assessmentsEndpoint."api/question_text";
 			if ($debug) {
 				echo "Fetching question texts for these assessment IDs:\n";
-				print_r(array_column($questions, "assessmentId"));
-				print_r($assessmentIds);
+				print_r(array_column($questions, "OA Quiz ID"));
+				print_r($assessmentIDs);
 				echo $request;
 			}
 			$session = curl_init($request);
 			curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($session, CURLOPT_POST, 1);
-			curl_setopt($session, CURLOPT_POSTFIELDS, json_encode($assessmentIds));
+			curl_setopt($session, CURLOPT_POSTFIELDS, json_encode($assessmentIDs));
 
 			$response = curl_exec($session);
 
@@ -211,7 +196,7 @@ class ScatterplotRecommenderStatsController extends Controller
 			foreach ($questions as $key => $q) {
 				// Make sure the question text exists before setting it
 				// Avoid off-by-one error. The question id from statement object id will be 1 to n+1
-				$questions[$key]["display"] = isset($questionTexts[$q["assessmentId"]][$q["questionNumber"]-1]) ? $questionTexts[$q["assessmentId"]][$q["questionNumber"]-1] : "Error getting question text for #{$q["assessmentId"]} # #{$q["questionNumber"]}-1";
+				$questions[$key]["display"] = isset($questionTexts[$q["OA Quiz ID"]][$q["Question Number"]-1]) ? $questionTexts[$q["OA Quiz ID"]][$q["Question Number"]-1] : "Error getting question text for #{$q["OA Quiz ID"]} # #{$q["Question Number"]}-1";
 				//$q["questionText"] = $questionText;
 			}
 
