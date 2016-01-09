@@ -9,18 +9,20 @@ if ( $context->valid ) {
 		foreach ($concepts as $concept) {
 			// Print title for each concept
 			echo "<h3 name=\"{$concept['id']}\" id=\"concept{$concept['id']}\" data-concept=\"{$concept['id']}\">{$concept['title']}</h3>";
+			$formattedDate = date('M j', strtotime($concept["date"]));
+			
+			// Make list for each concept
 			echo '<ul class="list-group resource-list">';
 			// Print each resource for this concept
 			foreach ($resources[$concept["id"]] as $resource) {
-				echo "<li class=\"list-group-item resource-{$resource["Type"]}\">";
-				if ($resource["Type"] == "web") {
+				echo "<li class=\"list-group-item resource-{$resource["Resource Type"]}\">";
+				if ($resource["Resource Type"] == "web") {
 					echo '<span class="glyphicon glyphicon-globe" aria-hidden="true">&nbsp;</span>';
-					echo "<a href=\"{$resource["Link"]}\" target=\"_blank\">{$resource["Title"]}</a>";
-				} else if ($resource["Type"] == "ayamel") {
+					echo "<a href=\"{$resource["Resource Link"]}\" target=\"_blank\">{$resource["Resource Title"]}</a>";
+				} else if ($resource["Resource Type"] == "ayamel") {
 					echo '<span class="glyphicon glyphicon-film" aria-hidden="true">&nbsp;</span>';
-					echo "<a href=\"../consumer.php?app=ayamel&video_id={$resource["Link"]}\" target=\"_blank\">{$resource["Title"]}</a>";
+					echo "<a href=\"../consumer.php?app=ayamel&video_id={$resource["Resource Link"]}\" target=\"_blank\">{$resource["Resource Title"]}</a>";
 				}
-				$formattedDate = date('M j', strtotime($resource["Date"]));
 				echo "<span class=\"badge resource-date-badge\">{$formattedDate}</span>";
 				echo '</li>';
 			}

@@ -37,30 +37,22 @@ class DashboardController extends Controller
 
 		$this->view->feedbackEmail = $this->getDI()->getShared('config')->feedback_email;
 
-		// Concept, Chapter, and Unit lists
+		// Concept and Unit lists
 		// TODO way to have html list default to current
 		// Concepts
-		$conceptsMapping = MappingHelper::conceptsInChapters(MappingHelper::allChapters());
+		$conceptsMapping = MappingHelper::allConcepts();
 		$concepts = [];
 		// Make each hierarchical content category have consistent structure for view
 		foreach ($conceptsMapping as $c) {
-			$concepts [] = ["id" => $c["Section Number"], "title" => $c["Section Number"] . " " . $c["Section Title"]];
+			$concepts [] = ["id" => $c["Lecture Number"], "title" => $c["Concept Title"]];
 		}
 		$this->view->concepts = $concepts;
 
-		// Chapters
-		$chaptersMapping = CSVHelper::parseWithHeaders('csv/chapter_unit.csv');
-		$chapters = [];
-		foreach ($chaptersMapping as $c) {
-			$chapters [] = ["id" => $c["Chapter Number"], "title" => $c["Chapter Number"] . " " . $c["Chapter Title Short"]];
-		}
-		$this->view->chapters = $chapters;
-
 		// Units
-		$unitsMapping = CSVHelper::parseWithHeaders('csv/unit_chapter.csv');
+		$unitsMapping = MappingHelper::allUnits();
 		$units = [];
 		foreach ($unitsMapping as $u) {
-			$units [] = ["id" => $u["unit_number"], "title" => $u["unit_title"]];
+			$units [] = ["id" => $u["Unit Number"], "title" => $u["Unit Title"]];
 		}
 		$this->view->units = $units;
 	}
@@ -72,30 +64,22 @@ class DashboardController extends Controller
 		$this->view->context = $context;
 		$this->view->feedbackEmail = $this->getDI()->getShared('config')->feedback_email;
 
-		// Concept, Chapter, and Unit lists
+		// Concept and Unit lists
 		// TODO way to have html list default to current
 		// Concepts
-		$conceptsMapping = MappingHelper::conceptsInChapters(MappingHelper::allChapters());
+		$conceptsMapping = MappingHelper::allConcepts();
 		$concepts = [];
 		// Make each hierarchical content category have consistent structure for view
 		foreach ($conceptsMapping as $c) {
-			$concepts [] = ["id" => $c["Section Number"], "title" => $c["Section Number"] . " " . $c["Section Title"]];
+			$concepts [] = ["id" => $c["Lecture Number"], "title" => $c["Concept Title"]];
 		}
 		$this->view->concepts = $concepts;
 
-		// Chapters
-		$chaptersMapping = CSVHelper::parseWithHeaders('csv/chapter_unit.csv');
-		$chapters = [];
-		foreach ($chaptersMapping as $c) {
-			$chapters [] = ["id" => $c["Chapter Number"], "title" => $c["Chapter Number"] . " " . $c["Chapter Title Short"]];
-		}
-		$this->view->chapters = $chapters;
-
 		// Units
-		$unitsMapping = CSVHelper::parseWithHeaders('csv/unit_chapter.csv');
+		$unitsMapping = MappingHelper::allUnits();
 		$units = [];
 		foreach ($unitsMapping as $u) {
-			$units [] = ["id" => $u["unit_number"], "title" => $u["unit_title"]];
+			$units [] = ["id" => $u["Unit Number"], "title" => $u["Unit Title"]];
 		}
 		$this->view->units = $units;
 	}
@@ -113,37 +97,37 @@ class DashboardController extends Controller
 		$this->view->pageTitle ='Course Resources | Student Dashboard';
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
-		// Get list of conceptes (quizzes)
-		$conceptsMapping = MappingHelper::conceptsInChapters(MappingHelper::allChapters());
+		// Get list of concepts
+		$conceptsMapping = MappingHelper::allConcepts();
 		$concepts = [];
 		$resources = [];
+		// Get list of resources for each concept
 		foreach ($conceptsMapping as $c) {
-			$concepts [] = ["id" => $c["Section Number"], "title" => $c["Section Number"] . " " . $c["Section Title"]];
-			$conceptId = $c["Section Number"];
+			// Formatting for view
+			$concepts [] = ["id" => $c["Lecture Number"], "title" => $c["Concept Title"], "date" => $c["Date"]];
 			// Get resources for each of the concepts
+			$conceptId = $c["Lecture Number"];
 			$resourceLists[$conceptId] = MappingHelper::resourcesForConcept($conceptId);
 			// Get videos for each of the concepts
 			$videos = MappingHelper::videosForConcept($conceptId);
 			// Format videos to be the same format as ayamel links from the resources.csv mapping
 			foreach ($videos as $video) {
-				$resourceLists[$conceptId] []= ["Section Number" => $video["Section Number"], "Type" => "ayamel", "Title" => $video["title"], "Link" => $video["Video ID"], "Date" => $video["date"]];
+				$resourceLists[$conceptId] []= ["Lecture Number" => $video["Lecture Number"], "Resource Type" => "ayamel", "Resource Title" => $video["Video Title"], "Resource Link" => $video["Video ID"]];
 			}
 		}
 		// Figure out which concept to position the list at (based on the current day)
-		$currentConceptID = "";
-		// This is assuming that the first resource for every concept has a date, and that they are listed in the CSV in chronological non-descending order
-		// Find the first resource that's past today, and then use the concept of the previous resource
+		$currentConceptID = $conceptsMapping[0]["Date"];
+		// This is assuming that every concept has a date, and that they are listed in concepts.csv in chronological non-descending order
+		// Find the first concept that's past today, and then use the previous concept
 		$today = strtotime("today");
-		foreach ($resourceLists as $resourceList) {
-			if (count($resourceList) > 0) {
-				if (strtotime($resourceList[0]["Date"]) > $today) {
+		foreach ($conceptsMapping as $concept) {
+			if (strtotime($concept["Date"]) > $today) {
+				break;
+			} else {
+				$currentConceptID = $concept["Lecture Number"];
+				// If this concept has a date of today, then stop
+				if (strtotime($concept["Date"]) == $today) {
 					break;
-				} else {
-					$currentConceptID = $resourceList[0]["Section Number"];
-					// If this resource has a date of today, then stop
-					if (strtotime($resourceList[0]["Date"]) == $today) {
-						break;
-					}
 				}
 			}
 		}

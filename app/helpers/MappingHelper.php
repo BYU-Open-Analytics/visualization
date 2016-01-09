@@ -19,13 +19,18 @@ class MappingHelper extends Module {
 
 	// Functions that return a 2D array will be an array of rows from the CSV files. 
 
-	// Returns an array of all unit numbers
+	// Returns a 2D array of all units
 	static public function allUnits() {
 		// Get unit list from the "Unit Number" column from the concepts mapping
 		$allConcepts = CSVHelper::parseWithHeaders('csv/concepts.csv');
-		$units = array_column($allConcepts, "Unit Number");
+		$unitList = array_column($allConcepts, "Unit Number");
 		// This is a list like 1,1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4, so get just unique unit numbers
-		$units = array_unique($units);
+		$unitList = array_unique($unitList);
+		// Give each unit a title based on its number
+		$units = [];
+		foreach ($unitList as $unit) {
+			$units []= ["Unit Number" => $unit, "Unit Title" => "Unit {$unit}"];
+		}
 		return $units;
 	}
 
