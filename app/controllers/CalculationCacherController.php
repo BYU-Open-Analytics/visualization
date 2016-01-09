@@ -90,7 +90,7 @@ class CalculationCacherController extends Controller
 			}
 			$scores = [];
 			foreach ($units as $unit) {
-				$concepts = MappingHelper::conceptsInChapters(MappingHelper::chaptersInUnit($unit));
+				$concepts = MappingHelper::conceptsInUnit($unit);
 				$unitScore = 0;
 				foreach ($concepts as $c) {
 					$unitScore += $masteryHelper::calculateConceptMasteryScore($studentId, $c["Section Number"], $debug);
