@@ -254,55 +254,6 @@ class MasteryHelper extends Module {
 		}
 	}
 
-	// Calculates the percentage (0-100) of video time watched for all videos associated with a given question row
-	public static function calculateVideoPercentageForQuestion($studentId, $question, $debug = false) {
-		// Find the videos related to this question
-		// For now, do this by getting videos associated with this question's concept
-		$relatedVideos = MappingHelper::videosForConcept($question["Lecture Number"]);
-		$totalVideoTime = 0;
-		$totalVideoTimeWatched = 0;
-		$videoIds = array();
-
-		foreach ($relatedVideos as $video) {
-			// Get each video's length
-			$totalVideoTime += $video["Video Length"];
-			// Add its ID to a list that we'll fetch watched statements for
-			$videoIds []= 'https://ayamel.byu.edu/content/'.$video["Video ID"];
-		}
-
-		// Calculate how much time these videos were watched
-		// This is more efficient by using an $in query for all videos, rather than querying for each individual video as previously done
-		$statementHelper = new StatementHelper();
-		$statements = $statementHelper->getStatements("ayamel",[
-			'statement.actor.name' => $studentId,
-			'statement.verb.id' => 'https://ayamel.byu.edu/watched',
-			'statement.object.id' => array('$in' => $videoIds),
-		], [
-			'statement.object.id' => true,
-		]);
-		if ($statements["error"]) {
-			$watchStatementCount = 0;
-			if ($debug) {
-				echo "Error in fetching watched statements for question $questionId and videos: \n";
-				print_r($videoIds);
-			}
-		} else {
-			$watchStatementCount = $statements["cursor"]->count();
-		}
-		// TODO magic number of 10
-		$totalVideoTimeWatched = $watchStatementCount * 10;
-
-		if ($debug) {
-			echo "Videos for $questionId : $watchStatementCount watched statements for the following videos: \n";
-			print_r($videoIds);
-		}
-		// Return percentage (0-100) of videos watched, avoiding division by 0
-		$percentage = ($totalVideoTime != 0) ? ($totalVideoTimeWatched / $totalVideoTime) : 0;
-		return round($percentage * 100);
-	}
-
-
-
 	// Calculates the percentage (0-100) of unique video time watched for all videos associated with a given question row
 	public static function calculateUniqueVideoPercentageForQuestion($studentId, $question, $debug = false) {
 		// Length of each statement in video seconds
