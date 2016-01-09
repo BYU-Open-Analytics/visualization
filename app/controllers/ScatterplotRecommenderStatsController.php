@@ -151,8 +151,7 @@ class ScatterplotRecommenderStatsController extends Controller
 			$question["attempts"] = MasteryHelper::countAttemptsForQuestion($context->getUserName(), $question["OA Quiz ID"], $question["Question Number"], $debug);
 			$question["correctAttempts"] = MasteryHelper::countCorrectAttemptsForQuestion($context->getUserName(), $question["OA Quiz ID"], $question["Question Number"], $debug);
 			// Get amount of associated videos watched
-			// Note that question ID is being used instead of assessment ID and question number, since we're searching the csv mapping and not dealing with assessment statements here
-			$question["videoPercentage"] = MasteryHelper::calculateUniqueVideoPercentageForQuestion($context->getUserName(), $questionId);
+			$question["videoPercentage"] = MasteryHelper::calculateUniqueVideoPercentageForQuestion($context->getUserName(), $question);
 			// Variables used in the display table
 			// This is one place where we're just using correct, not better correct, attempts
 			$question["correct"] = $question["correctAttempts"]["correct"] > 0;

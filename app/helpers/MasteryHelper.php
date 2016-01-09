@@ -8,11 +8,11 @@ class MasteryHelper extends Module {
 	public static function calculateConceptMasteryScore($studentId, $conceptId, $debug = false) {
 
 		// Get questions in concept
-		$questionIds = MappingHelper::questionsInConcept($conceptId);
+		$questions = MappingHelper::questionsInConcept($conceptId);
 
 		if ($debug) {
 			echo "<pre><h1>Concept ID $conceptId: </h1>";
-			print_r($questionIds);
+			print_r($questions);
 			echo "<hr>";
 		}
 		
@@ -21,24 +21,22 @@ class MasteryHelper extends Module {
 		$conceptMultipleChoiceQuestions = array();
 
 		// Loop through each question and get basic information for each
-		foreach ($questionIds as $questionId) {
-			// This function returns an array with quizNumber, questionNumber, assessmentId, and questionType (and number of options for a MC q)
-			$question = MappingHelper::questionInformation($questionId);
+		foreach ($questions as $question) {
 
-			switch ($question["questionType"]) {
+			switch ($question["Question Type"]) {
 				case "essay":
 					// Don't include essay questions in any calculations, so don't add this question to the $conceptQuestions array
 					break;
 				case "short_answer":
 					// Get the number of attempts and correct (no show answer in preceding minute) attempts
-					$question["attempts"] = self::countAttemptsForQuestion($studentId, $question["assessmentId"], $question["questionNumber"], $debug);
-					$question["correctAttempts"] = self::countCorrectAttemptsForQuestion($studentId, $question["assessmentId"], $question["questionNumber"], $debug);
+					$question["attempts"] = self::countAttemptsForQuestion($studentId, $question["OA Quiz ID"], $question["Question Number"], $debug);
+					$question["correctAttempts"] = self::countCorrectAttemptsForQuestion($studentId, $question["OA Quiz ID"], $question["Question Number"], $debug);
 					$conceptShortAnswerQuestions []= $question;
 					break;
 				case "multiple_choice":
 					// Get the number of attempts and correct (no show answer in preceding minute) attempts
-					$question["attempts"] = self::countAttemptsForQuestion($studentId, $question["assessmentId"], $question["questionNumber"], $debug);
-					$question["correctAttempts"] = self::countCorrectAttemptsForQuestion($studentId, $question["assessmentId"], $question["questionNumber"], $debug);
+					$question["attempts"] = self::countAttemptsForQuestion($studentId, $question["OA Quiz ID"], $question["Question Number"], $debug);
+					$question["correctAttempts"] = self::countCorrectAttemptsForQuestion($studentId, $question["OA Quiz ID"], $question["Question Number"], $debug);
 					$conceptMultipleChoiceQuestions []= $question;
 					break;
 			}
@@ -256,17 +254,18 @@ class MasteryHelper extends Module {
 		}
 	}
 
-	// Calculates the percentage (0-100) of video time watched for all videos associated with a given questionID (we're using ID here, since that's what we need to search for in the mappings, and we're not dealing with statements here)
-	public static function calculateVideoPercentageForQuestion($studentId, $questionId, $debug = false) {
+	// Calculates the percentage (0-100) of video time watched for all videos associated with a given question row
+	public static function calculateVideoPercentageForQuestion($studentId, $question, $debug = false) {
 		// Find the videos related to this question
-		$relatedVideos = MappingHelper::videosForQuestion($questionId);
+		// For now, do this by getting videos associated with this question's concept
+		$relatedVideos = MappingHelper::videosForConcept($question["Lecture Number"]);
 		$totalVideoTime = 0;
 		$totalVideoTimeWatched = 0;
 		$videoIds = array();
 
 		foreach ($relatedVideos as $video) {
 			// Get each video's length
-			$totalVideoTime += $video["length"];
+			$totalVideoTime += $video["Video Length"];
 			// Add its ID to a list that we'll fetch watched statements for
 			$videoIds []= 'https://ayamel.byu.edu/content/'.$video["Video ID"];
 		}
@@ -302,66 +301,21 @@ class MasteryHelper extends Module {
 		return round($percentage * 100);
 	}
 
-	// Calculates the percentage (0-100) of video time watched for all videos associated with a given questionID (we're using ID here, since that's what we need to search for in the mappings, and we're not dealing with statements here)
-	public static function calculateVideoPercentageForConcept($studentId, $questionID, $debug = false) {
-		// Find the videos related to this concept
-		$relatedVideos = MappingHelper::videosForQuestion($questionId);
-		$totalVideoTime = 0;
-		$totalVideoTimeWatched = 0;
-		$videoIds = array();
-
-		foreach ($relatedVideos as $video) {
-			// Get each video's length
-			$totalVideoTime += $video["length"];
-			// Add its ID to a list that we'll fetch watched statements for
-			$videoIds []= 'https://ayamel.byu.edu/content/'.$video["Video ID"];
-		}
-
-		// Calculate how much time these videos were watched
-		// This is more efficient by using an $in query for all videos, rather than querying for each individual video as previously done
-		$statementHelper = new StatementHelper();
-		$statements = $statementHelper->getStatements("ayamel",[
-			'statement.actor.name' => $studentId,
-			'statement.verb.id' => 'https://ayamel.byu.edu/watched',
-			'statement.object.id' => array('$in' => $videoIds),
-		], [
-			'statement.object.id' => true,
-		]);
-		if ($statements["error"]) {
-			$watchStatementCount = 0;
-			if ($debug) {
-				echo "Error in fetching watched statements for concept $conceptId and videos: \n";
-				print_r($videoIds);
-			}
-		} else {
-			$watchStatementCount = $statements["cursor"]->count();
-		}
-		// TODO magic number of 10
-		$totalVideoTimeWatched = $watchStatementCount * 10;
-
-		if ($debug) {
-			echo "Videos for concept $conceptId : $watchStatementCount watched statements for the following videos: \n";
-			print_r($videoIds);
-		}
-		// Return percentage (0-100) of videos watched, avoiding division by 0
-		$percentage = ($totalVideoTime != 0) ? ($totalVideoTimeWatched / $totalVideoTime) : 0;
-		return round($percentage * 100);
-	}
 
 
-	// Calculates the percentage (0-100) of unique video time watched for all videos associated with a given question ID
-	public static function calculateUniqueVideoPercentageForQuestion($studentId, $conceptId, $debug = false) {
+	// Calculates the percentage (0-100) of unique video time watched for all videos associated with a given question row
+	public static function calculateUniqueVideoPercentageForQuestion($studentId, $question, $debug = false) {
 		// Length of each statement in video seconds
 		$watchedStatementLength = 10;
-		// Find the videos related to this concept
-		$relatedVideos = MappingHelper::videosForConcept($conceptId);
+		// For now, do this by getting videos associated with this question's concept
+		$relatedVideos = MappingHelper::videosForConcept($question["Lecture Number"]);
 		$possibleWatchedStatementCount = 0;
 		$userWatchedStatementCount = 0;
 		$videoIds = array();
 
 		foreach ($relatedVideos as $video) {
 			// Length of video divided by 10 rounded down will be the total number of possible unique watched statements for that video
-			$possibleWatchedStatementCount += floor($video["length"] / $watchedStatementLength);
+			$possibleWatchedStatementCount += floor($video["Video Length"] / $watchedStatementLength);
 			// Add its ID to a list that we'll fetch watched statements for
 			$videoIds []= 'https://ayamel.byu.edu/content/'.$video["Video ID"];
 		}
@@ -424,7 +378,7 @@ class MasteryHelper extends Module {
 		return min($percentage, 100);
 	}
 
-	// Calculates the percentage (0-100) of unique video time watched for all videos associated with a given concept ID
+	// Calculates the percentage (0-100) of unique video time watched for all videos associated with a given concept ID (lecture number)
 	public static function calculateUniqueVideoPercentageForConcept($studentId, $conceptId, $debug = false) {
 		// Length of each statement in video seconds
 		$watchedStatementLength = 10;
@@ -436,7 +390,7 @@ class MasteryHelper extends Module {
 
 		foreach ($relatedVideos as $video) {
 			// Length of video divided by 10 rounded down will be the total number of possible unique watched statements for that video
-			$possibleWatchedStatementCount += floor($video["length"] / $watchedStatementLength);
+			$possibleWatchedStatementCount += floor($video["Video Length"] / $watchedStatementLength);
 			// Add its ID to a list that we'll fetch watched statements for
 			$videoIds []= 'https://ayamel.byu.edu/content/'.$video["Video ID"];
 		}
@@ -510,7 +464,7 @@ class MasteryHelper extends Module {
 		// TODO maybe check if $video is a string or int (so that just the ID, e.g. 1234, can be passed in), and then fetch the rest of the info based on that
 
 		// Length of video divided by 10 rounded down will be the total number of possible unique watched statements for that video
-		$possibleWatchedStatementCount += floor($video["length"] / $watchedStatementLength);
+		$possibleWatchedStatementCount += floor($video["Video Length"] / $watchedStatementLength);
 		// Get the statement ID to search for
 		$videoId = 'https://ayamel.byu.edu/content/'.$video["Video ID"];
 
