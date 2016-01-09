@@ -240,6 +240,7 @@ class ScatterplotRecommenderStatsController extends Controller
 		echo json_encode($result);
 	}
 
+	// Used for the points in the scatterplot. Returns concepts for the given scope, with information about them (including mastery score and video %)
 	public function conceptsAction($scope = 'all', $groupingId = '', $debug = false) {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
@@ -258,16 +259,12 @@ class ScatterplotRecommenderStatsController extends Controller
 				// Get a specific concept
 				$conceptId = $groupingId;
 				$concepts = array_filter(MappingHelper::allConcepts(), function($concept) use ($conceptId) {
-					return ($concept["Section Number"] == $conceptId);
+					return ($concept["Lecture Number"] == $conceptId);
 				});
-				break;
-			case "chapter":
-				// Filter based on chapter
-				$concepts = MappingHelper::conceptsInChapter($groupingId);
 				break;
 			case "unit":
 				// Filter based on unit
-				$concepts = MappingHelper::conceptsInChapters(MappingHelper::chaptersInUnit($groupingId));
+				$concepts = MappingHelper::conceptsInUnit($groupingId);
 				break;
 			default:
 				// All concepts
@@ -276,17 +273,17 @@ class ScatterplotRecommenderStatsController extends Controller
 		}
 		$masteryHelper = new MasteryHelper();
 		foreach ($concepts as $c) {
-			//$score = $masteryHelper::calculateConceptMasteryScore($context->getUserName(), $c["Section Number"], $debug);
-			//$videoPercentage = $masteryHelper::calculateUniqueVideoPercentageForConcept($context->getUserName(), $c["Section Number"], $debug);
+			//$score = $masteryHelper::calculateConceptMasteryScore($context->getUserName(), $c["Lecture Number"], $debug);
+			//$videoPercentage = $masteryHelper::calculateUniqueVideoPercentageForConcept($context->getUserName(), $c["Lecture Number"], $debug);
 			$score = rand(0,100) / 10;
 			$videoPercentage = rand(0,100);
 			if ($debug) { echo "Concept mapping info\n"; print_r($c); }
 			$result []= [
-				"id" => $c["Section Number"],
-				"title" => $c["Section Title"],
+				"id" => $c["Lecture Number"],
+				"title" => $c["Concept Title"],
 				"masteryScore" => $score,
 				"videoPercentage" => $videoPercentage,
-				"unit" => $c["Unit"]
+				"unit" => $c["Unit Number"]
 			];
 		}
 		echo json_encode($result);
