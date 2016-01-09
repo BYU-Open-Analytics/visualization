@@ -12,159 +12,142 @@ class MappingHelper extends Module {
 	• quizNumber: the number of the quiz in the course flow. Sequential, 1-whatever. Needs to be converted to assessmentId before use in statement queries.
 	• questionNumber: the 1-n number of the question
 	• assessmentId: the Open Assessments ID for a quiz. Not sequential, or related to quizNumber. Needed for statement queries.
+
+	NOTE: Lecture Number and Concept ID are synonymous; there is a 1:1 relationship, but it is always called Lecture Number in the CSV files
 	*/
 	// Array indexes are sometimes weird, so look for the headings in the CSV files
 
-	// Returns an array of all chapter numbers
-	static public function allChapters() {
-		// Get unit -> chapter mapping
-		$units = CSVHelper::parseWithHeaders('csv/unit_chapter.csv');
-		$chapters = [];
-		foreach ($units as $unit) {
-			// Split the comma-separated list of chapters for each unit and merge it with the other chapters
-			$chapters = array_merge($chapters, explode(",", $unit["chapters"]));
-		}
-		return $chapters;
+	// Functions that return a 2D array will be an array of rows from the CSV files. 
+
+	// Returns an array of all unit numbers
+	static public function allUnits() {
+		// Get unit list from the "Unit Number" column from the concepts mapping
+		$allConcepts = CSVHelper::parseWithHeaders('csv/concepts.csv');
+		$units = array_column($allConcepts, "Unit Number");
+		// This is a list like 1,1,1,1,1,2,2,2,2,2,3,3,3,3,4,4,4, so get just unique unit numbers
+		$units = array_unique($units);
+		return $units;
 	}
 
-	// Returns an array of all concepts
+	// Returns a 2D array of all concepts
 	static public function allConcepts() {
-		$allConcepts = CSVHelper::parseWithHeaders('csv/concept_chapter.csv');
+		$allConcepts = CSVHelper::parseWithHeaders('csv/concepts.csv');
 		return $allConcepts;
 	}
 
-	// Returns an array of chapter numbers for a given unit
-	static public function chaptersInUnit($unitNumber) {
-		// Get unit -> chapter mapping
-		$units = CSVHelper::parseWithHeaders('csv/unit_chapter.csv');
-		$unit = $units[array_search($unitNumber, array_column($units, 'unit_number'))];
-		// Get chapters that are in this unit
-		$correspondingChapters = explode(",", $unit["chapters"]);
-		return $correspondingChapters;
-
-	}
-
-	// Returns an array of concept numbers for the given chapter number
-	static public function conceptsInChapter($chapter) {
-		return self::conceptsInChapters([$chapter]);
-	}
-
-	// Returns an array of concept numbers for the given array of chapter numbers
-	static public function conceptsInChapters($chapters) {
-		$allConcepts = CSVHelper::parseWithHeaders('csv/concept_chapter.csv');
-		$concepts = array_filter($allConcepts, function($concept) use ($chapters) {
-			return (in_array($concept["Chapter Number"], $chapters));
+	// Returns a 2D array of concepts
+	static public function conceptsInUnit($unitNumber) {
+		$allConcepts = CSVHelper::parseWithHeaders('csv/concepts.csv');
+		// Filter concepts to the given unit
+		$concepts = array_filter($allConcepts, function($concept) use ($unitNumber) {
+			return ($concept["Unit Number"] == $unitNumber);
 		});
 		return $concepts;
 	}
 
-	// Returns an array of unique questions (format is {quiz number}.{question number}) for the given concept id
-	static public function questionsInConcept($conceptId) {
-		$videos = CSVHelper::parseWithHeaders('csv/mappings.csv');
-		$questionInfo = CSVHelper::parseWithHeaders('csv/questions.csv');
-
-		// Get list of quiz numbers that are associated with this concept
-		$quizNumbers = array();
-		foreach ($videos as $video) {
-			// Concept ID is the same as section number for our mappings' purposes
-			if ($video["Section Number"] == $conceptId) {
-				$quizNumbers [] = $video["Quiz #"];
-			}
+	// Returns a 2D array of questions for the given concept (pass either concept row, or lecture number/concept id)
+	static public function questionsInConcept($concept) {
+		$lectureNumber = $concept;
+		// If the concept row was passed in, extract lecture number
+		if (is_array($concept)) {
+			$lectureNumber = $concept["Lecture Number"];
 		}
-		$quizNumbers = array_unique($quizNumbers);
-		
-		// Then get question IDs for questions that are in those quizzes
-		$questionIds = array();
-		foreach ($questionInfo as $q) {
-			if (in_array($q["Quiz Number"], $quizNumbers)) {
-				$questionIds [] = $q["Quiz Number"] . "." . $q["Question Number"];
-			}
-		}
+		// Get all questions
+		$allQuestions = CSVHelper::parseWithHeaders('csv/questions.csv');
+		// Filter questions to ones associated with this concept (lecture number)
+		$conceptQuestions = array_filter($allQuestions, function($question) use ($lectureNumber) {
+			return ($question["Lecture Number"] == $lectureNumber);
+		});
 
-		// Remove duplicate questions (if question is associated with more than one video in the concept, only show it once)
-		$questionIds = array_unique($questionIds);
-		return $questionIds;
+		return $conceptQuestions;
 	}
 
-	// Returns an array of unique (if question is in more than one concept, this will only list it once) questions (format is {quiz number}.{question number}) for the given array of concept ids
-	static public function questionsInConcepts($conceptIds) {
+	// Returns a 2D array of questions for the given array of concepts (pass either an array of concept rows, or lecture numbers/concept ids)
+	static public function questionsInConcepts($concepts) {
 		$questions = array();
-		foreach ($conceptIds as $conceptId) {
-			$questions = array_merge($questions, self::questionsInConcept($conceptId));
+		// Get questions in each of the concepts in the given array of concepts
+		foreach ($concepts as $concept) {
+			$questions = array_merge($questions, self::questionsInConcept($concept));
 		}
+		// Remove any duplicate questions (would only happen if the same concept is in the array >1 time)
 		$questions = array_unique($questions);
 		return $questions;
 	}
 
-	// Returns an array of videos for a given conceptId
-	static public function videosForConcept($conceptId) {
-		$videos = CSVHelper::parseWithHeaders('csv/mappings.csv');
-		$relatedVideos = array();
-		// Find all videos in this concept
-		foreach ($videos as $video) {
-			if ($video['Section Number'] == $conceptId) {
-				$relatedVideos []= $video;
+	// Returns an array of videos for the given concept (pass either concept row, or lecture number/concept id)
+	static public function videosForConcept($concept) {
+		$lectureNumber = $concept;
+		// If the concept row was passed in, extract lecture number
+		if (is_array($concept)) {
+			$lectureNumber = $concept["Lecture Number"];
+		}
+		// Get all videos
+		$allVideos = CSVHelper::parseWithHeaders('csv/videos.csv');
+		$conceptVideos = array();
+		// Filter all videos to ones in this concept
+		foreach ($allVideos as $video) {
+			if ($video['Lecture Number'] == $lectureNumber) {
+				$conceptVideos []= $video;
 			}
 		}
-		return $relatedVideos;
+		return $conceptVideos;
 	}
 
-	// Returns an array of videos for the given array of concept IDs
-	static public function videosForConcepts($conceptIds) {
+	// Returns a 2D array of videos for the given array of concepts (pass either an array of concept rows, or lecture numbers/concept ids)
+	static public function videosForConcepts($concepts) {
 		$videos = array();
-		foreach ($conceptIds as $conceptId) {
-			$videos = array_merge($videos, self::videosForConcept($conceptId));
+		foreach ($concepts as $concept) {
+			$videos = array_merge($videos, self::videosForConcept($concept));
 		}
 		$videos = array_unique($videos, SORT_REGULAR);
 		return $videos;
 	}
 
-	// Returns an array of videos for a given questionId
-	static public function videosForQuestion($questionId) {
-		$videos = CSVHelper::parseWithHeaders('csv/mappings.csv');
-		$relatedVideos = array();
-		// Get the quiz number from the question ID so we can find videos that are related to the quiz that this question is in
-		$quizNumber = self::questionInformation($questionId)["quizNumber"];
-		foreach ($videos as $video) {
-			if ($video['Quiz #'] == $quizNumber) {
-				$relatedVideos []= $video;
-			}
+	// Returns a 2D array of resources for a given concept (pass either concept row, or lecture number/concept id)
+	static public function resourcesForConcept($concept) {
+		$lectureNumber = $concept;
+		// If the concept row was passed in, extract lecture number
+		if (is_array($concept)) {
+			$lectureNumber = $concept["Lecture Number"];
 		}
-		return $relatedVideos;
-	}
-
-	// Returns an array of resources for a given conceptId
-	static public function resourcesForConcept($conceptId) {
-		$resources = CSVHelper::parseWithHeaders('csv/resources.csv');
-		$relatedResources = array();
+		$allResources = CSVHelper::parseWithHeaders('csv/resources.csv');
+		$conceptResources = array();
 		// Find all resources for this concept
-		foreach ($resources as $resource) {
-			if ($resource['Section Number'] == $conceptId) {
-				$relatedResources []= $resource;
+		foreach ($allResources as $resource) {
+			if ($resource['Lecture Number'] == $lectureNumber) {
+				$conceptResources []= $resource;
 			}
 		}
-		return $relatedResources;
+		return $conceptResources;
 	}
 
-	// Returns an array of information about a given question ID with format {quiz number}.{question number}
-		// Array with quizNumber, questionNumber, assessmentId, and questionType (and options if multiple_choice)
+	// Returns an array of information about a given question ID with format {assessment ID}.{question number}
+		// Array with quizNumber, questionNumber, assessmentId, and questionType (and options if question is multiple_choice)
 		// If given questionId is not valid, it returns false
 	static public function questionInformation($questionId) {
-		// Load question information mapping
-		$questionInfo = CSVHelper::parseWithHeaders('csv/questions.csv');
-
 		// Split up quiz id and question id from format 12.1 (quizNumber.questionNumber)
 		$idParts = explode(".", $questionId);
 		// Make sure we have a (at least format-wise) valid question id
 		if (count($idParts) != 2) {
 			return false;
 		}
-		$quizNumber = $idParts[0];
+		$assessmentID = $idParts[0];
 		$questionNumber = $idParts[1];
 
-		// Get row from question info csv
-		$questionRow = $questionInfo[multi_array_search($questionInfo, ["Quiz Number" => $quizNumber, "Question Number" => $questionNumber])[0]];
+		// Get row from question info CSV
+		// Load question information mapping
+		$allQuestions = CSVHelper::parseWithHeaders('csv/questions.csv');
 
+		// Search questions for one with this assessment ID and question number
+		$searchResults = multi_array_search($allQuestions, ["OA Quiz ID" => $assessmentID, "Question Number" => $questionNumber]);
+		// If there's not one, return false
+		if (count($searchResults) <= 0) {
+			return false;
+		}
+		// If we have one, get it
+		$questionRow = $allQuestions[$searchResults[0]];
+
+		/*
 		// Get assessment id from quiz id
 		$assessmentId = $questionRow["OA Quiz ID"];
 
@@ -172,7 +155,6 @@ class MappingHelper extends Module {
 		$questionType = $questionRow["Type"];
 
 		$question = [
-			"quizNumber" => $quizNumber,
 			"questionNumber" => $questionNumber,
 			"assessmentId" => $assessmentId,
 			"questionType" => $questionType
@@ -182,7 +164,8 @@ class MappingHelper extends Module {
 		if ($questionType == "multiple_choice") {
 			$question["options"] = $questionRow["Multiple Choice Options"];
 		}
-		return $question;
+		 */
+		return $questionRow;
 	}
 
 }

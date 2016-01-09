@@ -56,23 +56,18 @@ class TestController extends Controller
 
 	public function mappingsAction() {
 		echo "<pre>";
-		echo "All chapters\n";
-		print_r(MappingHelper::allChapters());
-		echo "<hr> Chapters in unit 3\n";
-		print_r(MappingHelper::chaptersInUnit(3));
+		echo "All units\n";
+		print_r(MappingHelper::allUnits());
 		echo "<hr>Concepts in unit 3\n";
-		print_r(MappingHelper::conceptsInChapters(MappingHelper::chaptersInUnit(3)));
-		echo "<hr>Questions in concept 2.1\n";
-		print_r(MappingHelper::questionsInConcept("2.1"));
-		echo "<hr>Videos for question 3.8\n";
-		print_r(MappingHelper::videosForQuestion("3.8"));
-		echo "<hr>Question info for question 3.8\n";
-		print_r(MappingHelper::questionInformation("3.8"));
-		echo "<hr>Videos for concept 2.1\n";
-		print_r(MappingHelper::videosForConcept("2.1"));
-		echo "<hr>Resources for concept 1.5\n";
-		print_r(MappingHelper::resourcesForConcept("1.5"));
-		echo "New all concepts function the same as going through chapters: " . (MappingHelper::allConcepts() == MappingHelper::conceptsInChapters(MappingHelper::allChapters()));
+		print_r(MappingHelper::conceptsInUnit("3"));
+		echo "<hr>Questions in concept (lecture number) 1\n";
+		print_r(MappingHelper::questionsInConcept("1"));
+		echo "<hr>Question info for question 78.4\n";
+		print_r(MappingHelper::questionInformation("78.4"));
+		echo "<hr>Videos for concept 9\n";
+		print_r(MappingHelper::videosForConcept("9"));
+		echo "<hr>Resources for concept 1\n";
+		print_r(MappingHelper::resourcesForConcept("1"));
 	}
 
 	public function newVideoAction() {
