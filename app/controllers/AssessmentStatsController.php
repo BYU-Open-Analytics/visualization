@@ -2,6 +2,8 @@
 
 use Phalcon\Mvc\Controller;
 
+// Currently not used for anything. I'm leaving it here because it had some code for calculating average confidence, which might be useful in the future.
+
 class AssessmentStatsController extends Controller
 {
 	public function initialize() {

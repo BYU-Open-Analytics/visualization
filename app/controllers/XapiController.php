@@ -2,28 +2,22 @@
 
 use Phalcon\Mvc\Controller;
 
+// This controller is called when the dashboard frontend sends statements to the LRS
+
 class XapiController extends Controller
 {
-	public function testAction() {
-		// Get our context (this takes care of starting the session, too)
-		$context = $this->getDI()->getShared('ltiContext');
-
-		$testStatement = json_decode('[{ "actor": { "name": "Statement Tester", "account": { "homePage": "http://twitter.com", "name": "sallyglider434" } }, "verb": { "id": "http://adlnet.gov/expapi/verbs/experienced", "display": {"en-US": "experienced"} }, "object": { "id": "http://example.com/activities/solo-hang-gliding", "definition": { "name": { "en-US": "Solo Hang Gliding" }, "extensions" : { "https://ayamel.byu.edu/playerTime" : "1.00" } } } }, { "actor": { "name": "Statement Tester", "account": { "homePage": "http://twitter.com", "name": "sallyglider434" } }, "verb": { "id": "http://adlnet.gov/expapi/verbs/experienced", "display": {"en-US": "experienced"} }, "object": { "id": "http://example.com/activities/solo-hang-gliding", "definition": { "name": { "en-US": "Solo Hang Gliding" } } } }]');
-
-		$statementHelper = new StatementHelper();
-		echo $statementHelper->sendStatements("visualization", $testStatement);
-
-		$this->view->disable();
-	}
 
 	public function indexAction() {
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
 		$this->view->disable();
 
+		// Use the StatementHelper class
 		$statementHelper = new StatementHelper();
+		// Make an actual xAPI statement from the post params
 		$statement = $statementHelper->buildStatement($_POST, $context);
 		if ($statement) {
+			// If we've got a valid statement, send it to the visualization LRS (endpoint, username, password are defined in config.php)
 			echo $statementHelper->sendStatements("visualization", [$statement]);
 		} else {
 			echo "Invalid statement parameters";

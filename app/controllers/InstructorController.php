@@ -2,6 +2,8 @@
 
 use Phalcon\Mvc\Controller;
 
+// The actions here just set up the LTI context and pass it to the view. The view is largely boilerplate, and then data (coming from StudentInspectorStatsController or ClassStatsController) is loaded by the javascript via ajax.
+
 class InstructorController extends Controller
 {
 	public function initialize() {

@@ -1,7 +1,6 @@
 <?php 
 
 use Phalcon\Mvc\User\Module;
-include __DIR__ . "/../library/array_functions.php";
 
 // Functions relating to the entire class of students
 class ClassHelper extends Module {

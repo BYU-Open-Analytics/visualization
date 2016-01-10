@@ -1,8 +1,9 @@
 <?php
 
 use Phalcon\Mvc\Controller;
-include __DIR__ . "/../library/array_functions.php";
 
+// Stats and calculations loaded via ajax and used in the class dashboard for the instructor
+//
 class ClassStatsController extends Controller
 {
 	public function initialize() {

@@ -2,6 +2,8 @@
 
 use Phalcon\Mvc\Controller;
 
+// These are just used for development purposes, for testing new code isolated outside the context of an actual dashboard
+
 class TestController extends Controller
 {
 	public function initialize() {

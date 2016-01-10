@@ -2,12 +2,15 @@
 
 use Phalcon\Mvc\Controller;
 
+// Stats and calculations used in the Student Skills (Improve my Learning) dashboard
+
 class StudentSkillsStatsController extends Controller
 {
 	public function initialize() {
 		$this->tag->setTitle('Student Skills Stats');
 	}
 
+	// Returns the 6 skill scores for current student
 	public function skillsAction($raw = false, $debug = false) {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
@@ -39,6 +42,8 @@ class StudentSkillsStatsController extends Controller
 		echo json_encode($stats);
 	}
 
+	// Returns the last two weeks' worth of historical skill data for the 6 skills for current student used to make a line graph
+	// Historical skill data is fetched from the PostgreSQL database, using the SkillHistory Phalcon model
 	public function time_graphAction($debug = false) {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)

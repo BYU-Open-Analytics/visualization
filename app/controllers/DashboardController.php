@@ -2,6 +2,8 @@
 
 use Phalcon\Mvc\Controller;
 
+// The actions here mainly just set up the LTI context and pass it to the view (some of the views need a list of concepts/units, which is also done here). The view is largely boilerplate, and then actual data and calculations (coming from ScatterplotRecommenderStatsController or StudentSkillsStatsController) are loaded by the javascript via ajax.
+
 class DashboardController extends Controller
 {
 	public function initialize() {
@@ -11,23 +13,13 @@ class DashboardController extends Controller
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
 		$this->view->context = $context;
-		// Fetch user settings
-		//$currentSettings = UserSettings::query()
-				//->where("userId = :userId:")
-				//->bind(["userId" => $context->getUserKey()])
-				//->execute();
-		//$this->view->currentSettings = $currentSettings;
 	}
+
 	public function indexAction() {
 		$context = $this->getDI()->getShared('ltiContext');
 		// TODO this is where need to redirect users to appropriate dashboard based on their current group, or provide options
-
-		//$setting = new UserSettings();
-		//$setting->userId = $context->getUserKey();
-		//$setting->name = "test";
-		//$setting->value = "randomvalue";
-		//$setting->save();
 	}
+
 	public function content_recommenderAction() {
 		$this->tag->setTitle('Test Help | Student Dashboard');
 		$this->view->pageTitle = 'Test Help | Student Dashboard';
@@ -56,6 +48,7 @@ class DashboardController extends Controller
 		}
 		$this->view->units = $units;
 	}
+
 	public function scatterplot_recommenderAction() {
 		$this->tag->setTitle('Test Help | Student Dashboard');
 		$this->view->pageTitle ='Test Help | Student Dashboard';
@@ -83,6 +76,7 @@ class DashboardController extends Controller
 		}
 		$this->view->units = $units;
 	}
+
 	public function student_skillsAction() {
 		$this->tag->setTitle('Improve my Learning | Student Dashboard');
 		$this->view->pageTitle ='Improve my Learning Dashboard';
@@ -136,6 +130,7 @@ class DashboardController extends Controller
 		$this->view->currentConceptID = $currentConceptID;
 
 	}
+
 	public function selectAction() {
 		$this->tag->setTitle('Dashboard Selection');
 		$this->view->pageTitle ='Dashboard Selection';

@@ -2,6 +2,9 @@
 
 use Phalcon\Mvc\Controller;
 
+// This controller is called after launch.php (which accepts the actual LTI launch request) redirects to https://openanalytics-dashboard.com/
+// Then this decides, based on if the user is a consenting student, which group they are in, and the current day, which dashboard to send them
+
 class IndexController extends Controller
 {
 	public function initialize() {

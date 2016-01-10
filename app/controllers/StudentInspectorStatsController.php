@@ -1,7 +1,8 @@
 <?php
 
 use Phalcon\Mvc\Controller;
-include __DIR__ . "/../library/array_functions.php";
+
+// Stats and calculations loaded via ajax and used in the student inspector dashboard for the instructor
 
 class StudentInspectorStatsController extends Controller
 {
@@ -11,7 +12,7 @@ class StudentInspectorStatsController extends Controller
 
 	// For examples of getting data from mongo and postgres and different calculations, see ScatterplotRecommenderStatsController.php and StudentSkillsStatsController.php in this folder
 
-	public function studentsAction($scope = 'unit', $groupingId = '3', $debug = false) {
+	public function studentsAction() {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');

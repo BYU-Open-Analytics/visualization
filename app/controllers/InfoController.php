@@ -2,8 +2,11 @@
 
 use Phalcon\Mvc\Controller;
 
+// Simple information pages used for the study and for development purposes
+
 class InfoController extends Controller
 {
+	// Information page shown to students who are currently in the control group
 	public function controlAction() {
 		$this->tag->setTitle('Check Back Later');
 		// Get our context (this takes care of starting the session, too)
@@ -38,6 +41,8 @@ class InfoController extends Controller
 			$statementHelper->sendStatements("visualization", [$statement]);
 		}
 	}
+
+	// Information page shown to students who have not consented to be part of the study
 	public function consentAction() {
 		$this->tag->setTitle('Consent Required');
 		// Get our context (this takes care of starting the session, too)
@@ -59,7 +64,37 @@ class InfoController extends Controller
 			$statementHelper->sendStatements("visualization", [$statement]);
 		}
 	}
+
+	// Privacy policy page that we need to use google analytics
 	public function privacyAction() {
 		$this->tag->setTitle("Privacy Policy");
+	}
+
+	// Some pages useful for debugging things in development
+
+	// View dumps out LTI session and launch information
+	public function lti_infoAction() {
+		// Send the context to the view
+		$this->view->context = $this->getDI()->getShared('ltiContext');
+	}
+
+	// Shows recent xAPI statements from the current user
+	public function recent_statementsAction() {
+		// Get our context and check that it's valid
+		$context = $this->getDI()->getShared('ltiContext');
+		$this->view->context = $context;
+		if (!$context->valid) {
+			return;
+		}
+
+		$statementHelper = new StatementHelper();
+
+		// Get all statements for current user
+		$attempts = $statementHelper->getStatements("",['statement.actor.name'=>$context->getUserName()],[]);
+		// Get most recent statements first, and only get 100. (The query hasn't actually been run on the server yet, so we can still add more options)
+		$cursor = $attempts["cursor"]->sort(['statement.timestamp' => -1]);
+		$cursor = $attempts["cursor"]->limit(100);
+		// Send result cursor to view
+		$this->view->statements = $cursor;
 	}
 }

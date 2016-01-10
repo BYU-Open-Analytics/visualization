@@ -1,7 +1,9 @@
 <?php
 
 use Phalcon\Mvc\Controller;
-include __DIR__ . "/../library/array_functions.php";
+
+// Stats and calculations used in the content recommender dashboard (currently not used)
+// These are loaded via ajax and then used in the visualizations
 
 class ContentRecommenderStatsController extends Controller
 {

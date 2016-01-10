@@ -1,7 +1,9 @@
 <?php
 
 use Phalcon\Mvc\Controller;
-include __DIR__ . "/../library/array_functions.php";
+
+// Stats and calculations used in the scatterplot recommender dashboard (aka "Test Help", aka Content Recommender 2.0)
+// These are loaded via ajax and then used in the visualizations
 
 class ScatterplotRecommenderStatsController extends Controller
 {
