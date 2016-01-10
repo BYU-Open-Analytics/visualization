@@ -118,7 +118,6 @@ function lmsdataToggle() {
   }
   echo("</fieldset><p>");
   echo("</form>");
-  echo("<hr>");
 
   if ( ! $lmspw ) unset($tool_consumer_instance_guid);
 
