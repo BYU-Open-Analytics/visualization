@@ -425,7 +425,7 @@ function loadConceptScatterplot() {
 			.attr("class", "conceptPoint")
 			.attr("r", "6px")
 			.attr("title", function(d) {
-				return "<b>" + d.id + " " + d.title + "</b><br>Video percentage: " + d.videoPercentage + "%<br>Mastery score: " + d.masteryScore;
+				return "<b>" + d.title + "</b><br>Video percentage: " + d.videoPercentage + "%<br>Mastery score: " + d.masteryScore;
 			})
 			.attr("cx", function(d) {
 				return xScale(d.videoPercentage);
