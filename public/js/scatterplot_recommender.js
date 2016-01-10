@@ -179,11 +179,11 @@ function loadVideoRecommendations(scopeOption, scopeGroupingId) {
 			.attr("id", function(d) { return "videoRow"+d["Video ID"]; });
 
 		tr.append("td")
-			.html(function(d) { var label = d.chapter + "." + d.section + "." + d.group + "." + d.video; return label.replace(/\.*$/, ""); })
+			.html(function(d) { return ""; })
 			.attr("class","videoRefCell");
 		tr.append("td")
 			// TODO absolute URL ref fix
-			.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d["Video ID"] + '" data-track="ayamelLaunch' + d["Video ID"] + '" target="_blank">' + d.title + '</a>'; })
+			.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d["Video ID"] + '" data-track="ayamelLaunch' + d["Video ID"] + '" target="_blank">' + d["Video Title"] + '</a>'; })
 			.attr("class","videoTitleCell");
 		// Add the percentage watched progress circle
 		tr.append("td")
@@ -212,8 +212,6 @@ function loadVideoRecommendations(scopeOption, scopeGroupingId) {
 // Loads additional resource recommendations
 function loadResourceRecommendations(scopeOption, scopeGroupingId) {
 	d3.json("../scatterplot_recommender_stats/resourceRecommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
-		// TODO similar error checking like for recommendations
-
 		if (!(data && typeof data == 'object' && data.length > 0) || error) {
 			return;
 		}
@@ -222,7 +220,7 @@ function loadResourceRecommendations(scopeOption, scopeGroupingId) {
 
 		// We only want to show web links, since ayamel resources will show up in the Videos recommendation accordion group
 		data = data.filter(function(r) {
-			return r.Type == "web";
+			return r["Resource Type"] == "web";
 		});
 
 		// Set the badge to the number of resources
@@ -238,14 +236,10 @@ function loadResourceRecommendations(scopeOption, scopeGroupingId) {
 			.data(data)
 			.enter()
 			.append("li")
-			.attr("class", function(d) { return "list-group-item resource-" + d.Type; })
+			.attr("class", function(d) { return "list-group-item resource-" + d["Resource Type"]; })
 			.html(function(d) {
-				if (d.Type == "web") {
 					return '<span class="glyphicon glyphicon-globe" aria-hidden="true">&nbsp;</span>' +
-					'<a href="' + d.Link + '" target="_blank">' + d.Title + '</a>';
-				} else {
-					return "";
-				}
+					'<a href="' + d["Resource Link"] + '" target="_blank">' + d["Resource Title"] + '</a>';
 			});
 	});
 }

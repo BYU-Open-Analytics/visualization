@@ -32,7 +32,7 @@ class ScatterplotRecommenderStatsController extends Controller
 				break;
 			case "unit":
 				// Filter based on unit
-				$videos = MappingHelper::videosForConcepts(MappingHelper:conceptsInUnit($groupingId));
+				$videos = MappingHelper::videosForConcepts(MappingHelper::conceptsInUnit($groupingId));
 				break;
 			default:
 				// All videos
