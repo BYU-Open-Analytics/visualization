@@ -306,7 +306,8 @@ class ScatterplotRecommenderStatsController extends Controller
 		// Fetch skill history items for the current student
 		$historyResults = MasteryHistory::find([
 			"email = '$email'",
-			"order" => 'time_stored ASC'
+			"order" => 'time_stored ASC',
+			"limit" => 14
 		]);
 
 		$historyPoints = [];
