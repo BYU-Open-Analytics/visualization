@@ -306,9 +306,11 @@ class ScatterplotRecommenderStatsController extends Controller
 		// Fetch skill history items for the current student
 		$historyResults = MasteryHistory::find([
 			"email = '$email'",
-			"order" => 'time_stored ASC',
+			"order" => 'time_stored DESC',
 			"limit" => 14
 		]);
+
+
 
 		$historyPoints = [];
 		foreach ($historyResults as $day) {
@@ -317,6 +319,8 @@ class ScatterplotRecommenderStatsController extends Controller
 			$historyPoints []= [$formattedDate, round($day->unit3 * 100) / 100, round($day->unit4 * 100) / 100];
 			//$historyPoints []= [$formattedDate, rand(0,100) / 10, rand(0,100) / 10];
 		}
+		$historyPoints = array_reverse($historyPoints);
+
 		if ($debug) {
 			print_r($historyPoints);
 		}
