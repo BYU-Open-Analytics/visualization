@@ -1,52 +1,3 @@
-// Related videos modal
-$("#relatedVideosModal").on("show.bs.modal", function(e) {
-	// Hide low concepts list (it appears over this modal's backdrop and looks bad)
-	$("#lowConceptBox").popover("hide");
-	//$(this).find(".modal-body").html('<table class="table" id="relatedVideosModalTable"><tbody></tbody></table>');
-	var data = getRelatedVideos($(e.relatedTarget).attr("data-assessment"), $(e.relatedTarget).attr("data-question"));
-	$("#relatedVideosModalTable tbody").empty();
-	var tbody = d3.select("#relatedVideosModalTable tbody");
-	var tr = tbody.selectAll("tr")
-		.data(data)
-		.enter()
-		.append("tr")
-		.attr("id", function(d) { return "videoRow"+d["Video ID"]; });
-
-	tr.append("td")
-		.html(function(d) { var label = d.chapter + "." + d.section + "." + d.group + "." + d.video; return label.replace(/\.*$/, ""); })
-		.attr("class","videoRefCell");
-	tr.append("td")
-		// TODO absolute URL ref fix
-		.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d["Video ID"] + '" data-track="ayamelLaunch' + d["Video ID"] + '" target="_blank">' + d.title + '</a>'; })
-		.attr("class","videoTitleCell");
-	// TODO put back in percentage watched, with actual data
-	tr.append("td")
-		.attr("class", "videoProgressCell advancedMore");
-		//.append("input")
-		//.attr("type", "text")
-		//.attr("class", "progressCircle")
-		//.attr("disabled", "disabled")
-		//.attr("value", function() { return Math.ceil(Math.random() * 100); }); // TODO put actual percentage here
-		
-	// Track that the modal was shown
-	track("clicked", "relatedVideos" + $(e.relatedTarget).attr('data-assessment') + '.' + $(e.relatedTarget).attr('data-question'));
-
-	// Don't stall the UI waiting for all these to finish drawing
-	//setTimeout(updateVideoProgressCircles, 1);
-});
-
-// Returns videos for a given question
-function getRelatedVideos(assessmentId, questionId) {
-	var relatedVideos = [];
-	for (var i=0; i<mappings.length; i++) {
-		// See if this question's quiz is associated with this video
-		if (mappings[i]["Open Assessments ID"] == assessmentId) {
-			relatedVideos.push(mappings[i]);
-		}
-	}
-	return relatedVideos;
-}
-
 // Question Launch Modal
 $("#questionLaunchModal").on("show.bs.modal", function(e) {
 	// Set URL of button to launc the quiz from visualization LTI tool consumer
@@ -61,7 +12,7 @@ $("#questionLaunchContinueButton").click(function(e) {
 	track("clicked", "launchQuiz" + $(this).attr('data-assessment') + '.' + $(this).attr('data-question'));
 });
 
-// Helper function for recommendation question elements. Contains question/concept display, launch quiz button, and see associated videos button
+// Helper function for recommendation question elements. Contains question/concept display, and launch quiz button
 function questionElement(d) {
 	// Get the template
 	var element = $("#templates .recommendQuestionDisplay")[0].outerHTML;
@@ -151,7 +102,6 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 // Loads video recommendations
 function loadVideoRecommendations(scopeOption, scopeGroupingId) {
 	d3.json("../scatterplot_recommender_stats/videoRecommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
-		// TODO similar error checking like for recommendations
 		if (!(data && typeof data == 'object' && data.length > 0) || error) {
 			//$("#recommendSection").html('<br><br><p class="lead">There was an error loading video recommendations. Try reloading the dashboard.</p>');
 			return;
@@ -168,8 +118,6 @@ function loadVideoRecommendations(scopeOption, scopeGroupingId) {
 			// Expand the videos accordion group if it's not already expanded
 			$("a[href=#recommendVideos][aria-expanded!=true]").click();
 		}
-
-		console.log(data);
 
 		var tbody = d3.select("#recommendVideosTable tbody");
 		var tr = tbody.selectAll("tr")
@@ -314,7 +262,7 @@ function showPointConceptRecommendations(d) {
 
 // Called when a concept from the low concepts list is clicked
 function showLowConceptRecommendations(e) {
-	console.log($(this).attr("data-concept"));
+	//console.log($(this).attr("data-concept"));
 	// Track that the student clicked this
 	track("clicked","conceptPoint"+$(this).attr("data-concept"));
 	// Deslect other points, and select this one and move it to the front of the view hierarchy
@@ -828,11 +776,7 @@ $(function() {
 	// Hide this (loadRecommendations will show it when it's done loading)
 	$("#recommendContainer").hide();
 
-	// First, we have to load data mappings for quiz questions/videos/concepts/dates
-	d3.csv("../csv/mappings.csv", function(error, data) {
-		mappings = data;
-		// Then we can load other things
-		loadConceptScatterplot();
-		loadTimeGraph();
-	});
+	// Load the concept scatterplot and time graph
+	loadConceptScatterplot();
+	loadTimeGraph();
 });
