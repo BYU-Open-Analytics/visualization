@@ -2,7 +2,7 @@
 
 use Phalcon\Mvc\Model;
 
-class ClassConceptHistoty extends Model {
+class ClassConceptHistory extends Model {
 	public $time_stored;
 	public $concept_id;
 	public $average_mastery;

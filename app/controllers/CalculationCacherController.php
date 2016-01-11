@@ -118,4 +118,67 @@ class CalculationCacherController extends Controller
 		$endTime = microtime(true);
 		echo "Execution time: " . ($endTime - $startTime) . " seconds\n";
 	}
+
+	// Stores the class average for each concept
+	public function classConceptHistoryAction() {
+		$config = $this->getDI()->getShared('config');
+		if (!isset($_GET["p"])) {
+			die("No history saver password provided.");
+		}
+		if ($_GET["p"] != $config->historySaverPassword) {
+			die("Invalid history saver password provided.");
+		}
+
+		// We want to time this
+		$startTime = microtime(true);
+
+		$raw = false;
+		$debug = false;
+		$classHelper = new ClassHelper();
+		$masteryHelper = new MasteryHelper();
+		$allConcepts = MappingHelper::allConcepts();
+		$studentIds = $classHelper->allStudents();
+		//$studentIds = ["John Logie Baird"];
+
+		foreach ($allConcepts as $concept) {
+			$scoreSum = 0;
+			$scoreCount = 0;
+			// Check if it's a concept in the future
+			$today = strtotime("today");
+			$includeZero = true;
+			if (strtotime($concept["Date"]) > $today) {
+				$includeZero = false;
+			}
+			// Calculate concept score for each student
+			foreach ($studentIds as $studentId) {
+				// Calculate score
+				$score = $masteryHelper->calculateConceptMasteryScore($studentId, $concept["Lecture Number"], $debug);
+				// Add score
+				if ($score == 0) {
+					if ($includeZero) {
+						$scoreCount++;
+					}
+				} else {
+					$scoreCount++;
+					$scoreSum += $score;
+				}
+			}
+			// Calculate average
+			$average = $scoreSum / $scoreCount;
+			// Store concept average
+			$conceptHistory = new ClassConceptHistory();
+			$conceptHistory->concept_id = $concept["Lecture Number"];
+			$conceptHistory->average_mastery = $average;
+
+			if ($conceptHistory->create() == false) {
+				echo "*** Error saving concept history for $concept\n";
+			} else {
+			}
+
+		}
+
+		// Print total time taken
+		$endTime = microtime(true);
+		echo "Execution time: " . ($endTime - $startTime) . " seconds\n";
+	}
 }
