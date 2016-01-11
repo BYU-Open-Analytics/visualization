@@ -3,11 +3,18 @@
 if ( $context->valid ) {
 ?>
 <div id="visualizationContainer">
+	<table id="resultList" class="table">
+	<thead>
+		<tr><td>Student Name</td><td>Name Length</td><td>Mastery Score</td></tr>
+	</thead>
+	<tbody>
+	</tbody>
+	</table>
 
 </div>
 
 <?php
-echo Phalcon\Tag::javascriptInclude("js/instructor.js");
+echo Phalcon\Tag::javascriptInclude("js/class.js");
 } else {
 	echo "<p class='alert alert-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";
 }
