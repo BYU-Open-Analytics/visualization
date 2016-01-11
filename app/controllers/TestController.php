@@ -64,12 +64,14 @@ class TestController extends Controller
 		print_r(MappingHelper::conceptsInUnit("3"));
 		echo "<hr>Questions in concept (lecture number) 1\n";
 		print_r(MappingHelper::questionsInConcept("1"));
-		echo "<hr>Question info for question 78.4\n";
-		print_r(MappingHelper::questionInformation("78.4"));
+		#echo "<hr>Question info for question 78.4\n";
+		#print_r(MappingHelper::questionInformation("78.4"));
 		echo "<hr>Videos for concept 9\n";
 		print_r(MappingHelper::videosForConcept("9"));
 		echo "<hr>Resources for concept 1\n";
 		print_r(MappingHelper::resourcesForConcept("1"));
+		echo "<hr>Concepts within the past 2 weeks: \n";
+		print_r(MappingHelper::conceptsWithin2Weeks());
 	}
 
 	public function newVideoAction() {

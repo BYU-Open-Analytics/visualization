@@ -106,7 +106,19 @@ class MappingHelper extends Module {
 		$videos = array_unique($videos, SORT_REGULAR);
 		return $videos;
 	}
-
+	static public function conceptsWithin2Weeks(){
+		$allConcepts = self::allConcepts();
+		$returnConcepts = [];
+		$today = strtotime("today");
+		//And with a wave of the hands,
+		$weeksAgo = $today - 1209600;
+		foreach($allConcepts as $concept){
+			if(strtotime($concept["Date"]) >= $weeksAgo && strtotime($concept["Date"]) <= $today){
+				$returnConcepts [] = $concept;
+			}
+		}
+		return $returnConcepts;
+	}
 	// Returns a 2D array of resources for a given concept (pass either concept row, or lecture number/concept id)
 	static public function resourcesForConcept($concept) {
 		$lectureNumber = $concept;
@@ -124,7 +136,8 @@ class MappingHelper extends Module {
 		}
 		return $conceptResources;
 	}
-
+		
+	
 	// Returns an array of information about a given question ID with format {assessment ID}.{question number}
 		// Array with quizNumber, questionNumber, assessmentId, and questionType (and options if question is multiple_choice)
 		// If given questionId is not valid, it returns false

@@ -23,17 +23,22 @@ class StudentInspectorStatsController extends Controller
 		$classHelper = new ClassHelper();
 		$masteryHelper = new MasteryHelper();
 		$statementHelper = new StatementHelper();
+		$concepts = MappingHelper::allConcepts();
 		$students = $classHelper->allStudents();
 		$studentInfo = [];
-		for ($i=0; $i<10; $i++) {
+		for ($i=0; $i < 1; $i++) {
+			$studentAverages = StudentMasteryHistory::findFirst([
+				"email = 'me'",
+				"order" => 'recent_average DESC'
+			]);
 			// For second parameter of what to query, see http://php.net/manual/en/mongocollection.find.php
-			$statements = $statementHelper->getStatements("ayamel",[
-				'statement.actor.name' => $students[$i],
-			], [ 'statement.object.id' => true, ]
-			);
-			$count = $statements["cursor"]->count();
-
-			$studentInfo []= ["name" => $students[$i], "count" => $count];
+		#	$statements = $statementHelper->getStatements("ayamel",[
+		#		'statement.actor.name' => $students[$i],
+		#	], [ 'statement.object.id' => true, ]
+		#	);
+		#	$count = $statements["cursor"]->count();
+			$newStudent = ["name" => $studentAverages->email, "average" => $studentAverages->recent_average];
+			$studentInfo []=$newStudent; 
 		}
 
 		echo json_encode($studentInfo);
