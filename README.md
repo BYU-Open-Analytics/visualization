@@ -56,13 +56,23 @@
 	id serial primary key
 	);`
 
-	- `create table mastery_history (
+	- `create table student_mastery_history (
+	unit1 decimal,
+	unit2 decimal,
 	unit3 decimal,
 	unit4 decimal,
+	recent_average decimal,
 	time_stored timestamp default now(),
 	id serial primary key,
 	email varchar(254) references students(email)
 	);`
+
+	- `create table class_concept_history (
+	time_stored timestamp default now(),
+	concept_id integer,
+	average_mastery decimal
+	);`
+
 
 ## LTI integration
 - Basic LTI POST requests should be sent to `{base URI}/launch.php`

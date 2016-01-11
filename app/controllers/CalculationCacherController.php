@@ -80,7 +80,7 @@ class CalculationCacherController extends Controller
 		// Go through each student and calculate unit mastery scores
 		foreach ($studentIds as $studentId) {
 			// See if we've already scored mastery scores for this student on the current day (this script just runs multiple times, until a better method to get around 60 second execution time limit is devised)
-			$lastHistory = MasteryHistory::findFirst([
+			$lastHistory = StudentMasteryHistory::findFirst([
 					"email = '$studentId'",
 					"order" => "time_stored DESC"
 				]);
@@ -102,7 +102,7 @@ class CalculationCacherController extends Controller
 				echo "Scores for student $studentId \n";
 				print_r($scores);
 			}
-			$history = new MasteryHistory();
+			$history = new StudentMasteryHistory();
 			$history->email = $studentId;
 			$history->unit3 = $scores["3"];
 			$history->unit4 = $scores["4"];
