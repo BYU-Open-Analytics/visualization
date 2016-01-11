@@ -36,5 +36,28 @@ class ClassStatsController extends Controller
 		echo json_encode($studentInfo);
 	}
 	// For examples of getting data from mongo and postgres and different calculations, see ScatterplotRecommenderStatsController.php and StudentSkillsStatsController.php in this folder
-
+	public function conceptsAction() {
+		$this->view->disable();
+		// Get our context (this takes care of starting the session, too)
+		$context = $this->getDI()->getShared('ltiContext');
+		if (!$context->valid) {
+			echo '[{"error":"Invalid lti context"}]';
+			return;
+		}
+		$concepts = MappingHelper:: allconcepts();
+		$conceptArray = [];
+		foreach($concepts as $concept){
+			$conceptID = $concept['Lecture Number'];
+			$historicalConceptMasteryScores = ClassConceptHistory::find([
+				"concept_id = '$conceptID'",
+				"order" => 'time_stored DESC',
+			]);
+			$newConcept = ["id" => $conceptID, "title" => $concept["Concept Title"], "history" => []];
+			foreach($historicalConceptMasteryScores as $score){
+				$newConcept["history"] [] = ["date" => $score->time_stored, "average" => $score->average_mastery];
+			}
+			$conceptsArray []= $newConcept;
+		}
+		echo json_encode($conceptsArray);
+	}
 }
