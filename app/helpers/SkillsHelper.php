@@ -1,6 +1,7 @@
 <?php 
 
 use Phalcon\Mvc\User\Module;
+include __DIR__ . "/../library/array_functions.php";
 
 class SkillsHelper extends Module {
 
