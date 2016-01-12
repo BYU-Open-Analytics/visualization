@@ -595,10 +595,10 @@ function loadTimeGraph() {
 		data: {
 			x: 'date',
 			rows: [
-				['Unit 3', 'Unit 4']
+				['Unit 1', 'Unit 2', 'Unit 3', 'Unit 4']
 			],
 			columns: [
-				["date", "Unit 3", "Unit 4"],
+				['date', 'Unit 1', 'Unit 2', 'Unit 3', 'Unit 4'],
 			],
 			type: 'line'
 		},

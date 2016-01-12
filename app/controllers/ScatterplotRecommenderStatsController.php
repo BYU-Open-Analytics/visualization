@@ -315,7 +315,7 @@ class ScatterplotRecommenderStatsController extends Controller
 		foreach ($historyResults as $day) {
 			// Scores are saved at 3am, so they actually correspond to the previous day
 			$formattedDate = date('M j', strtotime('-1 day', strtotime($day->time_stored)));
-			$historyPoints []= [$formattedDate, round($day->unit3 * 100) / 100, round($day->unit4 * 100) / 100];
+			$historyPoints []= [$formattedDate, round($day->unit1 * 100) / 100, round($day->unit2 * 100) / 100, round($day->unit3 * 100) / 100, round($day->unit4 * 100) / 100];
 			//$historyPoints []= [$formattedDate, rand(0,100) / 10, rand(0,100) / 10];
 		}
 		$historyPoints = array_reverse($historyPoints);
@@ -330,7 +330,7 @@ class ScatterplotRecommenderStatsController extends Controller
 		}
 		$output = fopen("php://output", "w");
 		// Header row
-		fputcsv($output, ["date", "Unit 3", "Unit 4"]);
+		fputcsv($output, ["date", "Unit 1", "Unit 2", "Unit 3", "Unit 4"]);
 		foreach ($historyPoints as $row) {
 			fputcsv($output, $row); // here you can change delimiter/enclosure
 		}
