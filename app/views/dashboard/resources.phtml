@@ -18,10 +18,10 @@ if ( $context->valid ) {
 				echo "<li class=\"list-group-item resource-{$resource["Resource Type"]}\">";
 				if ($resource["Resource Type"] == "web") {
 					echo '<span class="glyphicon glyphicon-globe" aria-hidden="true">&nbsp;</span>';
-					echo "<a href=\"{$resource["Resource Link"]}\" target=\"_blank\">{$resource["Resource Title"]}</a>";
+					echo "<a href=\"{$resource["Resource Link"]}\" data-track=\"concept{$resource["Lecture Number"]}Link\" target=\"_blank\">{$resource["Resource Title"]}</a>";
 				} else if ($resource["Resource Type"] == "ayamel") {
 					echo '<span class="glyphicon glyphicon-film" aria-hidden="true">&nbsp;</span>';
-					echo "<a href=\"../consumer.php?app=ayamel&video_id={$resource["Resource Link"]}\" target=\"_blank\">{$resource["Resource Title"]}</a>";
+					echo "<a href=\"../consumer.php?app=ayamel&video_id={$resource["Resource Link"]}\" data-track=\"concept{$resource["Lecture Number"]}Video\" target=\"_blank\">{$resource["Resource Title"]}</a>";
 				}
 				echo "<span class=\"badge resource-date-badge\">{$formattedDate}</span>";
 				echo '</li>';
@@ -34,6 +34,21 @@ if ( $context->valid ) {
 
 <script>
 	$(function() {
+		function track(verbName, objectName) {
+			console.log("Tracking: ",verbName,objectName);
+			sendStatement({
+				statementName: 'interacted',
+				dashboardID: 'resources_dashboard',
+				dashboardName: 'Resources Dashboard',
+				verbName: verbName,
+				objectName: objectName
+			});
+		}
+		// Set up event listener for links that we want to track
+		$(document).on("click", "[data-track]", function() {
+			track("clicked", $(this).attr("data-track"));
+		});
+		
 		$("html, body").animate({ scrollTop: $('h3[data-concept="<?php echo $currentConceptID; ?>"]').offset().top - 65 }, "fast");
 	});
 </script>

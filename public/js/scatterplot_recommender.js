@@ -166,11 +166,6 @@ function loadResourceRecommendations(scopeOption, scopeGroupingId) {
 		// Clear the previous resource list
 		$("#recommendResourcesTable tbody").empty();
 
-		// We only want to show web links, since ayamel resources will show up in the Videos recommendation accordion group
-		data = data.filter(function(r) {
-			return r["Resource Type"] == "web";
-		});
-
 		// Set the badge to the number of resources
 		$("#recommendResourcesCountBadge").text(data.length);
 
@@ -186,8 +181,16 @@ function loadResourceRecommendations(scopeOption, scopeGroupingId) {
 			.append("li")
 			.attr("class", function(d) { return "list-group-item resource-" + d["Resource Type"]; })
 			.html(function(d) {
+				// Format web and ayamel links differently
+				if (d["Resource Type"] == "web") {
 					return '<span class="glyphicon glyphicon-globe" aria-hidden="true">&nbsp;</span>' +
-					'<a href="' + d["Resource Link"] + '" target="_blank">' + d["Resource Title"] + '</a>';
+					'<a href="' + d["Resource Link"] + '" data-track="concept' + d["Lecture Number"] + 'AdditionalLink" target="_blank">' + d["Resource Title"] + '</a>';
+				} else if (d["Resource Type"] == "ayamel") {
+					return '<span class="glyphicon glyphicon-film" aria-hidden="true">&nbsp;</span>' + 
+					'<a href="../consumer.php?app=ayamel&video_id=' + d["Resource Link"] + '" data-track="concept' + d["Lecture Number"] + 'AdditionalVideo" target="_blank">' + d["Resource Title"] + '</a>';
+				} else {
+					return "";
+				}
 			});
 	});
 }
