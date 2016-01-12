@@ -11,12 +11,12 @@ class ContentRecommenderStatsController extends Controller
 		$this->tag->setTitle('Assessment Stats');
 	}
 
-	// Returns content recommendations in 4 groups:
+	// Returns scatterplot recommendations in 4 groups:
 		// Try these quiz questions (Group 1)
 		// Watch these videos before attempting these quiz questions (Group 2)
 		// Find additional help (Group 3)
 		// Practice these questions again (Group 4)
-	public function recommendationsAction($scope = 'unit', $groupingId = '3', $debug = false) {
+	public function recommendationsAction($scope, $groupingId, $debug = false) {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
@@ -65,8 +65,7 @@ class ContentRecommenderStatsController extends Controller
 			$question["attempts"] = MasteryHelper::countAttemptsForQuestion($context->getUserName(), $question["OA Quiz ID"], $question["Question Number"], $debug);
 			$question["correctAttempts"] = MasteryHelper::countCorrectAttemptsForQuestion($context->getUserName(), $question["OA Quiz ID"], $question["Question Number"], $debug);
 			// Get amount of associated videos watched
-			// Note that question ID is being used instead of assessment ID and question number, since we're searching the csv mapping and not dealing with assessment statements here
-			$question["videoPercentage"] = MasteryHelper::calculateUniqueVideoPercentageForQuestion($context->getUserName(), $questionId);
+			$question["videoPercentage"] = MasteryHelper::calculateUniqueVideoPercentageForQuestion($context->getUserName(), $question);
 			// Variables used in the display table
 			// This is one place where we're just using correct, not better correct, attempts
 			$question["correct"] = $question["correctAttempts"]["correct"] > 0;
@@ -154,7 +153,6 @@ class ContentRecommenderStatsController extends Controller
 		];
 		echo json_encode($result);
 	}
-
 
 	// Returns an array of points for the concept mastery scatterplot
 	// NOTE: currently not updated to current mapping structure. Proceed with caution.
@@ -278,7 +276,7 @@ class ContentRecommenderStatsController extends Controller
 		$headerRow = ["group", "quiz_number", "question_number", "x", "y"];
 
 		$result = array_map(function($q) {
-			return ["student", $q["assessmentId"], $q["questionNumber"], $q["videoPercentage"], $q["scaledAttemptScore"]];
+			return ["student", $q["OA Quiz ID"], $q["Question Number"], $q["videoPercentage"], $q["scaledAttemptScore"]];
 		}, $questionDetails);
 		if ($debug) {
 			echo "question details for scope $scope and grouping $groupingId: \n";

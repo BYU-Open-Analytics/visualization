@@ -1,55 +1,3 @@
-// Videos table
-function updateVideosTable() {
-	// TODO absolute URL ref fix
-	d3.csv("../csv/ChemPathVideos.csv", function(error, data) {
-		//Hide the loading spinner
-		$("#videosTable .spinner").hide();
-		//console.log("csv", error, data);
-		// Filter the data to only show required videos
-		data = data.filter(function(d) { return d.optional != 1; });
-		//var columns = [
-			//{ head: '&nbsp;', cl: 'videoRefCell', html: function(d) { return d.chapter + "." + d.section + "." + d.group + "." + d.video; } },
-			//{ head: 'Video Name', cl: 'videoTitleCell', html: function(d) { return d.attempts; } },
-			//{ head: '% Watched', cl: '', html: function(d) { return Math.ceil(Math.random() * 100); } }
-		//];
-		var tbody = d3.select("#videosTable table tbody");
-		var tr = tbody.selectAll("tr")
-			.data(data)
-			.enter()
-			.append("tr")
-			.attr("id", function(d) { return "videoRow"+d.ID; });
-
-		tr.append("td")
-			.html(function(d) { return d.chapter + "." + d.section + "." + d.group + "." + d.video; })
-			.attr("class","videoRefCell");
-		tr.append("td")
-			// TODO absolute URL ref fix
-			.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d.ID + '" target="_blank">' + d.title + '</a>'; })
-			.attr("class","videoTitleCell");
-		tr.append("td")
-			.attr("class", "videoProgressCell")
-			.append("input")
-			.attr("type", "text")
-			.attr("class", "progressCircle")
-			.attr("disabled", "disabled")
-			.attr("value", function() { return Math.ceil(Math.random() * 100); });
-			
-		// Don't stall the UI waiting for all these to finish drawing
-		setTimeout(updateVideoProgressCircles, 1);
-	});
-}
-
-function updateVideoProgressCircles() {
-	$(".progressCircle").knob({
-		'readOnly': true,
-		'width': '45',
-		'height': '45',
-		'thickness': '.25',
-		'fgColor': '#444',
-		'format': function(v) { return v+"%"; }
-	});
-}
-
 // Question Launch Modal
 $("#questionLaunchModal").on("show.bs.modal", function(e) {
 	// Set URL of button to launc the quiz from visualization LTI tool consumer
@@ -66,8 +14,7 @@ $("#questionLaunchContinueButton").click(function(e) {
 
 // Related videos modal
 $("#relatedVideosModal").on("show.bs.modal", function(e) {
-	//$(this).find(".modal-body").html('<table class="table" id="relatedVideosModalTable"><tbody></tbody></table>');
-	var data = getRelatedVideos($(e.relatedTarget).attr("data-assessment"), $(e.relatedTarget).attr("data-question"));
+	var data = getRelatedVideos($(e.relatedTarget).attr("data-concept"));
 	$("#relatedVideosModalTable tbody").empty();
 	var tbody = d3.select("#relatedVideosModalTable tbody");
 	var tr = tbody.selectAll("tr")
@@ -77,71 +24,27 @@ $("#relatedVideosModal").on("show.bs.modal", function(e) {
 		.attr("id", function(d) { return "videoRow"+d["Video ID"]; });
 
 	tr.append("td")
-		.html(function(d) { return d.chapter + "." + d.section + "." + d.group + "." + d.video; })
-		.attr("class","videoRefCell");
-	tr.append("td")
 		// TODO absolute URL ref fix
-		.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d["Video ID"] + '" data-track="ayamelLaunch' + d["Video ID"] + '" target="_blank">' + d.title + '</a>'; })
+		.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d["Video ID"] + '" data-track="ayamelLaunch' + d["Video ID"] + '" target="_blank">' + d["Video Title"] + '</a>'; })
 		.attr("class","videoTitleCell");
-	// TODO put back in percentage watched, with actual data
-	tr.append("td")
-		.attr("class", "videoProgressCell advancedMore");
-		//.append("input")
-		//.attr("type", "text")
-		//.attr("class", "progressCircle")
-		//.attr("disabled", "disabled")
-		//.attr("value", function() { return Math.ceil(Math.random() * 100); }); // TODO put actual percentage here
-		
-	// Track that the modal was shown
-	track("clicked", "relatedVideos" + $(e.relatedTarget).attr('data-assessment') + '.' + $(e.relatedTarget).attr('data-question'));
 
-	// Don't stall the UI waiting for all these to finish drawing
-	setTimeout(updateVideoProgressCircles, 1);
+	// Track that the modal was shown
+	track("clicked", "concept" + $(e.relatedTarget).attr('data-concept') + "RelatedVideos");
+
 	refreshView();
 });
 
 
-// Returns videos for a given question
-function getRelatedVideos(assessmentId, questionId) {
+// Returns videos for a given concept from the mappings
+function getRelatedVideos(conceptId) {
 	var relatedVideos = [];
 	for (var i=0; i<mappings.length; i++) {
 		// See if this question's quiz is associated with this video
-		if (mappings[i]["Open Assessments ID"] == assessmentId) {
+		if (mappings[i]["Lecture Number"] == conceptId) {
 			relatedVideos.push(mappings[i]);
 		}
 	}
 	return relatedVideos;
-}
-
-// Loads strongest and weakest concepts
-function loadConcepts() {
-	d3.json("../content_recommender_stats/masteryGraph/unit/" + currentCourseUnit(), function(error, data) {
-		$("#conceptsSection .spinner").hide();
-		// Sort by lowest score first
-		data.sort(function(a, b) {
-			return a.score > b.score;
-		});
-		// Get the three weakest and strongest
-		var categories = {
-			weakest: data.slice(0,3),
-			strongest: data.slice(data.length - 3, data.length)
-		}
-		categories.strongest.reverse();
-		// Display the concepts in the lists for both weakest and strongest
-		function displayConceptList(category) {
-			d3.select("#" + category + "ConceptsList")
-				.selectAll("div")
-				.data(categories[category])
-				.enter()
-				.append("div")
-				//If their score is 0-3 make it red. If their score is 4-6 make it yellow, and if their score is > 6 make it green.
-				// TODO remove these magic numbers and colors
-				.style("background-color", function(d) { return d.score >= 6 ? "#5cb85c" : d.score >= 4 ? "#f0ad4e" : "#d9534f"; })
-				.html(function(d) { return "<b class='badge pull-right'>" + (Math.round(d.score * 100) / 100) + " / 10</b> " + d.display; });
-		}
-		displayConceptList("weakest");
-		displayConceptList("strongest");
-	});
 }
 
 // Called when a concept is clicked
@@ -159,7 +62,7 @@ function filterConceptClick(d) {
 	// Then make this one active
 	$(d3.event.currentTarget).addClass("active");
 	// Track the click
-	track("clicked","filterListConcept"+d.id);
+	track("clicked","conceptList"+d.id);
 	// Then load recommendations for the concept associated with the clicked concept button
 	loadRecommendations("concept", d.id);
 	//$("#recommendSection").appendTo($(d3.event.currentTarget));
@@ -215,7 +118,7 @@ function loadConceptScores() {
 		
 		var labels = concepts.append("div")
 			.attr("class", "filterListItemText")
-			.html(function(d) { return d.id + ' &nbsp;' + d.display; });
+			.html(function(d) { return d.display; });
 
 		var scoreLabels = concepts.append("div")
 			.attr("class", "filterListItemScore")
@@ -228,15 +131,6 @@ function loadConceptScores() {
 			//.style("background-color", function(d) { return d.score >= 6 ? "#5cb85c" : d.score >= 4 ? "#f0ad4e" : "#d9534f"; })
 			.style("background", function(d) { return colorScale(d.score); });
 
-		// Set up click handler for special unit list item (and show it, since it's hidden for load)
-		/*$(".filterListUnit").removeClass("hidden").click(function() {
-			$("#filterList .active").removeClass("active");
-			$(this).addClass("active");
-			var selectedUnit = $("[name=filterUnitSelector]").val();
-			track("clicked","filterListUnit"+selectedUnit+"AllConcepts");
-			loadRecommendations("unit", selectedUnit);
-		});*/
-					
 		animateConceptScores();
 		setupBootstrapTooltips();
 		// Now we've got all concepts. Filter to current unit by default
@@ -244,7 +138,7 @@ function loadConceptScores() {
 	});
 }
 
-// Filters concepts in the left sidebar to a given unit
+// Filters concepts to a given unit
 function filterConceptList() {
 	var selectedUnit = $("[name=filterUnitSelector]").val();
 	// Hide all concepts
@@ -254,8 +148,6 @@ function filterConceptList() {
 	// Change the "All concepts for this unit" item to have the current unit number
 	$("#filterListUnitName").text(selectedUnit);
 	animateConceptScores();
-	// Default to all concepts
-	//$(".filterListUnit").click();
 	// Hide recommendations
 	$("#recommendSection").hide();
 }
@@ -299,7 +191,7 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 				.enter()
 				.append("tr")
 				.attr("class", "advancedSimple")
-				.html(function(d) { return questionElement(d); });
+				.html(function(d) { console.log(d); return questionElement(d); });
 			$("#recommend"+i+"List").prepend($("#templates .recommendHeaderTemplate").clone());
 			$("[aria-controls=recommend"+i+"] .countBadge").text(data["group"+i].length);
 			// Hide this tab if there aren't any questions
@@ -939,11 +831,10 @@ $(function() {
 	// Hide this (loadRecommendations will show it when it's done loading)
 	$("#recommendContainer").hide();
 
-	// First, we have to load data mappings for quiz questions/videos/concepts/dates
-	d3.csv("../csv/mappings.csv", function(error, data) {
+	// First, we have to load data mappings for quiz questions/videos/concepts/dates (do we really?)
+	d3.csv("../csv/videos.csv", function(error, data) {
 		mappings = data;
 		// Then we can load other things
-		//loadConcepts();
 		//loadRecommendations();
 		loadConceptScores();
 		// Don't load or show scatterplot for now

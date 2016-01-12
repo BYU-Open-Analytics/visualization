@@ -112,8 +112,10 @@ if ( $context->valid ) {
           <td><span class="advancedMoreClass">{classViewedHint}%</span></td>
           <td><span class="advancedMoreClass">{classViewedAnswer}%</span></td>
           <td><span class="advancedMoreClass">{classAverageAttempts}</span></td>
-          <td><a role="button" href="http://openanalytics-dashboard.com/consumer.php?app=openassessments&assessment_id={assessmentId}&question_id={questionNumber}" data-track="question{assessmentId}.{questionNumber}Launch" class="btn btn-info btn-xs" target="_blank"> <span class="glyphicon glyphicon-log-in"></span> &nbsp; Quiz &nbsp;</a></td>
-  	  <td><button class="btn btn-info btn-xs" data-toggle="modal" data-target="#relatedVideosModal" data-assessment="{assessmentId}" data-question="{questionNumber}"> <span class="glyphicon glyphicon-film"></span> &nbsp; Videos &nbsp;</button></td>
+          <td><a role="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#questionLaunchModal" data-assessment="{OA Quiz ID}" data-question="{Question Number}" href="#"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Quiz &nbsp;</a></td>
+          <!-- Direct launch; no practice confirmation dialog -->
+          <!--<td><a role="button" href="http://openanalytics-dashboard.com/consumer.php?app=openassessments&assessment_id={OA Quiz ID}&question_id={Question Number}" data-track="question{OA Quiz ID}.{Question Number}Launch" class="btn btn-info btn-xs" target="_blank"> <span class="glyphicon glyphicon-log-in"></span> &nbsp; Quiz &nbsp;</a></td>-->
+  	  <td><button class="btn btn-info btn-xs" data-toggle="modal" data-target="#relatedVideosModal" data-concept="{Lecture Number}"> <span class="glyphicon glyphicon-film"></span> &nbsp; Videos &nbsp;</button></td>
         </tr>
         </table>
       </div>
@@ -206,11 +208,11 @@ if ( $context->valid ) {
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				<h4 class="modal-title">Videos related to this question</h4>
+				<h4 class="modal-title">Videos related to this concept</h4>
 			</div>
 			<div class="modal-body">
 				<table class="table" id="relatedVideosModalTable">
-					<thead><tr><th>&nbsp;</th><th>Video Name</th><!--<th class="advancedMore">% Watched</th>--></tr></thead>
+					<thead><tr><th>Video Name</th><!--<th class="advancedMore">% Watched</th>--></tr></thead>
 					<tbody></tbody>
 				</table>
 			</div>
@@ -242,29 +244,6 @@ if ( $context->valid ) {
 		</div>
 	</div>
 </div>
-
-<!-- This is the existing content recommender stuff -->
-<!-- Content tables -->
-<div id="mainContainer" class="container hidden">
-  <div class="row">
-    <div id="questionsTable" class="col-md-6">
-      <div class=""><h3>Quiz Questions <small>— Sorted by attempts</small></h3></div>
-      <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
-      <table class="table table-striped table-hover">
-      </table>
-    </div>
-    <div id="videosTable" class="col-md-6">
-      <h3 class="">Videos <small>— Only showing required</small></h3>
-      <table class="table table-striped table-hover">
-        <colgroup><col><col><col class="colWatched"></colgroup>
-        <thead><tr><th>&nbsp;</th><th>Video Name</th><th>% Watched</th></tr></thead>
-	<tbody></tbody>
-      </table>
-      <span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
-    </div>
-  </div>
-</div>
-
 
 <?php
 echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.knob.min.js");

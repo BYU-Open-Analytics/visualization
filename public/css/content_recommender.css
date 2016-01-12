@@ -3,7 +3,7 @@
 	width: 120px;
 }
 th:last-child, td:last-child {
-	text-align: center;
+	/*text-align: center;*/
 }
 
 table {
