@@ -30,7 +30,7 @@ function setupQuestionGroups() {
 		{
 			"id":"Videos",
 			"title":"Videos",
-			"tooltip":"<h4>Videos related to this concept</h4> Further explanation here.",
+			"tooltip":"",
 			"table":'<table class="table table-hover sticky-header" id="recommendVideosTable"> <thead><tr><th>&nbsp;</th><th>Video Name</th><th class="advancedMore">% Watched</th></tr></thead> <tbody></tbody> </table>'
 		},
 		{
@@ -59,9 +59,9 @@ function setupQuestionGroups() {
 		},
 		{
 			"id":"Resources",
-			"title":"Resources",
-			"tooltip":"<h4>Resources related to this concept</h4> Further explanation here.",
-			"table":'Resources related to this concept</div><ul class="list-group resource-list" id="recommendResourcesTable"></ul><div style="display: none;">'
+			"title":"Additional Resources",
+			"tooltip":"",
+			"table":'</div><ul class="list-group resource-list" id="recommendResourcesTable"></ul><div style="display: none;">'
 		}
 	];
 
