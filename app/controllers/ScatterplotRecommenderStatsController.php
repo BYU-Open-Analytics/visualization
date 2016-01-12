@@ -275,10 +275,10 @@ class ScatterplotRecommenderStatsController extends Controller
 		}
 		$masteryHelper = new MasteryHelper();
 		foreach ($concepts as $c) {
-			//$score = $masteryHelper::calculateConceptMasteryScore($context->getUserName(), $c["Lecture Number"], $debug);
-			//$videoPercentage = $masteryHelper::calculateUniqueVideoPercentageForConcept($context->getUserName(), $c["Lecture Number"], $debug);
-			$score = rand(0,100) / 10;
-			$videoPercentage = rand(0,100);
+			$score = $masteryHelper::calculateConceptMasteryScore($context->getUserName(), $c["Lecture Number"], $debug);
+			$videoPercentage = $masteryHelper::calculateUniqueVideoPercentageForConcept($context->getUserName(), $c["Lecture Number"], $debug);
+			//$score = rand(0,100) / 10;
+			//$videoPercentage = rand(0,100);
 			if ($debug) { echo "Concept mapping info\n"; print_r($c); }
 			$result []= [
 				"id" => $c["Lecture Number"],
