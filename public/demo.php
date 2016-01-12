@@ -1,5 +1,6 @@
 <?php
 session_start();
+$_SESSION["group"] = "research";
 // Load up the Basic LTI Support code
 require_once '../app/library/ims_lti/blti.php';
 require_once '../app/library/ims_lti/blti_util.php';

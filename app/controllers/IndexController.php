@@ -15,6 +15,40 @@ class IndexController extends Controller
 		$context = $this->getDI()->getShared('ltiContext');
 		$this->view->ltiContext = $context;
 		$this->view->userAuthorized = $context->valid;
+
+		// Load student list (Make SURE that this is included in the repository's .gitignore file)
+		$students = CSVHelper::parseWithHeaders(__DIR__ . "/../config/student_groups.csv");
+
+		// Find out what group this student is in
+		$group = "noconsent";
+		foreach ($students as $s) {
+			if ($s["LTI Name"] == $context->getUserName()) {
+				$group = $s["realGroup"];
+				break;
+			}
+		}
+
+		// TODO change these to actual values from the csv list
+		$researchGroupId = "research";
+		$controlGroupId = "control";
+
+		// Research group goes to scatterplot recommender ("Test Help")
+		if ($group == $researchGroupId) {
+			$_SESSION["group"] = "research";
+			$this->response->redirect("./dashboard/scatterplot_recommender");
+		} else if ($group == $controlGroupId) {
+			// Both control group and non-consenting go to resources page
+			$_SESSION["group"] = "control";
+			$this->response->redirect("./dashboard/resources");
+		} else {
+			// Both control group and non-consenting go to resources page
+			$_SESSION["group"] = "noconsent";
+			$this->response->redirect("./dashboard/resources");
+		}
+
+
+		/* The following is from the Fall 2015 semester. There were multiple treatment groups, and they switched based on certain days.
+		 *
 		// Figure out where this student should go: Content Recommender, Student Skills, or Consent page
 		//
 		// Period 1: October 22nd through November 13th
@@ -84,5 +118,6 @@ class IndexController extends Controller
 			// Redirect to menu choice for both
 			$this->response->redirect("./dashboard/select");
 		}
+		 */
 	}
 }

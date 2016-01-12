@@ -1,5 +1,6 @@
 <?php
-	if ( $context->valid ) {
+// Only allow access to this dashboard if there's a valid LTI context and the student is in the research group
+if ( $context->valid && isset($_SESSION["group"]) &&  $_SESSION["group"] == "research" ) {
 ?>
 
 <!-- Welcome jumbotron message -->
