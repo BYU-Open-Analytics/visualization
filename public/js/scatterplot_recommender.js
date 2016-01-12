@@ -480,7 +480,7 @@ function loadConceptScatterplot() {
 			lowConceptItems.enter()
 				.append("li")
 				.attr("class", "list-group-item")
-				.text(function(d) { return d.id + " " + d.title; })
+				.text(function(d) { return d.title; })
 				.attr("data-concept", function(d) { return d.id; });
 
 			$("#lowConceptBox").popover({
