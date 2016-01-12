@@ -11,6 +11,7 @@ class CalculationCacherController extends Controller
 		die("Please provide an action, e.g. http://vis.site/calculation_cacher/daily");
 	}
 
+	// Poorly named, since all of these are run daily. But this one saves skill history for each student
 	public function dailyAction() {
 		$config = $this->getDI()->getShared('config');
 		if (!isset($_GET["p"])) {
@@ -76,7 +77,8 @@ class CalculationCacherController extends Controller
 		$studentIds = $classHelper->allStudents();
 		//$studentIds = ["John Logie Baird"];
 		
-		$units = ["3", "4"];
+		// Calculate an overall mastery score for these units, as well as an average for concepts over the past 2 weeks
+		$units = ["1", "2", "3", "4", "recent"];
 		// Go through each student and calculate unit mastery scores
 		foreach ($studentIds as $studentId) {
 			// See if we've already scored mastery scores for this student on the current day (this script just runs multiple times, until a better method to get around 60 second execution time limit is devised)
@@ -90,10 +92,15 @@ class CalculationCacherController extends Controller
 			}
 			$scores = [];
 			foreach ($units as $unit) {
-				$concepts = MappingHelper::conceptsInUnit($unit);
+				// We fetch recent concepts differently from the rest of the units
+				if ($unit == "recent") {
+					$concepts = MappingHelper::conceptsWithin2Weeks();
+				} else {
+					$concepts = MappingHelper::conceptsInUnit($unit);
+				}
 				$unitScore = 0;
 				foreach ($concepts as $c) {
-					$unitScore += $masteryHelper::calculateConceptMasteryScore($studentId, $c["Section Number"], $debug);
+					$unitScore += $masteryHelper::calculateConceptMasteryScore($studentId, $c, $debug);
 				}
 				$unitScore = $unitScore / count($concepts);
 				$scores[$unit] = $unitScore;
@@ -104,8 +111,11 @@ class CalculationCacherController extends Controller
 			}
 			$history = new StudentMasteryHistory();
 			$history->email = $studentId;
+			$history->unit1 = $scores["1"];
+			$history->unit2 = $scores["2"];
 			$history->unit3 = $scores["3"];
 			$history->unit4 = $scores["4"];
+			$history->recent_average = $scores["recent"];
 
 			if ($history->create() == false) {
 				echo "*** Error saving mastery history for $studentId\n";

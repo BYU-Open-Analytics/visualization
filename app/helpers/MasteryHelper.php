@@ -4,7 +4,13 @@ use Phalcon\Mvc\User\Module;
 
 class MasteryHelper extends Module {
 
+	// Returns a given student's mastery score for a given concept (pass either concept row, or lecture number/concept id)
 	public static function calculateConceptMasteryScore($studentId, $conceptId, $debug = false) {
+
+		// If the concept row was passed in, extract lecture number
+		if (is_array($conceptId)) {
+			$conceptId = $conceptId["Lecture Number"];
+		}
 
 		// Get questions in concept
 		$questions = MappingHelper::questionsInConcept($conceptId);
@@ -104,7 +110,7 @@ class MasteryHelper extends Module {
 					$multipleChoiceAttemptPenalty = 0;
 					// Sum of penalties
 					foreach ($conceptMultipleChoiceQuestions as $question) {
-						$multipleChoiceAttemptPenalty += ( max($question["attempts"] - 1, 0) * (10 / $question["options"]) );
+						$multipleChoiceAttemptPenalty += ( max($question["attempts"] - 1, 0) * (10 / $question["Multiple Choice Options"]) );
 					}
 					// Now average penalty
 					$multipleChoiceAttemptPenalty = $multipleChoiceAttemptPenalty / $multipleChoiceQuestionCount;
@@ -119,7 +125,7 @@ class MasteryHelper extends Module {
 					// Get number of multiple choice questions that have > 1 correct attempt and add a practice bonus for each of them
 					foreach ($conceptMultipleChoiceQuestions as $question) {
 						if ($question["correctAttempts"]["betterCorrect"] > 1) {
-							$multipleChoicePracticeBonus += ( ($question["attempts"] - 1) * (10 / $question["options"]) ) / $multipleChoiceQuestionCount;
+							$multipleChoicePracticeBonus += ( ($question["attempts"] - 1) * (10 / $question["Multiple Choice Options"]) ) / $multipleChoiceQuestionCount;
 						}
 					}
 					if ($debug) {

@@ -107,6 +107,8 @@ class MappingHelper extends Module {
 		$videos = array_unique($videos, SORT_REGULAR);
 		return $videos;
 	}
+
+	// Returns a 2D array of concepts that have a date within the past two weeks
 	static public function conceptsWithin2Weeks(){
 		$allConcepts = self::allConcepts();
 		$returnConcepts = [];
