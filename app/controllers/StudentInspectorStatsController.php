@@ -24,7 +24,7 @@ class StudentInspectorStatsController extends Controller
 		$masteryHelper = new MasteryHelper();
 		$statementHelper = new StatementHelper();
 		$recent_concepts = MappingHelper::conceptsWithin2Weeks();
-		$students = ["John Logie Baird"];
+		$students = $classHelper->allStudents();
 		//$students [] = "me";
 		$studentInfo = [];
 		$maxCount = 0; 
