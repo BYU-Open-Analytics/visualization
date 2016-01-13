@@ -29,8 +29,8 @@ $(function() {
 			.style("color", function(d) { return colorScale(d.name.length); });
 
 		studentListRows.append("td")
-			.html(function(d) { return d.score })
-			.style("color", function(d) { return masteryColorScale(d.score);});
+			.html(function(d) { return d.average })
+			.style("color", function(d) { return masteryColorScale(d.average);});
 	});
 
 

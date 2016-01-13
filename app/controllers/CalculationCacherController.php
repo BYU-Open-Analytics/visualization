@@ -147,7 +147,7 @@ class CalculationCacherController extends Controller
 		$classHelper = new ClassHelper();
 		$masteryHelper = new MasteryHelper();
 		$allConcepts = MappingHelper::allConcepts();
-		$studentIds = $classHelper->allStudents();
+		$studentIds = $classHelper->allStud	ents();
 		//$studentIds = ["John Logie Baird"];
 
 		foreach ($allConcepts as $concept) {
