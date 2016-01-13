@@ -27,6 +27,7 @@ class StudentInspectorStatsController extends Controller
 		$students = ["John Logie Baird"];
 		//$students [] = "me";
 		$studentInfo = [];
+		$maxCount = 0; 
 		for ($i=0; $i < count($students); $i++) {
 			$studentAverages = StudentMasteryHistory::findFirst([
 				"conditions" => "email = ?1",
@@ -38,20 +39,22 @@ class StudentInspectorStatsController extends Controller
 				'statement.actor.name' => $students[$i],
 			], [ 'statement.object.id' => true, ]
 			);
-			echo MasteryHelper::calculateUniqueVideoPercentageForConcepts($students[$i],$recent_concepts);
-			
+			$vidPercent = MasteryHelper::calculateUniqueVideoPercentageForConcepts($students[$i],$recent_concepts);
 			$count = $statements["cursor"]->count();
+			if($count > $maxCount){
+				$maxCount = $count;
+			}
 			if(!is_object($studentAverages)){
-				
-				$newStudent = ["name" => $students[$i], "average" => 0, "count" => $count];
+				$newStudent = ["name" => $students[$i], "average" => 0, "count" => $count, "vPercentage" => $vidPercent ];
 			}
 			else{
 				
-				$newStudent = ["name" => $studentAverages->email, "average" => $studentAverages->recent_average,"count" => $count];
+				$newStudent = ["name" => $studentAverages->email, "average" => $studentAverages->recent_average,"count" => $count,"vPercentage" => $vidPercent];
 			}
 			$studentInfo []=$newStudent; 
 		}
-
+		$firstRow = ["max" => $maxCount];
+		array_unshift($studentInfo, $firstRow);
 		echo json_encode($studentInfo);
 	}
 }
