@@ -18,10 +18,10 @@ if ( $context->valid ) {
 				echo "<li class=\"list-group-item resource-{$resource["Resource Type"]}\">";
 				if ($resource["Resource Type"] == "web") {
 					echo '<span class="glyphicon glyphicon-globe" aria-hidden="true">&nbsp;</span>';
-					echo "<a href=\"{$resource["Resource Link"]}\" data-track=\"concept{$resource["Lecture Number"]}Link\" target=\"_blank\">{$resource["Resource Title"]}</a>";
+					echo "<a href=\"{$resource["Resource Link"]}\" data-track=\"concept{$resource["Lecture Number"]}Link{$resource["Resource Tracking Number"]}\" target=\"_blank\">{$resource["Resource Title"]}</a>";
 				} else if ($resource["Resource Type"] == "ayamel") {
 					echo '<span class="glyphicon glyphicon-film" aria-hidden="true">&nbsp;</span>';
-					echo "<a href=\"../consumer.php?app=ayamel&video_id={$resource["Resource Link"]}\" data-track=\"concept{$resource["Lecture Number"]}Video\" target=\"_blank\">{$resource["Resource Title"]}</a>";
+					echo "<a href=\"../consumer.php?app=ayamel&video_id={$resource["Resource Link"]}\" data-track=\"concept{$resource["Lecture Number"]}Video{$resource["Resource Tracking Number"]}\" target=\"_blank\">{$resource["Resource Title"]}</a>";
 				}
 				echo "<span class=\"badge resource-date-badge\">{$formattedDate}</span>";
 				echo '</li>';

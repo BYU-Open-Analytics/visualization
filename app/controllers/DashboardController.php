@@ -106,7 +106,7 @@ class DashboardController extends Controller
 			$videos = MappingHelper::videosForConcept($conceptId);
 			// Format videos to be the same format as ayamel links from the resources.csv mapping
 			foreach ($videos as $video) {
-				$resourceLists[$conceptId] []= ["Lecture Number" => $video["Lecture Number"], "Resource Type" => "ayamel", "Resource Title" => $video["Video Title"], "Resource Link" => $video["Video ID"]];
+				$resourceLists[$conceptId] []= ["Lecture Number" => $video["Lecture Number"], "Resource Type" => "ayamel", "Resource Title" => $video["Video Title"], "Resource Link" => $video["Video ID"], "Resource Tracking Number" => $video["Video ID"]];
 			}
 		}
 		// Figure out which concept to position the list at (based on the current day)

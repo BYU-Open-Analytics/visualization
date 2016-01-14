@@ -184,10 +184,10 @@ function loadResourceRecommendations(scopeOption, scopeGroupingId) {
 				// Format web and ayamel links differently
 				if (d["Resource Type"] == "web") {
 					return '<span class="glyphicon glyphicon-globe" aria-hidden="true">&nbsp;</span>' +
-					'<a href="' + d["Resource Link"] + '" data-track="concept' + d["Lecture Number"] + 'AdditionalLink" target="_blank">' + d["Resource Title"] + '</a>';
+					'<a href="' + d["Resource Link"] + '" data-track="concept' + d["Lecture Number"] + 'AdditionalLink' + d["Resource Tracking Number"] + '" target="_blank">' + d["Resource Title"] + '</a>';
 				} else if (d["Resource Type"] == "ayamel") {
 					return '<span class="glyphicon glyphicon-film" aria-hidden="true">&nbsp;</span>' + 
-					'<a href="../consumer.php?app=ayamel&video_id=' + d["Resource Link"] + '" data-track="concept' + d["Lecture Number"] + 'AdditionalVideo" target="_blank">' + d["Resource Title"] + '</a>';
+					'<a href="../consumer.php?app=ayamel&video_id=' + d["Resource Link"] + '" data-track="concept' + d["Lecture Number"] + 'AdditionalVideo' + d["Resource Tracking Number"] + '" target="_blank">' + d["Resource Title"] + '</a>';
 				} else {
 					return "";
 				}
