@@ -318,7 +318,6 @@ class ScatterplotRecommenderStatsController extends Controller
 			$historyPoints []= [$formattedDate, round($day->unit1 * 100) / 100, round($day->unit2 * 100) / 100, round($day->unit3 * 100) / 100, round($day->unit4 * 100) / 100];
 			//$historyPoints []= [$formattedDate, rand(0,100) / 10, rand(0,100) / 10];
 		}
-		$historyPoints = array_reverse($historyPoints);
 
 		if ($debug) {
 			print_r($historyPoints);
