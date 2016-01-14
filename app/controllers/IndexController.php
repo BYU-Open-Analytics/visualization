@@ -21,12 +21,12 @@ class IndexController extends Controller
 
 		// TODO change these to actual values from the csv list
 		// Column names
-		$studentNameColumn = "LTI Name";
-		$studentGroupColumn = "realGroup";
+		$studentNameColumn = "Student Name";
+		$studentGroupColumn = "Group";
 
 		// Values for the studentGroupColumn
-		$researchGroupId = "research";
-		$controlGroupId = "control";
+		$researchGroupId = "1";
+		$controlGroupId = "0";
 
 		// Find out what group this student is in
 		$group = "noconsent";
