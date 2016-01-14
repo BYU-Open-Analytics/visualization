@@ -309,7 +309,6 @@ class ScatterplotRecommenderStatsController extends Controller
 			"order" => 'time_stored ASC',
 		]);
 
-		// TODO figure out what to do with up to 3 points per day!
 
 		$historyPoints = [];
 		foreach ($historyResults as $day) {
@@ -318,6 +317,9 @@ class ScatterplotRecommenderStatsController extends Controller
 			$historyPoints []= [$formattedDate, round($day->unit1 * 100) / 100, round($day->unit2 * 100) / 100, round($day->unit3 * 100) / 100, round($day->unit4 * 100) / 100];
 			//$historyPoints []= [$formattedDate, rand(0,100) / 10, rand(0,100) / 10];
 		}
+
+		// In case it gets saved multiple times, eliminate duplicates
+		$historyPoints = array_unique($historyPoints, SORT_REGULAR);
 
 		if ($debug) {
 			print_r($historyPoints);
