@@ -19,18 +19,23 @@ class IndexController extends Controller
 		// Load student list (Make SURE that this is included in the repository's .gitignore file)
 		$students = CSVHelper::parseWithHeaders(__DIR__ . "/../config/student_groups.csv");
 
+		// TODO change these to actual values from the csv list
+		// Column names
+		$studentNameColumn = "LTI Name";
+		$studentGroupColumn = "realGroup";
+
+		// Values for the studentGroupColumn
+		$researchGroupId = "research";
+		$controlGroupId = "control";
+
 		// Find out what group this student is in
 		$group = "noconsent";
 		foreach ($students as $s) {
-			if ($s["LTI Name"] == $context->getUserName()) {
-				$group = $s["realGroup"];
+			if ($s[$studentNameColumn] == $context->getUserName()) {
+				$group = $s[$studentGroupColumn];
 				break;
 			}
 		}
-
-		// TODO change these to actual values from the csv list
-		$researchGroupId = "research";
-		$controlGroupId = "control";
 
 		// Research group goes to scatterplot recommender ("Test Help")
 		if ($group == $researchGroupId) {
