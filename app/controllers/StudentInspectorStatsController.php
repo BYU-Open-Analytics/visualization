@@ -24,9 +24,11 @@ class StudentInspectorStatsController extends Controller
 		$masteryHelper = new MasteryHelper();
 		$statementHelper = new StatementHelper();
 		$recent_concepts = MappingHelper::conceptsWithin2Weeks();
-		$students = ["John Logie Baird"];
+		$students = $classHelper->allStudents();
+	//	$students = ["John Logie Baird"];
 		//$students [] = "me";
 		$studentInfo = [];
+		$maxCount = 0; 
 		for ($i=0; $i < count($students); $i++) {
 			$studentAverages = StudentMasteryHistory::findFirst([
 				"conditions" => "email = ?1",
@@ -34,24 +36,65 @@ class StudentInspectorStatsController extends Controller
 				"order" => 'recent_average DESC'
 			]);
 			// For second parameter of what to query, see http://php.net/manual/en/mongocollection.find.php
-			$statements = $statementHelper->getStatements("visualization",[
+			$visStatements = $statementHelper->getStatements("visualization",[
 				'statement.actor.name' => $students[$i],
 			], [ 'statement.object.id' => true, ]
 			);
-			echo MasteryHelper::calculateUniqueVideoPercentageForConcepts($students[$i],$recent_concepts);
-			
-			$count = $statements["cursor"]->count();
+			$hints = $statementHelper->getStatements("openassessments",[
+				'statement.actor.name' => $students[$i],
+				'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/showed-hint',
+			], [ 'statement.object.id'=> true, ]
+			);
+			$showAnswer= $statementHelper->getStatements("openassessments",[
+				'statement.actor.name' => $students[$i],
+				'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/showed-answer',
+			], [ 'statement.object.id'=> true, ]
+			);
+			$questionsAnswered= $statementHelper->getStatements("openassessments",[
+				'statement.actor.name' => $students[$i],
+				'statement.verb.id' => 'http://adlnet.gov/expapi/verbs/answered',
+			], [ 'statement.object.id'=> true, 'statement.context.extensions' => true ]
+			);
+			$hintsShowed = $hints["cursor"]->count();
+			$answersShowed = $showAnswer["cursor"]->count();
+			$high =0; $medium =0; $low=0;
+			$attempts = $questionsAnswered["cursor"]->count();
+			$correct = 0;
+			foreach($questionsAnswered["cursor"] as $confidenceCheck){
+				$confidenceCheck = StatementHelper::replaceHtmlEntity($confidenceCheck, true);
+				if($confidenceCheck['statement']['context']['extensions']['http://byuopenanalytics.byu.edu/expapi/extensions/correct'] == true){
+					$correct++;
+				}
+				if($confidenceCheck['statement']['context']['extensions']['http://byuopenanalytics.byu.edu/expapi/extensions/confidence_level']=="high"){
+					$high++;}
+				if($confidenceCheck['statement']['context']['extensions']['http://byuopenanalytics.byu.edu/expapi/extensions/confidence_level']=="medium"){
+					$medium++;}
+				if($confidenceCheck['statement']['context']['extensions']['http://byuopenanalytics.byu.edu/expapi/extensions/confidence_level']=="low"){
+					$low++;}
+			}
+			$commonConfidence = max($high, $medium, $low);
+			if($commonConfidence == $high)
+				$medianConfidence = "High";
+			else if($commonConfidence == $high)
+				$medianConfidence = "Medium";
+			else
+				$medianConfidence = "Low";
+			$count = $visStatements["cursor"]->count();
+			$vidPercent = MasteryHelper::calculateUniqueVideoPercentageForConcepts($students[$i],$recent_concepts);
+			if($count > $maxCount){
+				$maxCount = $count;
+			}
 			if(!is_object($studentAverages)){
-				
-				$newStudent = ["name" => $students[$i], "average" => 0, "count" => $count];
+				$newStudent = ["name" => $students[$i], "average" => 0, "count" => $count, "vPercentage" => $vidPercent, "correct" => $correct, "attempts" => $attempts, "hintsShowed" => $hintsShowed, "answersShowed" => $answersShowed, "confidence" => $medianConfidence ];
 			}
 			else{
 				
-				$newStudent = ["name" => $studentAverages->email, "average" => $studentAverages->recent_average,"count" => $count];
+				$newStudent = ["name" => $studentAverages->email, "average" => $studentAverages->recent_average,"count" => $count,"vPercentage" => $vidPercent, "correct" => $correct, "attempts" => $attempts, "hintsShowed" => $hintsShowed, "answersShowed" => $answersShowed, "confidence" => $medianConfidence];
 			}
 			$studentInfo []=$newStudent; 
 		}
-
+		$firstRow = ["max" => $maxCount];
+		array_unshift($studentInfo, $firstRow);
 		echo json_encode($studentInfo);
 	}
 }
