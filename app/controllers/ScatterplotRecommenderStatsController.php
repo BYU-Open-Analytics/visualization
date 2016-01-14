@@ -306,9 +306,8 @@ class ScatterplotRecommenderStatsController extends Controller
 		// Fetch skill history items for the current student
 		$historyResults = StudentMasteryHistory::find([
 			"email = '$email'",
-			"order" => 'time_stored ASC',
+			"order" => 'time_stored DESC',
 		]);
-
 
 		$historyPoints = [];
 		foreach ($historyResults as $day) {
@@ -320,6 +319,12 @@ class ScatterplotRecommenderStatsController extends Controller
 
 		// In case it gets saved multiple times, eliminate duplicates
 		$historyPoints = array_unique($historyPoints, SORT_REGULAR);
+
+		// Get just latest 3 weeks of data
+		$historyPoints = array_slice($historyPoints, 0, 21);
+
+		// Put it in correct order
+		$historyPoints = array_reverse($historyPoints);
 
 		if ($debug) {
 			print_r($historyPoints);
