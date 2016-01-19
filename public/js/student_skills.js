@@ -1,4 +1,4 @@
-// Loads the skill scores into the recommendation templates and puts them in the list
+	// Loads the skill scores into the recommendation templates and puts them in the list
 function loadSkills(data) {
 	// Hide the loading spinner
 	$("#skillsListSection .spinner").hide();
@@ -76,6 +76,7 @@ function loadSkillsGraph(data) {
 		margin: {top: 60, right: 100, bottom: 100, left: 100},
 		color: colorScale,
 		clickHandler: skillsGraphPointClicked
+		mouseoverHandler: skillsGraphPointHovered
 	};
 	var legendOptions = ["Student", "Class Median"];
 	//Hide the loading spinner
@@ -118,8 +119,10 @@ function loadSkillsGraph(data) {
 		.attr("font-size", "11px")
 		.attr("fill", "#737373")
 		.text(function(d) { return d; })
-		.on('mouseover',function(d){ console.log(d);})
-		.on('mouseout',function(d){console.log("exiting "+d);});
+		.on('mouseover',function(d){
+			console.log(d);})
+		.on('mouseout',function(d){
+			console.log("exiting "+d);});
 	refreshView();
 }
 
