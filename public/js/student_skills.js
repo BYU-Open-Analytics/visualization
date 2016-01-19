@@ -76,7 +76,6 @@ function loadSkillsGraph(data) {
 		margin: {top: 60, right: 100, bottom: 100, left: 100},
 		color: colorScale,
 		clickHandler: skillsGraphPointClicked
-		mouseoverHandler: skillsGraphPointHovered
 	};
 	var legendOptions = ["Student", "Class Median"];
 	//Hide the loading spinner
