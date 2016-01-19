@@ -45,7 +45,9 @@ var skillTitles = {
 	"deepLearning": "Deep Learning",
 	"persistence": "Persistence"
 	};
-
+function skillsGraphPointHovered(d){
+		console.log(d);
+}
 // When a point on the radar graph is clicked
 function skillsGraphPointClicked(d) {
 	console.log(d);
@@ -115,8 +117,9 @@ function loadSkillsGraph(data) {
 		.attr("y", function(d, i) { return i * 20 + 9; })
 		.attr("font-size", "11px")
 		.attr("fill", "#737373")
-		.text(function(d) { return d; });
-
+		.text(function(d) { return d; })
+		.on('mouseover',function(d){ console.log(d);})
+		.on('mouseout',function(d){console.log("exiting "+d);});
 	refreshView();
 }
 
@@ -321,6 +324,16 @@ $(function() {
 		changeView($(this).attr("data-option"));
 		track("clicked","viewSetting"+$(this).attr("data-option"));
 		return false;
+	});
+	$(".advancedToggle").mouseover(function(){
+	
+	  $(this).style.color = "orange";
+
+    // reset the color after a short delay
+    setTimeout(function() {
+      event.target.style.color = "";
+    }, 500);
+  }, false);
 	});
 	$(".advancedToggleOptional").change(function(event) {
 		changeView($(this).attr("data-option"), this.checked);

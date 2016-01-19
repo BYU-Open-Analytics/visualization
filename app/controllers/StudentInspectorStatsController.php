@@ -25,8 +25,7 @@ class StudentInspectorStatsController extends Controller
 		$statementHelper = new StatementHelper();
 		$recent_concepts = MappingHelper::conceptsWithin2Weeks();
 		$students = $classHelper->allStudents();
-	//	$students = ["John Logie Baird"];
-		//$students [] = "me";
+		//$students = ["John Logie Baird"];
 		$studentInfo = [];
 		$maxCount = 0; 
 		for ($i=0; $i < count($students); $i++) {
@@ -81,7 +80,7 @@ class StudentInspectorStatsController extends Controller
 				$medianConfidence = "Low";
 			$count = $visStatements["cursor"]->count();
 			$vidPercent = MasteryHelper::calculateUniqueVideoPercentageForConcepts($students[$i],$recent_concepts);
-			if($count > $maxCount){
+			if($count > $maxCount && $students[$i] != 'John Logie Baird'){
 				$maxCount = $count;
 			}
 			if(!is_object($studentAverages)){

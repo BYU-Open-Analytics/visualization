@@ -1,5 +1,6 @@
 $(function() {
 	d3.json("../student_inspector_stats/students", function(error, studentList) {
+		
 		var studentMax = studentList[0].max;
 		studentList.splice(0,1);
 		studentList.sort();
@@ -14,7 +15,7 @@ $(function() {
 				
 		var videoColorScale = d3.scale.linear()
 				.domain([0,25,50,100])
-				.range(["#d9534f", "#FFCE54", "#D4D84F", "#5cb85c"]);
+				.range(['#d9534f', '#FFCE54', '#D4D84F', '#5cb85c']);
 		
 		
 		var tbody = d3.select("#studentList tbody");
@@ -43,11 +44,27 @@ $(function() {
 		
 		//Relative Dashboard Participation	
 		studentListRows.append("td")
+		// .append("progress")
+		// .style("width",'500px;margin-bottom:0px;margin-top:20px;')
+		// .append("progress-bar")
+		// .attr(id="tracking1")
+		// .attr(role="progressbar")
+		// .attr(aria-valuenow="60")
+		// .attr(aria-valuemin="0")
+		// .attr(aria-valuemax="100") 
+		
+
 			.append("progress")
+		//	.attr("-webkit-appearance","none")
+	//		.attr("class","progress-bar")
+//			.attr("role", "progressbar")
 			.attr("value",function(d){return d.count})
 			.attr("max",studentMax)
-			.style("color", function(d) { return countColorScale(d.count);});
-	
+			.attr("aria-valuenow",function(d) { return ((d.count/studentMax)*100);});
+		/*
+		if(function(d){return d.count/studentMax} == 100){
+			studentListRows.attr("class",progress-bar progress-bar-success);
+		}*/
 		//Attempted Questions
 		studentListRows.append("td")
 			.html(function(d) {return d.correct + "/"+ d.attempts;});
@@ -67,19 +84,28 @@ $(function() {
 
 		// Don't stall the UI waiting for all these to finish drawing
 		setTimeout(function() {
+			$(".progress-bar").css('color','#5cb85c');
+		}, 1);
+		setTimeout(function() {
 			$(".progressCircle").knob({
 				'readOnly': true,
-				'width': '30',
-				'height': '30',
-				'thickness': '.4',
-				'fgColor': "#5cb85c",
-				draw : function(){
-					$(".progressCircle").css("font-size","40px");
-				},
+				'width': '35',
+				'height': '35',
+				'thickness': '.75',
+				'font-size' : '12px',
+				'fgColor': '#5cb85c',
+				//#5cb85c
 				'format': function(v) { return v+"%"; }
-			});
+			}).css('font-size','24px');
 		}, 1);
 	});
+
+/*$(document).ready(function() 
+    { 
+        $("#studentList").tablesorter(); 
+    } 
+); */
+    
 
 
 });
