@@ -329,6 +329,7 @@ $(function() {
 		return false;
 	});
 	
+
 	$(".advancedToggleOptional").change(function(event) {
 		changeView($(this).attr("data-option"), this.checked);
 		track("clicked","viewSetting"+$(this).attr("data-option"));
