@@ -35,7 +35,6 @@ $(function() {
 		
 		//Video Percentage
 		studentListRows.append("td")
-			.attr("class", "videoProgressCell advancedMore")
 			.append("input")
 			.attr("type", "text")
 			.attr("class", "progressCircle")
@@ -44,20 +43,7 @@ $(function() {
 		
 		//Relative Dashboard Participation	
 		studentListRows.append("td")
-		// .append("progress")
-		// .style("width",'500px;margin-bottom:0px;margin-top:20px;')
-		// .append("progress-bar")
-		// .attr(id="tracking1")
-		// .attr(role="progressbar")
-		// .attr(aria-valuenow="60")
-		// .attr(aria-valuemin="0")
-		// .attr(aria-valuemax="100") 
-		
-
 			.append("progress")
-		//	.attr("-webkit-appearance","none")
-	//		.attr("class","progress-bar")
-//			.attr("role", "progressbar")
 			.attr("value",function(d){return d.count})
 			.attr("max",studentMax)
 			.attr("aria-valuenow",function(d) { return ((d.count/studentMax)*100);});
@@ -91,12 +77,12 @@ $(function() {
 				'readOnly': true,
 				'width': '35',
 				'height': '35',
-				'thickness': '.75',
-				'font-size' : '12px',
-				'fgColor': '#5cb85c',
+				'thickness': '1',
+				'fontSize' : '12px',
+				'fgColor': '#000000',
 				//#5cb85c
 				'format': function(v) { return v+"%"; }
-			}).css('font-size','24px');
+			})
 		}, 1);
 	});
 
@@ -108,4 +94,4 @@ $(function() {
     
 
 
-});
+})();
