@@ -45,8 +45,31 @@ var skillTitles = {
 	"deepLearning": "Deep Learning",
 	"persistence": "Persistence"
 	};
-function skillsGraphPointHovered(d){
-		console.log(d);
+var div = d3.select("body").append("div")	
+	.attr("class", "tooltip")				
+	.style("opacity", 0);
+
+function skillsGraphMouseover(d){
+		console.log("entering, ",d);
+		var title = (d && typeof d == "object") ? d.axis : d;
+		// Find the skill id from the title
+		var skillId = skillIds[title];
+		if (!skillId) { return; }
+		//console.log($("#skillsListSection ." + skillId + "SkillTemplate .skillScoreBar").data('original-title'));
+
+		div.transition()		
+                .duration(200)		
+                .style("opacity", .9);		
+		div	.html($("#skillsListSection ." + skillId + "SkillTemplate div").data('original-title'))	
+			.style("left", (d3.event.pageX) + "px")		
+			.style("top", (d3.event.pageY - 28) + "px");
+}
+function skillsGraphMouseout(d){
+		console.log("exiting, ", d);
+		div.transition()		
+                .duration(500)		
+                .style("opacity", 0);	
+
 }
 // When a point on the radar graph is clicked
 function skillsGraphPointClicked(d) {
@@ -66,6 +89,7 @@ function skillsGraphPointClicked(d) {
 
 function loadSkillsGraph(data) {
 
+
 	var colorScale = d3.scale.category10();
 	var radarConfig = {
 		w: 350,
@@ -75,8 +99,9 @@ function loadSkillsGraph(data) {
 		levels: 5,
 		margin: {top: 60, right: 100, bottom: 100, left: 100},
 		color: colorScale,
-		clickHandler: skillsGraphPointClicked
-	//	mouseoverHandler: skillsGraphPointHovered
+		clickHandler: skillsGraphPointClicked,
+		mouseoverHandler: skillsGraphMouseover,
+		mouseoutHandler: skillsGraphMouseout
 	};
 	var legendOptions = ["Student", "Class Median"];
 	//Hide the loading spinner
@@ -119,10 +144,7 @@ function loadSkillsGraph(data) {
 		.attr("font-size", "11px")
 		.attr("fill", "#737373")
 		.text(function(d) { return d; })
-		.on('mouseover',function(d){
-			console.log(d);})
-		.on('mouseout',function(d){
-			console.log("exiting "+d);});
+		
 	refreshView();
 }
 

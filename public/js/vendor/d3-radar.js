@@ -22,7 +22,9 @@ function RadarChart(id, data, options) {
 	 strokeWidth: 2, 			//The width of the stroke around each blob
 	 roundStrokes: false,			//If true the area and stroke will follow a round path (cardinal-closed)
 	 color: d3.scale.category10(),		//Color function
-	 clickHandler: null
+	 clickHandler: null,
+	 mouseoverHandler: null,
+	 mouseoutHandler: null
 	};
 	
 	//Put all of the options into a variable called cfg
@@ -135,6 +137,8 @@ function RadarChart(id, data, options) {
 		.text(function(d){return d})
 		.style("cursor", "pointer")
 		.on("click", cfg.clickHandler)
+		.on('mouseover',cfg.mouseoverHandler)
+		.on('mouseout',cfg.mouseoutHandler)
 		.call(wrap, cfg.wrapWidth);
 
 	/////////////////////////////////////////////////////////

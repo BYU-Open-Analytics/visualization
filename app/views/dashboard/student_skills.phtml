@@ -241,8 +241,8 @@ if ( $context->valid && isset($_SESSION["group"]) &&  $_SESSION["group"] == "res
 		</div>
 	</div>
 
-	<div class="deepLearningSkillTemplate skillTemplate" data-toggle="tooltip" title="Deep learning is taking an understanding approach to learning instead of simply trying to get an A. This score is calculated based on the number of times you clicked show answer on a quiz before getting the correct answer.">
-		<div class="skillScoreBar">
+	<div class="deepLearningSkillTemplate skillTemplate" >
+		<div class="skillScoreBar" data-toggle="tooltip" title="Deep learning is taking an understanding approach to learning instead of simply trying to get an A. This score is calculated based on the number of times you clicked show answer on a quiz before getting the correct answer.">>
 			<h4>Deep Learning
       <span class="skillInfo pull-right" id="deepLearningSkillInfo"><span class="glyphicon glyphicon-info-sign"></span></span>
       <span class="advancedAllScores pull-right">Your score: <span class="skillScoreLabel"></span>/10</span>
@@ -298,11 +298,12 @@ if ( $context->valid && isset($_SESSION["group"]) &&  $_SESSION["group"] == "res
 
 </div>
 <?php
+echo Phalcon\Tag::javascriptInclude("js/vendor/d3-tip.min.js");
 echo Phalcon\Tag::javascriptInclude("js/vendor/d3-radar.js");
 echo Phalcon\Tag::javascriptInclude("js/student_skills.js");
 echo Phalcon\Tag::javascriptInclude("js/vendor/c3.min.js");
 echo Phalcon\Tag::stylesheetLink("css/student_skills.css");
-echo Phalcon\Tag::stylesheetLink("css/c3.min.css");
+echo Phalcon\Tag::stylesheetLink("css/c3.min.css"); 	
 
 } else {
 	echo "<p class='alert alert-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";
