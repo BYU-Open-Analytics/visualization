@@ -103,6 +103,21 @@
 }
 
 /* Tooltips */
+div.tooltip {	
+    line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  width: 300px;
+  max-width: 500px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+  margin: 0px;
+  z-index: 10000;			
+}
+
+
+
 .d3-tip {
   line-height: 1;
   font-weight: bold;
@@ -133,7 +148,10 @@
   top: 100%;
   left: 0;
 }
-
+.progressCircle {
+	border: none;
+	background: transparent;
+}
 input[disabled] + label {
 	color: #ccc;
 	cursor: not-allowed;
