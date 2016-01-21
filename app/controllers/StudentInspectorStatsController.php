@@ -25,9 +25,9 @@ class StudentInspectorStatsController extends Controller
 		$statementHelper = new StatementHelper();
 		$recent_concepts = MappingHelper::conceptsWithin2Weeks();
 		$students = $classHelper->allStudents();
-		//$students = ["John Logie Baird"];
+	//	$students = ["John Logie Baird"];
 		$studentInfo = [];
-		$maxCount = 0; 
+		$maxCount = 0;
 		for ($i=0; $i < count($students); $i++) {
 			$studentAverages = StudentMasteryHistory::findFirst([
 				"conditions" => "email = ?1",
@@ -87,15 +87,13 @@ class StudentInspectorStatsController extends Controller
 				$newStudent = ["name" => $students[$i], "average" => 0, "count" => $count, "vPercentage" => $vidPercent, "correct" => $correct, "attempts" => $attempts, "hintsShowed" => $hintsShowed, "answersShowed" => $answersShowed, "confidence" => $medianConfidence ];
 			}
 			else{
-				
+
 				$newStudent = ["name" => $studentAverages->email, "average" => $studentAverages->recent_average,"count" => $count,"vPercentage" => $vidPercent, "correct" => $correct, "attempts" => $attempts, "hintsShowed" => $hintsShowed, "answersShowed" => $answersShowed, "confidence" => $medianConfidence];
 			}
-			$studentInfo []=$newStudent; 
+			$studentInfo []=$newStudent;
 		}
 		$firstRow = ["max" => $maxCount];
 		array_unshift($studentInfo, $firstRow);
 		echo json_encode($studentInfo);
 	}
 }
-
-

@@ -17,7 +17,7 @@ if ( $context->valid ) {
 			<tr>
 				<td>Student Name</td>
 				<td>Mastery Score</td>
-				<td class="videoProgressCell advancedMore"></td>
+				<td class="videoProgressCell advancedMore">Video Percentage</td>
 				<td>Dashboard Activity</td>
 				<td>Correct / Attempts</td>
 				<td>Hints</td>
@@ -30,7 +30,7 @@ if ( $context->valid ) {
 	</table>
 
 <?php
-	
+
 	echo Phalcon\Tag::javascriptInclude("js/vendor/jquery-ui-1.9.2.accordion.min.js");
 	echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.knob.min.js");
 	echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.stickytableheaders.min.js");
