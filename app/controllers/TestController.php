@@ -16,10 +16,36 @@ class TestController extends Controller
 		}
 		$this->view->disable();
 	}
+
+	public function cacheTestAction(){
+			$classHelper = new ClassHelper();
+		$studentIds = $classHelper->allStudents();
+		//$studentIds = ["John Logie Baird"];
+
+		// Calculate an overall mastery score for these units, as well as an average for concepts over the past 2 weeks
+		$units = ["1", "2", "3", "4", "recent"];
+		// Go through each student and calculate unit mastery scores
+		foreach ($studentIds as $studentId) {
+			// See if we've already scored mastery scores for this student on the current day (this script just runs multiple times, until a better method to get around 60 second execution time limit is devised)
+			$lastHistory = StudentMasteryHistory::findFirst([
+					"email = '$studentId'",
+					"order" => "time_stored DESC"
+				]);
+			if(!$lastHistory);{
+				echo "last history is false";
+			}
+			if(gettype($lastHistory))
+			if (date("Y-m-d") == date("Y-m-d", strtotime($lastHistory->time_stored))) {
+				echo "    History already saved today for $studentId\n";
+				continue;
+			}
+	}
+}
+
 	public function correctAction($studentId, $assessmentId, $questionNumber) {
 		$masteryHelper = new MasteryHelper();
 		$masteryHelper::countCorrectAttemptsForQuestion($studentId, $assessmentId, $questionNumber, true);
-		
+
 	}
 	public function dbAction() {
 		$this->view->disable();

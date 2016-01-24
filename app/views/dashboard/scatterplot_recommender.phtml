@@ -16,12 +16,16 @@ if ( $context->valid && isset($_SESSION["group"]) &&  $_SESSION["group"] == "res
 		<ul class="nav nav-pills">
 			<li role="presentation" class="active"><a href="#scatterplot" data-option="MasteryGraph">Mastery Graph</a></li>
 			<li role="presentation"><a href="#timeGraph" data-option="MasteryOverTime">Total Mastery Over Time</a></li>
+			<li class = "pull-right" id = "suggestedHelp" role = "presentation"><a href="student_skills" data-option="SkillsRef">Need Study Help?</a></li>
+
+		</ul>
+		<ul class = "nav nav-pills pull-right">
 		</ul>
 		<hr>
 	</div>
 
 	<div class="row vertical-divider" id="contentRow">
-		
+
 		<!-- Scatterplot container -->
 		<div id="scatterplotSection" class="col-sm-7">
 				<span class="spinner" style=""><br /><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
@@ -30,13 +34,13 @@ if ( $context->valid && isset($_SESSION["group"]) &&  $_SESSION["group"] == "res
 				<form class="filterBarContainerForm">
 					<div class="btn-group filterBar" data-toggle="buttons">
 						<label class="btn btn-default active scopeOptionLabel">
-							<input type="radio" name="scatterplotScopeOption" value="unit" checked />Unit: 
+							<input type="radio" name="scatterplotScopeOption" value="unit" checked />Unit:
 							<select class="unitSelector" name="scatterplotUnitSelector">
 								<?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'">'.$unit['title'].'</option>'; } ?>
 							</select>
 						</label>
 						<label class="btn btn-default scopeOptionLabel">
-							<input type="radio" name="scatterplotScopeOption" value="concept" />Concept: 
+							<input type="radio" name="scatterplotScopeOption" value="concept" />Concept:
 							<select class="conceptSelector" name="scatterplotConceptSelector">
 								<?php foreach ($concepts as $concept) { echo '<option value="'.$concept['id'].'">'.$concept['title'].'</option>'; } ?>
 							</select>

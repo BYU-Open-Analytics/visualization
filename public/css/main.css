@@ -102,8 +102,8 @@
 	fill: url(#confidenceGradient);
 }
 
-/* Tooltips */
-div.tooltip {	
+/* Tooltips *//*
+div.tooltip {
     line-height: 1;
   font-weight: bold;
   padding: 12px;
@@ -113,23 +113,27 @@ div.tooltip {
   color: #fff;
   border-radius: 2px;
   margin: 0px;
-  z-index: 10000;			
-}
+  z-index: 10000;
+    text-align: center;
+
+}*/
 
 
-
+/*
 .d3-tip {
   line-height: 1;
   font-weight: bold;
   padding: 12px;
   background: rgba(0, 0, 0, 0.8);
-  color: #fff;
+  color: rgba(0, 0, 0, 0.8);
   border-radius: 2px;
   margin: 0px;
   z-index: 10000;
+    text-align: center;
+
 }
 
-/* Creates a small triangle extender for the tooltip */
+/* Creates a small triangle extender for the tooltip *//*
 .d3-tip:after {
   box-sizing: border-box;
   display: inline;
@@ -140,7 +144,7 @@ div.tooltip {
   content: "\25BC";
   position: absolute;
   text-align: center;
-}
+}*/
 
 /* Style northward tooltips differently */
 .d3-tip.n:after {

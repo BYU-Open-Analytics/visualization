@@ -74,7 +74,7 @@ class StudentInspectorStatsController extends Controller
 			$commonConfidence = max($high, $medium, $low);
 			if($commonConfidence == $high)
 				$medianConfidence = "High";
-			else if($commonConfidence == $high)
+			else if($commonConfidence == $medium)
 				$medianConfidence = "Medium";
 			else
 				$medianConfidence = "Low";
