@@ -17,7 +17,7 @@ function loadSkills(data) {
 		$("." + skills[i].id + "SkillTemplate .skillScoreLabel").text(skills[i].score);
 		$("." + skills[i].id + "SkillTemplate .skillPercentileLabel").text(skills[i].score * 10);
 	}
-	
+
 	// Change score bar bg color to match the score
 	$(".skillTemplate").each(function() {
 		//If their score is 0-3 make it red. If their score is 4-6 make it yellow, and if their score is > 6 make it green.
@@ -45,32 +45,20 @@ var skillTitles = {
 	"deepLearning": "Deep Learning",
 	"persistence": "Persistence"
 	};
-var div = d3.select("body").append("div")	
-	.attr("class", "tooltip")				
+/*var div = d3.select("body").append("div")
+	.attr("class", "tooltip")
 	.style("opacity", 0);
-
+*/
 function skillsGraphMouseover(d){
 		console.log("entering, ",d);
 		var title = (d && typeof d == "object") ? d.axis : d;
 		// Find the skill id from the title
 		var skillId = skillIds[title];
 		if (!skillId) { return; }
-		//console.log($("#skillsListSection ." + skillId + "SkillTemplate .skillScoreBar").data('original-title'));
-
-		div.transition()		
-                .duration(200)		
-                .style("opacity", .9);		
-		div	.html($("#skillsListSection ." + skillId + "SkillTemplate div").data('original-title'))	
-			.style("left", (d3.event.pageX) + "px")		
-			.style("top", (d3.event.pageY - 28) + "px");
-}
-function skillsGraphMouseout(d){
-		console.log("exiting, ", d);
-		div.transition()		
-                .duration(500)		
-                .style("opacity", 0);	
+	 	$(".legend").attr("data-original-title",$("#skillsListSection ." + skillId + "SkillTemplate div").data('original-title'));
 
 }
+
 // When a point on the radar graph is clicked
 function skillsGraphPointClicked(d) {
 	console.log(d);
@@ -100,8 +88,7 @@ function loadSkillsGraph(data) {
 		margin: {top: 60, right: 100, bottom: 100, left: 100},
 		color: colorScale,
 		clickHandler: skillsGraphPointClicked,
-		mouseoverHandler: skillsGraphMouseover,
-		mouseoutHandler: skillsGraphMouseout
+		mouseoverHandler: skillsGraphMouseover
 	};
 	var legendOptions = ["Student", "Class Median"];
 	//Hide the loading spinner
@@ -143,8 +130,10 @@ function loadSkillsGraph(data) {
 		.attr("y", function(d, i) { return i * 20 + 9; })
 		.attr("font-size", "11px")
 		.attr("fill", "#737373")
-		.text(function(d) { return d; })
-		
+		.text(function(d) { return d; });
+	$(".legend").attr("data-toggle","tooltip");
+	setupBootstrapTooltips();
+
 	refreshView();
 }
 
@@ -350,7 +339,7 @@ $(function() {
 		track("clicked","viewSetting"+$(this).attr("data-option"));
 		return false;
 	});
-	
+
 
 	$(".advancedToggleOptional").change(function(event) {
 		changeView($(this).attr("data-option"), this.checked);
@@ -370,7 +359,7 @@ $(function() {
 	$("#navbarButtonHolder").append('<button class="btn btn-primary" data-toggle="modal" data-track="feedbackButton" data-target="#feedbackModal"><span style="top: 3px;" class="glyphicon glyphicon-comment"></span>&nbsp; Send Feedback</button>')
 	// Bind feedback submit button click event
 	$("#feedbackSendButton").click(sendFeedback);
-	
+
 	// Load data
 	// TODO absolute url ref fix
 	d3.json("../student_skills_stats/skills", function(error, data) {
@@ -381,9 +370,16 @@ $(function() {
 		}
 		loadSkills(data);
 		loadSkillsGraph(data);
+		var res = window.location.href.split("#");
+		if(res.length !== 1){
+			console.log(res[1]);
+			$("#skillsGraphRecommend").html($("#skillsListSection ." + res[1] + "SkillTemplate").clone().addClass("advancedSkillsGraph"));
+			refreshView();
+		}
 	});
 	loadTimeGraph();
 
 	// Go to the skills graph first
 	changeView("skillsGraph");
+
 });

@@ -91,7 +91,7 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 
 	// Scroll to the top of the section so recommendations are visible
 	$("html, body").animate({ scrollTop: $("#recommendSectionHolder").offset().top - 55 }, "fast");
-	
+
 	// Recommendations are split into 3 groups
 	loadResourceRecommendations(scopeOption, scopeGroupingId);
 	loadVideoRecommendations(scopeOption, scopeGroupingId);
@@ -141,7 +141,7 @@ function loadVideoRecommendations(scopeOption, scopeGroupingId) {
 			.attr("class", "progressCircle")
 			.attr("disabled", "disabled")
 			.attr("value", function(d) { return d.percentageWatched; });
-			
+
 		// Don't stall the UI waiting for all these to finish drawing
 		setTimeout(function() {
 			$(".progressCircle").knob({
@@ -154,7 +154,7 @@ function loadVideoRecommendations(scopeOption, scopeGroupingId) {
 			});
 		}, 1);
 	});
-	
+
 }
 
 // Loads additional resource recommendations
@@ -186,7 +186,7 @@ function loadResourceRecommendations(scopeOption, scopeGroupingId) {
 					return '<span class="glyphicon glyphicon-globe" aria-hidden="true">&nbsp;</span>' +
 					'<a href="' + d["Resource Link"] + '" data-track="concept' + d["Lecture Number"] + 'AdditionalLink' + d["Resource Tracking Number"] + '" target="_blank">' + d["Resource Title"] + '</a>';
 				} else if (d["Resource Type"] == "ayamel") {
-					return '<span class="glyphicon glyphicon-film" aria-hidden="true">&nbsp;</span>' + 
+					return '<span class="glyphicon glyphicon-film" aria-hidden="true">&nbsp;</span>' +
 					'<a href="../consumer.php?app=ayamel&video_id=' + d["Resource Link"] + '" data-track="concept' + d["Lecture Number"] + 'AdditionalVideo' + d["Resource Tracking Number"] + '" target="_blank">' + d["Resource Title"] + '</a>';
 				} else {
 					return "";
@@ -362,13 +362,13 @@ function loadConceptScatterplot() {
 			.attr("class", "axis")
 			.attr("transform", "translate(0," + (height) + ")")
 			.call(xAxis);
-		
+
 		//Create Y axis
 		svg.append("g")
 			.attr("class", "axis")
 			.attr("transform", "translate(0,0)")
 			.call(yAxis);
-		
+
 		//Create quadrant lines
 		svg.append("line")
 			.attr("x1", xScale(xMin))
@@ -395,7 +395,7 @@ function loadConceptScatterplot() {
 			.attr("text-anchor", "middle")
 			.attr("cursor", "default")
 			.attr("data-toggle", "tooltip")
-			.attr("title", "Video calculation explanation here!")
+			.attr("title", "This shows the amount of video that you have watched for a particular concept.")
 			.text("Video Time");
 		svg.append("text")
 			.attr("x", xScale(xMax) + "px")
@@ -413,7 +413,7 @@ function loadConceptScatterplot() {
 			.attr("transform", "translate(-40, " + yScale((yMin + yMax) / 2) + ")rotate(270)")
 			.attr("data-toggle", "tooltip")
 			.attr("cursor", "default")
-			.attr("title", "Mastery score calculation explanation here!")
+			.attr("title", "This shows your mastery level for each concept on a scale from 0 (low) to 10 (high). It decreases if you click \"show answer\" or if you have a lot of attempts for a problem.")
 			.text("Mastery Score");
 		svg.append("text")
 			.attr("text-anchor", "end")
@@ -484,7 +484,7 @@ function loadConceptScatterplot() {
 				.attr("data-concept", function(d) { return d.id; });
 
 			$("#lowConceptBox").popover({
-				html: true, 
+				html: true,
 				container: "body",
 				trigger: "manual",
 				title: "Unattempted Concepts",
@@ -498,7 +498,7 @@ function loadConceptScatterplot() {
 				isVisible = true
 				e.preventDefault()
 			});
-			
+
 			// Now bind the event listeners
 			$(document).on("click", ".lowConceptsList li", showLowConceptRecommendations);
 
@@ -745,6 +745,43 @@ $(function() {
 		track("clicked","viewSetting"+$(this).attr("data-option"));
 		return false;
 	});
+	$(function() {
+		console.log("function called");
+		d3.json("../student_skills_stats/skills", function(error, data) {
+			var skills = data.student;
+			// Sort skills weakest to strongest
+			skills.sort(function(a,b) {
+				return a.score - b.score;
+			});
+			lowest = skills[0];
+			console.log(getSkillName(lowest.id));
+			$("#suggestedHelp").html("<a href=\"student_skills#"+lowest.id+"\" data-option=\"SkillsRef\">You have a low "+getSkillName(lowest.id)+" score this week.<br/> Click here to see how to improve it.</a>");
+
+		});
+
+		function getSkillName(id){
+			if(id === 'time'){
+				return "time management";
+			}
+			if(id === 'activity'){
+				return "online activity";
+			}
+			if(id === 'consistency'){
+				return id;
+			}
+			if(id === 'awareness'){
+				return "knowledge awareness";
+			}
+			if(id === 'deepLearning'){
+				return "deep learning";
+			}
+			if(id === 'persistence'){
+				return id;
+			}
+		};
+
+	});
+
 	$("[href=#timeGraph]").click(function() {
 		// Hide low concepts list
 		$("#lowConceptBox").popover("hide");
@@ -775,7 +812,7 @@ $(function() {
 
 	// Set up recommendation question groups
 	setupQuestionGroups();
-	
+
 	// Hide this (loadRecommendations will show it when it's done loading)
 	$("#recommendContainer").hide();
 
