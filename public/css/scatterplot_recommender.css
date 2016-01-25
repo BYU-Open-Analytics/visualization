@@ -334,9 +334,10 @@ td {
 	transform: scale(1.05);
 }
 #pillNavigation li#suggestedHelp{
-  font: 10px Helvetica;
+  /*font: 14px Helvetica;
+  bottom: 8px;
+  padding: 0px 0px;*/
   white-space: normal;
-  width: 290px;
   text-align: center;
 }
 /* Get rid of some extra padding to make the page fit vertically without scrolling, at least for 800px screen height */

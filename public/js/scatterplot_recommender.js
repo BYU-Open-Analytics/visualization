@@ -755,7 +755,7 @@ $(function() {
 			});
 			lowest = skills[0];
 			console.log(getSkillName(lowest.id));
-			$("#suggestedHelp").html("<a href=\"student_skills#"+lowest.id+"\" data-option=\"SkillsRef\">You have a low "+getSkillName(lowest.id)+" score this week.<br/> Click here to see how to improve it.</a>");
+			$("#suggestedHelp").html("<a href=\"student_skills#"+lowest.id+"\" data-option=\"SkillsRef\">You have a low "+getSkillName(lowest.id)+" score this week. Click here to see how to improve it.</a>");
 
 		});
 
