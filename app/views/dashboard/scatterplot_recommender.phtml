@@ -33,7 +33,8 @@ if ( $context->valid && isset($_SESSION["group"]) &&  $_SESSION["group"] == "res
 						<label class="btn btn-default active scopeOptionLabel">
 							<input type="radio" name="scatterplotScopeOption" value="unit" checked />Unit:
 							<select class="unitSelector" name="scatterplotUnitSelector">
-								<?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'">'.$unit['title'].'</option>'; } ?>
+								<option value="1">Unit 1</option>
+								<!--<?php //foreach ($units as $unit) { echo '<option value="'.$unit['id'].'">'.$unit['title'].'</option>'; } ?>-->
 							</select>
 						</label>
 						<label class="btn btn-default scopeOptionLabel">
