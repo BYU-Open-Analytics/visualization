@@ -475,7 +475,7 @@ function loadConceptScatterplot() {
 				.attr("cx", "20")
 				.attr("cy", "20");
 
-
+			$(".list-group-item").remove();
 			var lowConceptItems = d3.select(".lowConceptsList").selectAll("li").data(lowConcepts);
 			lowConceptItems.enter()
 				.append("li")
@@ -746,7 +746,6 @@ $(function() {
 		return false;
 	});
 	$(function() {
-		console.log("function called");
 		d3.json("../student_skills_stats/skills", function(error, data) {
 			var skills = data.student;
 			// Sort skills weakest to strongest
@@ -754,7 +753,6 @@ $(function() {
 				return a.score - b.score;
 			});
 			lowest = skills[0];
-			console.log(getSkillName(lowest.id));
 			$("#suggestedHelp").html("<a href=\"student_skills#"+lowest.id+"\" data-option=\"SkillsRef\">You have a low "+getSkillName(lowest.id)+" score this week. Click here to see how to improve it.</a>");
 
 		});
