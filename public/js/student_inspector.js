@@ -16,7 +16,12 @@ $(function() {
 		var videoColorScale = d3.scale.linear()
 				.domain([0, 25, 50, 100])
 				.range(["#d9534f", "#FFCE54", "#D4D84F", "#5cb85c"]);
-
+	  function	setupBootstrapTooltips(){
+			$('[data-toggle="tooltip"]').tooltip({
+				container: 'body'
+			});
+		}
+		setupBootstrapTooltips();
 
 		var tbody = d3.select("#studentList tbody");
 		var studentListRows = tbody.selectAll("tr");
@@ -40,7 +45,7 @@ $(function() {
 			.attr("class", "progressCircle")
 			.attr("disabled", "disabled")
 			.attr("value", function(d) { return d.vPercentage; })
-			
+
 
 		//Relative Dashboard Participation
 		studentListRows.append("td")
@@ -83,6 +88,7 @@ $(function() {
 				'format': function(v) { return v+"%"; }
 			})
 		}, 1);
+
 	});
 
 /*$(document).ready(function()

@@ -374,6 +374,7 @@ $(function() {
 		if(res.length !== 1){
 			console.log(res[1]);
 			$("#skillsGraphRecommend").html($("#skillsListSection ." + res[1] + "SkillTemplate").clone().addClass("advancedSkillsGraph"));
+			setupBootstrapTooltips();
 			refreshView();
 		}
 	});

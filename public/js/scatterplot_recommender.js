@@ -746,6 +746,15 @@ $(function() {
 		return false;
 	});
 	$(function() {
+		var skillTitles = {
+			"time": "time management",
+			"activity": "online activity",
+			"consistency": "consistency",
+			"awareness": "knowledge awareness",
+			"deepLearning": "deep learning",
+			"persistence": "persistence"
+			};
+
 		d3.json("../student_skills_stats/skills", function(error, data) {
 			var skills = data.student;
 			// Sort skills weakest to strongest
@@ -753,30 +762,9 @@ $(function() {
 				return a.score - b.score;
 			});
 			lowest = skills[0];
-			$("#suggestedHelp").html("<a href=\"student_skills#"+lowest.id+"\" data-option=\"SkillsRef\">You have a low "+getSkillName(lowest.id)+" score this week. Click here to see how to improve it.</a>");
+			$("#suggestedHelp").html("<a href=\"student_skills#"+lowest.id+"\" data-option=\"SkillsRef\">You have a low "+skillTitles[lowest.id]+" score this week. Click here to see how to improve it.</a>");
 
 		});
-
-		function getSkillName(id){
-			if(id === 'time'){
-				return "time management";
-			}
-			if(id === 'activity'){
-				return "online activity";
-			}
-			if(id === 'consistency'){
-				return id;
-			}
-			if(id === 'awareness'){
-				return "knowledge awareness";
-			}
-			if(id === 'deepLearning'){
-				return "deep learning";
-			}
-			if(id === 'persistence'){
-				return id;
-			}
-		};
 
 	});
 
