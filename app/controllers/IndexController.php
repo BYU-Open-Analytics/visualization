@@ -17,28 +17,30 @@ class IndexController extends Controller
 		$this->view->userAuthorized = $context->valid;
 
 		// Load student list (Make SURE that this is included in the repository's .gitignore file)
-		$students = CSVHelper::parseWithHeaders(__DIR__ . "/../config/student_groups.csv");
+		$students = CSVHelper::parseWithHeaders(__DIR__ . "/../config/students.csv");
 
-		// TODO change these to actual values from the csv list
 		// Column names
-		$studentNameColumn = "Student Name";
-		$studentGroupColumn = "Group";
+		$studentNameColumn = "name";
+		$studentGroupColumn = "Treatment";
+		$studentConsentColumn = "Consent";
 
 		// Values for the studentGroupColumn
 		$researchGroupId = "1";
 		$controlGroupId = "0";
 
 		// Find out what group this student is in
-		$group = "noconsent";
+		$group = "0";
+		$consent = "0";
 		foreach ($students as $s) {
 			if ($s[$studentNameColumn] == $context->getUserName()) {
 				$group = $s[$studentGroupColumn];
+				$consent = $s[$studentConsentColumn];
 				break;
 			}
 		}
 
 		// Research group goes to scatterplot recommender ("Test Help")
-		if ($group == $researchGroupId) {
+		if (($group == $researchGroupId) && $consent == "1") {
 			$_SESSION["group"] = "research";
 			$this->response->redirect("./dashboard/scatterplot_recommender");
 		} else if ($group == $controlGroupId) {
@@ -57,14 +59,14 @@ class IndexController extends Controller
 		// Figure out where this student should go: Content Recommender, Student Skills, or Consent page
 		//
 		// Period 1: October 22nd through November 13th
-			// For Exam 3 time period, Group 0 is control group, Group 1 is Content Dashboard, and Group 2 is Skills Dashboard. 
+			// For Exam 3 time period, Group 0 is control group, Group 1 is Content Dashboard, and Group 2 is Skills Dashboard.
 
 		// Period 2: November 14th through December 4th
 			// For Exam 4 period, Group 0 is Skills Dashboard, Group 1 is control group, Group 2 is Content Dashboard.
 
 		// Period 3: December 5th through December 16th
 			// All groups have access to Skills Dashboard and Content Dashboard.
-		
+
 		$students = CSVHelper::parseWithHeaders(__DIR__ . "/../config/student_groups.csv");
 		$group = -1;
 		foreach ($students as $s) {
