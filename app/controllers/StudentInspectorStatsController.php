@@ -25,9 +25,10 @@ class StudentInspectorStatsController extends Controller
 		$statementHelper = new StatementHelper();
 		$recent_concepts = MappingHelper::conceptsWithin2Weeks();
 		$students = $classHelper->allStudents();
-	//	$students = ["John Logie Baird"];
+//		$students = ["John Logie Baird","me"];
 		$studentInfo = [];
 		$maxCount = 0;
+		//count($students)
 		for ($i=0; $i < count($students); $i++) {
 			$studentAverages = StudentMasteryHistory::findFirst([
 				"conditions" => "email = ?1",
@@ -92,6 +93,10 @@ class StudentInspectorStatsController extends Controller
 			}
 			$studentInfo []=$newStudent;
 		}
+		//Sorts the students by their recent mastery average, from highest to lowest.
+		usort($studentInfo, function($student1,$student2){
+			return $student1["average"] <= $student2["average"];
+		});
 		$firstRow = ["max" => $maxCount];
 		array_unshift($studentInfo, $firstRow);
 		echo json_encode($studentInfo);
