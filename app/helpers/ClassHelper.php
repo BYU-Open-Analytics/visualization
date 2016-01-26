@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use Phalcon\Mvc\User\Module;
 
@@ -151,7 +151,7 @@ class ClassHelper extends Module {
 
 	// Returns an array of all students' actor.name identifiers
 	public function allStudents() {
-		// Cache 
+		// Cache
 		if (self::$cachedStudents != null) {
 			return self::$cachedStudents;
 		}
@@ -164,6 +164,8 @@ class ClassHelper extends Module {
 		$collection = $db->statements;
 		// Get each distinct name address in the openassessments LRS
 		$results = $collection->distinct('statement.actor.name', [
+//				This comment is for testing on the local vagrant box.
+	//			'lrs._id' => '55af0ab4727c3d6a178b4567',
 				'lrs._id' => $config->lrs->openassessments->id,
 			]);
 		self::$cachedStudents = $results;
