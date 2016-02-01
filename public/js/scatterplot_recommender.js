@@ -752,7 +752,7 @@ $(function() {
 			"consistency": "consistency",
 			"awareness": "knowledge awareness",
 			"deepLearning": "deep learning",
-			"persistence": "persistence"
+			"persistence": "p	ersistence"
 			};
 
 		d3.json("../student_skills_stats/skills", function(error, data) {
