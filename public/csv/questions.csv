@@ -1,84 +1,84 @@
-OA Quiz ID,Question Number,Concept Title,Lecture Number,Question Type,Multiple Choice Options
-78,1,The Atom,1,multiple_choice,4
-78,2,The Atom,1,essay,
-78,3,The Atom,1,short_answer,
-78,4,The Atom,1,multiple_choice,8
-78,5,The Atom,1,multiple_choice,6
-111,1,"Introduction, Matter, Science",1,Short_answer,
-111,2,"Introduction, Matter, Science",1,Short_answer,
-111,3,"Introduction, Matter, Science",1,Short_answer,
-111,4,"Introduction, Matter, Science",1,Short_answer,
-111,5,"Introduction, Matter, Science",1,Short_answer,
-111,6,"Introduction, Matter, Science",1,Short_answer,
-111,7,"Introduction, Matter, Science",1,Short_answer,
-111,8,"Introduction, Matter, Science",1,Short_answer,
-111,9,"Measurement, Calculations",2,Short_answer,
-111,10,"Measurement, Calculations",2,Short_answer,
-111,11,"Measurement, Calculations",2,Short_answer,
-111,12,"Measurement, Calculations",2,Short_answer,
-111,13,The Atom,3,multiple_choice,4
-111,14,The Atom,3,essay_question,
-111,15,The Atom,3,short_answer,
-111,16,The Atom,3,short_answer,
-111,17,The Atom,3,multiple_choice,4
-111,18,The Atom,3,short_answer,
-111,19,The Atom,3,multiple_choice,4
-111,20,The Atom,3,multiple_choice,4
-112,1,The Mole,4,short_answer,
-112,2,The Mole,4,short_answer,
-112,3,The Mole,4,multiple_choice,5
-112,4,The Mole,4,multiple_choice,5
-112,5,The Mole,4,multiple_choice,5
-112,6,The Mole,4,multiple_choice,7
-112,7,LIght,5,short_answer,
-112,8,Light,5,multiple_choice,5
-112,9,LIght,5,multiple_choice,8
-112,10,Light,5,multiple_choice,5
-112,11,Light,5,multiple_choice,6
-112,12,Light,5,multiple_choice,5
-112,13,"Atomic Spectra, Bohr Model",6,essay,
-112,14,"Atomic Spectra, Bohr Model",6,short_answer,
-112,15,"Atomic Spectra, Bohr Model",6,short_answer,
-112,16,"Atomic Spectra, Bohr Model",6,multiple_choice,6
-112,17,"Atomic Spectra, Bohr Model",6,multiple_choice,5
-112,18,"Atomic Spectra, Bohr Model",6,multiple_choice,5
-112,19,"Atomic Spectra, Bohr Model",6,multiple_choice,6
-112,20,"Atomic Spectra, Bohr Model",6,multiple_choice,6
-117,1,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4
-117,2,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4
-117,3,Electron Configurations,9,short_answer,
-117,4,Electron Configurations,9,short_answer,
-117,5,Electron Configurations,9,short_answer,
-117,6,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,10
-117,7,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,5
-117,8,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,6
-117,9,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,5
-117,10,Electron Configurations,9,multiple_choice,6
-117,11,Electron Configurations,9,multiple_choice,6
-117,12,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,6
-117,13,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4
-117,14,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,5
-117,15,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4
-117,16,"Electrons, Quantum Numbers, Orbitals",8,short_answer,
-117,17,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4
-117,18,Electron Configurations,9,multiple_choice,4
-118,1,Periodic Trends,10,multiple_choice,4
-118,2,Periodic Trends,10,multiple_choice,2
-118,3,Periodic Trends,10,multiple_choice,9
-118,4,Periodic Trends,10,multiple_choice,4
-118,5,Periodic Trends,10,multiple_choice,6
-118,6,Periodic Trends,10,multiple_choice,5
-118,7,Bonding,12,short_answer,
-118,8,Bonding,12,short_answer,
-118,9,Bonding,12,short_answer,
-118,10,Bonding,12,short_answer,
-118,11,Bonding,12,multiple_choice,4
-118,12,Bonding,12,multiple_choice,6
-118,13,Bonding,12,multiple_choice,5
-118,14,Bonding,12,multiple_choice,5
-118,15,Bonding,12,multiple_choice,5
-118,16,Bonding,12,multiple_choice,6
-118,17,Bonding,12,multiple_choice,5
-118,18,Bonding,12,multiple_choice,6
-118,19,Bonding,12,multiple_choice,6
-118,20,Bonding,12,multiple_choice,6
+OA Quiz ID,Question Number,Concept Title,Lecture Number,Question Type,Multiple Choice Options,Graded
+78,1,The Atom,1,multiple_choice,4,1
+78,2,The Atom,1,essay,,1
+78,3,The Atom,1,short_answer,,1
+78,4,The Atom,1,multiple_choice,8,1
+78,5,The Atom,1,multiple_choice,6,1
+111,1,"Introduction, Matter, Science",1,Short_answer,,1
+111,2,"Introduction, Matter, Science",1,Short_answer,,1
+111,3,"Introduction, Matter, Science",1,Short_answer,,1
+111,4,"Introduction, Matter, Science",1,Short_answer,,1
+111,5,"Introduction, Matter, Science",1,Short_answer,,1
+111,6,"Introduction, Matter, Science",1,Short_answer,,1
+111,7,"Introduction, Matter, Science",1,Short_answer,,1
+111,8,"Introduction, Matter, Science",1,Short_answer,,1
+111,9,"Measurement, Calculations",2,Short_answer,,1
+111,10,"Measurement, Calculations",2,Short_answer,,1
+111,11,"Measurement, Calculations",2,Short_answer,,1
+111,12,"Measurement, Calculations",2,Short_answer,,1
+111,13,The Atom,3,multiple_choice,4,1
+111,14,The Atom,3,essay_question,,1
+111,15,The Atom,3,short_answer,,1
+111,16,The Atom,3,short_answer,,1
+111,17,The Atom,3,multiple_choice,4,1
+111,18,The Atom,3,short_answer,,1
+111,19,The Atom,3,multiple_choice,4,1
+111,20,The Atom,3,multiple_choice,4,1
+112,1,The Mole,4,short_answer,,1
+112,2,The Mole,4,short_answer,,1
+112,3,The Mole,4,multiple_choice,5,1
+112,4,The Mole,4,multiple_choice,5,1
+112,5,The Mole,4,multiple_choice,5,1
+112,6,The Mole,4,multiple_choice,7,1
+112,7,LIght,5,short_answer,,1
+112,8,Light,5,multiple_choice,5,1
+112,9,LIght,5,multiple_choice,8,1
+112,10,Light,5,multiple_choice,5,1
+112,11,Light,5,multiple_choice,6,1
+112,12,Light,5,multiple_choice,5,1
+112,13,"Atomic Spectra, Bohr Model",6,essay,,1
+112,14,"Atomic Spectra, Bohr Model",6,short_answer,,1
+112,15,"Atomic Spectra, Bohr Model",6,short_answer,,1
+112,16,"Atomic Spectra, Bohr Model",6,multiple_choice,6,1
+112,17,"Atomic Spectra, Bohr Model",6,multiple_choice,5,1
+112,18,"Atomic Spectra, Bohr Model",6,multiple_choice,5,1
+112,19,"Atomic Spectra, Bohr Model",6,multiple_choice,6,1
+112,20,"Atomic Spectra, Bohr Model",6,multiple_choice,6,1
+117,1,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,1
+117,2,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,1
+117,3,Electron Configurations,9,short_answer,,1
+117,4,Electron Configurations,9,short_answer,,1
+117,5,Electron Configurations,9,short_answer,,1
+117,6,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,10,1
+117,7,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,5,1
+117,8,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,6,1
+117,9,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,5,1
+117,10,Electron Configurations,9,multiple_choice,6,1
+117,11,Electron Configurations,9,multiple_choice,6,1
+117,12,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,6,1
+117,13,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,1
+117,14,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,5,1
+117,15,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,1
+117,16,"Electrons, Quantum Numbers, Orbitals",8,short_answer,,1
+117,17,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,1
+117,18,Electron Configurations,9,multiple_choice,4,1
+118,1,Periodic Trends,10,multiple_choice,4,1
+118,2,Periodic Trends,10,multiple_choice,2,1
+118,3,Periodic Trends,10,multiple_choice,9,1
+118,4,Periodic Trends,10,multiple_choice,4,1
+118,5,Periodic Trends,10,multiple_choice,6,1
+118,6,Periodic Trends,10,multiple_choice,5,1
+118,7,Bonding,12,short_answer,,1
+118,8,Bonding,12,short_answer,,1
+118,9,Bonding,12,short_answer,,1
+118,10,Bonding,12,short_answer,,1
+118,11,Bonding,12,multiple_choice,4,1
+118,12,Bonding,12,multiple_choice,6,1
+118,13,Bonding,12,multiple_choice,5,1
+118,14,Bonding,12,multiple_choice,5,1
+118,15,Bonding,12,multiple_choice,5,0
+118,16,Bonding,12,multiple_choice,6,0
+118,17,Bonding,12,multiple_choice,5,0
+118,18,Bonding,12,multiple_choice,6,0
+118,19,Bonding,12,multiple_choice,6,0
+118,20,Bonding,12,multiple_choice,6,0
