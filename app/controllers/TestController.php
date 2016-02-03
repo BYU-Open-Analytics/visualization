@@ -16,6 +16,9 @@ class TestController extends Controller
 		}
 		$this->view->disable();
 	}
+	public function contextAction(){
+		echo $this->getDI()->getShared('ltiContext')->getCourseKey();
+	}
 
 	public function cacheTestAction(){
 			$classHelper = new ClassHelper();
