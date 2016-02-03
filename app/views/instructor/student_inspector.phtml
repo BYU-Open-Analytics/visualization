@@ -9,7 +9,7 @@
 <h2>Student Inspector Dashboard</h2>
 
 <?php
-if ( $context->valid ) {
+if ( $context->valid && $context->isInstructor() ) {
 ?>
 
 	<table id="studentList" class="table">
@@ -38,5 +38,6 @@ if ( $context->valid ) {
 	echo Phalcon\Tag::javascriptInclude("js/vendor/c3.min.js");
 	echo Phalcon\Tag::javascriptInclude("js/student_inspector.js");
 } else {
-	echo "<p class='alert alert-danger'>Not logged in, or tdere was an LTI error. Try launching tdis app again.</p>";
+
+	echo "<p class='alert alert-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";
 }
