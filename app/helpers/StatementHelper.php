@@ -29,14 +29,14 @@ class StatementHelper extends Module {
 				$verbName = "launched";
 				$object = [
 					"id"		=> $objectAuthority.$params["dashboardID"],
-					"definition"	=> ["name" => ["en-US" => $params["dashboardName"]]]
+					"definition"	=> ["name" => ["en-US" => $params["dashboardName"]], "description" => ["en-us" => $ltiContext->getCourseKey()]]
 				];
 				break;
 			case "dashboardExited":
 				$verbName = "exited";
 				$object = [
 					"id"		=> $objectAuthority.$params["dashboardID"],
-					"definition"	=> ["name" => ["en-US" => $params["dashboardName"]]]
+					"definition"	=> ["name" => ["en-US" => $params["dashboardName"]], "description" => ["en-us" => $ltiContext->getCourseKey()]]
 				];
 				$result = [
 					"duration"	=> $params["duration"]
@@ -46,7 +46,7 @@ class StatementHelper extends Module {
 				$verbName = $params["verbName"];
 				$object = [
 					"id"		=> $objectAuthority.$params["dashboardID"]."#".$params["objectName"],
-					"definition"	=> ["name" => ["en-US" => $params["objectName"]." of ".$params["dashboardName"]] , "description" => $ltiContext->getCourseKey()]
+					"definition"	=> ["name" => ["en-US" => $params["objectName"]." of ".$params["dashboardName"]], "description" => ["en-us" => $ltiContext->getCourseKey()]]
 				];
 				break;
 		}
