@@ -16,6 +16,23 @@ class TestController extends Controller
 		}
 		$this->view->disable();
 	}
+	public function contextAction(){
+		$context = $this->getDI()->getShared('ltiContext');
+		// Send a statement tracking that they viewed this page
+		$statementHelper = new StatementHelper();
+		$statement = $statementHelper->buildStatement([
+			"statementName" => "dashboardLaunched",
+			"dashboardID" => "dashboard_select",
+			"dashboardName" => "Dashboard Selector",
+			"verbName" => "launched",
+		], $context);
+		if($statement){
+			echo "working\n";
+			$res =$statementHelper->sendStatements("visualization", [$statement]);
+			echo $res;
+		}
+		echo $this->getDI()->getShared('ltiContext')->getCourseName();
+	}
 
 	public function cacheTestAction(){
 			$classHelper = new ClassHelper();
