@@ -31,7 +31,7 @@ class TestController extends Controller
 			$res =$statementHelper->sendStatements("visualization", [$statement]);
 			echo $res;
 		}
-		echo $this->getDI()->getShared('ltiContext')->getCourseName();
+		echo $this->getDI()->getShared('ltiContext')->getCourseKey();
 	}
 
 	public function cacheTestAction(){
