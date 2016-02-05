@@ -228,7 +228,7 @@ class ScatterplotRecommenderStatsController extends Controller
 			if ($question["correctAttempts"]["betterCorrect"] > 0 && $question["attempts"] > 1) {
 				$group4 []= $question;
 			}
-			
+
 		}
 
 		if ($debug) { print_r($questions); }
@@ -343,5 +343,3 @@ class ScatterplotRecommenderStatsController extends Controller
 		fclose($output);
 	}
 }
-
-
