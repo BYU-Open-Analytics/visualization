@@ -1,84 +1,400 @@
-OA Quiz ID,Question Number,Concept Title,Lecture Number,Question Type,Multiple Choice Options,Graded
-78,1,The Atom,1,multiple_choice,4,1
-78,2,The Atom,1,essay,,1
-78,3,The Atom,1,short_answer,,1
-78,4,The Atom,1,multiple_choice,8,1
-78,5,The Atom,1,multiple_choice,6,1
-111,1,"Introduction, Matter, Science",1,Short_answer,,1
-111,2,"Introduction, Matter, Science",1,Short_answer,,1
-111,3,"Introduction, Matter, Science",1,Short_answer,,1
-111,4,"Introduction, Matter, Science",1,Short_answer,,1
-111,5,"Introduction, Matter, Science",1,Short_answer,,1
-111,6,"Introduction, Matter, Science",1,Short_answer,,1
-111,7,"Introduction, Matter, Science",1,Short_answer,,1
-111,8,"Introduction, Matter, Science",1,Short_answer,,1
-111,9,"Measurement, Calculations",2,Short_answer,,1
-111,10,"Measurement, Calculations",2,Short_answer,,1
-111,11,"Measurement, Calculations",2,Short_answer,,1
-111,12,"Measurement, Calculations",2,Short_answer,,1
-111,13,The Atom,3,multiple_choice,4,1
-111,14,The Atom,3,essay_question,,1
-111,15,The Atom,3,short_answer,,1
-111,16,The Atom,3,short_answer,,1
-111,17,The Atom,3,multiple_choice,4,1
-111,18,The Atom,3,short_answer,,1
-111,19,The Atom,3,multiple_choice,4,1
-111,20,The Atom,3,multiple_choice,4,1
-112,1,The Mole,4,short_answer,,1
-112,2,The Mole,4,short_answer,,1
-112,3,The Mole,4,multiple_choice,5,1
-112,4,The Mole,4,multiple_choice,5,1
-112,5,The Mole,4,multiple_choice,5,1
-112,6,The Mole,4,multiple_choice,7,1
-112,7,LIght,5,short_answer,,1
-112,8,Light,5,multiple_choice,5,1
-112,9,LIght,5,multiple_choice,8,1
-112,10,Light,5,multiple_choice,5,1
-112,11,Light,5,multiple_choice,6,1
-112,12,Light,5,multiple_choice,5,1
-112,13,"Atomic Spectra, Bohr Model",6,essay,,1
-112,14,"Atomic Spectra, Bohr Model",6,short_answer,,1
-112,15,"Atomic Spectra, Bohr Model",6,short_answer,,1
-112,16,"Atomic Spectra, Bohr Model",6,multiple_choice,6,1
-112,17,"Atomic Spectra, Bohr Model",6,multiple_choice,5,1
-112,18,"Atomic Spectra, Bohr Model",6,multiple_choice,5,1
-112,19,"Atomic Spectra, Bohr Model",6,multiple_choice,6,1
-112,20,"Atomic Spectra, Bohr Model",6,multiple_choice,6,1
-117,1,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,1
-117,2,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,1
-117,3,Electron Configurations,9,short_answer,,1
-117,4,Electron Configurations,9,short_answer,,1
-117,5,Electron Configurations,9,short_answer,,1
-117,6,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,10,1
-117,7,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,5,1
-117,8,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,6,1
-117,9,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,5,1
-117,10,Electron Configurations,9,multiple_choice,6,1
-117,11,Electron Configurations,9,multiple_choice,6,1
-117,12,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,6,1
-117,13,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,1
-117,14,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,5,1
-117,15,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,1
-117,16,"Electrons, Quantum Numbers, Orbitals",8,short_answer,,1
-117,17,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,1
-117,18,Electron Configurations,9,multiple_choice,4,1
-118,1,Periodic Trends,10,multiple_choice,4,1
-118,2,Periodic Trends,10,multiple_choice,2,1
-118,3,Periodic Trends,10,multiple_choice,9,1
-118,4,Periodic Trends,10,multiple_choice,4,1
-118,5,Periodic Trends,10,multiple_choice,6,1
-118,6,Periodic Trends,10,multiple_choice,5,1
-118,7,Bonding,12,short_answer,,1
-118,8,Bonding,12,short_answer,,1
-118,9,Bonding,12,short_answer,,1
-118,10,Bonding,12,short_answer,,1
-118,11,Bonding,12,multiple_choice,4,1
-118,12,Bonding,12,multiple_choice,6,1
-118,13,Bonding,12,multiple_choice,5,1
-118,14,Bonding,12,multiple_choice,5,1
-118,15,Bonding,12,multiple_choice,5,0
-118,16,Bonding,12,multiple_choice,6,0
-118,17,Bonding,12,multiple_choice,5,0
-118,18,Bonding,12,multiple_choice,6,0
-118,19,Bonding,12,multiple_choice,6,0
-118,20,Bonding,12,multiple_choice,6,0
+OA Quiz ID,Question Number,Concept Title,Lecture Number,Question Type,Multiple Choice Options,Graded,Source,Source2,Week
+78,1,The Atom,1,multiple_choice,4,1,,,
+78,2,The Atom,1,essay,,1,,,
+78,3,The Atom,1,short_answer,,1,,,
+78,4,The Atom,1,multiple_choice,8,1,,,
+78,5,The Atom,1,multiple_choice,6,1,,,
+111,1,"Introduction, Matter, Science",1,Short_answer,,1,Wood Quiz 1,1,1
+111,2,"Introduction, Matter, Science",1,Short_answer,,1,Wood Quiz 1,2,1
+111,3,"Introduction, Matter, Science",1,Short_answer,,1,Wood Quiz 1,3,1
+111,4,"Introduction, Matter, Science",1,Short_answer,,1,Wood Quiz 1,4,1
+111,5,"Introduction, Matter, Science",1,Short_answer,,1,Wood Quiz 1,5,1
+111,6,"Introduction, Matter, Science",1,Short_answer,,1,Wood Quiz 1,6,1
+111,7,"Introduction, Matter, Science",1,Short_answer,,1,Wood Quiz 1,7,1
+111,8,"Introduction, Matter, Science",1,Short_answer,,1,Wood Quiz 1,8,1
+111,9,"Measurement, Calculations",2,Short_answer,,1,Wood Quiz 2,1,1
+111,10,"Measurement, Calculations",2,Short_answer,,1,Wood Quiz 2,2,1
+111,11,"Measurement, Calculations",2,Short_answer,,1,Wood Quiz 2,3,1
+111,12,"Measurement, Calculations",2,Short_answer,,1,Wood Quiz 2,4,1
+111,13,The Atom,3,multiple_choice,4,1,Wood Quiz 3,1,1
+111,14,The Atom,3,essay_question,,1,Wood Quiz 3,2,1
+111,15,The Atom,3,short_answer,,1,Wood Quiz 3,3,1
+111,16,The Atom,3,short_answer,,1,Wood Quiz 3,4,1
+111,17,The Atom,3,multiple_choice,4,1,Wood Quiz 3,5,1
+111,18,The Atom,3,short_answer,,1,Wood Quiz 3,6,1
+111,19,The Atom,3,multiple_choice,4,1,Wood Quiz 3,7,1
+111,20,The Atom,3,multiple_choice,4,1,Wood Quiz 3,8,1
+111,21,"Introduction, Matter, Science",1,short_answer,,0,Stephen Quiz 1,1,1
+111,22,"Introduction, Matter, Science",1,short_answer,,0,Stephen Quiz 1,2,1
+111,23,"Introduction, Matter, Science",1,short_answer,,0,Stephen Quiz 1,3,1
+111,24,"Introduction, Matter, Science",1,short_answer,,0,Stephen Quiz 1,4,1
+111,25,"Introduction, Matter, Science",1,short_answer,,0,Stephen Quiz 1,5,1
+111,26,"Measurement, Calculations",2,multiple_choice,5,0,Stephen Quiz 2,1,1
+111,27,"Measurement, Calculations",2,multiple_choice,5,0,Stephen Quiz 2,2,1
+111,28,"Measurement, Calculations",2,multiple_choice,4,0,Stephen Quiz 2,3,1
+111,29,"Measurement, Calculations",2,short_answer,,0,Stephen Quiz 2,4,1
+111,30,"Measurement, Calculations",2,short_answer,,0,Stephen Quiz 2,5,1
+111,31,The Atom,3,multiple_choice,4,0,Stephen Quiz 3,1,1
+111,32,The Atom,3,short_answer,,0,Stephen Quiz 3,2,1
+111,33,The Atom,3,multiple_choice,3,0,Stephen Quiz 3,3,1
+111,34,The Atom,3,short_answer,,0,Stephen Quiz 3,4,1
+111,35,The Atom,3,short_answer,,0,Stephen Quiz 3,5,1
+111,36,The Atom,3,Multiple_choice,5,0,Practice Exam 1,1,1
+111,37,"Introduction, Matter, Science",1,multiple_choice,5,0,Practice Exam 1,17,1
+111,38,"Introduction, Matter, Science",1,multiple_choice,5,0,Practice Exam 1,18,1
+111,38.2,"Introduction, Matter, Science",1,multiple_choice,5,0,Practice Exam 1,2,1
+111,39,"Measurement, Calculations",2,multiple_choice,5,0,Practice Exam 1,7,1
+111,40,"Measurement, Calculations",2,multiple_choice,5,0,Practice Exam 1,8,1
+111,41,"Measurement, Calculations",2,multiple_choice,5,0,Practice Exam 1,9,1
+111,42,"Measurement, Calculations",2,multiple_choice,5,0,Practice Exam 1,12,1
+111,43,"Measurement, Calculations",2,multiple_choice,5,0,Practice Exam 1,15,1
+111,44,"Measurement, Calculations",2,multiple_choice,5,0,Practice Exam 1,16,1
+111,45,"Measurement, Calculations",2,multiple_choice,5,0,Practice Exam 1,34,1
+111,46,"Measurement, Calculations",2,multiple_choice,5,0,Practice Exam 1,35,1
+111,47,"Measurement, Calculations",2,multiple_choice,5,0,Practice Exam 1,3,1
+111,48,The Atom,3,multiple_choice,5,0,Practice Exam 1,4,1
+111,49,The Atom,3,multiple_choice,5,0,Practice Exam 1,10,1
+111,50,The Atom,3,multiple_choice,5,0,Practice Exam 1,11,1
+111,51,The Atom,3,multiple_choice,5,0,Practice Exam 1,13,1
+111,52,"Introduction, Matter, Science",1,multiple_choice,5,0,LS Review 1,10,1
+111,53,"Measurement, Calculations",2,multiple_choice,7,0,LS Review 1,7,1
+111,54,"Measurement, Calculations",2,multiple_choice,6,0,LS Review 1,13,1
+111,55,"Measurement, Calculations",2,multiple_choice,4,0,LS Review 1,14,1
+111,56,"Measurement, Calculations",2,multiple_choice,6,0,LS Review 7,12,1
+111,57,The Atom,3,multiple_choice,6,0,LS Review 1,16,1
+111,58,The Atom,3,multiple_choice,6,0,LS Review 1,17,1
+111,59,The Atom,3,multiple_choice,5,0,LS Review 1,21,1
+112,1,The Mole,4,short_answer,,0,Wood,,2
+112,2,The Mole,4,short_answer,,0,Wood,,2
+112,3,The Mole,4,short_answer,,1,Wood,,2
+112,4,The Mole,4,short_answer,,0,Wood,,2
+112,5,The Mole,4,short_answer,,0,Wood,,2
+112,6,The Mole,4,short_answer,,1,Wood,,2
+112,7,The Mole,4,multiple_choice,5,0,Kim 1,,2
+112,8,The Mole,4,multiple_choice,5,0,Kim 2,,2
+112,9,The Mole,4,multiple_choice,5,1,Kim 3,,2
+112,10,The Mole,4,multiple_choice,6,0,Kim 4,,2
+112,11,The Mole,4,multiple_choice,5,0,Kim 5,,2
+112,12,The Mole,4,multiple_choice,5,1,Neilson E1 Q14,,2
+112,13,The Mole,4,multiple_choice,8,0,R1 Q3,,2
+112,14,The Mole,4,multiple_choice,7,0,R1 Q4,,2
+112,15,The Mole,4,multiple_choice,5,1,R1 Q8,,2
+112,16,The Mole,4,multiple_choice,7,0,R1 Q15,,2
+112,17,The Mole,4,multiple_choice,6,0,R1 Q19,,2
+112,18,The Mole,4,multiple_choice,7,1,R1 Q22,,2
+112,19,Light,5,multiple_choice,4,0,Wood Q1,,2
+112,20,Light,5,multiple_choice,7,0,Wood Q2,,2
+112,21,Light,5,short_answer,,1,Wood Q3,,2
+112,22,Light,5,short_answer,,0,Wood Q4,,2
+112,23,Light,5,essay,,0,Wood Q5,,2
+112,24,Light,5,multiple_choice,5,1,Kim 9-1,,2
+112,25,Light,5,multiple_choice,5,0,Kim 9-2,,2
+112,26,Light,5,multiple_choice,5,0,Kim 9-3,,2
+112,27,Light,5,multiple_choice,8,1,Kim 9-4,,2
+112,28,Light,5,short_answer,,0,Kim 9-5,,2
+112,29,Light,5,multiple_choice,5,0,Neilson E1 Q19,,2
+112,30,Light,5,multiple_choice,5,1,Neilson E1 Q22,,2
+112,31,Light,5,multiple_choice,5,0,Neilson E1 Q26,,2
+112,32,Light,5,multiple_choice,5,0,Neilson E1 Q33,,2
+112,33,Light,5,multiple_choice,6,1,R1 Q2,,2
+112,34,Light,5,multiple_choice,7,0,R1 Q5,,2
+112,35,Light,5,multiple_choice,5,0,R1 Q9,,2
+112,36,Light,5,multiple_choice,5,1,R1 Q11,,2
+112,37,Light,5,multiple_choice,5,0,R1 Q20,,2
+112,38,"Atomic Spectra, Bohr Model",6,multiple_choice,4,0,Wood 6-1,,2
+112,39,"Atomic Spectra, Bohr Model",6,essay,,1,Wood 6-2,,2
+112,40,"Atomic Spectra, Bohr Model",6,multiple_choice,4,0,Wood 6-3,,2
+112,41,"Atomic Spectra, Bohr Model",6,essay,,0,Wood 6-4,,2
+112,42,"Atomic Spectra, Bohr Model",6,short_answer,,1,Wood 6-5,,2
+112,43,"Atomic Spectra, Bohr Model",6,short_answer,,0,Wood 6-6,,2
+112,44,"Atomic Spectra, Bohr Model",6,short_answer,,0,Wood 6-7,,2
+112,45,"Atomic Spectra, Bohr Model",6,short_answer,,1,Wood 6-8,,2
+112,46,"Atomic Spectra, Bohr Model",6,multiple_choice,7,0,Kim 10-1,,2
+112,47,"Atomic Spectra, Bohr Model",6,multiple_choice,6,0,Kim 10-2,,2
+112,48,"Atomic Spectra, Bohr Model",6,multiple_choice,6,1,Kim 10-3,,2
+112,49,"Atomic Spectra, Bohr Model",6,multiple_choice,6,0,Kim 10-4,,2
+112,50,"Atomic Spectra, Bohr Model",6,multiple_choice,5,0,Neilson E1-23,,2
+112,51,"Atomic Spectra, Bohr Model",6,multiple_choice,5,0,Neilson E1-24,,2
+112,52,"Atomic Spectra, Bohr Model",6,multiple_choice,5,1,Neilson E1-25,,2
+112,53,"Atomic Spectra, Bohr Model",6,multiple_choice,5,0,Neilson E1-27,,2
+112,54,"Atomic Spectra, Bohr Model",6,multiple_choice,5,0,R1-1,,2
+112,55,"Atomic Spectra, Bohr Model",6,multiple_choice,5,1,R1-6,,2
+112,56,"Atomic Spectra, Bohr Model",6,multiple_choice,6,1,R1-12,,2
+112,57,"Atomic Spectra, Bohr Model",6,multiple_choice,5,0,R1-18,,2
+112,58,"Atomic Spectra, Bohr Model",6,multiple_choice,6,1,R1-19,,2
+117,1,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,0,Wood Quiz 7,1,3
+117,2,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,1,Wood Quiz 7,2,3
+117,3,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,0,Wood Quiz 7,3,3
+117,4,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,1,Wood Quiz 7,4,3
+117,5,"Electrons, Quantum Numbers, Orbitals",8,short_answer,,0,Wood Quiz 7,5,3
+117,6,Electron Configurations,9,short_answer,,1,Wood Quiz 8,1,3
+117,7,Electron Configurations,9,short_answer,,0,Wood Quiz 8,2,3
+117,8,Electron Configurations,9,short_answer,,1,Wood Quiz 8,3,3
+117,9,Electron Configurations,9,short_answer,,0,Wood Quiz 8,4,3
+117,10,Electron Configurations,9,short_answer,,1,Wood Quiz 8,5,3
+117,11,Electron Configurations,9,short_answer,,0,Wood Quiz 8,6,3
+117,12,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,8,0,LS Review 2,1,3
+117,13,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,10,1,LS Review 2,2,3
+117,14,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,5,0,LS Review 2,3,3
+117,15,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,7,0,LS Review 2,4,3
+117,16,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,5,1,LS Review 2,8,3
+117,17,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,6,0,LS Review 2,13,3
+117,18,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,6,1,LS Review 2,14,3
+117,19,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,5,0,LS Review 2,15,3
+117,20,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,5,1,LS Review 2,17,3
+117,21,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,7,0,LS Review 3,20,3
+117,22,Electron Configurations,9,multiple_choice,6,1,LS Review 2,5,3
+117,23,Electron Configurations,9,multiple_choice,5,0,LS Review 2,6,3
+117,24,Electron Configurations,9,multiple_choice,6,1,LS Review 2,11,3
+117,25,Electron Configurations,9,multiple_choice,6,0,LS Review 2,16,3
+117,26,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,6,1,Stephen Quiz 11,1,3
+117,27,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,6,0,Stephen Quiz 11,2,3
+117,28,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,1,Stephen Quiz 11,3,3
+117,29,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,10,0,Stephen Quiz 11,4,3
+117,30,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,5,1,Stephen Quiz 11,5,3
+117,31,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,7,0,Stephen Quiz 11,6,3
+117,32,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,1,Stephen Quiz 12,1,3
+117,33,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,6,0,Stephen Quiz 12,2,3
+117,34,"Electrons, Quantum Numbers, Orbitals",8,short_answer,,1,Stephen Quiz 12,3,3
+117,35,"Electrons, Quantum Numbers, Orbitals",8,short_answer,,0,Stephen Quiz 12,4,3
+117,36,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,1,Practice Exam 1,6,3
+117,37,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,0,Practice Exam 1,20,3
+117,38,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,0,Practice Exam 1,21,3
+117,39,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,0,Practice Exam 1,28,3
+117,40,"Electrons, Quantum Numbers, Orbitals",8,multiple_choice,4,0,Practice Exam 1,29,3
+117,41,Electron Configurations,9,multiple_choice,4,0,Practice Exam 1,5,3
+117,42,Electron Configurations,9,multiple_choice,4,1,Practice Exam 1,30,3
+117,43,Electron Configurations,9,multiple_choice,4,0,Practice Exam 1,31,3
+118,1,Periodic Trends,10,multiple_choice,4,1,Wood 9-1,,4
+118,2,Periodic Trends,10,multiple_choice,4,0,Wood 9-2,,4
+118,3,Periodic Trends,10,multiple_choice,4,0,Wood 9-3,,4
+118,4,Periodic Trends,10,multiple_choice,2,1,Wood 9-4,,4
+118,5,Periodic Trends,10,multiple_choice,4,0,Kim 13-1,,4
+118,6,Periodic Trends,10,multiple_choice,8,0,Kim 13-2,,4
+118,7,Periodic Trends,10,multiple_choice,9,1,Kim 13-3,,4
+118,8,Periodic Trends,10,multiple_choice,6,0,Kim 13-4,,4
+118,9,Periodic Trends,10,short_answer,,0,Kim 13-5,,4
+118,10,Periodic Trends,10,multiple_choice,4,1,Nieson E1-32,,4
+118,11,Periodic Trends,10,multiple_choice,5,0,Nielson E2-9,,4
+118,12,Periodic Trends,10,multiple_choice,10,0,R2-7,,4
+118,13,Periodic Trends,10,multiple_choice,6,1,R2-9,,4
+118,14,Periodic Trends,10,multiple_choice,9,0,R2-10,,4
+118,15,Periodic Trends,10,multiple_choice,6,0,R2-12,,4
+118,16,Periodic Trends,10,multiple_choice,5,1,R2-18,,4
+118,17,Periodic Trends,10,multiple_choice,6,0,R2-19,,4
+118,18,Periodic Trends,10,multiple_choice,5,0,R3-14,,4
+118,19,Bonding,12,short_answer,,1,Wood 10-1,,4
+118,20,Bonding,12,short_answer,,0,Wood 10-2,,4
+118,21,Bonding,12,short_answer,,0,Wood 10-3,,4
+118,22,Bonding,12,short_answer,,1,Wood 10-4,,4
+118,23,Bonding,12,short_answer,,0,Wood 10-5,,4
+118,24,Bonding,12,short_answer,,0,Wood 10-6,,4
+118,25,Bonding,12,short_answer,,1,Wood 10-7,,4
+118,26,Bonding,12,short_answer,,0,Wood 10-8,,4
+118,27,Bonding,12,short_answer,,0,Wood 10-9,,4
+118,28,Bonding,12,short_answer,,1,Wood 10-10,,4
+118,29,Bonding,12,short_answer,,0,Wood 10-11,,4
+118,30,Bonding,12,multiple_choice,4,0,Kim 14-1,,4
+118,31,Bonding,12,multiple_choice,4,1,Kim 14-2,,4
+118,32,Bonding,12,short_answer,,0,Kim 14-3,,4
+118,33,Bonding,12,short_answer,,0,Kim 14-4,,4
+118,34,Bonding,12,multiple_choice,6,1,Neilson 2-1,,4
+118,35,Bonding,12,multiple_choice,5,0,Neilson 2-4,,4
+118,36,Bonding,12,multiple_choice,5,0,Neilson 2-7,,4
+118,37,Bonding,12,multiple_choice,5,1,Neilson 2-11,,4
+118,38,Bonding,12,multiple_choice,5,0,Neilson 2-26,,4
+118,39,Bonding,12,multiple_choice,6,0,R3-1,,4
+118,40,Bonding,12,multiple_choice,5,1,R3-2,,4
+118,41,Bonding,12,multiple_choice,5,0,R3-3,,4
+118,42,Bonding,12,multiple_choice,7,0,R3-4,,4
+118,43,Bonding,12,multiple_choice,5,1,R3-5,,4
+118,44,Bonding,12,multiple_choice,6,0,R3-6,,4
+118,45,Bonding,12,multiple_choice,8,0,R3-7,,4
+118,46,Bonding,12,multiple_choice,6,1,R3-8,,4
+118,47,Bonding,12,multiple_choice,8,0,R3-9,,4
+118,48,Bonding,12,multiple_choice,10,0,R3-11,,4
+118,49,Bonding,12,multiple_choice,5,1,R3-12,,4
+118,50,Bonding,12,multiple_choice,6,0,R3-13,,4
+118,51,Bonding,12,multiple_choice,6,0,R3-15,,4
+118,52,Bonding,12,multiple_choice,6,1,R3-17,,4
+118,53,Bonding,12,multiple_choice,5,0,R3-18,,4
+118,54,Bonding,12,multiple_choice,7,0,R3-28,,4
+118,55,Bonding,12,multiple_choice,6,1,R3-31,,4
+118,56,Bonding,12,multiple_choice,7,0,R3-32,,4
+118,57,Bonding,12,multiple_choice,6,0,R3-33,,4
+118,58,Bonding,12,multiple_choice,6,1,R3-34,,4
+118,59,Bonding,12,multiple_choice,6,0,R3-35,,4
+118,60,Bonding,12,multiple_choice,5,0,R3-39,,4
+118,61,Bonding,12,multiple_choice,5,0,R4-1,,4
+118,62,Bonding,12,multiple_choice,5,0,R7-20,,4
+118,63,Bonding,12,multiple_choice,5,0,R7-25,,4
+118,64,Bonding,12,multiple_choice,5,0,R11-11,,4
+120,1,Lewis Structures,13,multiple_choice,8,1,Wood Quiz 11,1,5
+120,2,Lewis Structures,13,multiple_choice,5,1,Wood Quiz 11,2,5
+120,3,Lewis Structures,13,multiple_choice,5,1,Wood Quiz 11,3,5
+120,4,Lewis Structures,13,multiple_choice,5,1,Wood Quiz 11,4,5
+120,5,Lewis Structures,13,essay_question,,0,Wood Quiz 11,5,5
+120,6,Lewis Structures,13,multiple_choice,2,1,Wood Quiz 11,6,5
+120,7,Lewis Structures,13,multiple_choice,4,1,Stephen Quiz 16,1,5
+120,8,Lewis Structures,13,multiple_choice,6,1,Stephen Quiz 16,2,5
+120,9,Lewis Structures,13,multiple_choice,5,1,Stephen Quiz 16,3,5
+120,10,Lewis Structures,13,multiple_choice,6,1, LS Review 2,20,5
+120,11,Lewis Structures,13,multiple_choice,9,1,LS Review 3,10,5
+120,12,Lewis Structures,13,multiple_choice,6,0,LS Review 3,16,5
+120,13,Organic Molecules,15,multiple_choice,6,1,LS Review 3,41,5
+120,14,Organic Molecules,15,multiple_choice,6,1,LS Review 3,42,5
+120,15,Organic Molecules,15,multiple_choice,5,0,LS Review 3,43,5
+120,16,Organic Molecules,15,multiple_choice,5,1,LS Review 4,28,5
+120,17,Organic Molecules,15,multiple_choice,6,1,LS Review 4,29,5
+120,18,Organic Molecules,15,multiple_choice,5,1,LS Review 4,30,5
+120,19,Organic Molecules,15,multiple_choice,5,0,LS Review 4,31,5
+120,20,Organic Molecules,15,multiple_choice,6,0,LS Review 4,33,5
+120,21,Organic Molecules,15,multiple_choice,6,1,LS Review 11,10,5
+120,22,Lewis Structures,13,multiple_choice,6,1,Practic Exam 2,10,5
+120,23,Lewis Structures,13,multiple_choice,5,1,Practic Exam 2,15,5
+120,24,Lewis Structures,13,multiple_choice,5,1,Practic Exam 2,28,5
+120,25,Organic Molecules,15,multiple_choice,5,0,Practic Exam 2,5,5
+120,26,Organic Molecules,15,multiple_choice,5,1,Practic Exam 2,13,5
+120,27,Organic Molecules,15,multiple_choice,5,1,Practic Exam 2,30,5
+123,1,Molecular Shape,16,multiple_choice,8,1,Wood 12-1,,6
+123,2,Molecular Shape,16,multiple_choice,9,0,Wood 12-2,,6
+123,3,Molecular Shape,16,multiple_choice,9,0,Kim 17-1,,6
+123,4,Molecular Shape,16,multiple_choice,7,0,Kim 17-2,,6
+123,5,Molecular Shape,16,multiple_choice,5,0,Neilson 2-2,,6
+123,6,Molecular Shape,16,multiple_choice,5,1,Neilson 2-3,,6
+123,7,Molecular Shape,16,multiple_choice,5,0,Neilson 2-6,,6
+123,8,Molecular Shape,16,multiple_choice,5,0,Neilson 2-8,,6
+123,9,Molecular Shape,16,multiple_choice,5,0,Neilson 2-12,,6
+123,10,Molecular Shape,16,multiple_choice,5,0,Neilson 2-14,,6
+123,11,Molecular Shape,16,multiple_choice,5,1,Neilson 2-24,,6
+123,12,Molecular Shape,16,multiple_choice,5,0,Neilson 2-27,,6
+123,13,Molecular Shape,16,multiple_choice,5,0,Neilson 2-29,,6
+123,14,Molecular Shape,16,multiple_choice,5,0,Neilson 2-31,,6
+123,15,Molecular Shape,16,multiple_choice,7,0,R3-21,,6
+123,16,Molecular Shape,16,multiple_choice,7,1,R3-22,,6
+123,17,Molecular Shape,16,multiple_choice,6,0,R3-23,,6
+123,18,Molecular Shape,16,multiple_choice,7,0,R3-24,,6
+123,19,Molecular Shape,16,multiple_choice,7,0,R3-25,,6
+123,20,Molecular Shape,16,multiple_choice,8,0,R3-26,,6
+123,21,Molecular Shape,16,multiple_choice,7,1,R3-27,,6
+123,22,Molecular Shape,16,multiple_choice,5,0,R3-29,,6
+123,23,Molecular Shape,16,multiple_choice,6,0,R3-30,,6
+123,24,Molecular Shape,16,multiple_choice,5,0,R3-36,,6
+123,25,Molecular Shape,16,multiple_choice,5,0,R3-37,,6
+123,26,Molecular Shape,16,multiple_choice,5,1,R3-38,,6
+123,27,Molecular Shape,16,multiple_choice,6,0,R3-40,,6
+123,28,Molecular Shape,16,multiple_choice,5,0,R4-2,,6
+123,29,Molecular Shape,16,multiple_choice,6,0,R4-3,,6
+123,30,Molecular Shape,16,multiple_choice,5,0,R4-5,,6
+123,31,Molecular Shape,16,multiple_choice,5,1,R4-13,,6
+123,32,Molecular Shape,16,multiple_choice,6,0,R4-15,,6
+123,33,Molecular Shape,16,multiple_choice,6,0,R4-19,,6
+123,34,Molecular Shape,16,multiple_choice,5,1,R4-20,,6
+123,35,Molecular Shape,16,multiple_choice,6,0,R4-27,,6
+123,36,Molecular Shape,16,multiple_choice,6,0,R4-32,,6
+123,37,Molecular Shape,16,multiple_choice,5,0,R4-34,,6
+123,38,Molecular Shape,16,multiple_choice,8,0,R11-16,,6
+123,39,Valence Bond Theory,17,multiple_choice,6,0,Wood 13-1,,6
+123,40,Valence Bond Theory,17,short_answer,,0,Wood 13-2,,6
+123,41,Valence Bond Theory,17,short_answer,,1,Wood 13-3,,6
+123,42,Valence Bond Theory,17,multiple_choice,2,0,Wood 13-4,,6
+123,43,Valence Bond Theory,17,multiple_choice,4,0,Wood 13-5,,6
+123,44,Valence Bond Theory,17,multiple_choice,2,0,Wood 13-6,,6
+123,45,Valence Bond Theory,17,multiple_choice,6,0,Wood 13-7,,6
+123,46,Valence Bond Theory,17,short_answer,,1,Wood 13-8,,6
+123,47,Valence Bond Theory,17,short_answer,,0,Wood 13-9,,6
+123,48,Valence Bond Theory,17,multiple_choice,2,0,Wood 13-10,,6
+123,49,Valence Bond Theory,17,multiple_choice,4,0,Wood 13-11,,6
+123,50,Valence Bond Theory,17,multiple_choice,2,0,Wood 13-12,,6
+123,51,Valence Bond Theory,17,multiple_choice,6,1,Wood 13-13,,6
+123,52,Valence Bond Theory,17,short_answer,,0,Wood 13-14,,6
+123,53,Valence Bond Theory,17,short_answer,,0,Wood 13-15,,6
+123,54,Valence Bond Theory,17,multiple_choice,2,0,Wood 13-16,,6
+123,55,Valence Bond Theory,17,multiple_choice,4,0,Wood 13-17,,6
+123,56,Valence Bond Theory,17,multiple_choice,2,1,Wood 13-18,,6
+123,57,Valence Bond Theory,17,multiple_choice,6,0,Wood 13-19,,6
+123,58,Valence Bond Theory,17,short_answer,,0,Wood 13-20,,6
+123,59,Valence Bond Theory,17,short_answer,,0,Wood 13-21,,6
+123,60,Valence Bond Theory,17,multiple_choice,2,0,Wood 13-22,,6
+123,61,Valence Bond Theory,17,multiple_choice,4,1,Wood 13-23,,6
+123,62,Valence Bond Theory,17,multiple_choice,2,0,Wood 13-24,,6
+123,63,Valence Bond Theory,17,multiple_choice,6,0,Wood 13-25,,6
+123,64,Valence Bond Theory,17,short_answer,,0,Wood 13-26,,6
+123,65,Valence Bond Theory,17,short_answer,,0,Wood 13-27,,6
+123,66,Valence Bond Theory,17,multiple_choice,2,1,Wood 13-28,,6
+123,67,Valence Bond Theory,17,multiple_choice,4,0,Wood 13-29,,6
+123,68,Valence Bond Theory,17,multiple_choice,2,0,Wood 13-30,,6
+123,69,Valence Bond Theory,17,multiple_choice,4,0,Kim 18-1,,6
+123,70,Valence Bond Theory,17,multiple_choice,5,0,Kim 18-2,,6
+123,71,Valence Bond Theory,17,multiple_choice,6,1,Kim 18-3,,6
+123,72,Valence Bond Theory,17,multiple_choice,7,0,Kim 18-4,,6
+123,73,Valence Bond Theory,17,multiple_choice,4,0,Kim 18-5,,6
+123,74,Valence Bond Theory,17,multiple_choice,4,0,Kim 18-6,,6
+123,75,Valence Bond Theory,17,multiple_choice,5,0,Nielson 2-23,,6
+123,76,Valence Bond Theory,17,multiple_choice,5,1,Nielson 2-25,,6
+123,77,Valence Bond Theory,17,multiple_choice,5,0,R4-7,,6
+123,78,Valence Bond Theory,17,multiple_choice,7,1,R4-10,,6
+123,79,Valence Bond Theory,17,multiple_choice,4,0,R4-17,,6
+123,80,Valence Bond Theory,17,multiple_choice,5,0,R4-22,,6
+123,81,Molecular Orbitals,18,short_answer,,1,Wood 14-1,,6
+123,82,Molecular Orbitals,18,multiple_choice,3,0,Wood 14-2,,6
+123,83,Molecular Orbitals,18,essay,,0,Wood 14-3,,6
+123,84,Molecular Orbitals,18,multiple_choice,2,0,Wood 14-4,,6
+123,85,Molecular Orbitals,18,multiple_choice,2,0,Wood 14-5,,6
+123,86,Molecular Orbitals,18,multiple_choice,2,0,Wood 14-6,,6
+123,87,Molecular Orbitals,18,multiple_choice,6,0,Kim 19-1,,6
+123,88,Molecular Orbitals,18,multiple_choice,6,0,Kim 19-2,,6
+123,89,Molecular Orbitals,18,multiple_choice,5,0,Nielson 2-32,,6
+123,90,Molecular Orbitals,18,multiple_choice,5,1,Nielson 2-34,,6
+123,91,Molecular Orbitals,18,multiple_choice,5,0,R4-4,,6
+123,92,Molecular Orbitals,18,multiple_choice,6,0,R4-6,,6
+123,93,Molecular Orbitals,18,multiple_choice,6,0,R4-8,,6
+123,94,Molecular Orbitals,18,multiple_choice,6,1,R4-9,,6
+123,95,Molecular Orbitals,18,multiple_choice,5,0,R4-11,,6
+123,96,Molecular Orbitals,18,multiple_choice,5,0,R4-12,,6
+123,97,Molecular Orbitals,18,multiple_choice,6,0,R4-14,,6
+123,98,Molecular Orbitals,18,multiple_choice,5,0,R4-16,,6
+123,99,Molecular Orbitals,18,multiple_choice,5,0,R4-18,,6
+123,100,Molecular Orbitals,18,multiple_choice,5,0,R4-21,,6
+123,101,Molecular Orbitals,18,multiple_choice,4,0,R4-23,,6
+123,102,Molecular Orbitals,18,multiple_choice,7,0,R4-24,,6
+123,103,Molecular Orbitals,18,multiple_choice,5,0,R4-25,,6
+123,104,Molecular Orbitals,18,multiple_choice,5,0,R4-26,,6
+123,105,Molecular Orbitals,18,multiple_choice,7,0,R11-12,,6
+124,1,Intermolecular Forces,20,multiple_choice,4,0,Wood Quiz 15,1,7
+124,2,Intermolecular Forces,20,multiple_choice,4,1,Wood Quiz 15,2,7
+124,3,Intermolecular Forces,20,multiple_choice,4,0,Wood Quiz 15,3,7
+124,4,Intermolecular Forces,20,multiple_choice,4,1,Wood Quiz 15,4,7
+124,5,Applications of IMF,21,multiple_choice,4,0,Wood Quiz 16,1,7
+124,6,Applications of IMF,21,multiple_choice,4,1,Wood Quiz 16,2,7
+124,7,Applications of IMF,21,multiple_choice,4,0,Wood Quiz 16,3,7
+124,8,Applications of IMF,21,multiple_choice,4,1,Wood Quiz 16,4,7
+124,9,Applications of IMF,21,essay_question,,0,Wood Quiz 16,5,7
+124,10,Applications of IMF,21,Multiple_choice,4,1,Wood Quiz 16,6,7
+124,11,Intermolecular Forces,20,Multiple_choice,4,0,Stephen Quiz 20,1,7
+124,12,Intermolecular Forces,20,Multiple_choice,5,1,Stephen Quiz 20,2,7
+124,13,Applications of IMF,21,Multiple_choice,3,0,Stephen Quiz 21,3,7
+124,14,Intermolecular Forces,20,Multiple_choice,6,1,LS Review 5,1,7
+124,15,Intermolecular Forces,20,Multiple_choice,5,1,LS Review 5,3,7
+124,16,Intermolecular Forces,20,Multiple_choice,5,0,LS Review 5,6,7
+124,17,Intermolecular Forces,20,Multiple_choice,5,0,LS Review 5,11,7
+124,18,Intermolecular Forces,20,Multiple_choice,5,1,LS Review 5,13,7
+124,19,Applications of IMF,21,Multiple_choice,7,0,LS Review 5,2,7
+124,20,Applications of IMF,21,Multiple_choice,6,1,LS Review 5,4,7
+124,21,Applications of IMF,21,Multiple_choice,4,0,LS Review 5,7,7
+124,22,Applications of IMF,21,Multiple_choice,7,1,LS Review 5,10,7
+124,23,Applications of IMF,21,Multiple_choice,7,1,LS Review 5,12,7
+124,24,Applications of IMF,21,Multiple_choice,6,1,LS Review 5,15,7
+124,25,Applications of IMF,21,Multiple_choice,8,0,LS Review 11,4,7
+124,26,Applications of IMF,21,Multiple_choice,7,0,LS Review 5,8,7
+124,27,Applications of IMF,21,Multiple_choice,6,1,LS Review 11,13,7
+124,28,Applications of IMF,21,Multiple_choice,4,1,LS Review 11,19,7
+124,29,Intermolecular Forces,20,Multiple_choice,5,0,Practice Exam 2,19,7
+124,30,Intermolecular Forces,20,Multiple_choice,6,1,Practice Exam 2,20,7
+124,31,Intermolecular Forces,20,Multiple_choice,5,1,Practice Exam 2,35,7
+124,32,Intermolecular Forces,20,Multiple_choice,5,0,Practice Exam 4,16,7
+124,33,Applications of IMF,21,Multiple_choice,5,1,Practice Exam 2,16,7
+124,34,Applications of IMF,21,Multiple_choice,5,0,Practice Exam 2,17,7
+124,35,Applications of IMF,21,Multiple_choice,5,1,Practice Exam 2,18,7
+124,36,Applications of IMF,21,Multiple_choice,5,1,Practice Exam 2,21,7
+124,37,Applications of IMF,21,Multiple_choice,5,0,Practice Exam 2,22,7
