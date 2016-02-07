@@ -1,4 +1,4 @@
-<?php
+<?php 
 
 use Phalcon\Mvc\User\Module;
 
@@ -101,7 +101,7 @@ class StatementHelper extends Module {
 		$parsed = json_decode($response);
 		return $response;
 	}
-
+	
 	// Retrieves statements from the given LRS (or all LRSs if no $lrs specified). $lrs should be one of the detail arrays in config.php. $query should be a mongo aggregate pipeline. $fields is an array of fields to return.
 	public function getStatements($lrs, $query = array(), $fields = array()) {
 		//echo "getting statements!";
