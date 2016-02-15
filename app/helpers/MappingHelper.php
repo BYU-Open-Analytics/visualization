@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 use Phalcon\Mvc\User\Module;
 include __DIR__ . "/../library/array_functions.php";
@@ -17,7 +17,7 @@ class MappingHelper extends Module {
 	*/
 	// Array indexes are sometimes weird, so look for the headings in the CSV files
 
-	// Functions that return a 2D array will be an array of rows from the CSV files. 
+	// Functions that return a 2D array will be an array of rows from the CSV files.
 
 	// Returns a 2D array of all units
 	static public function allUnits() {
@@ -39,7 +39,38 @@ class MappingHelper extends Module {
 		$allConcepts = CSVHelper::parseWithHeaders('csv/concepts.csv');
 		return $allConcepts;
 	}
+	static public function currentUnit(){
+		## Note that it is important that the concepts are listed in chronological order in concepts.csv for this method to work!
+		## The dates must also be in the format mm/dd/yyyy. If you want to change this, edit the string concat on line 61.
+		$allConcepts= CSVHelper::parseWithHeaders('csv/concepts.csv');
+		$unitList = array_column($allConcepts, "Unit Number");
+		$numOfUnits = count(array_unique($unitList));
+		$lastDates = [];
+		//Here we loop through all of the units. The purpose of this loop is two-fold: discover how many units we have, and
+		//put the latest date that is still in the unit into our lastDates[] array.
+		for($loop = 1; $loop <= $numOfUnits; $loop++){
+			$conceptsInUnit = array_filter($allConcepts, function($concept) use ($loop) {
+				return ($concept["Unit Number"] == "{$loop}");
+			});
+			$latest = count($conceptsInUnit);
+			$lastDates[] = end($conceptsInUnit)["Date"];
+		}
+		$unit = 0;
+		$today = getdate();
+		//This is where the formatting comes in.
+		$todayMDY = $today["mon"]."/".$today["mday"]."/".$today["year"];
+		$count = 1;
+		foreach($lastDates as $date){
+			if($todayMDY > $date){
+				$unit = $count+1;
+			}
+			$count++;
+		}
+		if($unit > $numOfUnits)
+			$unit = $numOfUnits;
+		return $unit;
 
+	}
 	// Returns a 2D array of concepts
 	static public function conceptsInUnit($unitNumber) {
 		$allConcepts = CSVHelper::parseWithHeaders('csv/concepts.csv');
@@ -61,7 +92,7 @@ class MappingHelper extends Module {
 		$allQuestions = CSVHelper::parseWithHeaders('csv/questions.csv');
 		// Filter questions to ones associated with this concept (lecture number)
 		$conceptQuestions = array_filter($allQuestions, function($question) use ($lectureNumber) {
-			return ($question["Lecture Number"] == $lectureNumber);
+			return ($question["Lecture Number"] == $lectureNumber && $question["Graded"]==1);
 		});
 
 		return $conceptQuestions;
@@ -139,8 +170,8 @@ class MappingHelper extends Module {
 		}
 		return $conceptResources;
 	}
-		
-	
+
+
 	// Returns an array of information about a given question ID with format {assessment ID}.{question number}
 		// Array with quizNumber, questionNumber, assessmentId, and questionType (and options if question is multiple_choice)
 		// If given questionId is not valid, it returns false

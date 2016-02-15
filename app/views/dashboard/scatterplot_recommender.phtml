@@ -34,7 +34,17 @@ if ( $context->valid && isset($_SESSION["group"]) &&  $_SESSION["group"] == "res
 							<input type="radio" name="scatterplotScopeOption" value="unit" checked />Unit:
 							<select class="unitSelector" name="scatterplotUnitSelector">
 							<!--	<option value="1">Unit 1</option-->
-								<?php foreach ($units as $unit) { echo '<option value="'.$unit['id'].'">'.$unit['title'].'</option>'; } ?>
+								<?php
+									$mapper = new MappingHelper();
+									$currentUnit = $mapper->currentUnit();
+								  foreach ($units as $unit) {
+									if($currentUnit == $unit['id']){
+										echo '<option value="'.$unit['id'].'" selected>'.$unit['title'].'</option>';
+									}
+									else {
+										echo '<option value = "'.$unit['id'].'">'.$unit['title'].'</option>';
+									}
+								} ?>
 							</select>
 						</label>
 						<label class="btn btn-default scopeOptionLabel">
