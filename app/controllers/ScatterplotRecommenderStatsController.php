@@ -169,35 +169,36 @@ class ScatterplotRecommenderStatsController extends Controller
 			$assessmentsEndpoint = $this->getDI()->getShared('config')->openassessments_endpoint;
 			// Extract a list of assessment IDs from our list of questions. We'll get question texts for these.
 			$assessmentIDs = ["assessment_ids" => array_values(array_unique(array_column($questions, "OA Quiz ID")))];
-
 			$request = $assessmentsEndpoint."api/question_text";
+		 //$request = "http://192.168.33.102/api/question_text";
 			if ($debug) {
 				echo "Fetching question texts for these assessment IDs:\n";
 				print_r(array_column($questions, "OA Quiz ID"));
 				print_r($assessmentIDs);
 				echo $request;
 			}
+			#print_r($assessmentIDs);
+			#echo json_encode($request);
 			$session = curl_init($request);
 			curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
 			curl_setopt($session, CURLOPT_POST, 1);
 			curl_setopt($session, CURLOPT_POSTFIELDS, json_encode($assessmentIDs));
 
 			$response = curl_exec($session);
-
+			#echo json_encode($questionRows);
 			// Catch curl errors
 			if (curl_errno($session)) {
 				$error = "Curl error: " . curl_error($session);
 			}
 			curl_close($session);
-
+			#print_r($response);
 			$questionTexts = json_decode($response, true);
-
 			if ($debug) { print_r($questionTexts); }
 
 			foreach ($questions as $key => $q) {
 				// Make sure the question text exists before setting it
-				// Avoid off-by-one error. The question id from statement object id will be 1 to n+1
 				$questions[$key]["display"] = isset($questionTexts[$q["OA Quiz ID"]][$q["Question Number"]-1]) ? $questionTexts[$q["OA Quiz ID"]][$q["Question Number"]-1] : "Error getting question text for #{$q["OA Quiz ID"]} # #{$q["Question Number"]}-1";
+				// Avoid off-by-one error. The question id from statement object id will be 1 to n+1
 				//$q["questionText"] = $questionText;
 			}
 
@@ -228,7 +229,7 @@ class ScatterplotRecommenderStatsController extends Controller
 			if ($question["correctAttempts"]["betterCorrect"] > 0 && $question["attempts"] > 1) {
 				$group4 []= $question;
 			}
-			
+
 		}
 
 		if ($debug) { print_r($questions); }
@@ -292,7 +293,7 @@ class ScatterplotRecommenderStatsController extends Controller
 	}
 
 	// Mastery over time
-	public function time_graphAction($debug = false) {
+	public function time_graphAction($weeks = "all", $debug = false) {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
@@ -319,13 +320,23 @@ class ScatterplotRecommenderStatsController extends Controller
 
 		// In case it gets saved multiple times, eliminate duplicates
 		$historyPoints = array_unique($historyPoints, SORT_REGULAR);
+		// Get the amount of data requested:
+		switch($weeks){
+			case "2":
+				$historyPoints = array_slice($historyPoints, 0, 14);
+				break;
+			case "4":
+				$historyPoints = array_slice($historyPoints, 0, 28);
+				break;
+			default:
 
-		// Get just latest 3 weeks of data
-		$historyPoints = array_slice($historyPoints, 0, 21);
+				break;
 
+		}
+	//	echo json_encode($historyPoints);
 		// Put it in correct order
 		$historyPoints = array_reverse($historyPoints);
-
+		//print_r($historyPoints);
 		if ($debug) {
 			print_r($historyPoints);
 		}
@@ -343,5 +354,3 @@ class ScatterplotRecommenderStatsController extends Controller
 		fclose($output);
 	}
 }
-
-

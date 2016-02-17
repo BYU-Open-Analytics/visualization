@@ -72,6 +72,13 @@ if ( $context->valid && isset($_SESSION["group"]) &&  $_SESSION["group"] == "res
 
 		<!-- Mastery over time graph container -->
 		<div id="timeGraphSection" class="col-sm-12">
+			<div id = "selectorSection" align="right">
+					<select class="timeScopeSelector" name="scatterplotScopeSelector">
+						<option value="2">Last 2 weeks</option>
+						<option value="4">Last 4 weeks</option>
+						<option value="all" selected>All Semester</option>
+					</select>
+				</div>
 			<span class="spinner"><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
 			<div id="timeGraph"></div>
 		</div>

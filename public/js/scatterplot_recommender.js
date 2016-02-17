@@ -587,39 +587,37 @@ function showQuadrantInfo(quadrant) {
 	$(".quadrantLabel").attr("class", "quadrantLabel hidden");
 	$("#quadrant"+quadrant+"Label").attr("class", "quadrantLabel");
 }
-
-// Loads the mastery over time graph
-function loadTimeGraph() {
-	var timeGraph = c3.generate({
-		bindto: "#timeGraph",
-		data: {
-			x: 'date',
-			rows: [
-				['Unit 1', 'Unit 2', 'Unit 3', 'Unit 4']
-			],
-			columns: [
-				['date', 'Unit 1', 'Unit 2', 'Unit 3', 'Unit 4'],
-			],
-			type: 'line'
+var timeGraph = c3.generate({
+	bindto: "#timeGraph",
+	data: {
+		x: 'date',
+		rows: [
+			['Unit 1', 'Unit 2', 'Unit 3', 'Unit 4']
+		],
+		columns: [
+			['date', 'Unit 1', 'Unit 2', 'Unit 3', 'Unit 4'],
+		],
+		type: 'line'
+	},
+	axis: {
+		x: {
+			type: 'category'
 		},
-		axis: {
-			x: {
-				type: 'category'
-			},
-			y: {
-				max: 9.99,
-				min: 0.01
-			}
+		y: {
+			max: 9.99,
+			min: 0.01
 		}
-	});
-
-	// Have to load the data separately so we can get a callback to hide the loading spinner
+	}
+});
+// Loads the mastery over time graph
+function loadTimeGraph(scope) {
 	timeGraph.load(
 		{
+			bindto:"#timeGraph",
 			x : 'date',
-			url: '../scatterplot_recommender_stats/time_graph',
+			url: '../scatterplot_recommender_stats/time_graph/'+scope,
 			groups: [
-				['Unit 3', 'Unit 4']
+				['Unit 1', 'Unit 2', 'Unit 3', 'Unit 4']
 			],
 			type: 'line',
 			done: function() {
@@ -633,6 +631,14 @@ function loadTimeGraph() {
 			}
 		}
 	);
+	loadScope(scope);
+	// Have to load the data separately so we can get a callback to hide the loading
+}
+
+function loadScope(e){
+	if(e=="all"){
+		console.log(e);
+	}
 
 }
 
@@ -725,6 +731,10 @@ $(function() {
 		loadConceptScatterplot();
 		track("clicked","scatterplotScope"+$(this).val());
 	});
+	$("[name=scatterplotScopeSelector]").on("change", function(){
+		loadTimeGraph($(this).val());
+		track("clicked",$(this).attr("name")+$(this).val());
+	})
 	$("[name=scatterplotConceptSelector], [name=scatterplotChapterSelector], [name=scatterplotUnitSelector]").on("change", function() {
 		loadConceptScatterplot();
 		track("clicked",$(this).attr("name")+$(this).val());
@@ -768,6 +778,7 @@ $(function() {
 
 	});
 
+
 	$("[href=#timeGraph]").click(function() {
 		// Hide low concepts list
 		$("#lowConceptBox").popover("hide");
@@ -804,5 +815,5 @@ $(function() {
 
 	// Load the concept scatterplot and time graph
 	loadConceptScatterplot();
-	loadTimeGraph();
+	loadTimeGraph("all");
 });
