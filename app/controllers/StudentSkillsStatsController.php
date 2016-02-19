@@ -44,7 +44,7 @@ class StudentSkillsStatsController extends Controller
 
 	// Returns the last two weeks' worth of historical skill data for the 6 skills for current student used to make a line graph
 	// Historical skill data is fetched from the PostgreSQL database, using the SkillHistory Phalcon model
-	public function time_graphAction($debug = false) {
+	public function time_graphAction($weeks = "all", $debug = false) {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
@@ -55,18 +55,21 @@ class StudentSkillsStatsController extends Controller
 
 		// We want to show points (0 if no data for that day), for the past 2 weeks
 		$historyPoints = [];
-		for ($i=14; $i>=1; $i--) {
+		##Defauts to 100 for beginning of the semester, need to write a function that will actually calculate how many days
+		##there are until the beginning of the semester.
+
+		$email = $context->getUserName();
+		// Fetch skill history items for the current student
+			$historyResults = SkillHistory::find([
+			"email = '$email'",
+			"order" => 'time_stored ASC'
+		]);
+
+		for ($i=count($historyResults); $i>=1; $i--) {
 			$formattedDate = date('M j', strtotime("-$i days"));
 			// Array to hold 6 scores
 			$historyPoints[$formattedDate] = [$formattedDate, 0, 0, 0, 0, 0, 0];
 		}
-			
-		$email = $context->getUserName();
-		// Fetch skill history items for the current student
-		$historyResults = SkillHistory::find([
-			"email = '$email'",
-			"order" => 'time_stored ASC'
-		]);
 		// Go through each, and if it's in our historyPoints array, set the score.
 		// Doing it this way avoids duplicate data points (if historical skill saver ran twice in a day), or empty points, since all are initialized above
 		foreach ($historyResults as $day) {
@@ -83,7 +86,6 @@ class StudentSkillsStatsController extends Controller
 					$day->persistence,
 				];
 			}
-
 			if ($debug) {
 				echo $day->time."\n";
 				echo $day->activity."\n";
@@ -104,6 +106,17 @@ class StudentSkillsStatsController extends Controller
 		if (!$debug) {
 			header("Content-Type: text/csv");
 		}
+		switch($weeks){
+			case "2":
+				$historyPoints = array_slice($historyPoints, 0, 14);
+				break;
+		  case "4":
+				$historyPoints = array_slice($historyPoints, 0, 28);
+				break;
+			default:
+				break;
+		}
+
 		$output = fopen("php://output", "w");
 		// Header row
 		fputcsv($output, ["date", "Time Management", "Online Activity", "Consistency", "Knowledge Awareness", "Deep Learning", "Persistence"]);

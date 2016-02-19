@@ -62,6 +62,13 @@ if ( $context->valid && isset($_SESSION["group"]) &&  $_SESSION["group"] == "res
 				<div id="timeGraphSection" class="advancedTimeGraph col-md-12">
 					<h3 style="float: left;">Your Skills Over Time</h3>
 					<!--<p class="lead"> <br> <br>Check back here in a few days, when more historical skill data is available.</p>-->
+					<div id = "selectorSection" align="right">
+							<select class="timeScopeSelector" name="studentSkillsScopeSelector">
+								<option value="2">Last 2 weeks</option>
+								<option value="4">Last 4 weeks</option>
+								<option value="all" selected>All Semester</option>
+							</select>
+						</div>
 						<div class="pull-right" style="margin-top: 10px;">
 						  <div class="advancedToggleOptional">
 							<input id="advancedToggleTimeGraphClass" class="advancedToggleOptional" data-option="timeGraphClass" type="checkbox" />&nbsp;

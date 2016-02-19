@@ -137,12 +137,13 @@ function loadSkillsGraph(data) {
 	refreshView();
 }
 
-function loadTimeGraph() {
+
+function loadTimeGraph(scope) {
 	timeGraph = c3.generate({
 		bindto: "#timeGraph",
 		data: {
 			x : 'date',
-			url: '../student_skills_stats/time_graph',
+			url: '../student_skills_stats/time_graph/'+scope,
 			type: 'line'
 		},
 		legend: {
@@ -339,8 +340,12 @@ $(function() {
 		track("clicked","viewSetting"+$(this).attr("data-option"));
 		return false;
 	});
-
-
+	//Should be good but test code isn't loading new .js for some reason.
+	$("[name=studentSkillsScopeSelector]").on("change", function(){
+		console.log("function");
+		loadTimeGraph($(this).val());
+		track("clicked",$(this).attr("name")+$(this).val());
+	})
 	$(".advancedToggleOptional").change(function(event) {
 		changeView($(this).attr("data-option"), this.checked);
 		track("clicked","viewSetting"+$(this).attr("data-option"));
@@ -378,7 +383,7 @@ $(function() {
 			refreshView();
 		}
 	});
-	loadTimeGraph();
+	loadTimeGraph("all");
 
 	// Go to the skills graph first
 	changeView("skillsGraph");
