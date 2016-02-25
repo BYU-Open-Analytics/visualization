@@ -603,9 +603,7 @@ var timeGraph = c3.generate({
 		x: {
 			type: 'category',
 			tick: {
-							 culling: {
-									 max: 15 // the number of tick texts will be adjusted to less than this value
-							 }
+							 count: 10
 						 }
 		},
 		y: {

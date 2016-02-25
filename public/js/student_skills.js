@@ -153,9 +153,10 @@ function loadTimeGraph(scope) {
 			x: {
 				type: 'category',
 				tick: {
-								 culling: {
-										 max: 10 // the number of tick texts will be adjusted to less than this value
-								 }
+								count: 10
+								//  culling: {
+								// 		 max: 10 // the number of tick texts will be adjusted to less than this value
+								//  }
 							 }
 			},
 			y: {
