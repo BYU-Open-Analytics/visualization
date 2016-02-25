@@ -66,12 +66,9 @@ class StudentSkillsStatsController extends Controller
 		]);
 
 		for ($i=count($historyResults); $i>=1; $i--) {
-			if($weeks == 'all'){
-				$formattedDate = date('n\/j', strtotime("-$i days"));
-			}
-			else {
+		
 				$formattedDate = date('M j', strtotime("-$i days"));
-			}
+
 			// Array to hold 6 scores
 			$historyPoints[$formattedDate] = [$formattedDate, 0, 0, 0, 0, 0, 0];
 		}

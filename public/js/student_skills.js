@@ -151,7 +151,12 @@ function loadTimeGraph(scope) {
 		},
 		axis: {
 			x: {
-				type: 'category'
+				type: 'category',
+				tick: {
+								 culling: {
+										 max: 10 // the number of tick texts will be adjusted to less than this value
+								 }
+							 }
 			},
 			y: {
 				max: 9.99,
