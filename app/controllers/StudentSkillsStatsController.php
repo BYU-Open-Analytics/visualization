@@ -65,7 +65,7 @@ class StudentSkillsStatsController extends Controller
 			"order" => 'time_stored DESC'
 		]);
 
-		for ($i=count($historyResults); $i>=1; $i--) {
+		for ($i=1; $i<=count($historyResults); $i++) {
 
 				$formattedDate = date('M j', strtotime("-$i days"));
 
@@ -118,7 +118,7 @@ class StudentSkillsStatsController extends Controller
 			default:
 				break;
 		}
-
+		$historyPoints = array_reverse($historyPoints);
 		$output = fopen("php://output", "w");
 		// Header row
 		fputcsv($output, ["date", "Time Management", "Online Activity", "Consistency", "Knowledge Awareness", "Deep Learning", "Persistence"]);
