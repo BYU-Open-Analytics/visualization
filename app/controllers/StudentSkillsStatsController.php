@@ -62,11 +62,11 @@ class StudentSkillsStatsController extends Controller
 		// Fetch skill history items for the current student
 			$historyResults = SkillHistory::find([
 			"email = '$email'",
-			"order" => 'time_stored ASC'
+			"order" => 'time_stored DESC'
 		]);
 
 		for ($i=count($historyResults); $i>=1; $i--) {
-		
+
 				$formattedDate = date('M j', strtotime("-$i days"));
 
 			// Array to hold 6 scores
