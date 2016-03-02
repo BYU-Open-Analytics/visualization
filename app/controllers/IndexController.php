@@ -40,10 +40,10 @@ class IndexController extends Controller
 		}
 
 		// Research group goes to scatterplot recommender ("Test Help")
-		if (($group == $researchGroupId) && $consent == "1") {
+	//	if (($group == $researchGroupId) && $consent == "1") {
 			$_SESSION["group"] = "research";
 			$this->response->redirect("./dashboard/scatterplot_recommender");
-		} else if ($group == $controlGroupId) {
+/*		} else if ($group == $controlGroupId) {
 			// Both control group and non-consenting go to resources page
 			$_SESSION["group"] = "control";
 			$this->response->redirect("./dashboard/resources");
@@ -51,7 +51,7 @@ class IndexController extends Controller
 			// Both control group and non-consenting go to resources page
 			$_SESSION["group"] = "noconsent";
 			$this->response->redirect("./dashboard/resources");
-		}
+	}*/
 
 
 		/* The following is from the Fall 2015 semester. There were multiple treatment groups, and they switched based on certain days.
