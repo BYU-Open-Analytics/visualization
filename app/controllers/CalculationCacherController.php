@@ -42,7 +42,7 @@ class CalculationCacherController extends Controller
 			$history->awareness = $skillsHelper->calculateAwarenessScore($studentId, $raw, $debug);
 			$history->deep_learning = $skillsHelper->calculateDeepLearningScore($studentId, $raw, $debug);
 			$history->persistence = $skillsHelper->calculatePersistenceScore($studentId, $raw, $debug);
-			
+
 			if ($history->create() == false) {
 				echo "*** Error saving history for $studentId\n";
 			} else {
@@ -55,7 +55,9 @@ class CalculationCacherController extends Controller
 		echo "Execution time: " . ($endTime - $startTime) . " seconds\n";
 	}
 
+	public function dailyConceptAverages(){
 
+	}
 	// Stores the unit 3 and 4 mastery scores for every student
 	public function dailyMasteryAction() {
 		$config = $this->getDI()->getShared('config');
@@ -76,7 +78,7 @@ class CalculationCacherController extends Controller
 		$masteryHelper = new MasteryHelper();
 		$studentIds = $classHelper->allStudents();
 		//$studentIds = ["John Logie Baird"];
-		
+
 		// Calculate an overall mastery score for these units, as well as an average for concepts over the past 2 weeks
 		$units = ["1", "2", "3", "4", "recent"];
 		// Go through each student and calculate unit mastery scores
@@ -151,6 +153,15 @@ class CalculationCacherController extends Controller
 		//$studentIds = ["John Logie Baird"];
 
 		foreach ($allConcepts as $concept) {
+			$lecNum = $concept["Lecture Number"];
+			$lastHistory = ClassConceptHistory::findFirst([
+					"concept_id = $lecNum",
+					"order" => "time_stored DESC"
+				]);
+			if (date("Y-m-d") == date("Y-m-d", strtotime($lastHistory->time_stored))) {
+				echo "    History already saved today for $concept\n";
+				continue;
+			}
 			$scoreSum = 0;
 			$scoreCount = 0;
 			// Check if it's a concept in the future
