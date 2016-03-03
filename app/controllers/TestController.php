@@ -16,6 +16,11 @@ class TestController extends Controller
 		}
 		$this->view->disable();
 	}
+
+	public function currentUnitAction(){
+		$mapper = new MappingHelper();
+		$mapper->currentUnit();
+	}
 	public function contextAction(){
 		$context = $this->getDI()->getShared('ltiContext');
 		// Send a statement tracking that they viewed this page
