@@ -14,8 +14,9 @@ if ( $context->valid ) {
 </div>
 
 <?php
-echo Phalcon\Tag::javascriptInclude("js/class.js");
+echo Phalcon\Tag::javascriptInclude("js/class_concepts.js");
 echo Phalcon\Tag::javascriptInclude("js/vendor/c3.min.js");
+
 } else {
 	echo "<p class='alert alert-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";
 }
