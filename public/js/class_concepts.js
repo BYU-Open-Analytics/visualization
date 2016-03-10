@@ -21,7 +21,7 @@ $(function(){
 
       //Mastery Score
       resultListRows.append("td")
-        .html(function(d) { return d.history[d.history.length-1].average});
-        .style("color", function(d) { return masteryColorScale(d.history[d.history.length-1].average);}
+        .html(function(d) { return d.history[0].average})
+        .style("color", function(d) { return masteryColorScale(d.history[d.history.length-1].average);});
   });
 });
