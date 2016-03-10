@@ -3,7 +3,7 @@ $(function(){
   d3.json("../class_stats/concepts", function(error, conceptList) {
     var tbody = d3.select("#resultList tbody");
     var resultListRows = tbody.selectAll("tr");
-    resultListRows = resultListRows.data(conceptList);
+    resultListRows = resultListRows.data(conceptList)
       .enter()
       .append("tr");
 
