@@ -3,7 +3,6 @@ $(function() {
 
 		var studentMax = studentList[0].max;
 		studentList.splice(0,1);
-		studentList.sort();
 		// Create color scale for Mastery Average
 		var masteryColorScale = d3.scale.linear()
 				.domain([0, 3, 6, 10])
