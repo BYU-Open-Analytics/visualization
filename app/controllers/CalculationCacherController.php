@@ -202,4 +202,49 @@ class CalculationCacherController extends Controller
 		$endTime = microtime(true);
 		echo "Execution time: " . ($endTime - $startTime) . " seconds\n";
 	}
+	public function videoHistoryAction() {
+		$config = $this->getDI()->getShared('config');
+		if (!isset($_GET["p"])) {
+			die("No history saver password provided.");
+		}
+		if ($_GET["p"] != $config->historySaverPassword) {
+			die("Invalid history saver password provided. Should be $config->historySaverPassword");
+		}
+
+		// We want to time this
+		$startTime = microtime(true);
+
+		$raw = false;
+		$debug = false;
+		$classHelper = new ClassHelper();
+		$masteryHelper = new MasteryHelper();
+		$studentIds = $classHelper->allStudents();
+		$recent_concepts = MappingHelper::conceptsWithin2Weeks();
+
+		foreach ($studentIds as $student) {
+
+			$lastHistory = VideoHistory::findFirst([
+					"student = '$student'",
+					"order" => "time_stored DESC"
+				]);
+			if (date("Y-m-d") == date("Y-m-d", strtotime($lastHistory->time_stored))) {
+				echo "    History already saved today for student: $student\n";
+				continue;
+			}
+			$videoPercentage = $masteryHelper->calculateUniqueVideoPercentageForConcepts($student,$recent_concepts);
+			$videoHistory = new VideoHistory();
+			$videoHistory->student = $student;
+			$videoHistory->vidpercentage = $videoPercentage;
+
+			if ($videoHistory->create() == false) {
+				echo "*** Error saving concept history for $concept\n";
+			} else {
+			}
+
+		}
+
+		// Print total time taken
+		$endTime = microtime(true);
+		echo "Execution time: " . ($endTime - $startTime) . " seconds\n";
+	}
 }
