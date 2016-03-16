@@ -80,7 +80,11 @@ class StudentInspectorStatsController extends Controller
 			else
 				$medianConfidence = "Low";
 			$count = $visStatements["cursor"]->count();
-			$vidPercent = MasteryHelper::calculateUniqueVideoPercentageForConcepts($students[$i],$recent_concepts);
+			$lastHistory = VideoHistory::findFirst([
+					"email = '$studentId'",
+					"order" => "time_stored DESC"
+				]);
+			$vidPercent = $lastHistory->vidpercentage;
 			if($count > $maxCount && $students[$i] != 'John Logie Baird'){
 				$maxCount = $count;
 			}
