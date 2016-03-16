@@ -20,6 +20,7 @@ class StudentInspectorStatsController extends Controller
 			echo '[{"error":"Invalid lti context"}]';
 			return;
 		}
+		$timeArray[] = 280;
 		$classHelper = new ClassHelper();
 		$masteryHelper = new MasteryHelper();
 		$statementHelper = new StatementHelper();
@@ -98,8 +99,15 @@ class StudentInspectorStatsController extends Controller
 			}
 			$studentInfo []=$newStudent;
 			$endTime = microtime(true);
+			$timeArray[i] = $endTime - $startTime;
 			echo "Execution time: " . ($endTime - $startTime) ." seconds\n";
 		}
+		$avg = 0;
+		foreach($timeArray as $time){
+			$avg += $time;
+		}
+		$avg = $avg/280;
+		echo "Average Time: ".$avg." seconds\n"; 
 		//Sorts the students by their recent mastery average, from highest to lowest.
 #		usort($studentInfo, function($student1,$student2){
 #			return $student1["average"] <= $student2["average"];
