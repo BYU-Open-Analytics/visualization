@@ -10,9 +10,13 @@ class StudentInspectorStatsController extends Controller
 		$this->tag->setTitle('Student Inspector Stats');
 	}
 
+	public function studentCountAction(){
+		$classHelper = new ClassHelper();
+		echo json_encode(count( $classHelper->allStudents()));
+	}
 	// For examples of getting data from mongo and postgres and different calculations, see ScatterplotRecommenderStatsController.php and StudentSkillsStatsController.php in this folder
 
-	public function studentsAction() {
+	public function studentsAction($start,$finish) {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
@@ -30,7 +34,7 @@ class StudentInspectorStatsController extends Controller
 		$studentInfo = [];
 		$maxCount = 0;
 		//count($students)
-		for ($i=0; $i < count($students); $i++) {
+		for ($i=$start; $i < $finish; $i++) {
 			$startTime = microtime(true);
 			$studentAverages = StudentMasteryHistory::findFirst([
 				"conditions" => "email = ?1",
@@ -99,19 +103,19 @@ class StudentInspectorStatsController extends Controller
 			}
 			$studentInfo []=$newStudent;
 			$endTime = microtime(true);
-			$timeArray[i] = $endTime - $startTime;
-			echo "Execution time: " . ($endTime - $startTime) ." seconds\n";
+			$timeArray[$i] = $endTime - $startTime;
+			//echo "Execution time: " . ($endTime - $startTime) ." seconds\n";
 		}
 		$avg = 0;
 		foreach($timeArray as $time){
 			$avg += $time;
 		}
 		$avg = $avg/280;
-		echo "Average Time: ".$avg." seconds\n"; 
+	//	echo "Average Time: ".$avg." seconds\n";
 		//Sorts the students by their recent mastery average, from highest to lowest.
-#		usort($studentInfo, function($student1,$student2){
-#			return $student1["average"] <= $student2["average"];
-#		});
+		usort($studentInfo, function($student1,$student2){
+			return $student1["average"] <= $student2["average"];
+		});
 		$firstRow = ["max" => $maxCount];
 		array_unshift($studentInfo, $firstRow);
 		echo json_encode($studentInfo);

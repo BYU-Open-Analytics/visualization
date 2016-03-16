@@ -1,5 +1,30 @@
 $(function() {
-	d3.json("../student_inspector_stats/students", function(error, studentList) {
+
+	//TODO fix dummy variable, student_inspector_stats/studentCount will return proper number but you need to figure
+	//out how to parse it.
+	var studentRange = 280;
+	alert(studentRange);
+	var showBy = 25;
+	var pages = Math.floor(studentRange/showBy);
+	var buttons = "";
+	for (var i = 1; i <= pages; i++){
+		buttons += '<input type="button" id= "page_'+i+'"class= "myPages" value ='+i+'></input>';
+	}
+	$("#pageButtons").html(buttons);
+	var loadThesePages = function(i){
+		loadStudentsOnPage(i,showBy);
+		alert(i);
+	}
+	$('.myPages').click(function(){
+		loadThesePages(this.id.replace('page_',''));
+	});
+	loadStudentsOnPage(1,showBy);
+
+});
+
+function loadStudentsOnPage(i,showBy){
+	alert(i + " " + showBy);
+	d3.json("../student_inspector_stats/students/"+(i-1)*showBy+"/"+i*showBy, function(error, studentList) {
 
 		var studentMax = studentList[0].max;
 		studentList.splice(0,1);
@@ -52,8 +77,8 @@ $(function() {
 			.attr("value",function(d){return d.count})
 			.attr("max",studentMax)
 			.attr("aria-valuenow",function(d) { return ((d.count/studentMax)*100);});
-		/*
-		if(function(d){return d.count/studentMax} == 100){
+
+	/*	if(function(d){return d.count/studentMax} == 100){
 			studentListRows.attr("class",progress-bar progress-bar-success);
 		}*/
 		//Attempted Questions
@@ -89,13 +114,11 @@ $(function() {
 		}, 1);
 
 	});
+}
+
 
 /*$(document).ready(function()
     {
         $("#studentList").tablesorter();
     }
 ); */
-
-
-
-});
