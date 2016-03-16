@@ -159,7 +159,7 @@ class CalculationCacherController extends Controller
 					"order" => "time_stored DESC"
 				]);
 			if (date("Y-m-d") == date("Y-m-d", strtotime($lastHistory->time_stored))) {
-				echo "    History already saved today for $concept\n";
+				echo "    History already saved today for concept #$lecNum\n";
 				continue;
 			}
 			$scoreSum = 0;

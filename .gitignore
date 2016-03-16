@@ -3,7 +3,7 @@
 /config/development/
 # Contains student personal information
 /app/config/student_groups.csv
-
+/app/config/students.csv
 # Created by https://www.gitignore.io/api/osx
 
 ### OSX ###
