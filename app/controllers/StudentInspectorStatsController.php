@@ -30,6 +30,7 @@ class StudentInspectorStatsController extends Controller
 		$maxCount = 0;
 		//count($students)
 		for ($i=0; $i < count($students); $i++) {
+			$startTime = microtime(true);
 			$studentAverages = StudentMasteryHistory::findFirst([
 				"conditions" => "email = ?1",
 				"bind" => array(1 => $students[$i]),
@@ -81,7 +82,7 @@ class StudentInspectorStatsController extends Controller
 				$medianConfidence = "Low";
 			$count = $visStatements["cursor"]->count();
 			$lastHistory = VideoHistory::findFirst([
-					"email = '$studentId'",
+					"student = '$students[$i]'",
 					"order" => "time_stored DESC"
 				]);
 			$vidPercent = $lastHistory->vidpercentage;
@@ -96,11 +97,13 @@ class StudentInspectorStatsController extends Controller
 				$newStudent = ["name" => $studentAverages->email, "average" => $studentAverages->recent_average,"count" => $count,"vPercentage" => $vidPercent, "correct" => $correct, "attempts" => $attempts, "hintsShowed" => $hintsShowed, "answersShowed" => $answersShowed, "confidence" => $medianConfidence];
 			}
 			$studentInfo []=$newStudent;
+			$endTime = microtime(true);
+			echo "Execution time: " . ($endTime - $startTime) ." seconds\n";
 		}
 		//Sorts the students by their recent mastery average, from highest to lowest.
-		usort($studentInfo, function($student1,$student2){
-			return $student1["average"] <= $student2["average"];
-		});
+#		usort($studentInfo, function($student1,$student2){
+#			return $student1["average"] <= $student2["average"];
+#		});
 		$firstRow = ["max" => $maxCount];
 		array_unshift($studentInfo, $firstRow);
 		echo json_encode($studentInfo);
