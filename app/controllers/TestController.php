@@ -103,7 +103,14 @@ class TestController extends Controller
 		$sh = new SkillsHelper();
 		echo $sh->calculateTimeScore($context->getUserName(), true, true);
 	}
-
+	public function avgVideoPercentAction(){
+		$sum = 0;
+		foreach ($studentIds as $student) {
+			$sum += $masteryHelper->calculateUniqueVideoPercentageForConcept($concept);
+		}
+		$avg = $sum / count($studentIds);
+		return $avg;
+	}
 	public function mappingsAction() {
 		echo "<pre>";
 		echo "All units\n";

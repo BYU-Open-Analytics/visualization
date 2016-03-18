@@ -129,6 +129,15 @@ class MappingHelper extends Module {
 		return $conceptVideos;
 	}
 
+	static public function videosInConceptLength($concept){
+		$videos = MappingHelper::videosForConcept($concept);
+		$length = 0;
+		foreach($videos as $vid){
+			$length += $vid["Video Length"];
+		}
+		return $length;
+	}
+
 	// Returns a 2D array of videos for the given array of concepts (pass either an array of concept rows, or lecture numbers/concept ids)
 	static public function videosForConcepts($concepts) {
 		$videos = array();

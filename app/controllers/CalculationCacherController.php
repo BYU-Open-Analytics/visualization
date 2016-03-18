@@ -153,6 +153,15 @@ class CalculationCacherController extends Controller
 		//$studentIds = ["John Logie Baird"];
 
 		foreach ($allConcepts as $concept) {
+
+			$classHelper = new ClassHelper();
+			$masteryHelper = new MasteryHelper();
+			$studentIds = $classHelper->allStudents();
+			$sum = 0;
+			foreach ($studentIds as $student) {
+				$sum += $masteryHelper->calculateUniqueVideoPercentageForConcept($concept);
+			}
+			$avg = $sum / count($studentIds);
 			$lecNum = $concept["Lecture Number"];
 			$lastHistory = ClassConceptHistory::findFirst([
 					"concept_id = $lecNum",
@@ -190,6 +199,7 @@ class CalculationCacherController extends Controller
 			$conceptHistory = new ClassConceptHistory();
 			$conceptHistory->concept_id = $concept["Lecture Number"];
 			$conceptHistory->average_mastery = $average;
+			$conceptHistory->videopercentage = $avg;
 
 			if ($conceptHistory->create() == false) {
 				echo "*** Error saving concept history for $concept\n";
