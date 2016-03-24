@@ -35,8 +35,12 @@ class ClassStatsController extends Controller
 
 		echo json_encode($studentInfo);
 	}
+
+	public function questionsAction($concept = 1){
+
+	}
 	// For examples of getting data from mongo and postgres and different calculations, see ScatterplotRecommenderStatsController.php and StudentSkillsStatsController.php in this folder
-	public function conceptsAction() {
+	public function conceptsAction($unit = '1') {
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
@@ -44,7 +48,8 @@ class ClassStatsController extends Controller
 			echo '[{"error":"Invalid lti context"}]';
 			return;
 		}
-		$concepts = MappingHelper:: allconcepts();
+		$concepts = MappingHelper::conceptsInUnit($unit);
+		$maxPercentage = 0;
 		$conceptArray = [];
 		foreach($concepts as $concept){
 			$conceptID = $concept['Lecture Number'];
@@ -54,10 +59,16 @@ class ClassStatsController extends Controller
 			]);
 			$newConcept = ["id" => $conceptID, "title" => $concept["Concept Title"], "history" => []];
 			foreach($historicalConceptMasteryScores as $score){
-				$newConcept["history"] [] = ["date" => $score->time_stored, "average" => $score->average_mastery];
+				$newConcept["history"] [] = ["date" => $score->time_stored, "average" => $score->average_mastery, "percent" => $score->videopercentage];
+			}
+			$newConcept["history"] = $newConcept["history"][0];
+			if($newConcept["history"]["percent"] > $maxPercentage){
+				$maxPercentage = $newConcept["history"]["percent"];
 			}
 			$conceptsArray []= $newConcept;
 		}
+		$firstRow = ["max"=> $maxPercentage];
+		array_unshift($conceptsArray,$firstRow);
 		echo json_encode($conceptsArray);
 	}
 }

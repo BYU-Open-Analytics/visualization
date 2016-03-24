@@ -2,7 +2,7 @@
 <?php
 if ( $context->valid ) {
 ?>
-<div id="visualizationContainer">
+<!-- <div id="visualizationContainer">
 	<table id="resultList" class="table">
 	<thead>
 		<tr><td>Lecture Number</td><td>Concept</td><td>Mastery Score</td></tr>
@@ -11,11 +11,106 @@ if ( $context->valid ) {
 	</tbody>
 	</table>
 
+</div> -->
+
+<div id="scatterplotSection" class="col-sm-7">
+		<span class="spinner" style=""><br /><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
+		<h3 class="capsLabel" style="display: inline; padding-left: 0px;">See concepts from: </h3>
+
+		<form class="filterBarContainerForm">
+			<div class="btn-group filterBar" data-toggle="buttons">
+				<label class="btn btn-default active scopeOptionLabel">
+					<input type="radio" name="scatterplotScopeOption" value="unit" checked />Unit:
+					<select class="unitSelector" name="scatterplotUnitSelector">
+					<!--	<option value="1">Unit 1</option-->
+						<?php
+							$mapper = new MappingHelper();
+							$currentUnit = $mapper->currentUnit();
+							$units = $mapper->allUnits();
+							foreach ($units as $unit) {
+								if($currentUnit == $unit['Unit Number']){
+									echo '<option value="'.$unit['Unit Number'].'" selected>'.$unit['Unit Title'].'</option>';
+								}
+								else {
+									echo '<option value = "'.$unit['Unit Number'].'">'.$unit['Unit Title'].'</option>';
+								}
+							} ?>
+					</select>
+				</label>
+				<!-- <label class="btn btn-default scopeOptionLabel">
+					<input type="radio" name="scatterplotScopeOption" value="concept" />Concept:
+					<select class="conceptSelector" name="scatterplotConceptSelector">
+						<?php// foreach ($concepts as $concept) { echo '<option value="'.$concept['id'].'">'.$concept['title'].'</option>'; } ?>
+					</select>
+				</label> -->
+			</div>
+		</form>
+</div>
+<!-- Recommendations container -->
+<div id="recommendSectionHolder" class="col-sm-5">
+	<p class="lead">Click on a concept dot to see recommendations on how to improve your mastery score. </p>
+	<!-- Recommendation groups -->
+	<div id="recommendSection">
+		<h3 style="margin-top: 8px;" class="capsLabel">Recommendations for <span id="recommendHeaderScopeLabel">...</span></h3>
+		<span class="spinner" style=""><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
+		<div class="panel-group" id="recommendAccordion" role="tablist">
+			<!-- Video, question, and resource groups dynamically inserted, based on #recommendGroupTemplate template below -->
+		</div>
+	</div>
 </div>
 
+<div id = "templates" class = "hidden">
+	<!-- Group Template -->
+	<div id="recommendGroupTemplate" class="panel panel-default recommendGroup">
+		<div class="panel-heading" role="tab" data-toggle="collapse" data-parent="#recommendAccordion" href="#recommend{id}" data-track="{id}Group" data-placement="top" data-html="true" title="{tooltip}">
+			<h4 class="panel-title">
+				<a role="button" data-toggle="collapse" data-parent="#recommendAccordion" href="#recommend{id}">{title} <span id="recommend{id}CountBadge" class="countBadge"></span></a>
+			</h4>
+		</div>
+		<div id="recommend{id}" class="panel-collapse collapse">
+			<div class="panel-body recommendPanelBody">
+				{table}
+			</div>
+		</div>
+	</div>
+
+	<table id="recommendTemplates">
+	<!-- Template for recommendation table header -->
+	<thead class="recommendHeaderTemplate">
+	  <tr>
+		<th>Quiz Question</th>
+		<th style="text-align: center;">Correct</th>
+		<th style="text-align: center;">Attempts</th>
+		<th><!--Launch Quiz and related videos--></th>
+	  </tr>
+	</thead>
+	<!-- Template for recommendation item -->
+	<tr class="recommendQuestionDisplay">
+		<td><span class="recommendQuestionTextContainer">{display}</span></td>
+		<td style="text-align: center;"><span class="correct-{correct}Holder"><span class="glyphicon glyphicon-ok correctIcon"></span><span class="glyphicon glyphicon-remove incorrectIcon"></span></span></td>
+		<td style="text-align: center;"><span class="" style="font-weight: bold;">{attempts}</span></td>
+		<td>
+			<a role="button" class="btn btn-info btn-xs" title="Launch Quiz" data-toggle="modal" data-target="#questionLaunchModal" data-assessment="{OA Quiz ID}" data-question="{Question Number}" href="#"><span class="glyphicon glyphicon-log-in"></span></a>
+			<!-- Direct launch; no practice confirmation dialog -->
+			<!--<a role="button" href="http://openanalytics-dashboard.com/consumer.php?app=openassessments&assessment_id={OA Quiz ID}&question_id={Question Number}" data-track="launchQuiz{OA Quiz ID}.{Question Number}" class="btn btn-info btn-xs" title="Launch Quiz" target="_blank"> <span class="glyphicon glyphicon-log-in"></span></a>-->
+		</td>
+	</tr>
+	</table>
+
+	<ul class="list-group lowConceptsList">
+	</ul>
+</div>
 <?php
+
 echo Phalcon\Tag::javascriptInclude("js/class_concepts.js");
+echo Phalcon\Tag::javascriptInclude("js/vendor/jquery-ui-1.9.2.accordion.min.js");
+echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.knob.min.js");
+echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.stickytableheaders.min.js");
+echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.shorten.js");
 echo Phalcon\Tag::javascriptInclude("js/vendor/c3.min.js");
+echo Phalcon\Tag::stylesheetLink("css/c3.min.css");
+echo Phalcon\Tag::stylesheetLink("css/scatterplot_recommender.css");
+
 
 } else {
 	echo "<p class='alert alert-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";
