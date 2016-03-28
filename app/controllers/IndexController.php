@@ -41,8 +41,14 @@ class IndexController extends Controller
 
 		// Research group goes to scatterplot recommender ("Test Help")
 	//	if (($group == $researchGroupId) && $consent == "1") {
-			$_SESSION["group"] = "research";
-			$this->response->redirect("./dashboard/scatterplot_recommender");
+			if($context->isInstructor()){
+				$_SESSION["group"]="instructor";
+				$this->response->redirect("./instructor/class");
+			}
+			else{
+				$_SESSION["group"] = "research";
+				$this->response->redirect("./dashboard/scatterplot_recommender");
+			}
 /*		} else if ($group == $controlGroupId) {
 			// Both control group and non-consenting go to resources page
 			$_SESSION["group"] = "control";

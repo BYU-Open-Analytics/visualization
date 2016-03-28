@@ -17,8 +17,10 @@ class InstructorController extends Controller
 
 	public function indexAction() {
 		$context = $this->getDI()->getShared('ltiContext');
-		echo "Go to either /instructor/student_inspector or /instructor/class";
-		$this->view->disable();
+		$this->view->ltiContext = $context;
+	//	echo "Go to either /instructor/student_inspector or /instructor/class";
+		//$this->view->disable();
+		$this->response->redirect("./instructor/class");
 	}
 
 	public function student_inspectorAction() {
