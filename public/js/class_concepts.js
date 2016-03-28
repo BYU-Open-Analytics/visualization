@@ -35,9 +35,6 @@ function loadConceptScatterplot(){
 
   // Get what scope we're filtering by (unit, chapter, or concept)
   scopeGroupingId = $("[name=scatterplotUnitSelector]").val();
-  if(scopeGroupingId == '4'){
-    scopeGroupingId = '1';
-  }
   	d3.json("../class_stats/concepts/"+scopeGroupingId, function(error, data) {
   		var percentMax = data[0].max;
   		data.splice(0,1);

@@ -159,9 +159,10 @@ class CalculationCacherController extends Controller
 			$studentIds = $classHelper->allStudents();
 			$sum = 0;
 			foreach ($studentIds as $student) {
-				$sum += $masteryHelper->calculateUniqueVideoPercentageForConcept($concept);
+				$sum += $masteryHelper->calculateUniqueVideoPercentageForConcept($student,$concept);
 			}
 			$avg = $sum / count($studentIds);
+			echo $avg;
 			$lecNum = $concept["Lecture Number"];
 			$lastHistory = ClassConceptHistory::findFirst([
 					"concept_id = $lecNum",
