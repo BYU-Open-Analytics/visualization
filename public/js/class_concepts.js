@@ -226,7 +226,8 @@ function loadConceptScatterplot(){
   			.attr("class", "conceptPoint")
   			.attr("r", "6px")
   			.attr("title", function(d) {
-  				return "<b>" + d.title + "</b><br>Video percentage: " + d.history.percent.toPrecision(3) + "%<br>Mastery score: " + Number(d.history.average).toPrecision(3) ;
+			
+  				return "<b>" + d.title + "</b><br>Video percentage: " + Number(d.history.percent).toPrecision(3) + "%<br>Mastery score: " + Number(d.history.average).toPrecision(3) ;
   			})
   			.attr("cx", function(d) {
   				return xScale(d.history.percent);
@@ -469,7 +470,6 @@ function loadQuestionRecommendations(scopeOption, scopeGroupingId) {
 			lessText: 'See less',
 			showChars: 100
 		});
-		setupBootstrapTooltips();
 		// Scroll to the top of the section so recommendations are visible (Again, since page layout changed)
 		setTimeout(function() { $("html, body").animate({ scrollTop: $("#recommendSectionHolder").offset().top - 55 }, "fast"); }, 200);
 	});

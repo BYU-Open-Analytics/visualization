@@ -16,7 +16,7 @@ $(function() {
 	//	alert(i);
 	}
 //	$('.myPages').click(function(){
-		loadThesePages(this.id.replace('page_',''));
+	//	loadThesePages(this.id.replace('page_',''));
 //	});
 	loadStudentsOnPage(1,showBy);
 
