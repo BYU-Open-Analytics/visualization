@@ -3,27 +3,27 @@ $(function() {
 	//TODO fix dummy variable, student_inspector_stats/studentCount will return proper number but you need to figure
 	//out how to parse it.
 	var studentRange = 280;
-	alert(studentRange);
-	var showBy = 25;
+//	alert(studentRange);
+	var showBy = 280;
 	var pages = Math.floor(studentRange/showBy);
 	var buttons = "";
 	for (var i = 1; i <= pages; i++){
 		buttons += '<input type="button" id= "page_'+i+'"class= "myPages" value ='+i+'></input>';
 	}
-	$("#pageButtons").html(buttons);
+//	$("#pageButtons").html(buttons);
 	var loadThesePages = function(i){
 		loadStudentsOnPage(i,showBy);
-		alert(i);
+	//	alert(i);
 	}
-	$('.myPages').click(function(){
+//	$('.myPages').click(function(){
 		loadThesePages(this.id.replace('page_',''));
-	});
+//	});
 	loadStudentsOnPage(1,showBy);
 
 });
 
 function loadStudentsOnPage(i,showBy){
-	alert(i + " " + showBy);
+//	alert(i + " " + showBy);
 	d3.json("../student_inspector_stats/students/"+(i-1)*showBy+"/"+i*showBy, function(error, studentList) {
 
 		var studentMax = studentList[0].max;
