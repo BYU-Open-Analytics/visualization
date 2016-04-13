@@ -283,7 +283,7 @@ class BLTI {
         if ( $this->context_id ) return $this->context_id;
         $oauth = $this->info['oauth_consumer_key'];
         $id = $this->info['context_id'];
-        if ( strlen($id) > 0 and strlen($oauth) > 0 ) return $oauth . ':' . $id;
+        if ( strlen($id) > 0 and strlen($oauth) > 0 ) return $id;
         return false;
     }
 

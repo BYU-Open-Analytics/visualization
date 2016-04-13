@@ -13,8 +13,8 @@ $context = new BLTI($config["lti"]["launch"], true, false);
       "resource_link_id" => "429785226",
       "resource_link_title" => "Resource title",
       "resource_link_description" => "Resource description",
-      "user_id" => "29123",
-      "roles" => "Instructor",  // Learner or Instructor 
+      "user_id" => "29123",       
+      "roles" => "Learner",  // Learner or Instructor 
       "lis_person_name_full" => "John Logie Baird",
       "lis_person_contact_email_primary" => "john@example.com",
       "lis_person_sourcedid" => "sis:942a8dd9",
@@ -24,7 +24,16 @@ $context = new BLTI($config["lti"]["launch"], true, false);
       "tool_consumer_instance_guid" => "demo.byuopenanalytics",
       "tool_consumer_instance_description" => "Description",
       );
+    if(isset($_GET["instructor"])){ 
+	echo "<script>alert( 'Debug Objects: " .strcmp($_GET["instructor"],"xCkLLY3h5") . "' );</script>";
 
+	if(strcmp($_GET["instructor"],"xCkLLY3h5")==0){
+	 	   $lmsdata["roles"] = "Instructor";
+	}	
+	echo "<script>alert( 'Debug Objects: " .$lmsdata["roles"] . "' );</script>";
+
+	
+      } 
    function curHost() {
       $pageURL = (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != "on")
              ? 'http'

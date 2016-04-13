@@ -39,7 +39,7 @@ class StudentInspectorStatsController extends Controller
 			$studentAverages = StudentMasteryHistory::findFirst([
 				"conditions" => "email = ?1",
 				"bind" => array(1 => $students[$i]),
-				"order" => 'recent_average DESC'
+				"order" => 'time_stored DESC'
 			]);
 			// For second parameter of what to query, see http://php.net/manual/en/mongocollection.find.php
 			$visStatements = $statementHelper->getStatements("visualization",[
