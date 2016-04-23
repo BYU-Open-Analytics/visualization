@@ -47,7 +47,7 @@ class IndexController extends Controller
 			}
 			else{
 				$_SESSION["group"] = "research";
-				$this->response->redirect("./dashboard/scatterplot_recommender");
+				$this->response->redirect("./dashboard/content_recommender");
 			}
 /*		} else if ($group == $controlGroupId) {
 			// Both control group and non-consenting go to resources page
