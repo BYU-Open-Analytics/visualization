@@ -128,7 +128,7 @@ td {
 
 #recommendSection {
 	width: 100%;
-    border: solid #ccc 1px;
+    /*border: solid #ccc 1px;*/
     padding: 10px;
     border-top: none;
     margin-top: -5px;
@@ -239,8 +239,8 @@ td {
 	width: 95%;
 	position: relative;
 	min-height: 70px;
-	border: solid #ccc 1px;
-	border-radius: 3px;
+	/*border: solid #ccc 1px;
+	border-radius: 3px;*/
 	padding: 10px;
 	text-indent: -25px;
 	padding-left: 35px;
@@ -254,7 +254,7 @@ td {
 }
 .filterListConcept:hover, .filterListUnit:hover {
 	text-decoration: none;
-	background: #eee;
+	/*background: #eee;*/
 }
 .filterListConcept.active, .filterListUnit.active {
 	background: #337ab7;
@@ -308,7 +308,7 @@ td {
 .tooltip-inner {
     max-width: 350px;
 	font-size: 120%;
-    /* If max-width does not work, try using width instead 
+    /* If max-width does not work, try using width instead
     width: 350px; */
 }
 

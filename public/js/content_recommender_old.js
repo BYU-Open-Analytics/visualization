@@ -13,8 +13,8 @@ $("#questionLaunchContinueButton").click(function(e) {
 });
 
 // Related videos modal
-function loadVideos(concept){
-	var data = getRelatedVideos(concept);
+$("#relatedVideosModal").on("show.bs.modal", function(e) {
+	var data = getRelatedVideos($(e.relatedTarget).attr("data-concept"));
 	$("#relatedVideosModalTable tbody").empty();
 	var tbody = d3.select("#relatedVideosModalTable tbody");
 	var tr = tbody.selectAll("tr")
@@ -29,10 +29,11 @@ function loadVideos(concept){
 		.attr("class","videoTitleCell");
 
 	// Track that the modal was shown
-	track("clicked", "concept" + concept + "RelatedVideos");
+	track("clicked", "concept" + $(e.relatedTarget).attr('data-concept') + "RelatedVideos");
 
 	refreshView();
-};
+});
+
 
 // Returns videos for a given concept from the mappings
 function getRelatedVideos(conceptId) {
@@ -47,10 +48,10 @@ function getRelatedVideos(conceptId) {
 }
 function getRelatedResources(conceptId) {
 	var relatedResources = [];
-	for (var i=0; i<resourceMappings.length; i++) {
+	for (var i=0; i<mappings.length; i++) {
 		// See if this question's quiz is associated with this video
-		if (resourceMappings[i]["Lecture Number"] == conceptId) {
-			relatedResources.push(resourceMappings[i]);
+		if (mappings[i]["Lecture Number"] == conceptId) {
+			relatedResources.push(mappings[i]);
 		}
 	}
 	return relatedResources;
@@ -171,31 +172,10 @@ function questionElement(d) {
 	});
 	return element;
 }
-function loadAdditionalResources(concept){
-	var webResources = getRelatedResources(concept);
 
-	$("#relatedResourcesTable tbody").empty();
-	var tbody = d3.select("#relatedResourcesTable tbody");
-	var tr = tbody.selectAll("tr")
-		.data(webResources)
-		.enter()
-		.append("tr")
-		.attr("id", function(d) { return "webResourcesRow"+d["Concept Title"]; });
-
-	tr.append("td")
-		// TODO absolute URL ref fix
-		.html(function(d) { return '<a href="' + d["Resource Link"] + '" target="_blank">' + d["Concept Title"] + '</a>'; })
-		.attr("class","resourceLinkCell");
-
-	// Track that the modal was shown
-	track("clicked", "concept" + concept + "Related Web Links");
-
-	refreshView();
-}
 // Loads recommendations
 function loadRecommendations(scopeOption, scopeGroupingId) {
-	loadAdditionalResources(scopeGroupingId);
-	loadVideos(scopeGroupingId);
+	alert('load recommendations')
 	$("#recommendSection .spinner").show();
 	$("#recommendContainer").hide();
 	// Get scope with capital first letter for displaying
@@ -212,6 +192,31 @@ function loadRecommendations(scopeOption, scopeGroupingId) {
 		}
 		// Flag to see if we've found the first question group with questions
 		var nonemptyGroupFound = false
+		// For each question group, go through and load the tables and do some formatting
+		for (var i=1; i<5; i++) {
+			$("#recommend"+i+"List").empty();
+			d3.select("#recommend"+i+"List")
+				.selectAll("tr")
+				.data(data["group"+i])
+				.enter()
+				.append("tr")
+				.attr("class", "advancedSimple")
+				.html(function(d) { console.log(d); return questionElement(d); });
+			$("#recommend"+i+"List").prepend($("#templates .recommendHeaderTemplate").clone());
+			$("[aria-controls=recommend"+i+"] .countBadge").text(data["group"+i].length);
+			// Hide this tab if there aren't any questions
+			if (data["group"+i].length == 0) {
+				$("#recommend"+i+"Tab").hide();
+			} else {
+				$("#recommend"+i+"Tab").show();
+				// Otherwise select this group, if we haven't selected a previous nonempty group
+				if (!nonemptyGroupFound) {
+					console.log("SHOWING", i);
+					$("[href=#recommend"+i+"]").tab("show");
+					nonemptyGroupFound = true;
+				}
+			}
+		}
 		// Set up sticky table headers
 		setupStickyHeaders();
 		// Set up the show more/show less for the question texts
@@ -655,6 +660,72 @@ function refreshView() {
 }
 
 // Toggles on right of page to change what we're showing
+function changeView(optionName, optionValue, refreshOnly) {
+	currentView = [optionName, optionValue];
+
+	var h = "advancedHide";
+	var s = "advancedShow";
+	// Hide all advanced things first
+	$(".advancedSimple, .advancedMore, .advancedMoreClass, .advancedScatterplot, .advancedScatterplotClass, .advancedMasteryGraph, .advancedAll").removeClass(s).addClass(h);
+	switch (optionName) {
+		case "simple":
+			//console.log("Changing to simple view");
+			$(".advancedSimple").removeClass(h).addClass(s);
+			break;
+		case "more":
+			//console.log("Changing to more view");
+			if (optionValue == true) {
+				$(".advancedSimple, .advancedMore").removeClass(h).addClass(s);
+			} else {
+				$(".advancedSimple").removeClass(h).addClass(s);
+			}
+			// The More Class checkbox is dependent on this checkbox
+			$("#advancedToggleMoreClass").prop("disabled", !optionValue).prop("checked", false);
+			break;
+		case "scatterplot":
+			//console.log("Changing to scatterplot view");
+			$(".advancedScatterplot").removeClass(h).addClass(s);
+			// Have to manually do things in the svg chart
+			$("#scatterplotSection .classPoint").hide();
+			break;
+		case "masteryGraph":
+			//console.log("Changing to mastery graph view");
+			$(".advancedMasteryGraph").removeClass(h).addClass(s);
+			if (!refreshOnly) {
+				loadMasteryGraph();
+			}
+			animateMasteryGraph();
+			break;
+		case "all":
+			//console.log("Changing to all view");
+			$(".advancedAll").removeClass(h).addClass(s);
+			if (!refreshOnly) {
+				loadAllRecommendations();
+			}
+			break;
+		case "moreClass":
+			if (optionValue == true) {
+				//console.log("Changing to more + class compare view");
+				$(".advancedSimple, .advancedMore, .advancedMoreClass").removeClass(h).addClass(s);
+			} else {
+				//console.log("Changing to more view");
+				$(".advancedSimple, .advancedMore").removeClass(h).addClass(s);
+			}
+			break;
+		case "scatterplotClass":
+			if (optionValue == true) {
+				//console.log("Changing to scatterplot + class compare view");
+				$(".advancedScatterplot, .advancedScatterplotClass").removeClass(h).addClass(s);
+				$("#scatterplotSection .classPoint").fadeIn();
+			} else {
+				//console.log("Changing to scatterplot view");
+				$(".advancedScatterplot").removeClass(h).addClass(s);
+				$("#scatterplotSection .classPoint").fadeOut();
+			}
+			break;
+	}
+}
+
 // Called for basically every click interaction. Sends an xAPI statement with the given verb and object
 // verbName is often "clicked". objectName should be string with no spaces, e.g. "viewSettingMasteryGraph"
 function track(verbName, objectName) {
@@ -772,26 +843,12 @@ $(function() {
 
 	// First, we have to load data mappings for quiz questions/videos/concepts/dates (do we really?)
 	d3.csv("../csv/videos.csv", function(error, data) {
-		console.log('videos')
-		console.log(data)
 		mappings = data;
 		// Then we can load other things
 		//loadRecommendations();
 		loadConceptScores();
 		// Don't load or show scatterplot for now
 		//loadScatterplot();
-	});
-	//load resources
-	d3.csv("../csv/webresources.csv", function(error, data) {
-		// console.log('webresources');
-		// console.log(error);
-		// data.forEach(function(d) {
-    //     console.log(d["Resource Link"]);
-    // });
-		resourceMappings = data;
-		// Then we can load other things
-		//loadRecommendations();
-		loadConceptScores();
 	});
 	// Go to simple view first
 	changeView("simple");

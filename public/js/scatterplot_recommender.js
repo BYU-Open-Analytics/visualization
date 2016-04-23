@@ -31,7 +31,7 @@ function setupQuestionGroups() {
 			"id":"Videos",
 			"title":"Videos",
 			"tooltip":"",
-			"table":'<table class="table table-hover sticky-header" id="recommendVideosTable"> <thead><tr><th>&nbsp;</th><th>Video Name</th><th class="advancedMore">% Watched</th></tr></thead> <tbody></tbody> </table>'
+			"table":'<table class="table table-hover sticky-header" id="recommendVideosTable"> <thead><tr><th>&nbsp;</th><th>Video Name</th><th class="advancedMore">% Video Watched</th></tr></thead> <tbody></tbody> </table>'
 		},
 		{
 			"id":"Questions1",

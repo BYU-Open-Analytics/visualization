@@ -36,6 +36,7 @@ function loadConceptScatterplot(){
   // Get what scope we're filtering by (unit, chapter, or concept)
   scopeGroupingId = $("[name=scatterplotUnitSelector]").val();
   	d3.json("../class_stats/concepts/"+scopeGroupingId, function(error, data) {
+      console.log(error)
   		var percentMax = data[0].max;
   		data.splice(0,1);
       $("#scatterplotSection .spinner").hide();
@@ -226,7 +227,7 @@ function loadConceptScatterplot(){
   			.attr("class", "conceptPoint")
   			.attr("r", "6px")
   			.attr("title", function(d) {
-			
+
   				return "<b>" + d.title + "</b><br>Video percentage: " + Number(d.history.percent).toPrecision(3) + "%<br>Mastery score: " + Number(d.history.average).toPrecision(3) ;
   			})
   			.attr("cx", function(d) {

@@ -40,7 +40,7 @@ class ClassStatsController extends Controller
 
 	}
 	// For examples of getting data from mongo and postgres and different calculations, see ScatterplotRecommenderStatsController.php and StudentSkillsStatsController.php in this folder
-	public function conceptsAction($unit = '1') {
+	public function conceptsAction($unit = '1')
 		$this->view->disable();
 		// Get our context (this takes care of starting the session, too)
 		$context = $this->getDI()->getShared('ltiContext');
