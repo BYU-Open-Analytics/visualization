@@ -67,9 +67,6 @@ function loadVideos(scopeOption, scopeGroupingId){
 		$('#recommendSection').append('<span>&nbsp;</span>');
 	});
 
-	// Track that the modal was shown
-	track("clicked", "concept" + scopeGroupingId + "RelatedVideos");
-
 	refreshView();
 };
 
@@ -222,13 +219,8 @@ function loadAdditionalResources(concept){
 		.attr("id", function(d) { return "webResourcesRow"+d["Concept Title"]; });
 
 	tr.append("td")
-		// TODO absolute URL ref fix
-		.html(function(d) { return '<a href="' + d["Resource Link"] + '" target="_blank">' + d["Concept Title"] + '</a>'; })
+		.html(function(d) { return '<a href="' + d["Resource Link"] + '" data-track="webResourceLaunchID' + d["WebResource"] + '" target="_blank">' + d["Concept Title"] + '</a>'; })
 		.attr("class","resourceLinkCell");
-
-	// Track that the modal was shown
-	track("clicked", "concept" + concept + "Related Web Links");
-
 	refreshView();
 }
 // Loads recommendations
