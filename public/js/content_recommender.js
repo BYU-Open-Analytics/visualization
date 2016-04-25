@@ -13,23 +13,62 @@ $("#questionLaunchContinueButton").click(function(e) {
 });
 
 // Related videos modal
-function loadVideos(concept){
-	var data = getRelatedVideos(concept);
-	$("#relatedVideosModalTable tbody").empty();
-	var tbody = d3.select("#relatedVideosModalTable tbody");
-	var tr = tbody.selectAll("tr")
-		.data(data)
-		.enter()
-		.append("tr")
-		.attr("id", function(d) { return "videoRow"+d["Video ID"]; });
+function loadVideos(scopeOption, scopeGroupingId){
+	d3.json("../scatterplot_recommender_stats/videoRecommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
+		if (!(data && typeof data == 'object' && data.length > 0) || error) {
+			//$("#recommendSection").html('<br><br><p class="lead">There was an error loading video recommendations. Try reloading the dashboard.</p>');
+			return;
+		}
+		console.log(data)
+		// Clear the previous video list
+		$("#recommendVideosTable tbody").empty();
+		// Set the badge to the number of videos
+		$("#recommendVideosCountBadge").text(data.length);
 
-	tr.append("td")
-		// TODO absolute URL ref fix
-		.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d["Video ID"] + '" data-track="ayamelLaunch' + d["Video ID"] + '" target="_blank">' + d["Video Title"] + '</a>'; })
-		.attr("class","videoTitleCell");
+		// Show the list if there are videos
+		if (data.length > 0) {
+			$("#recommendVideosGroup").show();
+			// Expand the videos accordion group if it's not already expanded
+			$("a[href=#recommendVideos][aria-expanded!=true]").click();
+		}
+
+		var tbody = d3.select("#recommendVideosTable tbody");
+		var tr = tbody.selectAll("tr")
+			.data(data)
+			.enter()
+			.append("tr")
+			.attr("id", function(d) { return "videoRow"+d["Video ID"]; });
+
+		tr.append("td")
+			// TODO absolute URL ref fix
+			.html(function(d) { return '<a href="../consumer.php?app=ayamel&video_id=' + d["Video ID"] + '" data-track="ayamelLaunch' + d["Video ID"] + '" target="_blank">' + d["Video Title"] + '</a>'; })
+			.attr("class","videoTitleCell");
+		// Add the percentage watched progress circle
+		tr.append("td")
+			.attr("class", "videoProgressCell advancedMore")
+			.append("input")
+			.attr("type", "text")
+			.attr("class", "progressCircle")
+			.attr("disabled", "disabled")
+			.attr("value", function(d) { return d.percentageWatched; });
+
+		// Don't stall the UI waiting for all these to finish drawing
+		setTimeout(function() {
+			$(".progressCircle").knob({
+				'readOnly': true,
+				'width': '45',
+				'height': '45',
+				'thickness': '.25',
+				'fgColor': '#444',
+				'format': function(v) { return v+"%"; }
+			});
+		}, 1);
+		console.log(tbody)
+		$('#recommendSection').append('<span>&nbsp;</span>');
+	});
 
 	// Track that the modal was shown
-	track("clicked", "concept" + concept + "RelatedVideos");
+	track("clicked", "concept" + scopeGroupingId + "RelatedVideos");
 
 	refreshView();
 };
@@ -195,7 +234,7 @@ function loadAdditionalResources(concept){
 // Loads recommendations
 function loadRecommendations(scopeOption, scopeGroupingId) {
 	loadAdditionalResources(scopeGroupingId);
-	loadVideos(scopeGroupingId);
+	loadVideos(scopeOption, scopeGroupingId);
 	$("#recommendSection .spinner").show();
 	$("#recommendContainer").hide();
 	// Get scope with capital first letter for displaying
@@ -655,6 +694,71 @@ function refreshView() {
 }
 
 // Toggles on right of page to change what we're showing
+function changeView(optionName, optionValue, refreshOnly) {
+	currentView = [optionName, optionValue];
+
+	var h = "advancedHide";
+	var s = "advancedShow";
+	// Hide all advanced things first
+	$(".advancedSimple, .advancedMore, .advancedMoreClass, .advancedScatterplot, .advancedScatterplotClass, .advancedMasteryGraph, .advancedAll").removeClass(s).addClass(h);
+	switch (optionName) {
+		case "simple":
+			//console.log("Changing to simple view");
+			$(".advancedSimple").removeClass(h).addClass(s);
+			break;
+		case "more":
+			//console.log("Changing to more view");
+			if (optionValue == true) {
+				$(".advancedSimple, .advancedMore").removeClass(h).addClass(s);
+			} else {
+				$(".advancedSimple").removeClass(h).addClass(s);
+			}
+			// The More Class checkbox is dependent on this checkbox
+			$("#advancedToggleMoreClass").prop("disabled", !optionValue).prop("checked", false);
+			break;
+		case "scatterplot":
+			//console.log("Changing to scatterplot view");
+			$(".advancedScatterplot").removeClass(h).addClass(s);
+			// Have to manually do things in the svg chart
+			$("#scatterplotSection .classPoint").hide();
+			break;
+		case "masteryGraph":
+			//console.log("Changing to mastery graph view");
+			$(".advancedMasteryGraph").removeClass(h).addClass(s);
+			if (!refreshOnly) {
+				loadMasteryGraph();
+			}
+			animateMasteryGraph();
+			break;
+		case "all":
+			//console.log("Changing to all view");
+			$(".advancedAll").removeClass(h).addClass(s);
+			if (!refreshOnly) {
+				loadAllRecommendations();
+			}
+			break;
+		case "moreClass":
+			if (optionValue == true) {
+				//console.log("Changing to more + class compare view");
+				$(".advancedSimple, .advancedMore, .advancedMoreClass").removeClass(h).addClass(s);
+			} else {
+				//console.log("Changing to more view");
+				$(".advancedSimple, .advancedMore").removeClass(h).addClass(s);
+			}
+			break;
+		case "scatterplotClass":
+			if (optionValue == true) {
+				//console.log("Changing to scatterplot + class compare view");
+				$(".advancedScatterplot, .advancedScatterplotClass").removeClass(h).addClass(s);
+				$("#scatterplotSection .classPoint").fadeIn();
+			} else {
+				//console.log("Changing to scatterplot view");
+				$(".advancedScatterplot").removeClass(h).addClass(s);
+				$("#scatterplotSection .classPoint").fadeOut();
+			}
+			break;
+	}
+}
 // Called for basically every click interaction. Sends an xAPI statement with the given verb and object
 // verbName is often "clicked". objectName should be string with no spaces, e.g. "viewSettingMasteryGraph"
 function track(verbName, objectName) {

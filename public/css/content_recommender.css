@@ -128,7 +128,7 @@ td {
 
 #recommendSection {
 	width: 100%;
-    /*border: solid #ccc 1px;*/
+    border: solid #ccc 1px;
     padding: 10px;
     border-top: none;
     margin-top: -5px;
@@ -239,8 +239,8 @@ td {
 	width: 95%;
 	position: relative;
 	min-height: 70px;
-	/*border: solid #ccc 1px;
-	border-radius: 3px;*/
+	border: solid #ccc 1px;
+	border-radius: 3px;
 	padding: 10px;
 	text-indent: -25px;
 	padding-left: 35px;
@@ -254,7 +254,7 @@ td {
 }
 .filterListConcept:hover, .filterListUnit:hover {
 	text-decoration: none;
-	/*background: #eee;*/
+	background: #eee;
 }
 .filterListConcept.active, .filterListUnit.active {
 	background: #337ab7;
@@ -314,6 +314,6 @@ td {
 
 /* Advanced */
 /* Classes to hide certain elements until the corresponding option is toggled on */
-.advancedMore, .advancedMoreClass, .advancedScatterplot, .advancedScatterplotClass, .advancedMasteryGraph, .advancedAll {
+.advancedScatterplot, .advancedScatterplotClass, .advancedMasteryGraph, .advancedAll {
 	display: none;
 }
