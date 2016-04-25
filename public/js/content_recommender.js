@@ -19,7 +19,6 @@ function loadVideos(scopeOption, scopeGroupingId){
 			//$("#recommendSection").html('<br><br><p class="lead">There was an error loading video recommendations. Try reloading the dashboard.</p>');
 			return;
 		}
-		console.log(data)
 		// Clear the previous video list
 		$("#recommendVideosTable tbody").empty();
 		// Set the badge to the number of videos
@@ -63,7 +62,6 @@ function loadVideos(scopeOption, scopeGroupingId){
 				'format': function(v) { return v+"%"; }
 			});
 		}, 1);
-		console.log(tbody)
 		$('#recommendSection').append('<span>&nbsp;</span>');
 	});
 
@@ -219,7 +217,7 @@ function loadAdditionalResources(concept){
 		.attr("id", function(d) { return "webResourcesRow"+d["Concept Title"]; });
 
 	tr.append("td")
-		.html(function(d) { return '<a href="' + d["Resource Link"] + '" data-track="webResourceLaunchID' + d["WebResource"] + '" target="_blank">' + d["Concept Title"] + '</a>'; })
+		.html(function(d) { return '<a href="' + d["Resource Link"] + '" data-track="webResourceLaunchID' + d["WebResourceID"] + '" target="_blank">' + d["Concept Title"] + '</a>'; })
 		.attr("class","resourceLinkCell");
 	refreshView();
 }
@@ -470,7 +468,6 @@ function showQuadrantInfo(quadrant) {
 
 function filterRecommendationsToConcept(d,i) {
 	var conceptId = d.id;
-	console.log(conceptId);
 	// Change back to recommendations view
 	// Set Filter for recommendations to this concept
 	// Choose concept radio button
@@ -754,7 +751,7 @@ function changeView(optionName, optionValue, refreshOnly) {
 // Called for basically every click interaction. Sends an xAPI statement with the given verb and object
 // verbName is often "clicked". objectName should be string with no spaces, e.g. "viewSettingMasteryGraph"
 function track(verbName, objectName) {
-	console.log("Tracking: ",verbName,objectName);
+	// console.log("Tracking: ",verbName,objectName);
 	sendStatement({
 		statementName: 'interacted',
 		dashboardID: 'content_recommender_dashboard',
@@ -868,8 +865,6 @@ $(function() {
 
 	// First, we have to load data mappings for quiz questions/videos/concepts/dates (do we really?)
 	d3.csv("../csv/videos.csv", function(error, data) {
-		console.log('videos')
-		console.log(data)
 		mappings = data;
 		// Then we can load other things
 		//loadRecommendations();
@@ -879,14 +874,7 @@ $(function() {
 	});
 	//load resources
 	d3.csv("../csv/webresources.csv", function(error, data) {
-		// console.log('webresources');
-		// console.log(error);
-		// data.forEach(function(d) {
-    //     console.log(d["Resource Link"]);
-    // });
 		resourceMappings = data;
-		// Then we can load other things
-		//loadRecommendations();
 		loadConceptScores();
 	});
 	// Go to simple view first
