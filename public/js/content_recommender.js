@@ -20,12 +20,18 @@ function loadQuiz(scopeOption, scopeGroupingId){
 	$('#quiz-launch').empty()
 	quiz = getRelatedQuiz(scopeGroupingId);
 	if(quiz === 0){
-		alert('This quiz has not yet been published.')
-		$('#quiz-launch').html('<span class="glyphicon glyphicon-log-in"></span> &nbsp; Launch Quiz &nbsp;')
+		$('#quiz-launch').html('<span class="glyphicon glyphicon-log-in"></span> &nbsp; Launch Quiz &nbsp;');
+		$('#quiz-launch').on('click', function(){
+				$('#questionLaunchModal').modal('show')
+		});
 	}
 	else{
 		$('#quiz-launch').attr('href','../consumer.php?app=openassessments&assessment_id=' + quiz[0]["OA Quiz ID"])
 		$('#quiz-launch').html('<span class="glyphicon glyphicon-log-in"></span> &nbsp; Launch Quiz &nbsp;')
+		$('#quiz-launch').on('click', function(){
+			$("#questionLaunchModal").modal("hide");
+			track("clicked", "confirmLaunchQuiz" + scopeGroupingId);
+		});
 	}
 	refreshView();
 };
