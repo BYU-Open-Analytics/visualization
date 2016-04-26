@@ -12,7 +12,24 @@ $("#questionLaunchContinueButton").click(function(e) {
 	track("clicked", "launchQuiz" + $(this).attr('data-assessment') + '.' + $(this).attr('data-question'));
 });
 
-// Related videos modal
+function loadQuiz(scopeOption, scopeGroupingId){
+	//Do this if we want to get statistics for the practice quizzes
+	// d3.json("../scatterplot_recommender_stats/videoRecommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
+	// 	$('#recommendSection').append('<span>&nbsp;</span>');
+	// });
+	$('#quiz-launch').empty()
+	quiz = getRelatedQuiz(scopeGroupingId);
+	if(quiz === 0){
+		alert('This quiz has not yet been published.')
+		$('#quiz-launch').html('<span class="glyphicon glyphicon-log-in"></span> &nbsp; Launch Quiz &nbsp;')
+	}
+	else{
+		$('#quiz-launch').attr('href','../consumer.php?app=openassessments&assessment_id=' + quiz[0]["OA Quiz ID"])
+		$('#quiz-launch').html('<span class="glyphicon glyphicon-log-in"></span> &nbsp; Launch Quiz &nbsp;')
+	}
+	refreshView();
+};
+
 function loadVideos(scopeOption, scopeGroupingId){
 	d3.json("../scatterplot_recommender_stats/videoRecommendations/" + scopeOption + "/" + scopeGroupingId, function(error, data) {
 		if (!(data && typeof data == 'object' && data.length > 0) || error) {
@@ -88,6 +105,17 @@ function getRelatedResources(conceptId) {
 		}
 	}
 	return relatedResources;
+}
+function getRelatedQuiz(conceptId) {
+	var relatedQuiz = [];
+	for (var i=0; i<questionMappings.length; i++) {
+		// See if this question's quiz is associated with this video
+		if (questionMappings[i]["Lecture Number"] == conceptId) {
+			relatedQuiz.push(questionMappings[i]);
+			return relatedQuiz;
+		}
+	}
+	return 0;
 }
 // Called when a concept is clicked
 function filterConceptClick(d) {
@@ -225,6 +253,7 @@ function loadAdditionalResources(concept){
 function loadRecommendations(scopeOption, scopeGroupingId) {
 	loadAdditionalResources(scopeGroupingId);
 	loadVideos(scopeOption, scopeGroupingId);
+	loadQuiz(scopeOption, scopeGroupingId);
 	$("#recommendSection .spinner").show();
 	$("#recommendContainer").hide();
 	// Get scope with capital first letter for displaying
@@ -875,7 +904,10 @@ $(function() {
 	//load resources
 	d3.csv("../csv/webresources.csv", function(error, data) {
 		resourceMappings = data;
-		loadConceptScores();
+		// loadConceptScores();
+	});
+	d3.csv("../csv/questionsNotGraded.csv", function(error, data) {
+		questionMappings = data;
 	});
 	// Go to simple view first
 	changeView("simple");

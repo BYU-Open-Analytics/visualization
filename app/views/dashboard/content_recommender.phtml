@@ -39,7 +39,7 @@ if ( $context->valid && isset($_SESSION["group"]) &&  $_SESSION["group"] == "res
         <div class="col-sm-4">
           <h1>Practice Quiz</h1>
           <br>
-          <td><a role="button" class="btn btn-info btn-large" data-toggle="modal" data-target="#questionLaunchModal" data-assessment="{OA Quiz ID}" data-question="{Question Number}" href="#"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Launch Quiz &nbsp;</a></td>
+          <td><a role="button" class="btn btn-info btn-large" id="quiz-launch"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Launch Quiz &nbsp;</a></td>
         </div>
         <div class="col-sm-4">
           <h1>Class Videos</h1>
@@ -67,7 +67,7 @@ if ( $context->valid && isset($_SESSION["group"]) &&  $_SESSION["group"] == "res
 </div>
 
 <!-- Quiz launch modal dialog -->
-<div class="modal fade" tabindex="-1" id="questionLaunchModal">
+<!-- <div class="modal fade" tabindex="-1" id="questionLaunchModal">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -83,7 +83,7 @@ if ( $context->valid && isset($_SESSION["group"]) &&  $_SESSION["group"] == "res
 			</div>
 		</div>
 	</div>
-</div>
+</div> -->
 
 <!-- Related videos modal dialog -->
 <div class="modal fade" tabindex="-1" id="relatedVideosModal">
