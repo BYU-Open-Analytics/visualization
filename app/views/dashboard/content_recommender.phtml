@@ -46,7 +46,7 @@ if ( $context->valid && isset($_SESSION["group"]) &&  $_SESSION["group"] == "res
           <div>
             <table class="table" id="recommendVideosTable">
               <span class="spinner"><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
-    					<thead><tr><th>Video Name</th><th class="videoProgressCell">&nbsp;% Watched</th></tr></thead>
+    					<thead><tr><th>Video Name</th><th class="videoProgressCell"><span>% Watched</span></th></tr></thead>
     					<tbody></tbody>
     				</table>
           </div>

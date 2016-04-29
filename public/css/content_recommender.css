@@ -29,6 +29,7 @@ td {
 
 .videoProgressCell, .questionCorrectCell, .questionAttemptsCell {
 	text-align: center;
+	width: 95px;
 }
 
 .questionNumberCell, .videoRefCell {
