@@ -912,7 +912,8 @@ $(function() {
 		resourceMappings = data;
 		// loadConceptScores();
 	});
-	d3.csv("../csv/questionsNotGraded.csv", function(error, data) {
+	d3.csv("../csv/questionsNotGraded_old.csv", function(error, data) {
+		console.log(data)
 		questionMappings = data;
 	});
 	// Go to simple view first
