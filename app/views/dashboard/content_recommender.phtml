@@ -36,22 +36,22 @@ if ( $context->valid && isset($_SESSION["group"]) &&  $_SESSION["group"] == "res
   <div id="recommendSection" class="hidden">
     <div class="col-sm-12">
       <div class="row">
-        <div class="col-sm-4">
+        <div class="col-sm-4 col-md-4 col-lg-4">
           <h1>Practice Quiz</h1>
           <br>
           <td><a role="button" class="btn btn-info btn-large" id="quiz-launch"><span class="glyphicon glyphicon-log-in"></span> &nbsp; Launch Quiz &nbsp;</a></td>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4 col-md-4 col-lg-4">
           <h1>Class Videos</h1>
           <div>
             <table class="table" id="recommendVideosTable">
               <span class="spinner"><br /><?php echo Phalcon\Tag::image("img/spinner.gif"); ?><br /></span>
-    					<thead><tr><th>Video Name</th><th class="videoProgressCell">% Watched</th></tr></thead>
+    					<thead><tr><th>Video Name</th><th class="videoProgressCell">&nbsp;% Watched</th></tr></thead>
     					<tbody></tbody>
     				</table>
           </div>
         </div>
-        <div class="col-sm-4">
+        <div class="col-sm-4 col-md-4 col-lg-4">
           <h1>Web Resources</h1>
           <div>
             <table class="table" id="relatedResourcesTable">

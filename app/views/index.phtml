@@ -60,11 +60,11 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
 	  <ul class="nav navbar-nav">
-	    <li><?php echo Phalcon\Tag::linkTo("dashboard/resources","Resource List"); ?></li>
+	    <!-- <li><?php echo Phalcon\Tag::linkTo("dashboard/resources","Resource List"); ?></li> -->
 		<?php
 		// Only show links to dashboards if student is part of the research group
 		if (isset($_SESSION["group"]) &&  $_SESSION["group"] == "research") { ?>
-			<li><?php echo Phalcon\Tag::linkTo("dashboard/scatterplot_recommender","Test Help"); ?></li>
+			<li><?php echo Phalcon\Tag::linkTo("dashboard/content_recommender","Test Help"); ?></li>
 			<li><?php echo Phalcon\Tag::linkTo("dashboard/student_skills","Improve my Learning"); ?></li>
 		<?php } ?>
     <?php
