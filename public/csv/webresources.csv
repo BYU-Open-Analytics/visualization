@@ -1,132 +1,131 @@
-WebResourceID,Lecture Number,Concept Title,Resource Title,Resource Link
-1,1,"Introduction, Matter, Science",web,http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Qualitative_Analysis/Classification_of_Matter
-2,1,States of Matter,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Physical_Properties_of_Matter/States_of_Matter
-3,2,Units of Measurement,web,http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Analytical_Chemistry_2.0/02_Basic_Tools_of_Analytical_Chemistry/2A%3A_Measurements_in_Analytical_Chemistry
-4,2,Stoichiometric Calculations,web,http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Analytical_Chemistry_2.0/02_Basic_Tools_of_Analytical_Chemistry/2A%3A_Measurements_in_Analytical_Chemistry
-5,2,Dimensional Analysis,web,http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Data_Analysis/Dimensional_Analysis
-6,3,The Atom,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Atomic_Theory/The_Atom
-7,3,The Atom and Atomic Theory,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_California_Davis/UCD_Chem_002A/UCD_Chem_2A%3A_Gulacar/Unit_1%3A_Atomic_Theory_and_Chemical_Compounds/2%3A_Atoms_and_the_Atomic_Theory
-8,3,Atomic Mass,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Atomic_Theory/Atomic_Mass
-9,4,The Mole,web,http://chemwiki.ucdavis.edu/Wikitexts/Solano_Community_College/Chem_160/Chapter_03%3A_Stoichiometry/3.02_The_Mole
-10,4,The Mole (cont.),web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chemistry_(Zumdahl_and_Zumdahl)/03%3A_Stoichiometry/3.03_The_Mole
-11,5,"Light, Particles and Waves",web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chem1_(Lower)/05._Atoms_and_the_Periodic_Table/Light%2C_Particles%2C_and_Waves
-12,5,Light Spectra,web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chem1_(Lower)/05._Atoms_and_the_Periodic_Table/Light%2C_Particles%2C_and_Waves
-13,5,The Wave Nature of Light,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Arkansas_Cossatot/UAC%3A_Chem_1024/06._Electronic_Structure_of_Atoms/6.1%3A_The_Wave_Nature_of_Light
-14,6,Atomic Spectra,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Quantum_Mechanics/09._The_Hydrogen_Atom/Atomic_Theory/Electrons_in_Atoms/Atomic_Spectra
-15,6,The Bohr Model,web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chemistry_(Zumdahl_and_Zumdahl)/07%3A_Atomic_Structure_and_Periodicity/7.04_The_Bohr_Model
-16,6,"Atomic Spectra, Photoelectric Effect",web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_California_Davis/UCD_Chem_002A/UCD_Chem_2A%3A_Hayashi/Unit_IV%3A_Electronic_Structure_and_Bonding/7%3A_Electrons_in_Atoms/7.2%3A_Atomic_Spectra
-17,6,The Bohr Model (cont.),web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chemistry_(OpenSTAX)/06%3A_Electronic_Structure_and_Periodic_Properties_of_Elements/6.2%3A_The_Bohr_Model
-18,8,Electrons in Atoms,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Quantum_Mechanics/09._The_Hydrogen_Atom/Atomic_Theory/Electrons_in_Atoms
-19,8,Quantum Numbers,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Quantum_Mechanics/10%3A_Multi-electron_Atoms/Quantum_Numbers
-20,8,Atomic Orbitals,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Atomic_Theory/Atomic_Orbitals
-21,8,Atomic Orbitals (cont.),web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Quantum_Mechanics/09._The_Hydrogen_Atom/Atomic_Orbitals
-22,8,Hybrid Orbitals,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/Fundamentals/Hybrid_Orbitals
-23,9,Electron Configurations,web,http://chemwiki.ucdavis.edu/Core/Inorganic_Chemistry/Electronic_Structure_of_Atoms_and_Molecules/Electronic_Configurations
-24,9,Electron Configurations (cont.),web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Quantum_Mechanics/10%3A_Multi-electron_Atoms/Electron_Configuration
-25,10,Periodic Trends,web,http://chemwiki.ucdavis.edu/Core/Inorganic_Chemistry/Descriptive_Chemistry/Periodic_Trends_of_Elemental_Properties/Periodic_Trends
-26,10,Periodic Trends (cont.),web,http://chemwiki.ucdavis.edu/Under_Construction/Core_Construction/Inorganic/Main_Group_Chemistry/Periodic_Trends
-27,12,Chemical Bonding,web,http://chemwiki.ucdavis.edu/Core/Theoretical_Chemistry/Chemical_Bonding
-28,12,Covalent Bonding,web,http://chemwiki.ucdavis.edu/Core/Theoretical_Chemistry/Chemical_Bonding/General_Principles_of_Chemical_Bonding/Covalent_Bonds
-29,12,Ionic Bonds,web,http://chemwiki.ucdavis.edu/Core/Theoretical_Chemistry/Chemical_Bonding/General_Principles_of_Chemical_Bonding/Ionic_Bonds
-30,12,Ionic and Covalent Bonds,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/Fundamentals/Ionic_and_Covalent_Bonds
-31,13,Lewis Structures,web,http://chemwiki.ucdavis.edu/Core/Theoretical_Chemistry/Chemical_Bonding/Lewis_Theory_of_Bonding/Lewis_Structures
-32,13,Lewis Structure Formula,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_California_Davis/UCD_Chem_002C/UCD_Chem_2C%3A_Larsen/Student_Academic_Success_Center_Workshops/Lewis_Formulas_(Structures)
-33,15,Organic Molecules: Functional Groups,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/UMM_chemwiki_project/Organic_Structure_and_Bonding/Functional_groups
-34,15,Structure of Organic Molecules,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/Fundamentals/Structure_of_Organic_Molecules
-35,15,Drawing Organic Molecules,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/UMM_chemwiki_project/Organic_Structure_and_Bonding/Drawing_Organic_Molecules
-36,16,Molecular Shape,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/Fundamentals/Introduction_to_Organic_Chemistry/Molecular_Shape
-37,16,Molecular Shape and Molecular Polarity,web,http://chemwiki.ucdavis.edu/Wikitexts/Mount_Royal_University/Chem_1201/Unit_4%3A_Chemical_Bonding_II_-_Advanced_Bonding_Theories/4.03%3A_Molecular_Shape_and_Molecular_Polarity
-38,16,Molecular Geometry,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Arkansas_Cossatot/UAC%3A_Chem_1024/09._Molecular_Geometry_and_Bonding_Theories/9.1%3A_Molecular_Shapes
-39,17,Valence Bond Theory: Overview,web,http://chemwiki.ucdavis.edu/Core/Theoretical_Chemistry/Chemical_Bonding/Valence_Bond_Theory/Overview_of_Valence_Bond_Theory
-40,17,Valence Bond Theory,web,http://chemwiki.ucdavis.edu/Core/Theoretical_Chemistry/Chemical_Bonding/Valence_Bond_Theory
-41,17,Hybridization,web,http://chemwiki.ucdavis.edu/Core/Theoretical_Chemistry/Chemical_Bonding/Valence_Bond_Theory/Hybridization
-42,18,Molecular Orbitals,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/UMM_chemwiki_project/Organic_Structure_and_Bonding/Molecular_orbitals
-43,20,Intermolecular Forces: Overview,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Physical_Properties_of_Matter/Atomic_and_Molecular_Properties/Intermolecular_Forces/Overview_of_Intermolecular_Forces
-44,20,Intermolecular Forces: General,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/Chem_123/Intermolecular_Forces_and_Solids/Intermolecular_Forces
-45,20,Intermolecular Forces (IMF),web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Physical_Properties_of_Matter/Atomic_and_Molecular_Properties/Intermolecular_Forces
-46,21,Application of IMF: Boiling Points,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/Fundamentals/Intermolecular_Forces/Boiling_Points
-47,21,Applications of IMF: Liquids,web,http://chemwiki.ucdavis.edu/Wikitexts/Mountain_View_College/MVC_Chem_1411%3A_GENERAL_CHEMISTRY_I/Chapters/11._Liquids_and_Intermolecular_Forces
-48,22,Phase Diagrams,web,http://chemwiki.ucdavis.edu/Wikitexts/Mountain_View_College/MVC_Chem_1411%3A_GENERAL_CHEMISTRY_I/Chapters/11._Liquids_and_Intermolecular_Forces/11.6%3A_Phase_Diagrams
-49,24,Stoichiometry: Overview,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/Chem120/Stoichiometry
-50,24,Stoichiometry: Basic,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/Chem120/Stoichiometry/Amounts_of_Substances
-51,25,Limiting Reactancts,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/Chem120/Stoichiometry/Excess_and_Limiting_Reagents
-52,25,Percent Yield,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/Chem120/Stoichiometry/Theoretical_and_Actual_Yields
-53,26,% Mass,web,http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Quantifying_Nature/Density_and_Percent_Compositions
-54,26,Molecular vs. Empirical Formula,web,"http://chemwiki.ucdavis.edu/?title=Textbook_Maps/General_Chemistry_Textbook_Maps/Map:_Chemistry_%26_Chemical_Reactivity_(Kotz_et_al.)/02:_Atoms,_Molecules,_and_Ions/2.14:_Empirical_and_Molecular_Formulas"
-55,26,Empirical Formula Calculation,web,http://chemwiki.ucdavis.edu/Wikitexts/Mountain_View_College/MVC_Chem_1411%3A_GENERAL_CHEMISTRY_I/Chapters/03._Stoichiometry%3A_Chemical_Formulas_and_Equations/3.5%3A_Empirical_Formulas_from_Analysis
-56,27,"Energy, Heat and Work",web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Thermodynamics/12._Chemical_Energetics/Energy%2C_Heat%2C_and_Work
-57,27,Energy Overview,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/Sci270/Energy
-58,27,Heat,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Thermodynamics/Path_Functions/Heat
-59,27,Heat (&Heat Capacity),web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_General_Chemistry_(Petrucci_et_al.)/07%3A_Thermochemistry/7.2%3A_Heat
-60,27,Work,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Thermodynamics/Path_Functions/Work
-61,28,Calorimetry (Overview),web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Thermodynamics/Calorimetry
-62,29,Thermodynamics (Overview),web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Thermodynamics
-63,29,Enthalpy,web,http://chemwiki.ucdavis.edu/Wikitexts/Purdue/Purdue_CHM_26100/Chapter_05%3A_The_Study_of_Chemical_Reactions/5.2.%09Equilibrium_Constants_and_Free_Energy/5.2.1._Enthalpy_and_Entropy/Enthalpy
-64,29,Bond Enthalpies,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Thermodynamics/State_Functions/Enthalpy/Bond_Enthalpies
-65,29,Enthalpy of Reactions,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/Chem120/Chemical_Bonds/Enthalpies_of_Reactions
-66,29,Lattice Enthalpies,web,http://chemwiki.ucdavis.edu/Core/Inorganic_Chemistry/Crystal_Lattices/Thermodynamics_of_Lattices/Lattice_Enthalpies
-67,30,"Energy, Climate",web,***
-68,31,Entropy,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/EnvE231/Thermodynamics/Entropy
-69,31,Entropy (cont.),web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Thermodynamics/State_Functions/Entropy
-70,31,Calculating Entropy Changes,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Thermodynamics/State_Functions/Entropy/Calculating_Entropy_Changes
-71,33,Gibb's Free Energy,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Thermodynamics/State_Functions/Free_Energy/Gibbs_Free_Energy
-72,33,Gibb's Free Energy Equation,web,http://chemwiki.ucdavis.edu/Under_Construction/Core_Construction/Chemistry_30/Thermodynamics/3.3_Gibbs_Free_Energy_Equation
-73,33,Interpreting Gibb's Free Energy,web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chem1_(Lower)/23%3A_Thermodynamics_of_Chemical_Equilibrium/23.4%3A_Free_Energy_and_the_Gibbs_Function
-74,35,Kinetic Molecular Theory (Overview),web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chem1_(Lower)/06._Properties_of_Gases/6.4%3A_Kinetic_Molecular_Theory_(Overview)
-75,35,Kinetic Molecular Theory,web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chemistry%3A_The_Central_Science_(Brown_et_al.)/10._Gases/10.7%3A_Kinetic-Molecular_Theory
-76,36,Gas Laws (comprehensive),web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Physical_Properties_of_Matter/States_of_Matter/Gases/Gas_Laws
-77,36,Ideal Gas Law,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Physical_Properties_of_Matter/States_of_Matter/Gases/Gas_Laws/The_Ideal_Gas_Law
-78,36,Ideal Gas Law Simulation,web,http://chemwiki.ucdavis.edu/Visualization/Simulations/Ideal_Gas_Law
-79,37,Partial Pressures,web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chemistry%3A_The_Central_Science_(Brown_et_al.)/10._Gases/10.6%3A_Gas_Mixtures_and_Partial_Pressures
-80,37,Calculating Kp with Partial Pressures,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Equilibria/Chemical_Equilibria/Calculating_an_Equilibrium_Concentration/Calculating_an_Equilibrium_Constant%2C_Kp%2C_with_Partial_Pressures
-81,37,Real Gasses,web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_General_Chemistry_(Petrucci_et_al.)/06%3A_Gases/6.9%3A_Non-ideal_(Real)_Gases
-82,37,Real Gasses (cont.),web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Physical_Properties_of_Matter/States_of_Matter/Gases/Real_Gases
-83,38,Solutions,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/Chem120/Chemical_Reactions/Solutions
-84,38,Solutions (cont.),web,http://chemwiki.ucdavis.edu/Wikitexts/ChemTutor/Solutions
-85,38,Solubility and Factors Affecting Solubility,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Equilibria/Solubilty/Solubility_and_Factors_Affecting_Solubility
-86,38,Solubility Rules,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Equilibria/Solubilty/Solubility_Rules
-87,38,Concentration,web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_The_Basics_of_GOB_Chemistry_(Ball_et_al.)/09%3A_Solutions/9.2_Concentration
-88,38,Concentration Definitions,web,http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Analytical_Chemistry_2.0/02_Basic_Tools_of_Analytical_Chemistry/2.2%3A_Concentration
-89,38,Electrolytes,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/Chem120/Chemical_Reactions/Electrolytes
-90,38,Electrolytes (cont.),web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chemistry_(OpenSTAX)/11%3A_Solutions_and_Colloids/11.2%3A_Electrolytes
-91,39,Acid/Base Overview,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Acids_and_Bases
-92,39,Acid/Bases Basics,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Acids_and_Bases/Acid
-93,39,Neutralization,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Acids_and_Bases/Acid%2F%2FBase_Reactions/Neutralization
-94,39,Net Ionic Equations,web,http://chemwiki.ucdavis.edu/Wikitexts/Howard_University/General_Chemistry%3A_An_Atoms_First_Approach/Unit_3%3A_Stoichiometry/Chapter_8%3A_Aqueous_Solutions/Chapter_8.04%3A_Ionic_Equations
-95,39,Net Ionic Equations (cont.),web,http://chemwiki.ucdavis.edu/Wikitexts/Prince_Georges_Community_College/General_Chemistry_for_Engineering/Unit_4%3A_Nomenclature_and_Reactions/Chapter_12%3A_Aqueous_Reactions/Chapter_12.3%3A_Ionic_Equations
-96,40,Acid Strength,web,http://chemwiki.ucdavis.edu/Wikitexts/Sonoma_State_University/SSU_Chem_335A/Material_for_Exam_1/Unit_2%3A_Polar_Covalent_Bonds%3B_Acids_and_Bases/2.08_Acid_and_Base_Strength
-97,40,"pH Scale, Calculatng pH",web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Acids_and_Bases/Aqueous_Solutions/The_pH_Scale
-98,40,Resonance,web,http://chemwiki.ucdavis.edu/Wikitexts/Purdue/Purdue_CHM_26100/Chapter_01%3A_Introduction_and_Review/1.6_Resonance/Resonance
-99,40,Resonance effect on acidity,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/UMM_chemwiki_project/Acid%2F%2FBase_Reactions/Resonance_effects_on_acidity
-100,40,Inductive effect on acidity,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/UMM_chemwiki_project/Acid%2F%2FBase_Reactions/Inductive_effects_on_acidity
-101,40,Periodic trends in acidity,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/UMM_chemwiki_project/Acid%2F%2FBase_Reactions/Periodic_trends_in_acidity
-102,41,Titration of Strong Acids/Bases,web,http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Quantitative_Analysis/Titration/Titration_Of_A_Strong_Acid_With_A_Strong_Base
-103,42,Precipitation Reactions,web,http://chemwiki.ucdavis.edu/Core/Inorganic_Chemistry/Reactions_in_Aqueous_Solutions/Precipitation_Reactions
-104,43,Redox Chemistry,web,http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Electrochemistry/Redox_Chemistry
-105,43,Balancing Redox Reactions,web,http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Electrochemistry/Redox_Chemistry/Balancing_Redox_reactions
-106,1,Balancing Chemical Equations,youtube,https://www.youtube.com/watch?v=lLT5FBj4-nU
-107,2,Math Review for General Chemistry,youtube,https://www.youtube.com/watch?v=qaVtqsk8wnQ
-108,2,Significant Figures and Scientific Notation,youtube,https://www.youtube.com/watch?v=bVCO32t6GQo
-109,2,Dimensional Analysis,youtube,https://www.youtube.com/watch?v=8kM5FxLOAj4
-110,3,Atoms and Moles,youtube,https://www.youtube.com/watch?v=GLnS3xuIhwk
-111,5,Waves and Light,youtube,https://www.youtube.com/watch?v=4t6yfcFjgDQ
-112,6,Wave Mechanical Atomic Model,youtube,https://www.youtube.com/watch?v=ysQfZ48B7rg
-113,6,Bohr Atomic Model,youtube,https://www.youtube.com/watch?v=8RNPHW9flKk
-114,6,Bohr Quantitative,youtube,https://www.youtube.com/watch?v=a_nfazFnwX4
-115,8,Pi Bonding,youtube,https://www.youtube.com/watch?v=FZIXMHB_TQI
-116,9,Electron Configurations,youtube,https://www.youtube.com/watch?v=ycguhK8PrHU
-117,12,Ionic Compounds,youtube,https://www.youtube.com/watch?v=OdNrMKgZaqw
-118,16,Shapes of Molecules,youtube,https://www.youtube.com/watch?v=-2W3BnP4DrQ
-119,12,Covalent Bonds and Lewis Structures,youtube,https://www.youtube.com/watch?v=Uj7lpAJSwDI
-120,17,Valance Bond Theory,youtube,https://www.youtube.com/watch?v=NEYSXrEheEU
-121,18,Molecular Orbital Theory,youtube,https://www.youtube.com/watch?v=UNcAoFzy6N0
-122,20,Intermolecular Forces,youtube,https://www.youtube.com/watch?v=ziGMSwQjHcU
-123,27,Heat,youtube,https://www.youtube.com/watch?v=TUK5TayW9vk
-124,27,Colligatice Properties,youtube,https://www.youtube.com/watch?v=SGy2QoHneYA
-125,29,Heats of Formation,youtube,https://www.youtube.com/watch?v=9zY0epV0jZE
-126,33,Equilibrium,youtube,https://www.youtube.com/watch?v=FfD2F4GweVw
-127,36,Gasses,youtube,https://www.youtube.com/watch?v=4U4NzIfjd7E
-128,36,Vapor,youtube,https://www.youtube.com/watch?v=4LO9JJssvDU
-129,38,Solutions and Molarity,youtube,https://www.youtube.com/watch?v=EUj6BDUxnog
-130,39,pH,youtube,https://www.youtube.com/watch?v=aYwI00aRXEw
-131,43,Oxidation Reduction Reactions,youtube,https://www.youtube.com/watch?v=8GNWL54TPpc
+,WebResourceID,Lecture Number,Concept Title,Resource Title,Resource Link
+0,1,1,"Introduction, Matter, Science",web,http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Qualitative_Analysis/Classification_of_Matter
+1,2,1,States of Matter,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Physical_Properties_of_Matter/States_of_Matter
+2,3,2,Units of Measurement,web,http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Analytical_Chemistry_2.0/02_Basic_Tools_of_Analytical_Chemistry/2A%3A_Measurements_in_Analytical_Chemistry
+3,4,2,Stoichiometric Calculations,web,http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Analytical_Chemistry_2.0/02_Basic_Tools_of_Analytical_Chemistry/2A%3A_Measurements_in_Analytical_Chemistry
+4,5,2,Dimensional Analysis,web,http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Data_Analysis/Dimensional_Analysis
+5,6,3,The Atom,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Atomic_Theory/The_Atom
+6,7,3,The Atom and Atomic Theory,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_California_Davis/UCD_Chem_002A/UCD_Chem_2A%3A_Gulacar/Unit_1%3A_Atomic_Theory_and_Chemical_Compounds/2%3A_Atoms_and_the_Atomic_Theory
+7,8,3,Atomic Mass,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Atomic_Theory/Atomic_Mass
+8,9,4,The Mole,web,http://chemwiki.ucdavis.edu/Wikitexts/Solano_Community_College/Chem_160/Chapter_03%3A_Stoichiometry/3.02_The_Mole
+9,10,4,The Mole (cont.),web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chemistry_(Zumdahl_and_Zumdahl)/03%3A_Stoichiometry/3.03_The_Mole
+10,11,5,"Light, Particles and Waves",web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chem1_(Lower)/05._Atoms_and_the_Periodic_Table/Light%2C_Particles%2C_and_Waves
+11,12,5,Light Spectra,web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chem1_(Lower)/05._Atoms_and_the_Periodic_Table/Light%2C_Particles%2C_and_Waves
+12,13,5,The Wave Nature of Light,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Arkansas_Cossatot/UAC%3A_Chem_1024/06._Electronic_Structure_of_Atoms/6.1%3A_The_Wave_Nature_of_Light
+13,14,6,Atomic Spectra,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Quantum_Mechanics/09._The_Hydrogen_Atom/Atomic_Theory/Electrons_in_Atoms/Atomic_Spectra
+14,15,6,The Bohr Model,web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chemistry_(Zumdahl_and_Zumdahl)/07%3A_Atomic_Structure_and_Periodicity/7.04_The_Bohr_Model
+15,16,6,"Atomic Spectra, Photoelectric Effect",web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_California_Davis/UCD_Chem_002A/UCD_Chem_2A%3A_Hayashi/Unit_IV%3A_Electronic_Structure_and_Bonding/7%3A_Electrons_in_Atoms/7.2%3A_Atomic_Spectra
+16,17,6,The Bohr Model (cont.),web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chemistry_(OpenSTAX)/06%3A_Electronic_Structure_and_Periodic_Properties_of_Elements/6.2%3A_The_Bohr_Model
+17,18,7,Electrons in Atoms,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Quantum_Mechanics/09._The_Hydrogen_Atom/Atomic_Theory/Electrons_in_Atoms
+18,19,7,Quantum Numbers,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Quantum_Mechanics/10%3A_Multi-electron_Atoms/Quantum_Numbers
+19,20,7,Atomic Orbitals,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Atomic_Theory/Atomic_Orbitals
+20,21,7,Atomic Orbitals (cont.),web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Quantum_Mechanics/09._The_Hydrogen_Atom/Atomic_Orbitals
+21,22,7,Hybrid Orbitals,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/Fundamentals/Hybrid_Orbitals
+22,23,8,Electron Configurations,web,http://chemwiki.ucdavis.edu/Core/Inorganic_Chemistry/Electronic_Structure_of_Atoms_and_Molecules/Electronic_Configurations
+23,24,8,Electron Configurations (cont.),web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Quantum_Mechanics/10%3A_Multi-electron_Atoms/Electron_Configuration
+24,25,9,Periodic Trends,web,http://chemwiki.ucdavis.edu/Core/Inorganic_Chemistry/Descriptive_Chemistry/Periodic_Trends_of_Elemental_Properties/Periodic_Trends
+25,26,9,Periodic Trends (cont.),web,http://chemwiki.ucdavis.edu/Under_Construction/Core_Construction/Inorganic/Main_Group_Chemistry/Periodic_Trends
+26,27,10,Chemical Bonding,web,http://chemwiki.ucdavis.edu/Core/Theoretical_Chemistry/Chemical_Bonding
+27,28,10,Covalent Bonding,web,http://chemwiki.ucdavis.edu/Core/Theoretical_Chemistry/Chemical_Bonding/General_Principles_of_Chemical_Bonding/Covalent_Bonds
+28,29,10,Ionic Bonds,web,http://chemwiki.ucdavis.edu/Core/Theoretical_Chemistry/Chemical_Bonding/General_Principles_of_Chemical_Bonding/Ionic_Bonds
+29,30,10,Ionic and Covalent Bonds,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/Fundamentals/Ionic_and_Covalent_Bonds
+30,31,11,Lewis Structures,web,http://chemwiki.ucdavis.edu/Core/Theoretical_Chemistry/Chemical_Bonding/Lewis_Theory_of_Bonding/Lewis_Structures
+31,32,11,Lewis Structure Formula,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_California_Davis/UCD_Chem_002C/UCD_Chem_2C%3A_Larsen/Student_Academic_Success_Center_Workshops/Lewis_Formulas_(Structures)
+32,33,12,Organic Molecules: Functional Groups,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/UMM_chemwiki_project/Organic_Structure_and_Bonding/Functional_groups
+33,34,12,Structure of Organic Molecules,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/Fundamentals/Structure_of_Organic_Molecules
+34,35,12,Drawing Organic Molecules,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/UMM_chemwiki_project/Organic_Structure_and_Bonding/Drawing_Organic_Molecules
+35,36,13,Molecular Shape,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/Fundamentals/Introduction_to_Organic_Chemistry/Molecular_Shape
+36,37,13,Molecular Shape and Molecular Polarity,web,http://chemwiki.ucdavis.edu/Wikitexts/Mount_Royal_University/Chem_1201/Unit_4%3A_Chemical_Bonding_II_-_Advanced_Bonding_Theories/4.03%3A_Molecular_Shape_and_Molecular_Polarity
+37,38,13,Molecular Geometry,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Arkansas_Cossatot/UAC%3A_Chem_1024/09._Molecular_Geometry_and_Bonding_Theories/9.1%3A_Molecular_Shapes
+38,39,14,Valence Bond Theory: Overview,web,http://chemwiki.ucdavis.edu/Core/Theoretical_Chemistry/Chemical_Bonding/Valence_Bond_Theory/Overview_of_Valence_Bond_Theory
+39,40,14,Valence Bond Theory,web,http://chemwiki.ucdavis.edu/Core/Theoretical_Chemistry/Chemical_Bonding/Valence_Bond_Theory
+40,41,14,Hybridization,web,http://chemwiki.ucdavis.edu/Core/Theoretical_Chemistry/Chemical_Bonding/Valence_Bond_Theory/Hybridization
+41,42,15,Molecular Orbitals,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/UMM_chemwiki_project/Organic_Structure_and_Bonding/Molecular_orbitals
+42,43,16,Intermolecular Forces: Overview,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Physical_Properties_of_Matter/Atomic_and_Molecular_Properties/Intermolecular_Forces/Overview_of_Intermolecular_Forces
+43,44,16,Intermolecular Forces: General,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/Chem_123/Intermolecular_Forces_and_Solids/Intermolecular_Forces
+44,45,16,Intermolecular Forces (IMF),web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Physical_Properties_of_Matter/Atomic_and_Molecular_Properties/Intermolecular_Forces
+45,46,17,Application of IMF: Boiling Points,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/Fundamentals/Intermolecular_Forces/Boiling_Points
+46,47,17,Applications of IMF: Liquids,web,http://chemwiki.ucdavis.edu/Wikitexts/Mountain_View_College/MVC_Chem_1411%3A_GENERAL_CHEMISTRY_I/Chapters/11._Liquids_and_Intermolecular_Forces
+47,48,17,Phase Diagrams,web,http://chemwiki.ucdavis.edu/Wikitexts/Mountain_View_College/MVC_Chem_1411%3A_GENERAL_CHEMISTRY_I/Chapters/11._Liquids_and_Intermolecular_Forces/11.6%3A_Phase_Diagrams
+48,49,18,Stoichiometry: Overview,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/Chem120/Stoichiometry
+49,50,18,Stoichiometry: Basic,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/Chem120/Stoichiometry/Amounts_of_Substances
+50,51,19,Limiting Reactancts,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/Chem120/Stoichiometry/Excess_and_Limiting_Reagents
+51,52,19,Percent Yield,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/Chem120/Stoichiometry/Theoretical_and_Actual_Yields
+52,53,20,% Mass,web,http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Quantifying_Nature/Density_and_Percent_Compositions
+53,54,20,Molecular vs. Empirical Formula,web,"http://chemwiki.ucdavis.edu/?title=Textbook_Maps/General_Chemistry_Textbook_Maps/Map:_Chemistry_%26_Chemical_Reactivity_(Kotz_et_al.)/02:_Atoms,_Molecules,_and_Ions/2.14:_Empirical_and_Molecular_Formulas"
+54,55,20,Empirical Formula Calculation,web,http://chemwiki.ucdavis.edu/Wikitexts/Mountain_View_College/MVC_Chem_1411%3A_GENERAL_CHEMISTRY_I/Chapters/03._Stoichiometry%3A_Chemical_Formulas_and_Equations/3.5%3A_Empirical_Formulas_from_Analysis
+55,56,21,"Energy, Heat and Work",web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Thermodynamics/12._Chemical_Energetics/Energy%2C_Heat%2C_and_Work
+56,57,21,Energy Overview,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/Sci270/Energy
+57,58,21,Heat,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Thermodynamics/Path_Functions/Heat
+58,59,21,Heat (&Heat Capacity),web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_General_Chemistry_(Petrucci_et_al.)/07%3A_Thermochemistry/7.2%3A_Heat
+59,60,21,Work,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Thermodynamics/Path_Functions/Work
+60,61,22,Calorimetry (Overview),web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Thermodynamics/Calorimetry
+61,62,23,Thermodynamics (Overview),web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Thermodynamics
+62,63,23,Enthalpy,web,http://chemwiki.ucdavis.edu/Wikitexts/Purdue/Purdue_CHM_26100/Chapter_05%3A_The_Study_of_Chemical_Reactions/5.2.%09Equilibrium_Constants_and_Free_Energy/5.2.1._Enthalpy_and_Entropy/Enthalpy
+63,64,23,Bond Enthalpies,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Thermodynamics/State_Functions/Enthalpy/Bond_Enthalpies
+64,65,23,Enthalpy of Reactions,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/Chem120/Chemical_Bonds/Enthalpies_of_Reactions
+65,66,23,Lattice Enthalpies,web,http://chemwiki.ucdavis.edu/Core/Inorganic_Chemistry/Crystal_Lattices/Thermodynamics_of_Lattices/Lattice_Enthalpies
+66,67,24,Entropy,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/EnvE231/Thermodynamics/Entropy
+67,68,24,Entropy (cont.),web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Thermodynamics/State_Functions/Entropy
+68,69,24,Calculating Entropy Changes,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Thermodynamics/State_Functions/Entropy/Calculating_Entropy_Changes
+69,70,25,Gibb's Free Energy,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Thermodynamics/State_Functions/Free_Energy/Gibbs_Free_Energy
+70,71,25,Gibb's Free Energy Equation,web,http://chemwiki.ucdavis.edu/Under_Construction/Core_Construction/Chemistry_30/Thermodynamics/3.3_Gibbs_Free_Energy_Equation
+71,72,25,Interpreting Gibb's Free Energy,web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chem1_(Lower)/23%3A_Thermodynamics_of_Chemical_Equilibrium/23.4%3A_Free_Energy_and_the_Gibbs_Function
+72,73,26,Kinetic Molecular Theory (Overview),web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chem1_(Lower)/06._Properties_of_Gases/6.4%3A_Kinetic_Molecular_Theory_(Overview)
+73,74,26,Kinetic Molecular Theory,web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chemistry%3A_The_Central_Science_(Brown_et_al.)/10._Gases/10.7%3A_Kinetic-Molecular_Theory
+74,75,27,Gas Laws (comprehensive),web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Physical_Properties_of_Matter/States_of_Matter/Gases/Gas_Laws
+75,76,27,Ideal Gas Law,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Physical_Properties_of_Matter/States_of_Matter/Gases/Gas_Laws/The_Ideal_Gas_Law
+76,77,27,Ideal Gas Law Simulation,web,http://chemwiki.ucdavis.edu/Visualization/Simulations/Ideal_Gas_Law
+77,78,28,Partial Pressures,web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chemistry%3A_The_Central_Science_(Brown_et_al.)/10._Gases/10.6%3A_Gas_Mixtures_and_Partial_Pressures
+78,79,28,Calculating Kp with Partial Pressures,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Equilibria/Chemical_Equilibria/Calculating_an_Equilibrium_Concentration/Calculating_an_Equilibrium_Constant%2C_Kp%2C_with_Partial_Pressures
+79,80,28,Real Gasses,web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_General_Chemistry_(Petrucci_et_al.)/06%3A_Gases/6.9%3A_Non-ideal_(Real)_Gases
+80,81,28,Real Gasses (cont.),web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Physical_Properties_of_Matter/States_of_Matter/Gases/Real_Gases
+81,82,29,Solutions,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/Chem120/Chemical_Reactions/Solutions
+82,83,29,Solutions (cont.),web,http://chemwiki.ucdavis.edu/Wikitexts/ChemTutor/Solutions
+83,84,29,Solubility and Factors Affecting Solubility,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Equilibria/Solubilty/Solubility_and_Factors_Affecting_Solubility
+84,85,29,Solubility Rules,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Equilibria/Solubilty/Solubility_Rules
+85,86,29,Concentration,web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_The_Basics_of_GOB_Chemistry_(Ball_et_al.)/09%3A_Solutions/9.2_Concentration
+86,87,29,Concentration Definitions,web,http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Analytical_Chemistry_2.0/02_Basic_Tools_of_Analytical_Chemistry/2.2%3A_Concentration
+87,88,29,Electrolytes,web,http://chemwiki.ucdavis.edu/Wikitexts/University_of_Waterloo/Chem120/Chemical_Reactions/Electrolytes
+88,89,29,Electrolytes (cont.),web,http://chemwiki.ucdavis.edu/Textbook_Maps/General_Chemistry_Textbook_Maps/Map%3A_Chemistry_(OpenSTAX)/11%3A_Solutions_and_Colloids/11.2%3A_Electrolytes
+89,90,30,Acid/Base Overview,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Acids_and_Bases
+90,91,30,Acid/Bases Basics,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Acids_and_Bases/Acid
+91,92,30,Neutralization,web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Acids_and_Bases/Acid%2F%2FBase_Reactions/Neutralization
+92,93,30,Net Ionic Equations,web,http://chemwiki.ucdavis.edu/Wikitexts/Howard_University/General_Chemistry%3A_An_Atoms_First_Approach/Unit_3%3A_Stoichiometry/Chapter_8%3A_Aqueous_Solutions/Chapter_8.04%3A_Ionic_Equations
+93,94,30,Net Ionic Equations (cont.),web,http://chemwiki.ucdavis.edu/Wikitexts/Prince_Georges_Community_College/General_Chemistry_for_Engineering/Unit_4%3A_Nomenclature_and_Reactions/Chapter_12%3A_Aqueous_Reactions/Chapter_12.3%3A_Ionic_Equations
+94,95,30,Acid Strength,web,http://chemwiki.ucdavis.edu/Wikitexts/Sonoma_State_University/SSU_Chem_335A/Material_for_Exam_1/Unit_2%3A_Polar_Covalent_Bonds%3B_Acids_and_Bases/2.08_Acid_and_Base_Strength
+95,96,30,"pH Scale, Calculatng pH",web,http://chemwiki.ucdavis.edu/Core/Physical_Chemistry/Acids_and_Bases/Aqueous_Solutions/The_pH_Scale
+96,97,30,Resonance,web,http://chemwiki.ucdavis.edu/Wikitexts/Purdue/Purdue_CHM_26100/Chapter_01%3A_Introduction_and_Review/1.6_Resonance/Resonance
+97,98,30,Resonance effect on acidity,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/UMM_chemwiki_project/Acid%2F%2FBase_Reactions/Resonance_effects_on_acidity
+98,99,30,Inductive effect on acidity,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/UMM_chemwiki_project/Acid%2F%2FBase_Reactions/Inductive_effects_on_acidity
+99,100,30,Periodic trends in acidity,web,http://chemwiki.ucdavis.edu/Core/Organic_Chemistry/UMM_chemwiki_project/Acid%2F%2FBase_Reactions/Periodic_trends_in_acidity
+100,101,31,Titration of Strong Acids/Bases,web,http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Quantitative_Analysis/Titration/Titration_Of_A_Strong_Acid_With_A_Strong_Base
+101,102,32,Precipitation Reactions,web,http://chemwiki.ucdavis.edu/Core/Inorganic_Chemistry/Reactions_in_Aqueous_Solutions/Precipitation_Reactions
+102,103,33,Redox Chemistry,web,http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Electrochemistry/Redox_Chemistry
+103,104,33,Balancing Redox Reactions,web,http://chemwiki.ucdavis.edu/Core/Analytical_Chemistry/Electrochemistry/Redox_Chemistry/Balancing_Redox_reactions
+104,105,1,Balancing Chemical Equations,youtube,https://www.youtube.com/watch?v=lLT5FBj4-nU
+105,106,2,Math Review for General Chemistry,youtube,https://www.youtube.com/watch?v=qaVtqsk8wnQ
+106,107,2,Significant Figures and Scientific Notation,youtube,https://www.youtube.com/watch?v=bVCO32t6GQo
+107,108,2,Dimensional Analysis,youtube,https://www.youtube.com/watch?v=8kM5FxLOAj4
+108,109,3,Atoms and Moles,youtube,https://www.youtube.com/watch?v=GLnS3xuIhwk
+109,110,5,Waves and Light,youtube,https://www.youtube.com/watch?v=4t6yfcFjgDQ
+110,111,6,Wave Mechanical Atomic Model,youtube,https://www.youtube.com/watch?v=ysQfZ48B7rg
+111,112,6,Bohr Atomic Model,youtube,https://www.youtube.com/watch?v=8RNPHW9flKk
+112,113,6,Bohr Quantitative,youtube,https://www.youtube.com/watch?v=a_nfazFnwX4
+113,114,7,Pi Bonding,youtube,https://www.youtube.com/watch?v=FZIXMHB_TQI
+114,115,8,Electron Configurations,youtube,https://www.youtube.com/watch?v=ycguhK8PrHU
+115,116,10,Ionic Compounds,youtube,https://www.youtube.com/watch?v=OdNrMKgZaqw
+116,117,13,Shapes of Molecules,youtube,https://www.youtube.com/watch?v=-2W3BnP4DrQ
+117,118,10,Covalent Bonds and Lewis Structures,youtube,https://www.youtube.com/watch?v=Uj7lpAJSwDI
+118,119,14,Valance Bond Theory,youtube,https://www.youtube.com/watch?v=NEYSXrEheEU
+119,120,15,Molecular Orbital Theory,youtube,https://www.youtube.com/watch?v=UNcAoFzy6N0
+120,121,16,Intermolecular Forces,youtube,https://www.youtube.com/watch?v=ziGMSwQjHcU
+121,122,21,Heat,youtube,https://www.youtube.com/watch?v=TUK5TayW9vk
+122,123,21,Colligatice Properties,youtube,https://www.youtube.com/watch?v=SGy2QoHneYA
+123,124,23,Heats of Formation,youtube,https://www.youtube.com/watch?v=9zY0epV0jZE
+124,125,25,Equilibrium,youtube,https://www.youtube.com/watch?v=FfD2F4GweVw
+125,126,27,Gasses,youtube,https://www.youtube.com/watch?v=4U4NzIfjd7E
+126,127,27,Vapor,youtube,https://www.youtube.com/watch?v=4LO9JJssvDU
+127,128,29,Solutions and Molarity,youtube,https://www.youtube.com/watch?v=EUj6BDUxnog
+128,129,30,pH,youtube,https://www.youtube.com/watch?v=aYwI00aRXEw
+129,130,33,Oxidation Reduction Reactions,youtube,https://www.youtube.com/watch?v=8GNWL54TPpc

@@ -1,33 +1,34 @@
 Date,Lecture Number,Book Section,Concept Title,Week,Unit Number
-1/4/2016,1,1.1-1.4,"Week 1: Introduction, Matter, Science",1,1
-1/6/2016,2,1.4-1.10,"Week 1: Measurement, Calculations",1,1
-1/8/2016,3,2.1-2.3,Week 1: The Atom,1,1
-1/11/2016,4,2.3-2.5,Week 2: The Mole,2,1
-1/13/2016,5,3.1-3.3,Week 2: Light,2,1
-1/15/2016,6,3.2-3.4,"Week 2: Atomic Spectra, Bohr Model",2,1
-1/20/2016,8,3.5-3.8,"Week 3: Electrons, Quantum Numbers, Orbitals",3,1
-1/22/2016,9,3.8-3.9,Week 3: Electron Configurations,3,1
-1/25/2016,10,3.10-3.12,Week 4: Periodic Trends,4,1
-1/29/2016,12,"4.1-4.4, 5.3",Week 4: Bonding,4,2
-2/1/2016,13,"4.3, 4.6-4.9",Week 5: Lewis Structures,5,2
-2/5/2016,15,19 (all),Week 5: Organic Molecules,5,2
-2/8/2016,16,5.1-5.3,Week 6: Molecular Shape,6,2
-2/10/2016,17,5.4-5.6,Week 6: Valence Bond Theory,6,2
-2/12/2016,18,"5.7, 18.1-18.2",Week 6: Molecular Orbitals,6,2
-2/16/2016,20,6.1-6.2,Week 7: Intermolecular Forces,7,2
-2/17/2016,21,6.3-6.5,Week 7: Applications of IMF,7,2
-2/24/2016,24,7.1-7.4,Week 8: Stoichiometry,8,3
-2/26/2016,25,7.8,"Week 8: Limiting Reactancts, % Yield",8,3
-2/29/2016,26,7.5-7.7,"Week 9: % Mass, Empirical Formulas",9,3
-3/2/2016,27,9.1-9.3,"Week 9: Energy, Heat, Work",9,3
-3/4/2016,28,9.4-9.8,"Week 9: Calorimetry, Enthalpy",9,3
-3/11/2016,31,12.1-12.5,Week 10: Entropy,10,3
-3/16/2016,33,12.6-12.8,Week 11: Gibb's Free Energy,11,3
-3/21/2016,35,"10.1-10.3, 10.11",Week 12: Kinetic Molecular Theory,12,4
-3/23/2016,36,10.3-10.6,Week 12: Ideal Gas Law,12,4
-3/25/2016,37,"10.7-10.9, 10.12","Week 12: STP, Partial Pressures, Real Gases",12,4
-3/28/2016,38,8.1-8.3,"Week 13: Solutions, Concentration, Electrolytes",13,4
-3/30/2016,39,"8.4, 8.7, 15.1","Week 13: Acids/Bases, Neutralization, Net Ionic Equations",13,4
-4/4/2016,41,8.7,Week 14: Titration of Strong Acids/Bases,14,4
-4/6/2016,42,8.5,Week 14: Precipitation Reactions,14,4
-4/8/2016,43,8.6,Week 14: Oxidation Reduction,14,4
+27-Apr,1,1.1-1.4,"Introduction, Matter, Science",,1
+27-Apr,2,1.4-1.10,"Measurement, Calculations",,1
+29-Apr,3,2.1-2.3,The Atom,,1
+29-Apr,4,2.3-2.5,The Mole,,1
+2-May,5,3.1-3.3,Light,,1
+2-May,6,3.2-3.4,"Atomic Spectra, Bohr Model",,1
+4-May,7,3.5-3.8,"Electrons, Quantum Numbers, Orbitals",,1
+4-May,8,3.8-3.9,Electron Configurations,,1
+6-May,9,3.10-3.12,Periodic Trends,,1
+6-May,10,"4.1-4.4, 5.3",Bonding,,2
+9-May,11,"4.3, 4.6-4.9",Lewis Structures,,2
+11-May,12,19 (all),Organic Molecules,,2
+11-May,13,5.1-5.3,Molecular Shape,,2
+13-May,14,5.4-5.6,Valence Bond Theory,,2
+13-May,15,"5.7, 18.1-18.2",Molecular Orbitals,,2
+16-May,16,6.1-6.2,Intermolecular Forces,,2
+16-May,17,6.3-6.5,Applications of IMF,,2
+18-May,18,7.1-7.4,Stoichiometry,,3
+18-May,19,7.8,"Limiting Reactancts, % Yield",,3
+20-May,20,7.5-7.7,"% Mass, Empirical Formulas",,3
+23-May,21,9.1-9.3,"Energy, Heat, Work",,3
+23-May,22,9.4-9.8,"Calorimetry, Enthalpy",,3
+25-May,23,9.4-9.8,Enthalpy,,3
+27-May,24,12.1-12.5,Entropy,,3
+27-May,25,12.6-12.8,Gibb's Free Energy,,3
+1-Jun,26,"10.1-10.3, 10.11",Kinetic Molecular Theory,,4
+3-Jun,27,10.3-10.6,Ideal Gas Law,,4
+3-Jun,28,"10.7-10.9, 10.12","STP, Partial Pressures, Real Gases",,4
+6-Jun,29,8.1-8.3,"Solutions, Concentration, Electrolytes",,4
+8-Jun,30,"8.4, 8.7, 15.1","Acids & Bases, Neutralization, Net Ionic Equations",,4
+8-Jun,31,8.7,Titration of Strong Acids & Bases,,4
+10-Jun,32,8.5,Precipitation Reactions,,4
+10-Jun,33,8.6,Oxidation Reduction,,4
