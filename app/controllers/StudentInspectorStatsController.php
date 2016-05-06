@@ -71,12 +71,14 @@ class StudentInspectorStatsController extends Controller
 				if($confidenceCheck['statement']['context']['extensions']['http://byuopenanalytics.byu.edu/expapi/extensions/correct'] == true){
 					$correct++;
 				}
-				if($confidenceCheck['statement']['context']['extensions']['http://byuopenanalytics.byu.edu/expapi/extensions/confidence_level']=="high"){
-					$high++;}
-				if($confidenceCheck['statement']['context']['extensions']['http://byuopenanalytics.byu.edu/expapi/extensions/confidence_level']=="medium"){
-					$medium++;}
-				if($confidenceCheck['statement']['context']['extensions']['http://byuopenanalytics.byu.edu/expapi/extensions/confidence_level']=="low"){
-					$low++;}
+				if(array_key_exists('http://byuopenanalytics.byu.edu/expapi/extensions/confidence_level',$confidenceCheck['statement']['context']['extensions'])){
+					if($confidenceCheck['statement']['context']['extensions']['http://byuopenanalytics.byu.edu/expapi/extensions/confidence_level']=="high"){
+						$high++;}
+					if($confidenceCheck['statement']['context']['extensions']['http://byuopenanalytics.byu.edu/expapi/extensions/confidence_level']=="medium"){
+						$medium++;}
+					if($confidenceCheck['statement']['context']['extensions']['http://byuopenanalytics.byu.edu/expapi/extensions/confidence_level']=="low"){
+						$low++;}
+				}
 			}
 			$commonConfidence = max($high, $medium, $low);
 			if($commonConfidence == $high)
@@ -86,8 +88,10 @@ class StudentInspectorStatsController extends Controller
 			else
 				$medianConfidence = "Low";
 			$count = $visStatements["cursor"]->count();
+			$escapedString = str_replace("'","", $students[$i]);
+		//	echo $escapedString;
 			$lastHistory = VideoHistory::findFirst([
-					"student = '$students[$i]'",
+					"student = '$escapedString'",
 					"order" => "time_stored DESC"
 				]);
 			$vidPercent = $lastHistory->vidpercentage;
@@ -101,7 +105,8 @@ class StudentInspectorStatsController extends Controller
 
 				$newStudent = ["name" => $studentAverages->email, "average" => $studentAverages->recent_average,"count" => $count,"vPercentage" => $vidPercent, "correct" => $correct, "attempts" => $attempts, "hintsShowed" => $hintsShowed, "answersShowed" => $answersShowed, "confidence" => $medianConfidence];
 			}
-			$studentInfo []=$newStudent;
+			if($students[$i] != 'John Logie Baird' && $students[$i] != 'Bob Bodily'){ 
+				$studentInfo []=$newStudent;}
 			$endTime = microtime(true);
 			$timeArray[$i] = $endTime - $startTime;
 			//echo "Execution time: " . ($endTime - $startTime) ." seconds\n";

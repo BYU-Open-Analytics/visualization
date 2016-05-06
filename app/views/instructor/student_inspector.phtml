@@ -4,6 +4,24 @@
 	border: none;
 	background: transparent;
 }
+#myProgress {
+    position: relative;
+    width: 100%;
+    height: 30px;
+    background-color: #DDD;
+}
+#myBar {
+    position: absolute;
+    width: 1%;
+    height: 100%;
+    background-color: #7BAAF7;
+}
+/* If you want the label inside the progress bar */
+#label {
+    text-align: center; /* If you want to center it */
+    line-height: 30px; 
+    color: white;
+}	
 </style>
 
 <h2>Student Inspector Dashboard</h2>
@@ -15,19 +33,24 @@ if ( $context->valid && $context->isInstructor() ) {
 	<table id="studentList" class="table">
 		<thead>
 			<tr>
-				<td>Student Name</td>
-				<td data-toggle="tooltip" title ="This student's average mastery score on concepts over the past 2 weeks.">Mastery Score</td>
-				<td class="videoProgressCell advancedMore" data-toggle="tooltip" title="What percentage of the videos for concepts in the past 2 weeks that the student has watched.">Video Percentage</td>
-				<td data-toggle="tooltip" title="A measure of how active the student is on the provided dashboards.">Dashboard Activity</td>
-				<td data-toggle="tooltip" title="What percentage of the time the student answers correctly.">Correct / Attempts</td>
-				<td data-toggle="tooltip" title="How many times the student has clicked 'Show Hint'.">Hints</td>
-				<td data-toggle="tooltip" title="How many times the student has clicked 'Show Answer'.">Showed Answer</td>
-				<td data-toggle="tooltip" title="The median confidence the student had when answering.">Confidence</td>
+				<th><INPUT type="checkbox" onchange="checkAll(this)" name="chk[]" /> </th>
+				<th>Student Name</th>
+				<th data-toggle="tooltip" title ="This student's average mastery score on concepts over the past 2 weeks.">Mastery Score</th>
+				<th class="videoProgressCell advancedMore" data-toggle="tooltip" title="What percentage of the videos for concepts in the past 2 weeks that the student has watched.">Video Percentage</th>
+				<th data-toggle="tooltip" title="A measure of how active the student is on the provided dashboards.">Dashboard Activity</th>
+				<th data-toggle="tooltip" title="What percentage of the time the student answers correctly.">Correct / Attempts</th>
+				<th data-toggle="tooltip" title="How many times the student has clicked 'Show Hint'.">Hints</th>
+				<th data-toggle="tooltip" title="How many times the student has clicked 'Show Answer'.">Showed Answer</th>
+				<th data-toggle="tooltip" title="The median confidence the student had when answering.">Confidence</th>
 			</tr>
 		</thead>
 	<tbody>
 	</tbody>
 	</table>
+	<div class="progress" id="myProgress">
+    		<div id="myBar"></div>
+	</div>
+	
 	<div id = pageButtons>
 	</div>
 <?php
@@ -36,8 +59,12 @@ if ( $context->valid && $context->isInstructor() ) {
 	echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.knob.min.js");
 	echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.stickytableheaders.min.js");
 	echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.shorten.js");
+	echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.min.js");
+	echo Phalcon\Tag::javascriptInclude("js/vendor/jquery.tablesorter.js");
 	echo Phalcon\Tag::javascriptInclude("js/vendor/c3.min.js");
 	echo Phalcon\Tag::javascriptInclude("js/student_inspector.js");
+	echo Phalcon\Tag::stylesheetLink("css/blue/style.css");
+
 } else {
 
 	echo "<p class='alert alert-danger'>Not logged in, or there was an LTI error. Try launching this app again.</p>";

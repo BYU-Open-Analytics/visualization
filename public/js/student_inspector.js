@@ -2,9 +2,9 @@ $(function() {
 
 	//TODO fix dummy variable, student_inspector_stats/studentCount will return proper number but you need to figure
 	//out how to parse it.
-	var studentRange = 280;
+	var studentRange = 151;
 //	alert(studentRange);
-	var showBy = 280;
+	var showBy = 151;
 	var pages = Math.floor(studentRange/showBy);
 	var buttons = "";
 	for (var i = 1; i <= pages; i++){
@@ -21,6 +21,85 @@ $(function() {
 	loadStudentsOnPage(1,showBy);
 
 });
+
+$.tablesorter.addParser({
+	id:'confidence',
+	is:function(s){
+		return false;
+	},
+	format:function(s){
+		 return s.toLowerCase().replace(/high/,2).replace(/medium/,1).replace(/low/,0); 
+	},
+	type:'numeric'
+
+});
+
+$.tablesorter.addParser({
+	id:'video',
+	is:function(s){
+		return false;
+	},
+	format:function(s){
+		 console.log(typeof s);
+		 return $(s).attr('value'); 
+	},
+	parsed:false,
+	type:'numeric'
+
+});
+
+$.tablesorter.addParser({
+	id:'dashboard',
+	is:function(s){
+		return false;
+	},
+	format:function(s){
+		 console.log(typeof s);
+		 return $(s).attr('aria-valuenow'); 
+	},
+	parsed:false,
+	type:'numeric'
+
+});
+
+$(document).ready(function() { 
+     $("#studentList").tablesorter({
+        headers:{
+		//Add the parsers defined above to their appropriate columns
+//		2:{
+//		  sorter:'video'
+//		},
+//		3:{
+//		  sorter:'dashboard'
+//		},
+		0:{ sorter:'false'},
+		8:{ sorter:'confidence'}
+	},   
+	debug: true 
+      }); 
+}); 
+
+function check(box){
+	console.log("box checked");
+}
+
+$(function move() {
+    	var elem = document.getElementById("myBar"); 
+    	var width = 1;
+	//Adjust the second parameter in this function (a time in ms) to better estimate the time it takes to load the dashboard
+    	var id = setInterval(frame, 30);
+    	function frame() {
+        	if (width >= 100) {
+        	    document.getElementById("myBar").style.visibility = "hidden";
+	  	    document.getElementById("myProgress").style.visibility = "hidden";
+	       	clearInterval(id);
+		} else {
+        	    width++; 
+        	    elem.style.width = width + '%';
+        	}
+    	}
+});
+
 
 function loadStudentsOnPage(i,showBy){
 //	alert(i + " " + showBy);
@@ -53,6 +132,8 @@ function loadStudentsOnPage(i,showBy){
 			.enter()
 			.append("tr");
 
+		studentListRows.append("td")
+			.html('<INPUT type="checkbox" onchange="check(this)" name="chk[]" />');
 		//Name
 		studentListRows.append("td")
 			.html(function(d) { return d.name; });
@@ -69,21 +150,21 @@ function loadStudentsOnPage(i,showBy){
 			.attr("class", "progressCircle")
 			.attr("disabled", "disabled")
 			.attr("value", function(d) { return d.vPercentage; })
-
+			.html(function(d) {return d.vPercentage});
 
 		//Relative Dashboard Participation
 		studentListRows.append("td")
 			.append("progress")
 			.attr("value",function(d){return d.count})
 			.attr("max",studentMax)
-			.attr("aria-valuenow",function(d) { return ((d.count/studentMax)*100);});
-
+			.attr("aria-valuenow",function(d) { return ((d.count/studentMax)*100);})
+			.html(function(d) {return ((d.count/studentMax)*100);});
 	/*	if(function(d){return d.count/studentMax} == 100){
 			studentListRows.attr("class",progress-bar progress-bar-success);
 		}*/
 		//Attempted Questions
 		studentListRows.append("td")
-			.html(function(d) {return d.correct + "/"+ d.attempts;});
+			.html(function(d) {return Math.round((d.correct/d.attempts).toFixed(2)*100) + '%';});
 
 		//# of times a hint was viewed
 		studentListRows.append("td")
@@ -112,13 +193,6 @@ function loadStudentsOnPage(i,showBy){
 				'format': function(v) { return v+"%"; }
 			})
 		}, 1);
-
+		$("#studentList").trigger("update");
 	});
 }
-
-
-/*$(document).ready(function()
-    {
-        $("#studentList").tablesorter();
-    }
-); */
