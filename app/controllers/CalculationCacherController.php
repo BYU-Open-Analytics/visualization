@@ -34,8 +34,9 @@ class CalculationCacherController extends Controller
 		// Update skill scores for every student, and save history
 		foreach ($studentIds as $studentId) {
 			// TODO make this more efficient
+			$escStudentId = str_replace("'","",$studentId);
 			$history = new SkillHistory();
-			$history->email = $studentId;
+			$history->email = $escStudentId;
 			$history->time = $skillsHelper->calculateTimeScore($studentId, $raw, $debug);
 			$history->activity = $skillsHelper->calculateActivityScore($studentId, $raw, $debug);
 			$history->consistency = $skillsHelper->calculateConsistencyScore($studentId, $raw, $debug);
@@ -46,7 +47,7 @@ class CalculationCacherController extends Controller
 			if ($history->create() == false) {
 				echo "*** Error saving history for $studentId\n";
 			} else {
-				//echo "    Successfully saved history for $studentId\n";
+				echo "    Successfully saved history for $studentId\n";
 			}
 		}
 
@@ -84,6 +85,7 @@ class CalculationCacherController extends Controller
 		// Go through each student and calculate unit mastery scores
 		foreach ($studentIds as $studentId) {
 			// See if we've already scored mastery scores for this student on the current day (this script just runs multiple times, until a better method to get around 60 second execution time limit is devised)
+			$studentId = str_replace("'","",$studentId);
 			$lastHistory = StudentMasteryHistory::findFirst([
 					"email = '$studentId'",
 					"order" => "time_stored DESC"
@@ -233,9 +235,9 @@ class CalculationCacherController extends Controller
 		$recent_concepts = MappingHelper::conceptsWithin2Weeks();
 
 		foreach ($studentIds as $student) {
-
+			$escStudent = str_replace("'","",$student);
 			$lastHistory = VideoHistory::findFirst([
-					"student = '$student'",
+					"student = '$escStudent'",
 					"order" => "time_stored DESC"
 				]);
 			if (date("Y-m-d") == date("Y-m-d", strtotime($lastHistory->time_stored))) {
@@ -244,7 +246,7 @@ class CalculationCacherController extends Controller
 			}
 			$videoPercentage = $masteryHelper->calculateUniqueVideoPercentageForConcepts($student,$recent_concepts);
 			$videoHistory = new VideoHistory();
-			$videoHistory->student = $student;
+			$videoHistory->student = $escStudent;
 			$videoHistory->vidpercentage = $videoPercentage;
 
 			if ($videoHistory->create() == false) {
