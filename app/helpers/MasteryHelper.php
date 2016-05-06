@@ -217,7 +217,8 @@ class MasteryHelper extends Module {
 			'statement.timestamp' => true,
 		]);
 		if ($statements["error"]) {
-			// TODO error handling
+			if($debug){
+				echo $statements["error"];}
 		} else {
 			$correctAttempts = 0;
 			$betterCorrectAttempts = 0;

@@ -119,7 +119,7 @@ function lmsdataToggle() {
   echo("</fieldset><p>");
   echo("</form>");
 
-  if ( ! $lmspw ) unset($tool_consumer_instance_guid);
+//  if ( ! $lmspw ) unset($tool_consumer_instance_guid);
 
     $parms = $lmsdata;
 

@@ -92,7 +92,7 @@ class MappingHelper extends Module {
 		$allQuestions = CSVHelper::parseWithHeaders('csv/questions.csv');
 		// Filter questions to ones associated with this concept (lecture number)
 		$conceptQuestions = array_filter($allQuestions, function($question) use ($lectureNumber) {
-			return ($question["Lecture Number"] == $lectureNumber && $question["Graded"]==1);
+			return ($question["Lecture Number"] == $lectureNumber);
 		});
 
 		return $conceptQuestions;
