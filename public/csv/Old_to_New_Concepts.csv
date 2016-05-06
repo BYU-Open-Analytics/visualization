@@ -1,0 +1,34 @@
+NewID,OldID,Concept Name
+1,1,"Introduction, Matter, Science"
+2,2,"Measurement, Calculations"
+3,3,The Atom
+4,4,The Mole
+5,5,Light
+6,6,"Atomic Spectra, Bohr Model"
+7,8,"Electrons, Quantum Numbers, Orbitals"
+8,9,Electron Configurations
+9,10,Periodic Trends
+10,12,Bonding
+11,13,Lewis Structures
+12,15,Organic Molecules
+13,16,Molecular Shape
+14,17,Valence Bond Theory
+15,18,Molecular Orbitals
+16,20,Intermolecular Forces
+17,21,Applications of IMF
+18,24,Stoichiometry
+19,25,"Limiting Reactancts, % Yield"
+20,26,"% Mass, Empirical Formulas"
+21,27,"Energy, Heat, Work"
+22,28,"Calorimetry, Enthalpy"
+23,29,Enthalpy
+24,31,Entropy
+25,33,Gibb's Free Energy
+26,35,Kinetic Molecular Theory
+27,36,Ideal Gas Law
+28,37,"STP, Partial Pressures, Real Gases"
+29,38,"Solutions, Concentration, Electrolytes"
+30,39,"Acids & Bases, Neutralization, Net Ionic Equations"
+31,41,Titration of Strong Acids & Bases
+32,42,Precipitation Reactions
+33,43,Oxidation Reduction
