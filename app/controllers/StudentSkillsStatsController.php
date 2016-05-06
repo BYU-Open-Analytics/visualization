@@ -59,6 +59,7 @@ class StudentSkillsStatsController extends Controller
 		##there are until the beginning of the semester.
 
 		$email = $context->getUserName();
+		$email = str_replace("'","",$email);
 		// Fetch skill history items for the current student
 			$historyResults = SkillHistory::find([
 			"email = '$email'",
