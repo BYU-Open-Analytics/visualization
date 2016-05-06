@@ -69,6 +69,11 @@ class TestController extends Controller
 		$masteryHelper::countCorrectAttemptsForQuestion($studentId, $assessmentId, $questionNumber, true);
 
 	}
+	public function masteryCalcAction($studentId, $conceptID){
+		$masteryHelper = new MasteryHelper();
+		$masteryHelper::calculateConceptMasteryScore($studentId,$conceptID, true);
+	
+	}
 	public function dbAction() {
 		$this->view->disable();
 		echo "<pre>Skill score saving test: ";
@@ -115,8 +120,8 @@ class TestController extends Controller
 		echo "<pre>";
 		echo "All units\n";
 		print_r(MappingHelper::allUnits());
-		echo "<hr>Concepts in unit 3\n";
-		print_r(MappingHelper::conceptsInUnit("3"));
+		echo "<hr>Concepts in unit 4\n";
+		print_r(MappingHelper::conceptsInUnit("4"));
 		echo "<hr>Questions in concept (lecture number) 1\n";
 		print_r(MappingHelper::questionsInConcept("1"));
 		echo "<hr>Question info for question 78.4\n";
